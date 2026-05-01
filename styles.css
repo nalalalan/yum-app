@@ -178,6 +178,32 @@ noscript {
   height: 1px;
 }
 
+@media (max-width: 900px), (pointer: coarse) and (max-width: 1180px) {
+  .wall {
+    gap: 7px;
+    padding: 7px;
+  }
+
+  .masonry-column {
+    gap: 7px;
+  }
+
+  .tile {
+    border-radius: 5px;
+    box-shadow: 0 14px 34px rgba(0, 0, 0, 0.24);
+  }
+
+  .caption {
+    min-height: 52%;
+    padding: 34px 12px 12px;
+  }
+
+  .caption span {
+    max-width: 28ch;
+    font-size: 13px;
+  }
+}
+
 @media (max-width: 820px) {
   .wall {
     gap: 5px;

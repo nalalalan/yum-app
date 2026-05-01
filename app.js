@@ -1048,10 +1048,12 @@ const batchSize = 64;
 
 function columnCount() {
   const width = window.innerWidth || document.documentElement.clientWidth || 1200;
-  if (width <= 560) return 2;
-  if (width <= 820) return 3;
-  if (width <= 1180) return 4;
-  return Math.max(4, Math.min(6, Math.floor(width / 340)));
+  const hasCoarsePointer = window.matchMedia && window.matchMedia("(pointer: coarse)").matches;
+  const hasTouchPoints = typeof navigator !== "undefined" && navigator.maxTouchPoints > 0;
+  if ((hasCoarsePointer || hasTouchPoints) && width <= 1180) return 2;
+  if (width <= 900) return 2;
+  if (width <= 1280) return 3;
+  return Math.max(4, Math.min(6, Math.floor(width / 360)));
 }
 
 function shapeScore(item) {
