@@ -1,7 +1,28 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 180 180">
-  <rect width="180" height="180" rx="32" fill="#101010"/>
-  <circle cx="90" cy="90" r="62" fill="#f0c35a"/>
-  <circle cx="72" cy="76" r="11" fill="#101010"/>
-  <circle cx="112" cy="76" r="11" fill="#101010"/>
-  <path d="M62 110c15 14 41 14 56 0" fill="none" stroke="#101010" stroke-width="12" stroke-linecap="round"/>
+  <defs>
+    <linearGradient id="bg" x1="25" y1="20" x2="155" y2="166" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#2a2016"/>
+      <stop offset=".48" stop-color="#11110f"/>
+      <stop offset="1" stop-color="#31210e"/>
+    </linearGradient>
+    <linearGradient id="salmon" x1="51" y1="57" x2="132" y2="110" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#ffb08b"/>
+      <stop offset=".52" stop-color="#ff765c"/>
+      <stop offset="1" stop-color="#d94f3f"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="0" cy="0" r="1" gradientTransform="matrix(68 57 -57 68 87 91)" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#ffe5a8"/>
+      <stop offset=".65" stop-color="#e2ad45"/>
+      <stop offset="1" stop-color="#8b5b13"/>
+    </radialGradient>
+  </defs>
+  <rect width="180" height="180" rx="32" fill="url(#bg)"/>
+  <circle cx="90" cy="98" r="64" fill="url(#glow)" opacity=".95"/>
+  <ellipse cx="90" cy="112" rx="56" ry="31" fill="#fff8ed"/>
+  <ellipse cx="90" cy="107" rx="45" ry="20" fill="#f4d6bb"/>
+  <path d="M45 71c17-23 59-34 93-8 6 6 5 14-3 20l-48 34c-9 6-20 6-28 0L37 102c-12-9-6-23 8-31Z" fill="url(#salmon)"/>
+  <path d="M56 76c17 11 37 17 65 9M68 67c14 11 31 17 53 11M68 99c14 3 28 0 42-8" fill="none" stroke="#ffe0c9" stroke-width="6" stroke-linecap="round" opacity=".8"/>
+  <path d="M127 39 51 135M144 51 70 146" stroke="#f7e4c8" stroke-width="8" stroke-linecap="round"/>
+  <circle cx="138" cy="129" r="17" fill="#2caa73"/>
+  <path d="M130 129h16M138 121v16" stroke="#d7ffe9" stroke-width="4.5" stroke-linecap="round" opacity=".75"/>
 </svg>
