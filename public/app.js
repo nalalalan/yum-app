@@ -667,6 +667,26 @@ const casualCameoFiles = new Set([
   "Ningning at Incheon Airport on 25022026 (4).png",
 ]);
 
+const livePerformanceCameoFiles = new Set([
+  "NINGNING (54295363093).jpg",
+  "250111 aespa Ningning.jpg",
+  "241005 Ningning K-Link Festival 02.jpg",
+  "241005 Ningning K-Link Festival.jpg",
+  "250315 Ningning at SYNK PARALLEL LINE Encore 2.jpg",
+  "250315 Ningning at SYNK PARALLEL LINE Encore 3.jpg",
+  "250315 Ningning at SYNK PARALLEL LINE Encore.jpg",
+  "250315-16 aespa Ningning 02.jpg",
+  "250316 Ningning at SYNK PARALLEL LINE Encore.jpg",
+  "250316 Ningning at SYNK PARALLEL LINE Encore 2.jpg",
+  "250316 Ningning at SYNK PARALLEL LINE Encore 3.jpg",
+  "Jang Won-young at IVE 4th Fan Concert DIVE into IVE March 22, 2026 (1).jpg",
+  "Jang Won-young at IVE 4th Fan Concert DIVE into IVE March 22, 2026 (2).jpg",
+  "Jang Won-young at IVE 4th Fan Concert DIVE into IVE March 22, 2026 (3).jpg",
+  "Jang Won-young at IVE 4th Fan Concert DIVE into IVE March 22, 2026 (4).jpg",
+  "Jang Won-young at IVE 4th Fan Concert DIVE into IVE March 22, 2026 (5).jpg",
+  "Jang Won-young at IVE 4th Fan Concert DIVE into IVE March 22, 2026 (6).jpg",
+]);
+
 const carItems = [
   {
     image: "https://mediapool.bmwgroup.com/cache/P9/202410/P90572660/P90572660-the-new-bmw-m235-xdrive-gran-coup-10-2024-2100px.jpg",
@@ -938,6 +958,7 @@ const adultHaerinFiles = new Set([]);
 function isAllowedCameo(item) {
   if (blockedCameoFiles.has(item.file)) return false;
   if (casualCameoFiles.has(item.file)) return false;
+  if (livePerformanceCameoFiles.has(item.file)) return false;
   if (item.person === "Haerin" && !adultHaerinFiles.has(item.file)) return false;
   return true;
 }
@@ -946,8 +967,8 @@ function glamCaption(item) {
   if (!item.person) return item;
   const source = `${item.file || ""} ${item.caption || ""}`.toLowerCase();
   let mood = "polished editorial glow";
-  if (/concert|stage|mma|mama|melon|golden|disc|synk|dive|k-link/.test(source)) {
-    mood = "stage-glam frame";
+  if (/mma|mama|melon|golden|disc/.test(source)) {
+    mood = "polished awards-event frame";
   } else if (/miu|miu|bvlgari|tommy|dyson|rimowa|photocall|launch|event/.test(source)) {
     mood = "sleek fashion-event frame";
   } else if (/olens|kérastase|kerastase|mise-en-scene|beauty|marie claire/.test(source)) {
@@ -959,9 +980,8 @@ function glamCaption(item) {
 
 function glamScore(item) {
   const source = `${item.file || ""} ${item.caption || ""}`.toLowerCase();
-  if (/concert|stage|mma|mama|melon|golden|disc|synk|dive|k-link/.test(source)) return 3;
-  if (/miu|bvlgari|tommy|dyson|rimowa|photocall|launch|event/.test(source)) return 2;
-  if (/olens|kérastase|kerastase|mise-en-scene|beauty|marie claire/.test(source)) return 1;
+  if (/miu|bvlgari|tommy|dyson|rimowa|photocall|launch|event|mma|mama|melon|golden|disc/.test(source)) return 3;
+  if (/olens|kérastase|kerastase|mise-en-scene|beauty|marie claire/.test(source)) return 2;
   return 0;
 }
 
