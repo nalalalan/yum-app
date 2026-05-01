@@ -8,7 +8,26 @@ function commonsSource(file) {
   return `https://commons.wikimedia.org/wiki/File:${encodeURIComponent(file)}`;
 }
 
-const items = [
+function unsplashImage(id, width = 2200) {
+  return `https://images.unsplash.com/photo-${id}?auto=format&fit=crop&w=${width}&q=88`;
+}
+
+function unsplashSource(query) {
+  return `https://unsplash.com/s/photos/${encodeURIComponent(query).replace(/%20/g, "-")}`;
+}
+
+const baseItems = [
+  { image: unsplashImage("1558030006-450675393462"), url: unsplashSource("steak dinner"), caption: "Steak sliced under moody restaurant light, crust first.", shape: "cinema", focus: "center 48%" },
+  { image: unsplashImage("1600891964092-4316c288032e"), url: unsplashSource("ribeye steak fries"), caption: "Ribeye and fries, glossy sauce, clean plate drama.", shape: "wide", focus: "center 55%" },
+  { image: unsplashImage("1571091718767-18b5b1457add"), url: unsplashSource("cheeseburger close up"), caption: "Clean cheeseburger close-up, glossy bun and sharp layers.", shape: "portrait", focus: "center 46%" },
+  { image: unsplashImage("1565299507177-b0ac66763828"), url: unsplashSource("restaurant burger"), caption: "Tall restaurant burger, melted cheese, soft bun, big bite.", shape: "tall", focus: "center 48%" },
+  { image: unsplashImage("1569718212165-3a8278d5f624"), url: unsplashSource("ramen egg"), caption: "Ramen with soft egg, noodles, and a rich orange glow.", shape: "portrait", focus: "center 48%" },
+  { image: unsplashImage("1553621042-f6e147245754"), url: unsplashSource("sushi platter"), caption: "Sushi tray, precise rows and polished restaurant light.", shape: "wide", focus: "center 50%" },
+  { image: unsplashImage("1617196034796-73dfa7b1fd56"), url: unsplashSource("salmon sushi"), caption: "Salmon sushi on a black plate, clean color and quiet luxury.", shape: "cinema", focus: "center 45%" },
+  { image: unsplashImage("1551183053-bf91a1d81141"), url: unsplashSource("pasta carbonara"), caption: "Glossy pasta in a dark pan, noodles folded like fabric.", shape: "wide", focus: "center 50%" },
+  { image: unsplashImage("1621996346565-e3dbc646d9a9"), url: unsplashSource("italian pasta"), caption: "Italian pasta, red sauce, parmesan, and clean plate contrast.", shape: "portrait", focus: "center 50%" },
+  { image: unsplashImage("1473093295043-cdd812d0e601"), url: unsplashSource("pasta close up"), caption: "Pasta close-up, creamy shine and a bright table finish.", shape: "square", focus: "center 46%" },
+  { image: unsplashImage("1604908176997-125f25cc6f3d"), url: unsplashSource("fried chicken"), caption: "Golden fried chicken, crisp crust and deep comfort.", shape: "wide", focus: "center 52%" },
   { file: "Korean BBQ-LA Galbi-01.jpg", caption: "LA galbi with glossy char and thick short-rib energy.", shape: "hero", focus: "center 55%" },
   { file: "LA yangnyeom-galbi.jpg", caption: "Marinated galbi, lacquered edges, hot grill glow.", shape: "portrait" },
   { file: "Korean.cuisine-Galbi-01.jpg", caption: "Korean galbi plate, rich beef and clean comfort.", shape: "wide" },
@@ -76,6 +95,33 @@ const items = [
   { file: "Cajun seafood gumbo.jpg", caption: "Cajun seafood gumbo, deep bowl and slow flavor.", shape: "square" },
 ];
 
+const skippedFiles = new Set([
+  "Chengdu Zhong Dumpling(Zhong Jiaozi).jpg",
+  "Cheeseburger.jpg",
+  "Cheese Burger - Las Vegas.jpg",
+  "Hamburger and fries.jpg",
+  "Steak dinner (3292786869).jpg",
+  "Gfp-steak-and-shrimp-dinner.jpg",
+  "The Quesadilla.jpg",
+  "Crawfish gumbo.jpg",
+  "Cajun seafood gumbo.jpg",
+  "Bulgogi (Marinated beef. Served with rice) - Kogi 2023-09-11.jpg",
+  "Ttukbaegi bulgogi - Bulgogi(beef) hot pot - Kogi Korean cuisine 2024-09-03.jpg",
+  "Banh mi sandwich.jpg",
+  "Taco de carnitas.jpg",
+  "Carnitas taco - China Poblano.jpg",
+  "Carnitas tacos.jpg",
+  "Korean barbecue-Galbi-01.jpg",
+  "Ramen at Momo Toko.jpg",
+  "Ramen with eggs.jpg",
+  "Bowl of miso ramen.jpg",
+  "Tonkotsu ramen.jpg",
+  "Tonkotsu ramen in Tokyo.jpg",
+  "Roasted Salmon Skin sushi roll, Soft Shell Crab sushi roll, Salmon and Avocado sushi roll, Miso Soup - Kenzan GPO (2673449759).jpg",
+]);
+
+const items = baseItems.filter((item) => !item.file || !skippedFiles.has(item.file));
+
 function imageFor(item) {
   return item.image || commonsImage(item.file, item.width || 1800);
 }
@@ -122,11 +168,48 @@ function shuffled(list, seed) {
   return copy;
 }
 
+const cropLooks = [
+  { shape: "hero", focus: "center 42%", note: "tight glossy crop" },
+  { shape: "wide", focus: "center 54%", note: "wide table crop" },
+  { shape: "portrait", focus: "center 48%", note: "restaurant-light crop" },
+  { shape: "square", focus: "center 50%", note: "plate-detail crop" },
+  { shape: "cinema", focus: "center 56%", note: "wallpaper crop" },
+  { shape: "tall", focus: "center 44%", note: "vertical close crop" },
+  { shape: "wide", focus: "center 38%", note: "overhead crop" },
+  { shape: "portrait", focus: "center 62%", note: "low-angle crop" },
+];
+
+const variantRounds = 8;
+const batchSize = 64;
+
+function itemVariant(item, itemIndex, round) {
+  if (round % variantRounds === 0) return item;
+  const look = cropLooks[(itemIndex + round) % cropLooks.length];
+  return {
+    ...item,
+    shape: look.shape,
+    focus: look.focus,
+    caption: `${item.caption.replace(/\.$/, "")}, ${look.note}.`,
+  };
+}
+
+function batchItems(batch) {
+  const start = batch * batchSize;
+  return Array.from({ length: batchSize }, (_, offset) => {
+    const logicalIndex = start + offset;
+    const round = Math.floor(logicalIndex / items.length);
+    const run = round === 0 ? items : shuffled(items, round);
+    const itemIndex = logicalIndex % items.length;
+    return itemVariant(run[itemIndex], itemIndex, round);
+  });
+}
+
 function columnCount() {
   const width = window.innerWidth || document.documentElement.clientWidth || 1200;
   if (width <= 560) return 2;
   if (width <= 820) return 3;
-  return Math.max(4, Math.min(9, Math.floor(width / 218)));
+  if (width <= 1180) return 4;
+  return Math.max(4, Math.min(6, Math.floor(width / 340)));
 }
 
 function shapeScore(item) {
@@ -181,8 +264,7 @@ function render() {
   let batch = 0;
   const renderedItems = [];
   const appendBatch = () => {
-    const batchItems = batch === 0 ? items : shuffled(items, batch);
-    renderedItems.push(...batchItems);
+    renderedItems.push(...batchItems(batch));
     layoutWall(wall, renderedItems);
     batch += 1;
   };
