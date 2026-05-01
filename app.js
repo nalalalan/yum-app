@@ -118,85 +118,180 @@ const skippedFiles = new Set([
   "Tonkotsu ramen.jpg",
   "Tonkotsu ramen in Tokyo.jpg",
   "Roasted Salmon Skin sushi roll, Soft Shell Crab sushi roll, Salmon and Avocado sushi roll, Miso Soup - Kenzan GPO (2673449759).jpg",
+  "Carbonara 2025.jpg",
+  "Pasta carbonara.jpg",
+  "Fettuccine Alfredo.jpg",
 ]);
 
 const cameoItems = [
   {
+    person: "Hanni",
     file: "Newjeans Hanni 2023 10.jpg",
-    caption: "Hanni Pham cameo, cute little sparkle between sushi cravings.",
+    caption: "Hanni cameo, soft cute pause between sushi and galbi.",
     shape: "square",
     focus: "center 40%",
     width: 1500,
   },
   {
+    person: "Haerin",
     file: "Haerin (NewJeans) 220813.jpg",
-    caption: "Haerin cameo, soft cat-energy pause before more galbi.",
+    caption: "Haerin cameo, gentle NewJeans glow before the next plate.",
     shape: "portrait",
     focus: "center 34%",
     width: 1500,
   },
   {
+    person: "Wonyoung",
     file: "Jang Wonyoung 240513.jpg",
-    caption: "Wonyoung cameo, polished princess moment between dinner tiles.",
+    caption: "Wonyoung cameo, bright polished smile tucked into the feast.",
     shape: "portrait",
     focus: "center 38%",
     width: 1500,
   },
   {
+    person: "Ningning",
     file: "NINGNING (54295363093).jpg",
-    caption: "Ningning cameo, tiny stage-glow break before ramen returns.",
-    shape: "portrait",
-    focus: "center 36%",
-    width: 1500,
-  },
-  {
-    file: "Newjeans Hanni 2023 05.jpg",
-    caption: "Hanni cameo, sweet funny-face energy in the food stream.",
-    shape: "square",
-    focus: "center 38%",
-    width: 1500,
-  },
-  {
-    file: "20230905 Haerin (NewJeans).jpg",
-    caption: "Haerin cameo, calm cute stare between salmon and noodles.",
-    shape: "tall",
-    focus: "center 34%",
-    width: 1500,
-  },
-  {
-    file: "Jang Won-young of Ive in Incheon Airport, September 7, 2024.png",
-    caption: "Wonyoung cameo, airport-doll energy tucked into the feast.",
-    shape: "tall",
-    focus: "center 35%",
-    width: 1500,
-  },
-  {
-    file: "Aespa Ningning 2024 MMA.jpg",
-    caption: "Ningning cameo, bright award-show wink before the next plate.",
+    caption: "Ningning cameo, sweet stage sparkle before ramen returns.",
     shape: "portrait",
     focus: "center 36%",
     width: 1500,
   },
 ];
 
-function weaveCameos(foodItems, cameos) {
+const carItems = [
+  {
+    image: "https://mediapool.bmwgroup.com/cache/P9/202410/P90572660/P90572660-the-new-bmw-m235-xdrive-gran-coup-10-2024-2100px.jpg",
+    url: "https://www.press.bmwgroup.com/usa/article/detail/T0445698EN_US/the-new-2025-bmw-2-series-gran-coupe?language=en_US",
+    caption: "2025 BMW M235 xDrive Gran Coupe, official press light and compact-sedan ambition.",
+    shape: "cinema",
+    focus: "center 54%",
+  },
+  {
+    image: "https://mediapool.bmwgroup.com/download/edown/pressclub/publicq?dokNo=P90572400&attachment=1&actEvent=image",
+    url: "https://www.press.bmwgroup.com/usa/photo/compilation/T0445698EN_US/the-new-2025-bmw-2-series-gran-coupe?language=en_US",
+    caption: "BMW 2 Series Gran Coupe, crisp studio stance instead of parking-lot energy.",
+    shape: "wide",
+    focus: "center 52%",
+  },
+  {
+    image: "https://mediapool.bmwgroup.com/cache/P9/202309/P90525202/P90525202-the-first-ever-bmw-ix2-xdrive30-driving-10-2023-2250px.jpg",
+    url: "https://www.press.bmwgroup.com/usa/article/detail/T0437576EN_US/the-all-new-2024-bmw-x2?language=en_US",
+    caption: "2024 BMW X2 and iX2, compact SUV coupe in clean official motion.",
+    shape: "wide",
+    focus: "center 52%",
+  },
+  {
+    image: "https://group.mercedes-benz.com/bilder/produkte/pkw/mercedes-benz/cla-2025/mercedes-benz-cla-2025-01-w1680xh945-cutout.jpg?im=AspectCrop%3D%289%2C4%29%2CxPosition%3D0%2CyPosition%3D0.5&impolicy=acrop",
+    url: "https://group.mercedes-benz.com/company/news/cla-car-of-the-year-2026.html",
+    caption: "Mercedes-Benz CLA, sunset white paint and compact luxury future.",
+    shape: "cinema",
+    focus: "center 53%",
+  },
+  {
+    image: "https://group.mercedes-benz.com/bilder/produkte/pkw/mercedes-benz/cla-2025/mercedes-benz-cla-2025-weltpremiere-02-w614xh345-cutout.jpg?im=AspectCrop%3D%284%2C3%29%2CxPosition%3D0.5%2CyPosition%3D0&impolicy=acrop",
+    url: "https://group.mercedes-benz.com/company/news/cla-car-of-the-year-2026.html",
+    caption: "Mercedes-Benz CLA in red, compact sedan dream-car energy on a mountain road.",
+    shape: "wide",
+    focus: "center 50%",
+  },
+  {
+    image: "https://uploads.audi-mediacenter.com/system/production/media/128049/images/b7b9b3a54ec0babd478998a6d901a5fd61f1e39b/A250945_web_2880.jpg?1749650205",
+    url: "https://www.audi-mediacenter.com/en/photos/detail/audi-q3-suv-128049",
+    caption: "Audi Q3, compact SUV with glossy official-photo confidence.",
+    shape: "cinema",
+    focus: "center 52%",
+  },
+  {
+    image: "https://uploads.audi-mediacenter.com/system/production/media/128050/images/07272f424b9a5bcff8f74a7f6c2f5a20e883460e/A250946_web_2880.jpg?1749803344",
+    url: "https://www.audi-mediacenter.com/en/photos/detail/audi-q3-suv-128050",
+    caption: "Audi Q3, sharp compact-SUV proportions in clean press-gallery light.",
+    shape: "wide",
+    focus: "center 51%",
+  },
+  {
+    image: "https://uploads.audi-mediacenter.com/system/production/media/127853/images/290cc5628d8019a9a35b4d1ed10a5104596dff6c/A250749_web_2880.jpg?1747923257",
+    url: "https://www.audi-mediacenter.com/en/photos/detail/audi-a3-sportback-tfsi-e-127853",
+    caption: "Audi A3 Sportback TFSI e, compact hatchback in a proper wallpaper-grade action shot.",
+    shape: "wide",
+    focus: "center 52%",
+  },
+  {
+    image: "https://uploads.audi-mediacenter.com/system/production/media/127850/images/c814e0d2986df5d36ffcc7bb2e900c81dfd81ad8/A250746_web_2880.jpg?1747923255",
+    url: "https://www.audi-mediacenter.com/en/photos/detail/audi-a3-sportback-tfsi-e-127850",
+    caption: "Audi A3 Sportback, clean white compact with future-garage taste.",
+    shape: "cinema",
+    focus: "center 53%",
+  },
+  {
+    image: "https://uploads.audi-mediacenter.com/system/production/media/124860/images/afbf9920906f0243c1d902240e03ccf56efb4589/A242749_web_2880.jpg?1718874290",
+    url: "https://www.audi-mediacenter.com/en/photos/detail/lap-record-for-audi-sport-in-the-compact-segment-124860",
+    caption: "Audi RS 3, small sharp sedan energy, official track-day polish.",
+    shape: "wide",
+    focus: "center 51%",
+  },
+  {
+    image: "https://mediapool.bmwgroup.com/download/edown/pressclub/publicq?dokNo=P90543018&attachment=1&actEvent=image",
+    url: "https://www.press.bmwgroup.com/usa/photo/detail/P90543018/MINI-John-Cooper-Works-Countryman-03-2024",
+    caption: "MINI John Cooper Works Countryman, compact crossover with punchy official-photo drama.",
+    shape: "cinema",
+    focus: "center 52%",
+  },
+  {
+    image: "https://mediapool.bmwgroup.com/cache/P9/202403/P90542996/P90542996-mini-john-cooper-works-countryman-03-2024-2250px.jpg",
+    url: "https://www.press.bmwgroup.com/usa/photo/detail/P90542996/MINI-John-Cooper-Works-Countryman-03-2024",
+    caption: "MINI Countryman, compact premium SUV mood without giant-car bulk.",
+    shape: "wide",
+    focus: "center 52%",
+  },
+];
+
+function weaveAccents(foodItems, cameos, cars) {
   const woven = [];
-  const interval = 8;
+  const cameoInterval = 9;
+  const carInterval = 5;
   let cameoIndex = 0;
+  let carIndex = 0;
 
   foodItems.forEach((item, index) => {
+    const position = index + 1;
     woven.push(item);
-    if ((index + 1) % interval === 0 && cameoIndex < cameos.length) {
+
+    if (position % carInterval === 0 && carIndex < cars.length) {
+      woven.push(cars[carIndex]);
+      carIndex += 1;
+    }
+
+    if (position % cameoInterval === 0 && cameoIndex < cameos.length) {
       woven.push(cameos[cameoIndex]);
       cameoIndex += 1;
     }
   });
 
-  return woven.concat(cameos.slice(cameoIndex));
+  return woven.concat(cars.slice(carIndex), cameos.slice(cameoIndex));
+}
+
+function uniqueBySource(list) {
+  const seen = new Set();
+  return list.filter((item) => {
+    const key = item.image || item.file || item.url || item.caption;
+    if (seen.has(key)) return false;
+    seen.add(key);
+    return true;
+  });
+}
+
+function uniqueByPerson(list) {
+  const seen = new Set();
+  return list.filter((item) => {
+    const key = item.person || item.caption;
+    if (seen.has(key)) return false;
+    seen.add(key);
+    return true;
+  });
 }
 
 const foodItems = baseItems.filter((item) => !item.file || !skippedFiles.has(item.file));
-const items = weaveCameos(foodItems, cameoItems);
+const items = uniqueBySource(weaveAccents(foodItems, uniqueByPerson(cameoItems), carItems));
 
 function imageFor(item) {
   return item.image || commonsImage(item.file, item.width || 1800);
@@ -234,50 +329,11 @@ function createTile(item, index) {
   return link;
 }
 
-function shuffled(list, seed) {
-  const copy = [...list];
-  for (let i = copy.length - 1; i > 0; i -= 1) {
-    const x = Math.sin((seed + 1) * (i + 17)) * 10000;
-    const j = Math.floor((x - Math.floor(x)) * (i + 1));
-    [copy[i], copy[j]] = [copy[j], copy[i]];
-  }
-  return copy;
-}
-
-const cropLooks = [
-  { shape: "hero", focus: "center 42%", note: "tight glossy crop" },
-  { shape: "wide", focus: "center 54%", note: "wide table crop" },
-  { shape: "portrait", focus: "center 48%", note: "restaurant-light crop" },
-  { shape: "square", focus: "center 50%", note: "plate-detail crop" },
-  { shape: "cinema", focus: "center 56%", note: "wallpaper crop" },
-  { shape: "tall", focus: "center 44%", note: "vertical close crop" },
-  { shape: "wide", focus: "center 38%", note: "overhead crop" },
-  { shape: "portrait", focus: "center 62%", note: "low-angle crop" },
-];
-
-const variantRounds = 8;
 const batchSize = 64;
-
-function itemVariant(item, itemIndex, round) {
-  if (round % variantRounds === 0) return item;
-  const look = cropLooks[(itemIndex + round) % cropLooks.length];
-  return {
-    ...item,
-    shape: look.shape,
-    focus: look.focus,
-    caption: `${item.caption.replace(/\.$/, "")}, ${look.note}.`,
-  };
-}
 
 function batchItems(batch) {
   const start = batch * batchSize;
-  return Array.from({ length: batchSize }, (_, offset) => {
-    const logicalIndex = start + offset;
-    const round = Math.floor(logicalIndex / items.length);
-    const run = round === 0 ? items : shuffled(items, round);
-    const itemIndex = logicalIndex % items.length;
-    return itemVariant(run[itemIndex], itemIndex, round);
-  });
+  return items.slice(start, start + batchSize);
 }
 
 function columnCount() {
@@ -338,11 +394,21 @@ function render() {
   sentinel.setAttribute("aria-hidden", "true");
 
   let batch = 0;
+  let exhausted = false;
   const renderedItems = [];
   const appendBatch = () => {
-    renderedItems.push(...batchItems(batch));
+    if (exhausted) return;
+    const nextItems = batchItems(batch);
+    if (!nextItems.length) {
+      exhausted = true;
+      sentinel.hidden = true;
+      return;
+    }
+    renderedItems.push(...nextItems);
     layoutWall(wall, renderedItems);
     batch += 1;
+    exhausted = renderedItems.length >= items.length;
+    sentinel.hidden = exhausted;
   };
 
   appendBatch();
@@ -350,7 +416,7 @@ function render() {
 
   if ("IntersectionObserver" in window) {
     const observer = new IntersectionObserver((entries) => {
-      if (entries.some((entry) => entry.isIntersecting)) {
+      if (!exhausted && entries.some((entry) => entry.isIntersecting)) {
         appendBatch();
       }
     }, { rootMargin: "1800px 0px" });
@@ -358,7 +424,7 @@ function render() {
   } else {
     window.addEventListener("scroll", () => {
       const nearBottom = window.innerHeight + window.scrollY > document.body.offsetHeight - 1800;
-      if (nearBottom) appendBatch();
+      if (!exhausted && nearBottom) appendBatch();
     }, { passive: true });
   }
 
