@@ -631,6 +631,7 @@ const blockedCameoFiles = new Set([
   "Newjeans Hanni 2023 08.png",
   "Newjeans Hanni 2023 09.png",
   "Newjeans Hanni 2023 10.jpg",
+  "Hanni at Music Bank on August 4, 2022.jpg",
 ]);
 
 const carItems = [
@@ -898,10 +899,36 @@ function interleaveGroups(groups) {
   return interleaved;
 }
 
+// Current Haerin Commons files are from under-18 shoots; add confirmed adult-era files here.
+const adultHaerinFiles = new Set([]);
+
+function isAllowedCameo(item) {
+  if (blockedCameoFiles.has(item.file)) return false;
+  if (item.person === "Haerin" && !adultHaerinFiles.has(item.file)) return false;
+  return true;
+}
+
+function glamCaption(item) {
+  if (!item.person) return item;
+  let caption = item.caption
+    .replace(/\bcute little\b/gi, "polished")
+    .replace(/\btiny\b/gi, "polished")
+    .replace(/\blittle\b/gi, "clean")
+    .replace(/\bcute\b/gi, "bright")
+    .replace(/\bcuteness\b/gi, "glow")
+    .replace(/\bsweet\b/gi, "soft");
+
+  caption = caption
+    .replace(/idol-card/gi, "editorial-card")
+    .replace(/pop-card/gi, "fashion-card");
+
+  return { ...item, caption };
+}
+
 const carInterval = 5;
 const cameoInterval = 9;
 const foodItems = uniqueBySource(baseItems.filter((item) => !item.file || !skippedFiles.has(item.file)));
-const kpopItems = uniqueBySource(cameoItems.filter((item) => !blockedCameoFiles.has(item.file)));
+const kpopItems = uniqueBySource(cameoItems.filter(isAllowedCameo).map(glamCaption));
 const dreamCarItems = uniqueBySource(carItems);
 
 function cycleItem(pool, index) {
