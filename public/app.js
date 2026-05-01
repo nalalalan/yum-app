@@ -125,6 +125,7 @@ const skippedFiles = new Set([
 
 const cameoItems = [
   {
+    person: "Hanni",
     file: "Newjeans Hanni 2023 10.jpg",
     caption: "Hanni cameo, soft cute pause between sushi and galbi.",
     shape: "square",
@@ -132,6 +133,7 @@ const cameoItems = [
     width: 1500,
   },
   {
+    person: "Haerin",
     file: "Haerin (NewJeans) 220813.jpg",
     caption: "Haerin cameo, gentle NewJeans glow before the next plate.",
     shape: "portrait",
@@ -139,6 +141,7 @@ const cameoItems = [
     width: 1500,
   },
   {
+    person: "Wonyoung",
     file: "Jang Wonyoung 240513.jpg",
     caption: "Wonyoung cameo, bright polished smile tucked into the feast.",
     shape: "portrait",
@@ -146,6 +149,7 @@ const cameoItems = [
     width: 1500,
   },
   {
+    person: "Ningning",
     file: "NINGNING (54295363093).jpg",
     caption: "Ningning cameo, sweet stage sparkle before ramen returns.",
     shape: "portrait",
@@ -276,8 +280,18 @@ function uniqueBySource(list) {
   });
 }
 
+function uniqueByPerson(list) {
+  const seen = new Set();
+  return list.filter((item) => {
+    const key = item.person || item.caption;
+    if (seen.has(key)) return false;
+    seen.add(key);
+    return true;
+  });
+}
+
 const foodItems = baseItems.filter((item) => !item.file || !skippedFiles.has(item.file));
-const items = uniqueBySource(weaveAccents(foodItems, cameoItems, carItems));
+const items = uniqueBySource(weaveAccents(foodItems, uniqueByPerson(cameoItems), carItems));
 
 function imageFor(item) {
   return item.image || commonsImage(item.file, item.width || 1800);
