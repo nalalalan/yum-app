@@ -179,20 +179,116 @@ const cameoItems = [
   },
 ];
 
-function weaveCameos(foodItems, cameos) {
+const carItems = [
+  {
+    file: "BMW M5 (G90) MYLE Festival 2025 DSC 9648.jpg",
+    caption: "2025 BMW M5, wide-body future-garage dopamine.",
+    shape: "cinema",
+    focus: "center 52%",
+    width: 1800,
+  },
+  {
+    file: "BMW M5 (G90) MYLE Festival 2025 DSC 9764.jpg",
+    caption: "2025 BMW M5 rear angle, heavy stance and clean aggression.",
+    shape: "wide",
+    focus: "center 56%",
+    width: 1800,
+  },
+  {
+    file: "BMW G90 M5 Brooklyn Grey Metallic (5).jpg",
+    caption: "BMW G90 M5 in Brooklyn Grey, quiet money and fast commute energy.",
+    shape: "portrait",
+    focus: "center 50%",
+    width: 1800,
+  },
+  {
+    file: "Mercedes-AMG GT 63 4MATIC+ Coup\u00e9 (C192) (4).jpg",
+    caption: "2024 Mercedes-AMG GT Coupe, long hood and expensive confidence.",
+    shape: "cinema",
+    focus: "center 54%",
+    width: 1800,
+  },
+  {
+    file: "Mercedes-AMG GT 63 4MATIC+ Coup\u00e9 (C192) front.jpg",
+    caption: "Mercedes-AMG GT front view, shark-nose luxury with weekend menace.",
+    shape: "wide",
+    focus: "center 50%",
+    width: 1800,
+  },
+  {
+    file: "Mercedes-AMG GT 63 4MATIC+ Coup\u00e9 (C192) rear.jpg",
+    caption: "Mercedes-AMG GT rear angle, glossy coupe proportions and night-drive mood.",
+    shape: "portrait",
+    focus: "center 52%",
+    width: 1800,
+  },
+  {
+    file: "Audi RS e-tron GT Performance Bedford Green Metallic 01.jpg",
+    caption: "2025 Audi RS e-tron GT performance, electric jewel in deep green.",
+    shape: "cinema",
+    focus: "center 50%",
+    width: 1800,
+  },
+  {
+    file: "Audi RS e-tron GT Performance Bedford Green Metallic 02.jpg",
+    caption: "Audi RS e-tron GT performance, spaceship sedan with rich paint.",
+    shape: "wide",
+    focus: "center 54%",
+    width: 1800,
+  },
+  {
+    file: "2025 Audi RS6 Avant GT.jpg",
+    caption: "2025 Audi RS6 Avant GT, wagon fantasy with supercar posture.",
+    shape: "portrait",
+    focus: "center 50%",
+    width: 1800,
+  },
+  {
+    file: "Audi RS6 Avant GT.jpg",
+    caption: "Audi RS6 Avant GT, white-glove practical and still extremely fast.",
+    shape: "wide",
+    focus: "center 52%",
+    width: 1800,
+  },
+  {
+    file: "Porsche 911, EMS 2024, Essen (P1032183).jpg",
+    caption: "2025-ish Porsche 911 dream tile, compact, clean, forever expensive.",
+    shape: "cinema",
+    focus: "center 53%",
+    width: 1800,
+  },
+  {
+    file: "Porsche 911 992 Carrera GTS (2).jpg",
+    caption: "Porsche 911 Carrera GTS, future reward parked in one perfect shape.",
+    shape: "wide",
+    focus: "center 52%",
+    width: 1800,
+  },
+];
+
+function weaveAccents(foodItems, cameos, cars) {
   const woven = [];
-  const interval = 8;
+  const cameoInterval = 9;
+  const carInterval = 5;
   let cameoIndex = 0;
+  let carIndex = 0;
 
   foodItems.forEach((item, index) => {
+    const position = index + 1;
     woven.push(item);
-    if ((index + 1) % interval === 0 && cameoIndex < cameos.length) {
+
+    if (position % carInterval === 0 && carIndex < cars.length) {
+      woven.push(cars[carIndex]);
+      carIndex += 1;
+    }
+
+    if (position % cameoInterval === 0 && cameoIndex < cameos.length) {
       woven.push(cameos[cameoIndex]);
       cameoIndex += 1;
     }
   });
 
-  return woven.concat(cameos.slice(cameoIndex));
+  return woven.concat(cars.slice(carIndex), cameos.slice(cameoIndex));
 }
 
 function uniqueBySource(list) {
@@ -206,7 +302,7 @@ function uniqueBySource(list) {
 }
 
 const foodItems = baseItems.filter((item) => !item.file || !skippedFiles.has(item.file));
-const items = uniqueBySource(weaveCameos(foodItems, cameoItems));
+const items = uniqueBySource(weaveAccents(foodItems, cameoItems, carItems));
 
 function imageFor(item) {
   return item.image || commonsImage(item.file, item.width || 1800);
