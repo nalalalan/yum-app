@@ -6,7 +6,7 @@ Tiles are intentionally image-only. Hovering reveals a short caption; clicking o
 
 The collection is intentionally built around Korean, Chinese, Mexican, American, Japanese, Italian, Vietnamese, and Cajun food, with no Indian or Mediterranean tiles.
 
-There are a few cute idol cameo tiles and compact European luxury car dream tiles woven in, using official/media-grade car photos where possible, but the wall should still read as mostly delicious food.
+There are cute idol cameo tiles and compact European luxury car dream tiles woven in at a steady ratio, using official/media-grade car photos where possible, but the wall should still read as mostly delicious food. The wall keeps loading new batches as you scroll.
 
 ## Run Locally
 

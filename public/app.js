@@ -123,15 +123,106 @@ const skippedFiles = new Set([
   "Fettuccine Alfredo.jpg",
 ]);
 
-const cameoItems = [
+const hanniItems = [
   {
     person: "Hanni",
-    file: "Newjeans Hanni 2023 10.jpg",
-    caption: "Hanni cameo, soft cute pause between sushi and galbi.",
+    file: "Newjeans Hanni 2023 01.jpg",
+    caption: "Hanni cameo, soft smile between sushi and galbi.",
     shape: "square",
     focus: "center 40%",
     width: 1500,
   },
+  {
+    person: "Hanni",
+    file: "Newjeans Hanni 2023 02.jpg",
+    caption: "Hanni cameo, bright little NewJeans sparkle.",
+    shape: "portrait",
+    focus: "center 38%",
+    width: 1500,
+  },
+  {
+    person: "Hanni",
+    file: "Newjeans Hanni 2023 03.jpg",
+    caption: "Hanni cameo, cute calm face before more noodles.",
+    shape: "portrait",
+    focus: "center 36%",
+    width: 1500,
+  },
+  {
+    person: "Hanni",
+    file: "Newjeans Hanni 2023 04.jpg",
+    caption: "Hanni cameo, sweet soft-focus idol-card energy.",
+    shape: "square",
+    focus: "center 40%",
+    width: 1500,
+  },
+  {
+    person: "Hanni",
+    file: "Newjeans Hanni 2023 06.png",
+    caption: "Hanni cameo, tiny cheerful pause in the food stream.",
+    shape: "wide",
+    focus: "center 42%",
+    width: 1500,
+  },
+  {
+    person: "Hanni",
+    file: "Newjeans Hanni 2023 07.png",
+    caption: "Hanni cameo, cute clean pop-color moment.",
+    shape: "square",
+    focus: "center 40%",
+    width: 1500,
+  },
+  {
+    person: "Hanni",
+    file: "Newjeans Hanni 2023 08.png",
+    caption: "Hanni cameo, playful little wink between plates.",
+    shape: "wide",
+    focus: "center 42%",
+    width: 1500,
+  },
+  {
+    person: "Hanni",
+    file: "Newjeans Hanni 2023 09.png",
+    caption: "Hanni cameo, soft bright smile before dessert.",
+    shape: "wide",
+    focus: "center 42%",
+    width: 1500,
+  },
+  {
+    person: "Hanni",
+    file: "20230905 Hanni (NewJeans).jpg",
+    caption: "Hanni cameo, tidy airport-day cuteness.",
+    shape: "portrait",
+    focus: "center 36%",
+    width: 1500,
+  },
+  {
+    person: "Hanni",
+    file: "20230921 Newjeans Hanni \ud2f0\ube44\ud150 01 (cropped).jpg",
+    caption: "Hanni cameo, polished press-day smile.",
+    shape: "portrait",
+    focus: "center 36%",
+    width: 1500,
+  },
+  {
+    person: "Hanni",
+    file: "20230921 Newjeans Hanni \ud2f0\ube44\ud150 02.jpg",
+    caption: "Hanni cameo, cute close-up glow.",
+    shape: "square",
+    focus: "center 36%",
+    width: 1500,
+  },
+  {
+    person: "Hanni",
+    file: "NewJeans Hanni OLENS 1.jpg",
+    caption: "Hanni cameo, soft OLENS-style sparkle.",
+    shape: "portrait",
+    focus: "center 38%",
+    width: 1500,
+  },
+];
+
+const haerinItems = [
   {
     person: "Haerin",
     file: "Haerin (NewJeans) 220813.jpg",
@@ -141,6 +232,97 @@ const cameoItems = [
     width: 1500,
   },
   {
+    person: "Haerin",
+    file: "20230905 Haerin (NewJeans).jpg",
+    caption: "Haerin cameo, calm bright NewJeans look.",
+    shape: "portrait",
+    focus: "center 34%",
+    width: 1500,
+  },
+  {
+    person: "Haerin",
+    file: "Haerin Seoul Fashion Week 1.jpg",
+    caption: "Haerin cameo, soft fashion-week face.",
+    shape: "portrait",
+    focus: "center 35%",
+    width: 1500,
+  },
+  {
+    person: "Haerin",
+    file: "Haerin Seoul Fashion Week 2.jpg",
+    caption: "Haerin cameo, quiet cute stare between galbi tiles.",
+    shape: "portrait",
+    focus: "center 34%",
+    width: 1500,
+  },
+  {
+    person: "Haerin",
+    file: "Haerin Seoul Fashion Week 3.jpg",
+    caption: "Haerin cameo, clean soft glam.",
+    shape: "portrait",
+    focus: "center 35%",
+    width: 1500,
+  },
+  {
+    person: "Haerin",
+    file: "Kang Haerin for OLENS 2.jpg",
+    caption: "Haerin cameo, gentle OLENS close-up.",
+    shape: "square",
+    focus: "center 38%",
+    width: 1500,
+  },
+  {
+    person: "Haerin",
+    file: "Kang Haerin for OLENS 3.jpg",
+    caption: "Haerin cameo, bright soft-card moment.",
+    shape: "square",
+    focus: "center 38%",
+    width: 1500,
+  },
+  {
+    person: "Haerin",
+    file: "NewJeans HAERIN Dior 1.jpg",
+    caption: "Haerin cameo, polished but still cute Dior glow.",
+    shape: "portrait",
+    focus: "center 36%",
+    width: 1500,
+  },
+  {
+    person: "Haerin",
+    file: "NewJeans HAERIN Dior 2.jpg",
+    caption: "Haerin cameo, neat little fashion-card pause.",
+    shape: "portrait",
+    focus: "center 36%",
+    width: 1500,
+  },
+  {
+    person: "Haerin",
+    file: "NewJeans HAERIN Dior 3.jpg",
+    caption: "Haerin cameo, soft bright portrait energy.",
+    shape: "portrait",
+    focus: "center 36%",
+    width: 1500,
+  },
+  {
+    person: "Haerin",
+    file: "NewJeans Haerin Seoul Fashion Week 1.jpg",
+    caption: "Haerin cameo, compact fashion-week cuteness.",
+    shape: "portrait",
+    focus: "center 35%",
+    width: 1500,
+  },
+  {
+    person: "Haerin",
+    file: "NewJeans Haerin Seoul Fashion Week 2.jpg",
+    caption: "Haerin cameo, gentle runway-side glow.",
+    shape: "portrait",
+    focus: "center 35%",
+    width: 1500,
+  },
+];
+
+const wonyoungItems = [
+  {
     person: "Wonyoung",
     file: "Jang Wonyoung 240513.jpg",
     caption: "Wonyoung cameo, bright polished smile tucked into the feast.",
@@ -149,6 +331,97 @@ const cameoItems = [
     width: 1500,
   },
   {
+    person: "Wonyoung",
+    file: "Jang Wonyoung \uc7a5\uc6d0\uc601 240513 01.png",
+    caption: "Wonyoung cameo, cute polished 240513 moment.",
+    shape: "portrait",
+    focus: "center 38%",
+    width: 1500,
+  },
+  {
+    person: "Wonyoung",
+    file: "Jang Wonyoung \uc7a5\uc6d0\uc601 240513 02.png",
+    caption: "Wonyoung cameo, soft smile tucked into the feast.",
+    shape: "square",
+    focus: "center 38%",
+    width: 1500,
+  },
+  {
+    person: "Wonyoung",
+    file: "Jang Wonyoung \uc7a5\uc6d0\uc601 240513 03.png",
+    caption: "Wonyoung cameo, bright idol-card shine.",
+    shape: "square",
+    focus: "center 38%",
+    width: 1500,
+  },
+  {
+    person: "Wonyoung",
+    file: "20241010 Wonyoung for Tommy Hilfiger 01.jpg",
+    caption: "Wonyoung cameo, crisp Tommy smile.",
+    shape: "portrait",
+    focus: "center 36%",
+    width: 1500,
+  },
+  {
+    person: "Wonyoung",
+    file: "20241010 Wonyoung for Tommy Hilfiger 02.jpg",
+    caption: "Wonyoung cameo, bright preppy cuteness.",
+    shape: "square",
+    focus: "center 38%",
+    width: 1500,
+  },
+  {
+    person: "Wonyoung",
+    file: "20241010 Wonyoung for Tommy Hilfiger 03.jpg",
+    caption: "Wonyoung cameo, clean glossy fashion-card energy.",
+    shape: "portrait",
+    focus: "center 36%",
+    width: 1500,
+  },
+  {
+    person: "Wonyoung",
+    file: "20241010 Wonyoung for Tommy Hilfiger 04.jpg",
+    caption: "Wonyoung cameo, polished smile in soft light.",
+    shape: "portrait",
+    focus: "center 36%",
+    width: 1500,
+  },
+  {
+    person: "Wonyoung",
+    file: "20241010 Wonyoung for Tommy Hilfiger 05.jpg",
+    caption: "Wonyoung cameo, cute wide-frame sparkle.",
+    shape: "wide",
+    focus: "center 42%",
+    width: 1500,
+  },
+  {
+    person: "Wonyoung",
+    file: "Jang Won-young IVE Marie Claire Korea.jpg",
+    caption: "Wonyoung cameo, soft magazine glow.",
+    shape: "portrait",
+    focus: "center 36%",
+    width: 1500,
+  },
+  {
+    person: "Wonyoung",
+    file: "Jang Wonyoung portrait 2025.jpg",
+    caption: "Wonyoung cameo, neat little portrait-card pause.",
+    shape: "square",
+    focus: "center 40%",
+    width: 1500,
+  },
+  {
+    person: "Wonyoung",
+    file: "Wonyoung at Bvlgari event.png",
+    caption: "Wonyoung cameo, glossy event smile.",
+    shape: "portrait",
+    focus: "center 36%",
+    width: 1500,
+  },
+];
+
+const ningningItems = [
+  {
     person: "Ningning",
     file: "NINGNING (54295363093).jpg",
     caption: "Ningning cameo, sweet stage sparkle before ramen returns.",
@@ -156,7 +429,97 @@ const cameoItems = [
     focus: "center 36%",
     width: 1500,
   },
+  {
+    person: "Ningning",
+    file: "250111 aespa Ningning.jpg",
+    caption: "Ningning cameo, sweet aespa stage-card glow.",
+    shape: "portrait",
+    focus: "center 36%",
+    width: 1500,
+  },
+  {
+    person: "Ningning",
+    file: "241005 Ningning K-Link Festival 02.jpg",
+    caption: "Ningning cameo, bright festival smile.",
+    shape: "portrait",
+    focus: "center 36%",
+    width: 1500,
+  },
+  {
+    person: "Ningning",
+    file: "241005 Ningning K-Link Festival.jpg",
+    caption: "Ningning cameo, soft K-Link stage sparkle.",
+    shape: "wide",
+    focus: "center 42%",
+    width: 1500,
+  },
+  {
+    person: "Ningning",
+    file: "250315 Ningning at SYNK PARALLEL LINE Encore 2.jpg",
+    caption: "Ningning cameo, cute encore glow.",
+    shape: "portrait",
+    focus: "center 36%",
+    width: 1500,
+  },
+  {
+    person: "Ningning",
+    file: "250315 Ningning at SYNK PARALLEL LINE Encore 3.jpg",
+    caption: "Ningning cameo, clean concert-card energy.",
+    shape: "portrait",
+    focus: "center 36%",
+    width: 1500,
+  },
+  {
+    person: "Ningning",
+    file: "250315 Ningning at SYNK PARALLEL LINE Encore.jpg",
+    caption: "Ningning cameo, bright stage moment before more ramen.",
+    shape: "portrait",
+    focus: "center 36%",
+    width: 1500,
+  },
+  {
+    person: "Ningning",
+    file: "250315-16 aespa Ningning 01.jpg",
+    caption: "Ningning cameo, soft red-carpet sparkle.",
+    shape: "portrait",
+    focus: "center 36%",
+    width: 1500,
+  },
+  {
+    person: "Ningning",
+    file: "250315-16 aespa Ningning 02.jpg",
+    caption: "Ningning cameo, little concert-glow pause.",
+    shape: "portrait",
+    focus: "center 36%",
+    width: 1500,
+  },
+  {
+    person: "Ningning",
+    file: "Aespa Ningning.jpg",
+    caption: "Ningning cameo, simple cute portrait energy.",
+    shape: "portrait",
+    focus: "center 36%",
+    width: 1500,
+  },
+  {
+    person: "Ningning",
+    file: "NINGNING - AESPA - 2025.01.28.jpg",
+    caption: "Ningning cameo, bright soft event smile.",
+    shape: "portrait",
+    focus: "center 36%",
+    width: 1500,
+  },
+  {
+    person: "Ningning",
+    file: "NINGNING.jpg",
+    caption: "Ningning cameo, clean little idol-card glow.",
+    shape: "portrait",
+    focus: "center 36%",
+    width: 1500,
+  },
 ];
+
+const cameoItems = interleaveGroups([hanniItems, haerinItems, wonyoungItems, ningningItems]);
 
 const carItems = [
   {
@@ -245,31 +608,6 @@ const carItems = [
   },
 ];
 
-function weaveAccents(foodItems, cameos, cars) {
-  const woven = [];
-  const cameoInterval = 9;
-  const carInterval = 5;
-  let cameoIndex = 0;
-  let carIndex = 0;
-
-  foodItems.forEach((item, index) => {
-    const position = index + 1;
-    woven.push(item);
-
-    if (position % carInterval === 0 && carIndex < cars.length) {
-      woven.push(cars[carIndex]);
-      carIndex += 1;
-    }
-
-    if (position % cameoInterval === 0 && cameoIndex < cameos.length) {
-      woven.push(cameos[cameoIndex]);
-      cameoIndex += 1;
-    }
-  });
-
-  return woven.concat(cars.slice(carIndex), cameos.slice(cameoIndex));
-}
-
 function uniqueBySource(list) {
   const seen = new Set();
   return list.filter((item) => {
@@ -280,18 +618,26 @@ function uniqueBySource(list) {
   });
 }
 
-function uniqueByPerson(list) {
-  const seen = new Set();
-  return list.filter((item) => {
-    const key = item.person || item.caption;
-    if (seen.has(key)) return false;
-    seen.add(key);
-    return true;
-  });
+function interleaveGroups(groups) {
+  const longest = Math.max(...groups.map((group) => group.length));
+  const interleaved = [];
+  for (let index = 0; index < longest; index += 1) {
+    groups.forEach((group) => {
+      if (group[index]) interleaved.push(group[index]);
+    });
+  }
+  return interleaved;
 }
 
-const foodItems = baseItems.filter((item) => !item.file || !skippedFiles.has(item.file));
-const items = uniqueBySource(weaveAccents(foodItems, uniqueByPerson(cameoItems), carItems));
+const carInterval = 5;
+const cameoInterval = 9;
+const foodItems = uniqueBySource(baseItems.filter((item) => !item.file || !skippedFiles.has(item.file)));
+const kpopItems = uniqueBySource(cameoItems);
+const dreamCarItems = uniqueBySource(carItems);
+
+function cycleItem(pool, index) {
+  return pool[index % pool.length];
+}
 
 function imageFor(item) {
   return item.image || commonsImage(item.file, item.width || 1800);
@@ -330,11 +676,6 @@ function createTile(item, index) {
 }
 
 const batchSize = 64;
-
-function batchItems(batch) {
-  const start = batch * batchSize;
-  return items.slice(start, start + batchSize);
-}
 
 function columnCount() {
   const width = window.innerWidth || document.documentElement.clientWidth || 1200;
@@ -394,21 +735,34 @@ function render() {
   sentinel.setAttribute("aria-hidden", "true");
 
   let batch = 0;
-  let exhausted = false;
+  let foodIndex = 0;
+  let carIndex = 0;
+  let cameoIndex = 0;
   const renderedItems = [];
   const appendBatch = () => {
-    if (exhausted) return;
-    const nextItems = batchItems(batch);
-    if (!nextItems.length) {
-      exhausted = true;
-      sentinel.hidden = true;
-      return;
+    const nextItems = [];
+
+    while (nextItems.length < batchSize) {
+      const position = foodIndex + 1;
+      nextItems.push(cycleItem(foodItems, foodIndex));
+
+      if (position % carInterval === 0) {
+        nextItems.push(cycleItem(dreamCarItems, carIndex));
+        carIndex += 1;
+      }
+
+      if (position % cameoInterval === 0) {
+        nextItems.push(cycleItem(kpopItems, cameoIndex));
+        cameoIndex += 1;
+      }
+
+      foodIndex += 1;
     }
+
     renderedItems.push(...nextItems);
     layoutWall(wall, renderedItems);
     batch += 1;
-    exhausted = renderedItems.length >= items.length;
-    sentinel.hidden = exhausted;
+    sentinel.dataset.batch = String(batch);
   };
 
   appendBatch();
@@ -416,7 +770,7 @@ function render() {
 
   if ("IntersectionObserver" in window) {
     const observer = new IntersectionObserver((entries) => {
-      if (!exhausted && entries.some((entry) => entry.isIntersecting)) {
+      if (entries.some((entry) => entry.isIntersecting)) {
         appendBatch();
       }
     }, { rootMargin: "1800px 0px" });
@@ -424,7 +778,7 @@ function render() {
   } else {
     window.addEventListener("scroll", () => {
       const nearBottom = window.innerHeight + window.scrollY > document.body.offsetHeight - 1800;
-      if (!exhausted && nearBottom) appendBatch();
+      if (nearBottom) appendBatch();
     }, { passive: true });
   }
 
