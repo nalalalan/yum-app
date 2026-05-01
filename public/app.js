@@ -592,9 +592,30 @@ addCameos(wonyoungItems, "Wonyoung", [
   ["Jang Wonyoung \uc7a5\uc6d0\uc601 K\u00e9rastase\u2019s NEW Ambassador 10.jpg", "Wonyoung cameo, wide bright campaign smile.", "wide", "center 42%"],
   ["\uc7a5\uc6d0\uc601 (JANG WONYOUNG) - RIMOWA - 2023.05.13 P1.jpg", "Wonyoung cameo, crisp RIMOWA event polish."],
   ["\uc7a5\uc6d0\uc601 (JANG WONYOUNG) - RIMOWA - 2023.05.13 P2.jpg", "Wonyoung cameo, soft RIMOWA fashion-card pause."],
+  ["Wonyoung in 2025.png", "Wonyoung cameo, polished adult-era fashion portrait."],
+  ["Wonyoung in January 2026.png", "Wonyoung cameo, sleek January 2026 event frame."],
+  ["Jang Won-young of Ive, March 27, 2025.png", "Wonyoung cameo, high-fashion 2025 event glow."],
+  ["Jang Won-young for Dyson April 2026.png", "Wonyoung cameo, glossy Dyson beauty-event portrait."],
+  ["Jang Won-young at the Dyson Launch Event, April 23, 2026 (1).png", "Wonyoung cameo, sleek Dyson launch styling."],
+  ["Jang Won-young at the Dyson Launch Event, April 23, 2026 (2).png", "Wonyoung cameo, polished Dyson event frame."],
+  ["Jang Won-young at the Dyson Launch Event, April 23, 2026 (3).png", "Wonyoung cameo, sharp Dyson launch glow."],
+  ["Jang Won-young at the Dyson Launch Event, April 23, 2026 (4).png", "Wonyoung cameo, clean Dyson beauty-event portrait."],
+  ["Jang Won-young at the Dyson Launch Event, April 23, 2026 (5).png", "Wonyoung cameo, sleek Dyson event polish."],
+  ["Jang Won-young at the Miu Miu Beauty event, April 6, 2026 (1).png", "Wonyoung cameo, Miu Miu beauty-event glow."],
+  ["Jang Won-young at the Miu Miu Beauty event, April 6, 2026 (2).png", "Wonyoung cameo, glossy Miu Miu fashion frame."],
+  ["Jang Won-young at the Miu Miu Beauty event, April 6, 2026 (3).png", "Wonyoung cameo, sleek Miu Miu styling."],
+  ["Jang Won-young at the Miu Miu Beauty event, April 6, 2026 (4).png", "Wonyoung cameo, polished Miu Miu event portrait."],
+  ["Jang Won-young at the 40th Golden Disc Awards, January 10, 2026 (1).png", "Wonyoung cameo, Golden Disc awards-night glow."],
+  ["Jang Won-young at IVE 4th Fan Concert DIVE into IVE March 22, 2026 (1).jpg", "Wonyoung cameo, stage-glam fan-concert frame.", "tall"],
+  ["Jang Won-young at IVE 4th Fan Concert DIVE into IVE March 22, 2026 (2).jpg", "Wonyoung cameo, polished stage styling.", "tall"],
+  ["Jang Won-young at IVE 4th Fan Concert DIVE into IVE March 22, 2026 (3).jpg", "Wonyoung cameo, bright concert-stage portrait.", "tall"],
+  ["Jang Won-young at IVE 4th Fan Concert DIVE into IVE March 22, 2026 (4).jpg", "Wonyoung cameo, sleek stage-glam frame.", "tall"],
+  ["Jang Won-young at IVE 4th Fan Concert DIVE into IVE March 22, 2026 (5).jpg", "Wonyoung cameo, crisp concert styling.", "tall"],
+  ["Jang Won-young at IVE 4th Fan Concert DIVE into IVE March 22, 2026 (6).jpg", "Wonyoung cameo, polished stage portrait.", "tall"],
 ]);
 
 addCameos(ningningItems, "Ningning", [
+  ["Aespa Ningning 2024 MMA.jpg", "Ningning cameo, sharp MMA awards-night styling."],
   ["2023 MMA aespa Ningning 1 (cropped).jpg", "Ningning cameo, tiny MMA sparkle.", "square"],
   ["2023 MMA aespa Ningning 1.jpg", "Ningning cameo, sweet awards-night frame."],
   ["250316 Ningning at SYNK PARALLEL LINE Encore.jpg", "Ningning cameo, bright encore smile.", "tall"],
@@ -632,6 +653,16 @@ const blockedCameoFiles = new Set([
   "Newjeans Hanni 2023 09.png",
   "Newjeans Hanni 2023 10.jpg",
   "Hanni at Music Bank on August 4, 2022.jpg",
+]);
+
+const casualCameoFiles = new Set([
+  "20230905 Hanni (NewJeans).jpg",
+  "IVE Wonyoung on the way to Music Bank - October 13, 2023 01.jpg",
+  "Ningning in SBS Radio on 061021.jpg",
+  "Ningning at Incheon Airport on 25022026 (1).png",
+  "Ningning at Incheon Airport on 25022026 (2).png",
+  "Ningning at Incheon Airport on 25022026 (3).png",
+  "Ningning at Incheon Airport on 25022026 (4).png",
 ]);
 
 const carItems = [
@@ -904,31 +935,51 @@ const adultHaerinFiles = new Set([]);
 
 function isAllowedCameo(item) {
   if (blockedCameoFiles.has(item.file)) return false;
+  if (casualCameoFiles.has(item.file)) return false;
   if (item.person === "Haerin" && !adultHaerinFiles.has(item.file)) return false;
   return true;
 }
 
 function glamCaption(item) {
   if (!item.person) return item;
-  let caption = item.caption
-    .replace(/\bcute little\b/gi, "polished")
-    .replace(/\btiny\b/gi, "polished")
-    .replace(/\blittle\b/gi, "clean")
-    .replace(/\bcute\b/gi, "bright")
-    .replace(/\bcuteness\b/gi, "glow")
-    .replace(/\bsweet\b/gi, "soft");
+  const source = `${item.file || ""} ${item.caption || ""}`.toLowerCase();
+  let mood = "polished editorial glow";
+  if (/concert|stage|mma|mama|melon|golden|disc|synk|dive|k-link/.test(source)) {
+    mood = "stage-glam frame";
+  } else if (/miu|miu|bvlgari|tommy|dyson|rimowa|photocall|launch|event/.test(source)) {
+    mood = "sleek fashion-event frame";
+  } else if (/olens|kérastase|kerastase|mise-en-scene|beauty|marie claire/.test(source)) {
+    mood = "beauty-editorial close-up";
+  }
 
-  caption = caption
-    .replace(/idol-card/gi, "editorial-card")
-    .replace(/pop-card/gi, "fashion-card");
+  return { ...item, caption: `${item.person} cameo, ${mood}.` };
+}
 
-  return { ...item, caption };
+function glamScore(item) {
+  const source = `${item.file || ""} ${item.caption || ""}`.toLowerCase();
+  if (/concert|stage|mma|mama|melon|golden|disc|synk|dive|k-link/.test(source)) return 3;
+  if (/miu|bvlgari|tommy|dyson|rimowa|photocall|launch|event/.test(source)) return 2;
+  if (/olens|kérastase|kerastase|mise-en-scene|beauty|marie claire/.test(source)) return 1;
+  return 0;
+}
+
+function buildCameoPool(list) {
+  const clean = uniqueBySource(list.filter(isAllowedCameo).map(glamCaption));
+  const grouped = ["Hanni", "Wonyoung", "Ningning"]
+    .map((person) => clean
+      .filter((item) => item.person === person)
+      .map((item, index) => ({ item, index, score: glamScore(item) }))
+      .sort((a, b) => b.score - a.score || a.index - b.index)
+      .map(({ item }) => item))
+    .filter((group) => group.length);
+
+  return interleaveGroups(grouped);
 }
 
 const carInterval = 5;
 const cameoInterval = 9;
 const foodItems = uniqueBySource(baseItems.filter((item) => !item.file || !skippedFiles.has(item.file)));
-const kpopItems = uniqueBySource(cameoItems.filter(isAllowedCameo).map(glamCaption));
+const kpopItems = buildCameoPool(cameoItems);
 const dreamCarItems = uniqueBySource(carItems);
 
 function cycleItem(pool, index) {
