@@ -6,6 +6,8 @@ Tiles are intentionally image-only. Hovering reveals a short caption; clicking o
 
 The collection is intentionally built around Korean, Chinese, Mexican, American, Japanese, Italian, Vietnamese, and Cajun food, with no Indian or Mediterranean tiles.
 
+There are a few cute idol cameo tiles woven in, but the wall should still read as mostly delicious food.
+
 ## Run Locally
 
 ```bash

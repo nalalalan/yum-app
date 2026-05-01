@@ -120,7 +120,83 @@ const skippedFiles = new Set([
   "Roasted Salmon Skin sushi roll, Soft Shell Crab sushi roll, Salmon and Avocado sushi roll, Miso Soup - Kenzan GPO (2673449759).jpg",
 ]);
 
-const items = baseItems.filter((item) => !item.file || !skippedFiles.has(item.file));
+const cameoItems = [
+  {
+    file: "Newjeans Hanni 2023 10.jpg",
+    caption: "Hanni Pham cameo, cute little sparkle between sushi cravings.",
+    shape: "square",
+    focus: "center 40%",
+    width: 1500,
+  },
+  {
+    file: "Haerin (NewJeans) 220813.jpg",
+    caption: "Haerin cameo, soft cat-energy pause before more galbi.",
+    shape: "portrait",
+    focus: "center 34%",
+    width: 1500,
+  },
+  {
+    file: "Jang Wonyoung 240513.jpg",
+    caption: "Wonyoung cameo, polished princess moment between dinner tiles.",
+    shape: "portrait",
+    focus: "center 38%",
+    width: 1500,
+  },
+  {
+    file: "NINGNING (54295363093).jpg",
+    caption: "Ningning cameo, tiny stage-glow break before ramen returns.",
+    shape: "portrait",
+    focus: "center 36%",
+    width: 1500,
+  },
+  {
+    file: "Newjeans Hanni 2023 05.jpg",
+    caption: "Hanni cameo, sweet funny-face energy in the food stream.",
+    shape: "square",
+    focus: "center 38%",
+    width: 1500,
+  },
+  {
+    file: "20230905 Haerin (NewJeans).jpg",
+    caption: "Haerin cameo, calm cute stare between salmon and noodles.",
+    shape: "tall",
+    focus: "center 34%",
+    width: 1500,
+  },
+  {
+    file: "Jang Won-young of Ive in Incheon Airport, September 7, 2024.png",
+    caption: "Wonyoung cameo, airport-doll energy tucked into the feast.",
+    shape: "tall",
+    focus: "center 35%",
+    width: 1500,
+  },
+  {
+    file: "Aespa Ningning 2024 MMA.jpg",
+    caption: "Ningning cameo, bright award-show wink before the next plate.",
+    shape: "portrait",
+    focus: "center 36%",
+    width: 1500,
+  },
+];
+
+function weaveCameos(foodItems, cameos) {
+  const woven = [];
+  const interval = 8;
+  let cameoIndex = 0;
+
+  foodItems.forEach((item, index) => {
+    woven.push(item);
+    if ((index + 1) % interval === 0 && cameoIndex < cameos.length) {
+      woven.push(cameos[cameoIndex]);
+      cameoIndex += 1;
+    }
+  });
+
+  return woven.concat(cameos.slice(cameoIndex));
+}
+
+const foodItems = baseItems.filter((item) => !item.file || !skippedFiles.has(item.file));
+const items = weaveCameos(foodItems, cameoItems);
 
 function imageFor(item) {
   return item.image || commonsImage(item.file, item.width || 1800);
