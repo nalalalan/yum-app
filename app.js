@@ -123,15 +123,106 @@ const skippedFiles = new Set([
   "Fettuccine Alfredo.jpg",
 ]);
 
-const cameoItems = [
+const hanniItems = [
   {
     person: "Hanni",
-    file: "Newjeans Hanni 2023 10.jpg",
-    caption: "Hanni cameo, soft cute pause between sushi and galbi.",
+    file: "Newjeans Hanni 2023 01.jpg",
+    caption: "Hanni cameo, soft smile between sushi and galbi.",
     shape: "square",
     focus: "center 40%",
     width: 1500,
   },
+  {
+    person: "Hanni",
+    file: "Newjeans Hanni 2023 02.jpg",
+    caption: "Hanni cameo, bright little NewJeans sparkle.",
+    shape: "portrait",
+    focus: "center 38%",
+    width: 1500,
+  },
+  {
+    person: "Hanni",
+    file: "Newjeans Hanni 2023 03.jpg",
+    caption: "Hanni cameo, cute calm face before more noodles.",
+    shape: "portrait",
+    focus: "center 36%",
+    width: 1500,
+  },
+  {
+    person: "Hanni",
+    file: "Newjeans Hanni 2023 04.jpg",
+    caption: "Hanni cameo, sweet soft-focus idol-card energy.",
+    shape: "square",
+    focus: "center 40%",
+    width: 1500,
+  },
+  {
+    person: "Hanni",
+    file: "Newjeans Hanni 2023 06.png",
+    caption: "Hanni cameo, tiny cheerful pause in the food stream.",
+    shape: "wide",
+    focus: "center 42%",
+    width: 1500,
+  },
+  {
+    person: "Hanni",
+    file: "Newjeans Hanni 2023 07.png",
+    caption: "Hanni cameo, cute clean pop-color moment.",
+    shape: "square",
+    focus: "center 40%",
+    width: 1500,
+  },
+  {
+    person: "Hanni",
+    file: "Newjeans Hanni 2023 08.png",
+    caption: "Hanni cameo, playful little wink between plates.",
+    shape: "wide",
+    focus: "center 42%",
+    width: 1500,
+  },
+  {
+    person: "Hanni",
+    file: "Newjeans Hanni 2023 09.png",
+    caption: "Hanni cameo, soft bright smile before dessert.",
+    shape: "wide",
+    focus: "center 42%",
+    width: 1500,
+  },
+  {
+    person: "Hanni",
+    file: "20230905 Hanni (NewJeans).jpg",
+    caption: "Hanni cameo, tidy airport-day cuteness.",
+    shape: "portrait",
+    focus: "center 36%",
+    width: 1500,
+  },
+  {
+    person: "Hanni",
+    file: "20230921 Newjeans Hanni \ud2f0\ube44\ud150 01 (cropped).jpg",
+    caption: "Hanni cameo, polished press-day smile.",
+    shape: "portrait",
+    focus: "center 36%",
+    width: 1500,
+  },
+  {
+    person: "Hanni",
+    file: "20230921 Newjeans Hanni \ud2f0\ube44\ud150 02.jpg",
+    caption: "Hanni cameo, cute close-up glow.",
+    shape: "square",
+    focus: "center 36%",
+    width: 1500,
+  },
+  {
+    person: "Hanni",
+    file: "NewJeans Hanni OLENS 1.jpg",
+    caption: "Hanni cameo, soft OLENS-style sparkle.",
+    shape: "portrait",
+    focus: "center 38%",
+    width: 1500,
+  },
+];
+
+const haerinItems = [
   {
     person: "Haerin",
     file: "Haerin (NewJeans) 220813.jpg",
@@ -141,6 +232,97 @@ const cameoItems = [
     width: 1500,
   },
   {
+    person: "Haerin",
+    file: "20230905 Haerin (NewJeans).jpg",
+    caption: "Haerin cameo, calm bright NewJeans look.",
+    shape: "portrait",
+    focus: "center 34%",
+    width: 1500,
+  },
+  {
+    person: "Haerin",
+    file: "Haerin Seoul Fashion Week 1.jpg",
+    caption: "Haerin cameo, soft fashion-week face.",
+    shape: "portrait",
+    focus: "center 35%",
+    width: 1500,
+  },
+  {
+    person: "Haerin",
+    file: "Haerin Seoul Fashion Week 2.jpg",
+    caption: "Haerin cameo, quiet cute stare between galbi tiles.",
+    shape: "portrait",
+    focus: "center 34%",
+    width: 1500,
+  },
+  {
+    person: "Haerin",
+    file: "Haerin Seoul Fashion Week 3.jpg",
+    caption: "Haerin cameo, clean soft glam.",
+    shape: "portrait",
+    focus: "center 35%",
+    width: 1500,
+  },
+  {
+    person: "Haerin",
+    file: "Kang Haerin for OLENS 2.jpg",
+    caption: "Haerin cameo, gentle OLENS close-up.",
+    shape: "square",
+    focus: "center 38%",
+    width: 1500,
+  },
+  {
+    person: "Haerin",
+    file: "Kang Haerin for OLENS 3.jpg",
+    caption: "Haerin cameo, bright soft-card moment.",
+    shape: "square",
+    focus: "center 38%",
+    width: 1500,
+  },
+  {
+    person: "Haerin",
+    file: "NewJeans HAERIN Dior 1.jpg",
+    caption: "Haerin cameo, polished but still cute Dior glow.",
+    shape: "portrait",
+    focus: "center 36%",
+    width: 1500,
+  },
+  {
+    person: "Haerin",
+    file: "NewJeans HAERIN Dior 2.jpg",
+    caption: "Haerin cameo, neat little fashion-card pause.",
+    shape: "portrait",
+    focus: "center 36%",
+    width: 1500,
+  },
+  {
+    person: "Haerin",
+    file: "NewJeans HAERIN Dior 3.jpg",
+    caption: "Haerin cameo, soft bright portrait energy.",
+    shape: "portrait",
+    focus: "center 36%",
+    width: 1500,
+  },
+  {
+    person: "Haerin",
+    file: "NewJeans Haerin Seoul Fashion Week 1.jpg",
+    caption: "Haerin cameo, compact fashion-week cuteness.",
+    shape: "portrait",
+    focus: "center 35%",
+    width: 1500,
+  },
+  {
+    person: "Haerin",
+    file: "NewJeans Haerin Seoul Fashion Week 2.jpg",
+    caption: "Haerin cameo, gentle runway-side glow.",
+    shape: "portrait",
+    focus: "center 35%",
+    width: 1500,
+  },
+];
+
+const wonyoungItems = [
+  {
     person: "Wonyoung",
     file: "Jang Wonyoung 240513.jpg",
     caption: "Wonyoung cameo, bright polished smile tucked into the feast.",
@@ -149,6 +331,97 @@ const cameoItems = [
     width: 1500,
   },
   {
+    person: "Wonyoung",
+    file: "Jang Wonyoung \uc7a5\uc6d0\uc601 240513 01.png",
+    caption: "Wonyoung cameo, cute polished 240513 moment.",
+    shape: "portrait",
+    focus: "center 38%",
+    width: 1500,
+  },
+  {
+    person: "Wonyoung",
+    file: "Jang Wonyoung \uc7a5\uc6d0\uc601 240513 02.png",
+    caption: "Wonyoung cameo, soft smile tucked into the feast.",
+    shape: "square",
+    focus: "center 38%",
+    width: 1500,
+  },
+  {
+    person: "Wonyoung",
+    file: "Jang Wonyoung \uc7a5\uc6d0\uc601 240513 03.png",
+    caption: "Wonyoung cameo, bright idol-card shine.",
+    shape: "square",
+    focus: "center 38%",
+    width: 1500,
+  },
+  {
+    person: "Wonyoung",
+    file: "20241010 Wonyoung for Tommy Hilfiger 01.jpg",
+    caption: "Wonyoung cameo, crisp Tommy smile.",
+    shape: "portrait",
+    focus: "center 36%",
+    width: 1500,
+  },
+  {
+    person: "Wonyoung",
+    file: "20241010 Wonyoung for Tommy Hilfiger 02.jpg",
+    caption: "Wonyoung cameo, bright preppy cuteness.",
+    shape: "square",
+    focus: "center 38%",
+    width: 1500,
+  },
+  {
+    person: "Wonyoung",
+    file: "20241010 Wonyoung for Tommy Hilfiger 03.jpg",
+    caption: "Wonyoung cameo, clean glossy fashion-card energy.",
+    shape: "portrait",
+    focus: "center 36%",
+    width: 1500,
+  },
+  {
+    person: "Wonyoung",
+    file: "20241010 Wonyoung for Tommy Hilfiger 04.jpg",
+    caption: "Wonyoung cameo, polished smile in soft light.",
+    shape: "portrait",
+    focus: "center 36%",
+    width: 1500,
+  },
+  {
+    person: "Wonyoung",
+    file: "20241010 Wonyoung for Tommy Hilfiger 05.jpg",
+    caption: "Wonyoung cameo, cute wide-frame sparkle.",
+    shape: "wide",
+    focus: "center 42%",
+    width: 1500,
+  },
+  {
+    person: "Wonyoung",
+    file: "Jang Won-young IVE Marie Claire Korea.jpg",
+    caption: "Wonyoung cameo, soft magazine glow.",
+    shape: "portrait",
+    focus: "center 36%",
+    width: 1500,
+  },
+  {
+    person: "Wonyoung",
+    file: "Jang Wonyoung portrait 2025.jpg",
+    caption: "Wonyoung cameo, neat little portrait-card pause.",
+    shape: "square",
+    focus: "center 40%",
+    width: 1500,
+  },
+  {
+    person: "Wonyoung",
+    file: "Wonyoung at Bvlgari event.png",
+    caption: "Wonyoung cameo, glossy event smile.",
+    shape: "portrait",
+    focus: "center 36%",
+    width: 1500,
+  },
+];
+
+const ningningItems = [
+  {
     person: "Ningning",
     file: "NINGNING (54295363093).jpg",
     caption: "Ningning cameo, sweet stage sparkle before ramen returns.",
@@ -156,7 +429,196 @@ const cameoItems = [
     focus: "center 36%",
     width: 1500,
   },
+  {
+    person: "Ningning",
+    file: "250111 aespa Ningning.jpg",
+    caption: "Ningning cameo, sweet aespa stage-card glow.",
+    shape: "portrait",
+    focus: "center 36%",
+    width: 1500,
+  },
+  {
+    person: "Ningning",
+    file: "241005 Ningning K-Link Festival 02.jpg",
+    caption: "Ningning cameo, bright festival smile.",
+    shape: "portrait",
+    focus: "center 36%",
+    width: 1500,
+  },
+  {
+    person: "Ningning",
+    file: "241005 Ningning K-Link Festival.jpg",
+    caption: "Ningning cameo, soft K-Link stage sparkle.",
+    shape: "wide",
+    focus: "center 42%",
+    width: 1500,
+  },
+  {
+    person: "Ningning",
+    file: "250315 Ningning at SYNK PARALLEL LINE Encore 2.jpg",
+    caption: "Ningning cameo, cute encore glow.",
+    shape: "portrait",
+    focus: "center 36%",
+    width: 1500,
+  },
+  {
+    person: "Ningning",
+    file: "250315 Ningning at SYNK PARALLEL LINE Encore 3.jpg",
+    caption: "Ningning cameo, clean concert-card energy.",
+    shape: "portrait",
+    focus: "center 36%",
+    width: 1500,
+  },
+  {
+    person: "Ningning",
+    file: "250315 Ningning at SYNK PARALLEL LINE Encore.jpg",
+    caption: "Ningning cameo, bright stage moment before more ramen.",
+    shape: "portrait",
+    focus: "center 36%",
+    width: 1500,
+  },
+  {
+    person: "Ningning",
+    file: "250315-16 aespa Ningning 01.jpg",
+    caption: "Ningning cameo, soft red-carpet sparkle.",
+    shape: "portrait",
+    focus: "center 36%",
+    width: 1500,
+  },
+  {
+    person: "Ningning",
+    file: "250315-16 aespa Ningning 02.jpg",
+    caption: "Ningning cameo, little concert-glow pause.",
+    shape: "portrait",
+    focus: "center 36%",
+    width: 1500,
+  },
+  {
+    person: "Ningning",
+    file: "Aespa Ningning.jpg",
+    caption: "Ningning cameo, simple cute portrait energy.",
+    shape: "portrait",
+    focus: "center 36%",
+    width: 1500,
+  },
+  {
+    person: "Ningning",
+    file: "NINGNING - AESPA - 2025.01.28.jpg",
+    caption: "Ningning cameo, bright soft event smile.",
+    shape: "portrait",
+    focus: "center 36%",
+    width: 1500,
+  },
+  {
+    person: "Ningning",
+    file: "NINGNING.jpg",
+    caption: "Ningning cameo, clean little idol-card glow.",
+    shape: "portrait",
+    focus: "center 36%",
+    width: 1500,
+  },
 ];
+
+function addCameos(target, person, entries) {
+  target.push(...entries.map(([file, caption, shape = "portrait", focus = "center 36%"]) => ({
+    person,
+    file,
+    caption,
+    shape,
+    focus,
+    width: 1500,
+  })));
+}
+
+addCameos(hanniItems, "Hanni", [
+  ["2023 MMA NewJeans Hanni.jpg", "Hanni cameo, soft awards-night sparkle."],
+  ["20230921 Newjeans Hanni \ud2f0\ube44\ud150 01.jpg", "Hanni cameo, tall polished press-day frame.", "tall"],
+  ["20230921 Newjeans Hanni \ud2f0\ube44\ud150 03.jpg", "Hanni cameo, bright little stage-door smile.", "tall"],
+  ["Hanni 241022 2.jpg", "Hanni cameo, clean 2024 soft-card moment."],
+  ["Hanni 241022 2.png", "Hanni cameo, tiny polished smile before ramen."],
+  ["Hanni 241022.png", "Hanni cameo, cute compact pop-card pause."],
+  ["Hanni OLENS 1.jpg", "Hanni cameo, sweet OLENS close-up."],
+  ["Hanni OLENS 2.jpg", "Hanni cameo, gentle lens-campaign glow."],
+  ["Hanni OLensglobal.jpg", "Hanni cameo, soft bright beauty-card energy."],
+  ["Hanni at Music Bank on August 4, 2022.jpg", "Hanni cameo, early Music Bank sweetness.", "portrait", "center 34%"],
+  ["Hanni during Marie Claire interview.png", "Hanni cameo, cozy magazine-interview smile.", "square"],
+  ["NewJeans Hanni OLENS 3 (cropped).jpg", "Hanni cameo, tiny cute OLENS crop.", "square"],
+  ["NewJeans Hanni OLENS 3.jpg", "Hanni cameo, soft vertical OLENS sparkle."],
+]);
+
+addCameos(haerinItems, "Haerin", [
+  ["2023 MMA NewJeans Haerin 1.jpg", "Haerin cameo, sweet awards-night portrait."],
+  ["2023 MMA NewJeans Haerin 2.jpg", "Haerin cameo, quiet little MMA smile."],
+  ["Kang Haerin for OLENS.jpg", "Haerin cameo, tiny OLENS soft-focus card."],
+  ["NewJeans Haerin Incheon Airport 1.jpg", "Haerin cameo, small airport-day cuteness."],
+  ["NewJeans Haerin Incheon Airport 2.jpg", "Haerin cameo, gentle travel-day pause."],
+  ["NewJeans OLensglobal Haerin.jpg", "Haerin cameo, clean lens-campaign glow."],
+]);
+
+addCameos(wonyoungItems, "Wonyoung", [
+  ["20231202 IVE's Jang Wonyoung at the MAMA2023 02.png", "Wonyoung cameo, bright MAMA red-carpet smile."],
+  ["20231202 IVE's Jang Wonyoung at the MAMA2023 03.png", "Wonyoung cameo, tiny polished awards look."],
+  ["20231202 IVE's Jang Wonyoung at the MAMA2023 04.png", "Wonyoung cameo, cute awards-night sparkle.", "square"],
+  ["20250310 Jang Wonyoung 01.jpg", "Wonyoung cameo, soft 2025 portrait glow."],
+  ["20250310 Jang Wonyoung 02.jpg", "Wonyoung cameo, neat close-up smile."],
+  ["20250310 Jang Wonyoung 03.jpg", "Wonyoung cameo, tall polished idol-card energy.", "tall"],
+  ["20250310 Jang Wonyoung 04.jpg", "Wonyoung cameo, gentle bright event face."],
+  ["20250310 Jang Wonyoung 05.jpg", "Wonyoung cameo, compact cute event frame."],
+  ["20250310 Jang Wonyoung 06.jpg", "Wonyoung cameo, soft little fashion-card pause."],
+  ["IVE Wonyoung on the way to Music Bank - October 13, 2023 01.jpg", "Wonyoung cameo, Music Bank street-style sparkle."],
+  ["JANG WON YOUNG (\uc7a5\uc6d0\uc601) \u2013 MIUMIU PHOTOCALL \u2013 2025.06.20 \u2013 P1.jpg", "Wonyoung cameo, soft Miu Miu photocall smile."],
+  ["JANG WON YOUNG (\uc7a5\uc6d0\uc601) \u2013 MIUMIU PHOTOCALL \u2013 2025.06.20 \u2013 P2.jpg", "Wonyoung cameo, wide Miu Miu sparkle.", "wide", "center 42%"],
+  ["JANG WON YOUNG (\uc7a5\uc6d0\uc601) \u2013 MIUMIU PHOTOCALL \u2013 2025.06.20 \u2013 P3.jpg", "Wonyoung cameo, glossy event-card energy."],
+  ["JANG WON YOUNG (\uc7a5\uc6d0\uc601) \u2013 MIUMIU PHOTOCALL \u2013 2025.06.20 \u2013 P4.jpg", "Wonyoung cameo, tiny polished Miu Miu pause."],
+  ["JANG WON YOUNG (\uc7a5\uc6d0\uc601) \u2013 MIUMIU PHOTOCALL \u2013 2025.06.20 \u2013 P5.jpg", "Wonyoung cameo, bright fashion-week softness."],
+  ["Jang Won Young 2025.jpg", "Wonyoung cameo, clean 2025 portrait shine.", "square"],
+  ["Jang Won-young at the 2024 Melon Music Awards-2.png", "Wonyoung cameo, sweet Melon Music Awards glow."],
+  ["Jang Won-young January 29, 2026 (1).png", "Wonyoung cameo, soft January event smile."],
+  ["Jang Won-young January 29, 2026 (2).png", "Wonyoung cameo, cute winter event sparkle."],
+  ["Jang Won-young of Ive, April 16, 2025.png", "Wonyoung cameo, polished IVE event look."],
+  ["Jang Won-young of Ive, October 15, 2025.png", "Wonyoung cameo, glossy October smile."],
+  ["Jang Won-young of Ive, October 15, 2025 (2).png", "Wonyoung cameo, clean autumn fashion-card frame."],
+  ["Jang Won-young of Ive, October 15, 2025 (3).png", "Wonyoung cameo, bright soft event pause."],
+  ["Jang Won-young of Ive, October 15, 2025 (4).png", "Wonyoung cameo, neat idol-card shine."],
+  ["Jang Wonyoung \uc7a5\uc6d0\uc601 K\u00e9rastase\u2019s NEW Ambassador 01.jpg", "Wonyoung cameo, glossy K\u00e9rastase smile.", "square"],
+  ["Jang Wonyoung \uc7a5\uc6d0\uc601 K\u00e9rastase\u2019s NEW Ambassador 02.jpg", "Wonyoung cameo, soft beauty-campaign glow.", "square"],
+  ["Jang Wonyoung \uc7a5\uc6d0\uc601 K\u00e9rastase\u2019s NEW Ambassador 03.jpg", "Wonyoung cameo, clean close-up polish."],
+  ["Jang Wonyoung \uc7a5\uc6d0\uc601 K\u00e9rastase\u2019s NEW Ambassador 04.jpg", "Wonyoung cameo, bright hair-campaign sparkle.", "wide", "center 42%"],
+  ["Jang Wonyoung \uc7a5\uc6d0\uc601 K\u00e9rastase\u2019s NEW Ambassador 05.jpg", "Wonyoung cameo, cute little beauty-card moment.", "square"],
+  ["Jang Wonyoung \uc7a5\uc6d0\uc601 K\u00e9rastase\u2019s NEW Ambassador 06.jpg", "Wonyoung cameo, polished wide-frame smile.", "wide", "center 42%"],
+  ["Jang Wonyoung \uc7a5\uc6d0\uc601 K\u00e9rastase\u2019s NEW Ambassador 07.jpg", "Wonyoung cameo, glossy soft-brand energy.", "wide", "center 42%"],
+  ["Jang Wonyoung \uc7a5\uc6d0\uc601 K\u00e9rastase\u2019s NEW Ambassador 08.jpg", "Wonyoung cameo, tiny vertical beauty-card glow."],
+  ["Jang Wonyoung \uc7a5\uc6d0\uc601 K\u00e9rastase\u2019s NEW Ambassador 09.jpg", "Wonyoung cameo, tall soft portrait shine.", "tall"],
+  ["Jang Wonyoung \uc7a5\uc6d0\uc601 K\u00e9rastase\u2019s NEW Ambassador 10.jpg", "Wonyoung cameo, wide bright campaign smile.", "wide", "center 42%"],
+  ["\uc7a5\uc6d0\uc601 (JANG WONYOUNG) - RIMOWA - 2023.05.13 P1.jpg", "Wonyoung cameo, crisp RIMOWA event polish."],
+  ["\uc7a5\uc6d0\uc601 (JANG WONYOUNG) - RIMOWA - 2023.05.13 P2.jpg", "Wonyoung cameo, soft RIMOWA fashion-card pause."],
+]);
+
+addCameos(ningningItems, "Ningning", [
+  ["2023 MMA aespa Ningning 1 (cropped).jpg", "Ningning cameo, tiny MMA sparkle.", "square"],
+  ["2023 MMA aespa Ningning 1.jpg", "Ningning cameo, sweet awards-night frame."],
+  ["250316 Ningning at SYNK PARALLEL LINE Encore.jpg", "Ningning cameo, bright encore smile.", "tall"],
+  ["250316 Ningning at SYNK PARALLEL LINE Encore 2.jpg", "Ningning cameo, soft concert-card glow.", "tall"],
+  ["250316 Ningning at SYNK PARALLEL LINE Encore 3.jpg", "Ningning cameo, clean stage sparkle.", "tall"],
+  ["Aespa Ningning 2024 MMA 2.jpg", "Ningning cameo, polished MMA portrait."],
+  ["Aespa's Ningning 3.png", "Ningning cameo, cute little aespa card."],
+  ["Aespa's Ningning 4 (cropped).jpg", "Ningning cameo, soft cropped portrait.", "tall"],
+  ["Aespa's Ningning 4.jpg", "Ningning cameo, tall clean idol frame.", "tall"],
+  ["Ningning at Incheon Airport on 25022026 (1).png", "Ningning cameo, bright airport-day smile."],
+  ["Ningning at Incheon Airport on 25022026 (2).png", "Ningning cameo, soft travel-day portrait."],
+  ["Ningning at Incheon Airport on 25022026 (3).png", "Ningning cameo, neat tiny airport sparkle.", "square"],
+  ["Ningning at Incheon Airport on 25022026 (4).png", "Ningning cameo, cute travel-card pause."],
+  ["Ningning at Mise-en-Scene event on 19022026 (1).png", "Ningning cameo, soft beauty-event glow."],
+  ["Ningning at Mise-en-Scene event on 19022026 (2).png", "Ningning cameo, polished event smile."],
+  ["Ningning at Mise-en-Scene event on 19022026 (3).png", "Ningning cameo, tall bright portrait shine.", "tall"],
+  ["Ningning for Eternal Return \u00d7 aespa collaboration BTS photoshoot (cropped).jpg", "Ningning cameo, cute BTS photoshoot crop."],
+  ["Ningning for Eternal Return \u00d7 aespa collaboration BTS photoshoot.jpg", "Ningning cameo, soft gaming-collab portrait.", "tall"],
+  ["Ningning for Eternal Return \u00d7 aespa collaboration BTS photoshoot 02.jpg", "Ningning cameo, bright collab-card moment.", "tall"],
+  ["Ningning for Eternal Return \u00d7 aespa collaboration BTS photoshoot 03.jpg", "Ningning cameo, tiny sweet collab frame."],
+  ["Ningning in SBS Radio on 061021.jpg", "Ningning cameo, cozy radio-day softness."],
+]);
+
+const cameoItems = interleaveGroups([hanniItems, haerinItems, wonyoungItems, ningningItems]);
 
 const carItems = [
   {
@@ -245,30 +707,162 @@ const carItems = [
   },
 ];
 
-function weaveAccents(foodItems, cameos, cars) {
-  const woven = [];
-  const cameoInterval = 9;
-  const carInterval = 5;
-  let cameoIndex = 0;
-  let carIndex = 0;
-
-  foodItems.forEach((item, index) => {
-    const position = index + 1;
-    woven.push(item);
-
-    if (position % carInterval === 0 && carIndex < cars.length) {
-      woven.push(cars[carIndex]);
-      carIndex += 1;
-    }
-
-    if (position % cameoInterval === 0 && cameoIndex < cameos.length) {
-      woven.push(cameos[cameoIndex]);
-      cameoIndex += 1;
-    }
-  });
-
-  return woven.concat(cars.slice(carIndex), cameos.slice(cameoIndex));
-}
+carItems.push(
+  {
+    image: "https://mediapool.bmwgroup.com/download/edown/pressclub/publicq?dokNo=P90572398&attachment=1&actEvent=image",
+    url: "https://www.press.bmwgroup.com/usa/photo/compilation/T0445698EN_US/the-new-2025-bmw-2-series-gran-coupe?language=en_US",
+    caption: "BMW 2 Series Gran Coupe, another official angle with compact luxury polish.",
+    shape: "wide",
+    focus: "center 52%",
+  },
+  {
+    image: "https://mediapool.bmwgroup.com/download/edown/pressclub/publicq?dokNo=P90572399&attachment=1&actEvent=image",
+    url: "https://www.press.bmwgroup.com/usa/photo/compilation/T0445698EN_US/the-new-2025-bmw-2-series-gran-coupe?language=en_US",
+    caption: "BMW M235 Gran Coupe, sharp official side profile.",
+    shape: "cinema",
+    focus: "center 52%",
+  },
+  {
+    image: "https://mediapool.bmwgroup.com/download/edown/pressclub/publicq?dokNo=P90572401&attachment=1&actEvent=image",
+    url: "https://www.press.bmwgroup.com/usa/photo/compilation/T0445698EN_US/the-new-2025-bmw-2-series-gran-coupe?language=en_US",
+    caption: "BMW 2 Series Gran Coupe, compact sedan in clean studio light.",
+    shape: "wide",
+    focus: "center 52%",
+  },
+  {
+    image: "https://mediapool.bmwgroup.com/download/edown/pressclub/publicq?dokNo=P90572403&attachment=1&actEvent=image",
+    url: "https://www.press.bmwgroup.com/usa/photo/compilation/T0445698EN_US/the-new-2025-bmw-2-series-gran-coupe?language=en_US",
+    caption: "BMW M235 Gran Coupe, glossy official-gallery stance.",
+    shape: "wide",
+    focus: "center 52%",
+  },
+  {
+    image: "https://mediapool.bmwgroup.com/download/edown/pressclub/publicq?dokNo=P90572410&attachment=1&actEvent=image",
+    url: "https://www.press.bmwgroup.com/usa/photo/compilation/T0445698EN_US/the-new-2025-bmw-2-series-gran-coupe?language=en_US",
+    caption: "BMW compact sedan, polished wheel-and-body drama.",
+    shape: "cinema",
+    focus: "center 52%",
+  },
+  {
+    image: "https://mediapool.bmwgroup.com/download/edown/pressclub/publicq?dokNo=P90525103&attachment=1&actEvent=image",
+    url: "https://www.press.bmwgroup.com/usa/article/detail/T0437576EN_US/the-all-new-2024-bmw-x2?language=en_US",
+    caption: "BMW X2 M35i, compact SUV motion shot in official light.",
+    shape: "wide",
+    focus: "center 52%",
+  },
+  {
+    image: "https://mediapool.bmwgroup.com/download/edown/pressclub/publicq?dokNo=P90526444&attachment=1&actEvent=image",
+    url: "https://www.press.bmwgroup.com/usa/article/detail/T0437576EN_US/the-all-new-2024-bmw-x2?language=en_US",
+    caption: "BMW X2 M35i, small crossover coupe with studio polish.",
+    shape: "wide",
+    focus: "center 52%",
+  },
+  {
+    image: "https://mediapool.bmwgroup.com/download/edown/pressclub/publicq?dokNo=P90526454&attachment=1&actEvent=image",
+    url: "https://www.press.bmwgroup.com/usa/article/detail/T0437576EN_US/the-all-new-2024-bmw-x2?language=en_US",
+    caption: "BMW X2, compact SUV details in clean official framing.",
+    shape: "cinema",
+    focus: "center 52%",
+  },
+  {
+    image: "https://uploads.audi-mediacenter.com/system/production/media/127895/images/957c20c3791cbf52ae3475f678271487efdd3f95/A250791_web_2880.jpg?1748436325",
+    url: "https://www.audi-mediacenter.com/en/photos/detail/audi-q3-suv-127895",
+    caption: "Audi Q3, compact SUV in a wide official hero frame.",
+    shape: "wide",
+    focus: "center 52%",
+  },
+  {
+    image: "https://uploads.audi-mediacenter.com/system/production/media/128051/images/28b864175b6f35876edb5af8a3fc54dfa7e61d51/A250947_web_2880.jpg?1749650114",
+    url: "https://www.audi-mediacenter.com/en/photos/detail/audi-q3-suv-128051",
+    caption: "Audi Q3, glossy official compact-SUV angle.",
+    shape: "cinema",
+    focus: "center 52%",
+  },
+  {
+    image: "https://uploads.audi-mediacenter.com/system/production/media/126504/images/9f28633676145742c2d7b4c8dfe655055ccd9c72/A244352_web_2880.jpg?1728460591",
+    url: "https://www.audi-mediacenter.com/en/press-releases/more-powerful-and-efficient-than-ever-the-new-a3-sportback-tfsi-e-16301",
+    caption: "Audi A3 Sportback TFSI e, compact hatchback with clean electric polish.",
+    shape: "wide",
+    focus: "center 52%",
+  },
+  {
+    image: "https://uploads.audi-mediacenter.com/system/production/media/127844/images/6053422634b8200365c67ff7b046cbdf1452d50c/A250740_web_2880.jpg?1747923248",
+    url: "https://www.audi-mediacenter.com/en/press-releases/more-powerful-and-efficient-than-ever-the-new-a3-sportback-tfsi-e-16301",
+    caption: "Audi A3, compact future-garage inspiration in official light.",
+    shape: "cinema",
+    focus: "center 52%",
+  },
+  {
+    image: "https://uploads.audi-mediacenter.com/system/production/media/127845/images/eb7b0616ae1f2e800a60199af6ae9557d92bceef/A250741_web_2880.jpg?1747923247",
+    url: "https://www.audi-mediacenter.com/en/press-releases/more-powerful-and-efficient-than-ever-the-new-a3-sportback-tfsi-e-16301",
+    caption: "Audi A3 Sportback, clean compact hatchback dream.",
+    shape: "wide",
+    focus: "center 52%",
+  },
+  {
+    image: "https://uploads.audi-mediacenter.com/system/production/media/124849/images/bad6453d11e7d3705523e3fc1ea72345c2774f4b/A242738_web_2880.jpg?1718705696",
+    url: "https://www.audi-mediacenter.com/en/photos/detail/lap-record-for-audi-sport-in-the-compact-segment-124849",
+    caption: "Audi RS 3, compact sedan track shot with official polish.",
+    shape: "wide",
+    focus: "center 52%",
+  },
+  {
+    image: "https://uploads.audi-mediacenter.com/system/production/media/124852/images/c701ea62ded3a4ed701b87beb6c43b97674dfdea/A242741_web_2880.jpg?1718705681",
+    url: "https://www.audi-mediacenter.com/en/press-releases/back-on-track-lap-record-for-audi-sport-in-the-compact-segment-16057",
+    caption: "Audi RS 3, small fast sedan in official action light.",
+    shape: "cinema",
+    focus: "center 52%",
+  },
+  {
+    image: "https://uploads.audi-mediacenter.com/system/production/media/124858/images/b012bb06448b68ff62cb19968db8438b11c938b7/A242747_web_2880.jpg?1718704979",
+    url: "https://www.audi-mediacenter.com/en/press-releases/back-on-track-lap-record-for-audi-sport-in-the-compact-segment-16057",
+    caption: "Audi RS 3, compact track-day wallpaper energy.",
+    shape: "wide",
+    focus: "center 52%",
+  },
+  {
+    image: "https://mediapool.bmwgroup.com/download/edown/pressclub/publicq?dokNo=P90542997&attachment=1&actEvent=image",
+    url: "https://www.press.bmwgroup.com/usa/photo/detail/P90542997/MINI-John-Cooper-Works-Countryman-03-2024",
+    caption: "MINI Countryman JCW, compact crossover in official motion.",
+    shape: "cinema",
+    focus: "center 52%",
+  },
+  {
+    image: "https://mediapool.bmwgroup.com/download/edown/pressclub/publicq?dokNo=P90543008&attachment=1&actEvent=image",
+    url: "https://www.press.bmwgroup.com/usa/photo/detail/P90543008/MINI-John-Cooper-Works-Countryman-03-2024",
+    caption: "MINI Countryman, punchy little SUV with clean press energy.",
+    shape: "wide",
+    focus: "center 52%",
+  },
+  {
+    image: "https://mediapool.bmwgroup.com/download/edown/pressclub/publicq?dokNo=P90543009&attachment=1&actEvent=image",
+    url: "https://www.press.bmwgroup.com/usa/photo/detail/P90543009/MINI-John-Cooper-Works-Countryman-03-2024",
+    caption: "MINI Countryman, compact premium crossover in official framing.",
+    shape: "wide",
+    focus: "center 52%",
+  },
+  {
+    image: "https://mediapool.bmwgroup.com/download/edown/pressclub/publicq?dokNo=P90543011&attachment=1&actEvent=image",
+    url: "https://www.press.bmwgroup.com/usa/photo/detail/P90543011/MINI-John-Cooper-Works-Countryman-03-2024",
+    caption: "MINI JCW Countryman, small SUV dopamine in a gallery shot.",
+    shape: "cinema",
+    focus: "center 52%",
+  },
+  {
+    image: "https://mediapool.bmwgroup.com/download/edown/pressclub/publicq?dokNo=P90543025&attachment=1&actEvent=image",
+    url: "https://www.press.bmwgroup.com/usa/photo/detail/P90543025/MINI-John-Cooper-Works-Countryman-03-2024",
+    caption: "MINI Countryman JCW, playful compact crossover polish.",
+    shape: "wide",
+    focus: "center 52%",
+  },
+  {
+    image: "https://mediapool.bmwgroup.com/download/edown/pressclub/publicq?dokNo=P90543026&attachment=1&actEvent=image",
+    url: "https://www.press.bmwgroup.com/usa/photo/detail/P90543026/MINI-John-Cooper-Works-Countryman-03-2024",
+    caption: "MINI Countryman, official compact-SUV inspiration frame.",
+    shape: "wide",
+    focus: "center 52%",
+  }
+);
 
 function uniqueBySource(list) {
   const seen = new Set();
@@ -280,18 +874,26 @@ function uniqueBySource(list) {
   });
 }
 
-function uniqueByPerson(list) {
-  const seen = new Set();
-  return list.filter((item) => {
-    const key = item.person || item.caption;
-    if (seen.has(key)) return false;
-    seen.add(key);
-    return true;
-  });
+function interleaveGroups(groups) {
+  const longest = Math.max(...groups.map((group) => group.length));
+  const interleaved = [];
+  for (let index = 0; index < longest; index += 1) {
+    groups.forEach((group) => {
+      if (group[index]) interleaved.push(group[index]);
+    });
+  }
+  return interleaved;
 }
 
-const foodItems = baseItems.filter((item) => !item.file || !skippedFiles.has(item.file));
-const items = uniqueBySource(weaveAccents(foodItems, uniqueByPerson(cameoItems), carItems));
+const carInterval = 5;
+const cameoInterval = 9;
+const foodItems = uniqueBySource(baseItems.filter((item) => !item.file || !skippedFiles.has(item.file)));
+const kpopItems = uniqueBySource(cameoItems);
+const dreamCarItems = uniqueBySource(carItems);
+
+function cycleItem(pool, index) {
+  return pool[index % pool.length];
+}
 
 function imageFor(item) {
   return item.image || commonsImage(item.file, item.width || 1800);
@@ -330,11 +932,6 @@ function createTile(item, index) {
 }
 
 const batchSize = 64;
-
-function batchItems(batch) {
-  const start = batch * batchSize;
-  return items.slice(start, start + batchSize);
-}
 
 function columnCount() {
   const width = window.innerWidth || document.documentElement.clientWidth || 1200;
@@ -394,21 +991,34 @@ function render() {
   sentinel.setAttribute("aria-hidden", "true");
 
   let batch = 0;
-  let exhausted = false;
+  let foodIndex = 0;
+  let carIndex = 0;
+  let cameoIndex = 0;
   const renderedItems = [];
   const appendBatch = () => {
-    if (exhausted) return;
-    const nextItems = batchItems(batch);
-    if (!nextItems.length) {
-      exhausted = true;
-      sentinel.hidden = true;
-      return;
+    const nextItems = [];
+
+    while (nextItems.length < batchSize) {
+      const position = foodIndex + 1;
+      nextItems.push(cycleItem(foodItems, foodIndex));
+
+      if (position % carInterval === 0) {
+        nextItems.push(cycleItem(dreamCarItems, carIndex));
+        carIndex += 1;
+      }
+
+      if (position % cameoInterval === 0) {
+        nextItems.push(cycleItem(kpopItems, cameoIndex));
+        cameoIndex += 1;
+      }
+
+      foodIndex += 1;
     }
+
     renderedItems.push(...nextItems);
     layoutWall(wall, renderedItems);
     batch += 1;
-    exhausted = renderedItems.length >= items.length;
-    sentinel.hidden = exhausted;
+    sentinel.dataset.batch = String(batch);
   };
 
   appendBatch();
@@ -416,7 +1026,7 @@ function render() {
 
   if ("IntersectionObserver" in window) {
     const observer = new IntersectionObserver((entries) => {
-      if (!exhausted && entries.some((entry) => entry.isIntersecting)) {
+      if (entries.some((entry) => entry.isIntersecting)) {
         appendBatch();
       }
     }, { rootMargin: "1800px 0px" });
@@ -424,7 +1034,7 @@ function render() {
   } else {
     window.addEventListener("scroll", () => {
       const nearBottom = window.innerHeight + window.scrollY > document.body.offsetHeight - 1800;
-      if (!exhausted && nearBottom) appendBatch();
+      if (nearBottom) appendBatch();
     }, { passive: true });
   }
 
