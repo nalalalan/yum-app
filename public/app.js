@@ -620,6 +620,19 @@ addCameos(ningningItems, "Ningning", [
 
 const cameoItems = interleaveGroups([hanniItems, haerinItems, wonyoungItems, ningningItems]);
 
+const blockedCameoFiles = new Set([
+  "Newjeans Hanni 2023 01.jpg",
+  "Newjeans Hanni 2023 02.jpg",
+  "Newjeans Hanni 2023 03.jpg",
+  "Newjeans Hanni 2023 04.jpg",
+  "Newjeans Hanni 2023 05.jpg",
+  "Newjeans Hanni 2023 06.png",
+  "Newjeans Hanni 2023 07.png",
+  "Newjeans Hanni 2023 08.png",
+  "Newjeans Hanni 2023 09.png",
+  "Newjeans Hanni 2023 10.jpg",
+]);
+
 const carItems = [
   {
     image: "https://mediapool.bmwgroup.com/cache/P9/202410/P90572660/P90572660-the-new-bmw-m235-xdrive-gran-coup-10-2024-2100px.jpg",
@@ -888,7 +901,7 @@ function interleaveGroups(groups) {
 const carInterval = 5;
 const cameoInterval = 9;
 const foodItems = uniqueBySource(baseItems.filter((item) => !item.file || !skippedFiles.has(item.file)));
-const kpopItems = uniqueBySource(cameoItems);
+const kpopItems = uniqueBySource(cameoItems.filter((item) => !blockedCameoFiles.has(item.file)));
 const dreamCarItems = uniqueBySource(carItems);
 
 function cycleItem(pool, index) {
