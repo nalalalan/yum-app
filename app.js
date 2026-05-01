@@ -100,6 +100,8 @@ const skippedFiles = new Set([
   "Cheeseburger.jpg",
   "Cheese Burger - Las Vegas.jpg",
   "Hamburger and fries.jpg",
+  "Steak dinner with vegetables.jpg",
+  "Steak (1).jpg",
   "Steak dinner (3292786869).jpg",
   "Gfp-steak-and-shrimp-dinner.jpg",
   "The Quesadilla.jpg",
