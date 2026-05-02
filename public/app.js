@@ -546,6 +546,30 @@ const eunchaeItems = [
     focus: "center 42%",
     width: 1500,
   },
+  {
+    person: "Eunchae",
+    file: "Easy Crazy Hot Tour in Seattle - le sserafim (54795963372).jpg",
+    caption: "Eunchae with LE SSERAFIM, white tour styling under red light.",
+    shape: "wide",
+    focus: "center 42%",
+    width: 1500,
+  },
+  {
+    person: "Eunchae",
+    file: "Easy Crazy Hot Tour in Seattle - le sserafim (54795963367).jpg",
+    caption: "Eunchae with LE SSERAFIM, crisp white tour styling.",
+    shape: "wide",
+    focus: "center 42%",
+    width: 1500,
+  },
+  {
+    person: "Eunchae",
+    file: "Le Sserafim in Manila (2025).jpg",
+    caption: "Eunchae with LE SSERAFIM, pink tour styling under soft lights.",
+    shape: "wide",
+    focus: "center 42%",
+    width: 1500,
+  },
 ];
 
 function addCameos(target, person, entries) {
@@ -986,6 +1010,9 @@ const adultEunchaeFiles = new Set([
   "Hong Eunchae of Le Sserafim, January 10, 2025.png",
   "Le Sserafim at 2026 Golden Disc awards.png",
   "Le Sserafim at the 2026 Golden Disc Awards.png",
+  "Easy Crazy Hot Tour in Seattle - le sserafim (54795963372).jpg",
+  "Easy Crazy Hot Tour in Seattle - le sserafim (54795963367).jpg",
+  "Le Sserafim in Manila (2025).jpg",
 ]);
 
 function isAllowedCameo(item) {
@@ -999,6 +1026,7 @@ function isAllowedCameo(item) {
 
 function glamCaption(item) {
   if (!item.person) return item;
+  if (item.person === "Eunchae") return item;
   const source = `${item.file || ""} ${item.caption || ""}`.toLowerCase();
   let mood = "polished editorial glow";
   if (/mma|mama|melon|golden|disc/.test(source)) {
