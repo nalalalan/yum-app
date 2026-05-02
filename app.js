@@ -985,7 +985,7 @@ carItems.push(
 function uniqueBySource(list) {
   const seen = new Set();
   return list.filter((item) => {
-    const key = item.image || item.file || item.url || item.caption;
+    const key = sourceKey(item);
     if (seen.has(key)) return false;
     seen.add(key);
     return true;
@@ -1075,7 +1075,10 @@ function sourceFor(item) {
 }
 
 function sourceKey(item) {
-  return item.image || item.file || item.url || item.caption;
+  return String(item.image || item.file || item.url || item.caption || "")
+    .replace(/\s+/g, " ")
+    .trim()
+    .toLowerCase();
 }
 
 function buildUniqueFeed() {
