@@ -1062,9 +1062,63 @@ function buildCameoPool(list) {
 
 const carInterval = 5;
 const cameoInterval = 9;
+const batchSize = 64;
+const onlineBatchSize = 24;
 const foodItems = uniqueBySource(baseItems.filter((item) => !item.file || !skippedFiles.has(item.file)));
 const kpopItems = buildCameoPool(cameoItems);
 const dreamCarItems = uniqueBySource(carItems);
+
+const onlineSources = [
+  { query: "salmon sushi sashimi", label: "Salmon sushi", requireAny: ["salmon", "sushi", "sashimi"] },
+  { query: "nigiri sushi salmon", label: "Salmon nigiri", requireAny: ["salmon", "nigiri", "sushi"] },
+  { query: "ramen noodles egg", label: "Ramen", requireAny: ["ramen", "noodle"] },
+  { query: "tonkotsu ramen", label: "Tonkotsu ramen", requireAny: ["tonkotsu", "ramen"] },
+  { query: "Korean barbecue beef ribs", label: "Korean barbecue", requireAny: ["galbi", "kalbi", "barbecue", "bbq", "beef"] },
+  { query: "LA galbi Korean", label: "LA galbi", requireAny: ["galbi", "kalbi"] },
+  { query: "bulgogi beef", label: "Bulgogi", requireAny: ["bulgogi", "beef"] },
+  { query: "sundubu jjigae tofu", label: "Soft tofu soup", requireAny: ["sundubu", "tofu", "jjigae"] },
+  { query: "soft shell crab sushi", label: "Soft shell crab sushi", requireAny: ["soft", "crab", "sushi"] },
+  { query: "spider roll sushi", label: "Spider roll", requireAny: ["spider", "crab", "sushi", "roll"] },
+  { query: "soju bottle", label: "Soju", requireAny: ["soju"] },
+  { query: "Chinese dumplings jiaozi", label: "Jiaozi", requireAny: ["jiaozi", "dumpling"] },
+  { query: "Vietnamese pho beef", label: "Beef pho", requireAny: ["pho", "beef"] },
+  { query: "Italian pasta carbonara", label: "Carbonara", requireAny: ["carbonara", "pasta", "spaghetti"] },
+  { query: "fettuccine alfredo", label: "Fettuccine Alfredo", requireAny: ["fettuccine", "alfredo", "pasta"] },
+  { query: "restaurant cheeseburger close up", label: "Cheeseburger", requireAny: ["burger", "cheeseburger"] },
+  { query: "steak restaurant dinner", label: "Steak dinner", requireAny: ["steak", "beef"] },
+  { query: "barbecue beef ribs", label: "Beef ribs", requireAny: ["beef", "ribs", "barbecue"] },
+  { query: "BMW 2 Series Gran Coupe 2025", label: "BMW compact sedan", kind: "car", requireAny: ["bmw"] },
+  { query: "BMW X1 2025", label: "BMW compact SUV", kind: "car", requireAny: ["bmw", "x1"] },
+  { query: "BMW iX2 2024", label: "BMW compact SUV", kind: "car", requireAny: ["bmw", "ix2"] },
+  { query: "Mercedes CLA 2025", label: "Mercedes compact sedan", kind: "car", requireAny: ["mercedes", "cla"] },
+  { query: "Mercedes GLA 2025", label: "Mercedes compact SUV", kind: "car", requireAny: ["mercedes", "gla"] },
+  { query: "Audi A3 Sportback 2024", label: "Audi compact hatchback", kind: "car", requireAny: ["audi", "a3"] },
+  { query: "Audi Q3 2025", label: "Audi compact SUV", kind: "car", requireAny: ["audi", "q3"] },
+];
+
+const blockedOnlineTitleTerms = [
+  "ai generated",
+  "artificial intelligence",
+  "drawing",
+  "diagram",
+  "illustration",
+  "logo",
+  "map",
+  "menu",
+  "raw meat",
+  "uncooked",
+  "onion",
+  "chili",
+  "chilli",
+  "jalapeno",
+  "pepper",
+  "spicy",
+  "curry",
+  "indian",
+  "mediterranean",
+];
+
+let onlineSourceIndex = 0;
 
 function imageFor(item) {
   return item.image || commonsImage(item.file, item.width || 1800);
@@ -1074,8 +1128,41 @@ function sourceFor(item) {
   return item.url || commonsSource(item.file);
 }
 
+function normalizeSourceText(value) {
+  try {
+    return decodeURIComponent(String(value || ""));
+  } catch {
+    return String(value || "");
+  }
+}
+
+function canonicalFileKey(value) {
+  const raw = String(value || "");
+  if (!raw) return "";
+  const withoutQuery = raw.split("?")[0];
+  let fileName = withoutQuery;
+  try {
+    fileName = new URL(raw, "https://yum.aolabs.io/").pathname.split("/").pop() || withoutQuery;
+  } catch {
+    fileName = withoutQuery.split("/").pop() || withoutQuery;
+  }
+
+  const normalized = normalizeSourceText(fileName)
+    .replace(/^file:/i, "")
+    .replace(/_/g, " ")
+    .replace(/\s+/g, " ")
+    .trim()
+    .toLowerCase();
+
+  return /\.(jpe?g|png|webp)$/i.test(normalized) ? `file:${normalized}` : "";
+}
+
 function sourceKey(item) {
-  return String(item.image || item.file || item.url || item.caption || "")
+  const primary = item.sourceId || item.file || item.original || item.image || item.url || item.caption || "";
+  const fileKey = canonicalFileKey(primary);
+  if (fileKey) return fileKey;
+
+  return normalizeSourceText(primary)
     .replace(/\s+/g, " ")
     .trim()
     .toLowerCase();
@@ -1123,6 +1210,150 @@ function buildUniqueFeed() {
   return feed;
 }
 
+function cleanOnlineTitle(title) {
+  return normalizeSourceText(title || "")
+    .replace(/^file:/i, "")
+    .replace(/\.(jpe?g|png|webp)$/i, "")
+    .replace(/[_-]+/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+function hasRequiredOnlineTerms(title, source) {
+  if (!source.requireAny || !source.requireAny.length) return true;
+  const lower = title.toLowerCase();
+  return source.requireAny.some((term) => lower.includes(term));
+}
+
+function isBlockedOnlineTitle(title) {
+  const lower = title.toLowerCase();
+  return blockedOnlineTitleTerms.some((term) => lower.includes(term));
+}
+
+function shapeFromDimensions(width, height, fallback = "portrait") {
+  const ratio = width / Math.max(height, 1);
+  if (ratio >= 1.75) return "cinema";
+  if (ratio >= 1.18) return "wide";
+  if (ratio <= 0.6) return "tall";
+  if (ratio <= 0.86) return "portrait";
+  return fallback;
+}
+
+function onlineCaption(source, pageTitle) {
+  const title = cleanOnlineTitle(pageTitle);
+  return `${source.label} online find${title ? `: ${title}.` : "."}`;
+}
+
+function commonsSearchUrl(source) {
+  const params = new URLSearchParams({
+    action: "query",
+    generator: "search",
+    gsrnamespace: "6",
+    gsrsearch: source.query,
+    gsrlimit: "36",
+    prop: "imageinfo",
+    iiprop: "url|mime|size",
+    iiurlwidth: "2200",
+    format: "json",
+    origin: "*",
+  });
+
+  if (source.offset) {
+    params.set("gsroffset", String(source.offset));
+  }
+
+  return `https://commons.wikimedia.org/w/api.php?${params.toString()}`;
+}
+
+function itemFromCommonsPage(source, page) {
+  const info = page.imageinfo && page.imageinfo[0];
+  if (!info) return null;
+
+  const title = cleanOnlineTitle(page.title);
+  const lowerTitle = title.toLowerCase();
+  const width = Number(info.width) || 0;
+  const height = Number(info.height) || 0;
+  const mime = String(info.mime || "").toLowerCase();
+  const ratio = width / Math.max(height, 1);
+
+  if (!/^image\/(jpeg|png|webp)$/.test(mime)) return null;
+  if (width < 900 || height < 650 || width * height < 900000) return null;
+  if (ratio < 0.42 || ratio > 2.7) return null;
+  if (!hasRequiredOnlineTerms(lowerTitle, source)) return null;
+  if (isBlockedOnlineTitle(lowerTitle)) return null;
+
+  if (source.kind === "car" && /dealer|dealership|auction|sale|crash|wreck|damaged|police|taxi/i.test(lowerTitle)) {
+    return null;
+  }
+
+  const fileName = String(page.title || "").replace(/^File:/i, "");
+  return {
+    image: info.thumburl || info.url,
+    original: info.url,
+    sourceId: fileName,
+    url: commonsSource(fileName),
+    caption: onlineCaption(source, page.title),
+    shape: shapeFromDimensions(width, height, source.kind === "car" ? "wide" : "portrait"),
+    focus: "center 50%",
+  };
+}
+
+function nextOnlineSource() {
+  for (let index = 0; index < onlineSources.length; index += 1) {
+    const source = onlineSources[onlineSourceIndex % onlineSources.length];
+    onlineSourceIndex += 1;
+    if (!source.exhausted) return source;
+  }
+  return null;
+}
+
+async function fetchOnlineSource(source) {
+  const response = await fetch(commonsSearchUrl(source), { headers: { Accept: "application/json" } });
+  if (!response.ok) {
+    throw new Error(`Commons search failed: ${response.status}`);
+  }
+
+  const data = await response.json();
+  const pages = Object.values((data.query && data.query.pages) || {})
+    .sort((a, b) => (a.index || 0) - (b.index || 0));
+
+  if (data.continue && data.continue.gsroffset) {
+    source.offset = data.continue.gsroffset;
+  } else {
+    source.exhausted = true;
+  }
+
+  return pages
+    .map((page) => itemFromCommonsPage(source, page))
+    .filter(Boolean);
+}
+
+async function loadMoreOnlineItems(seenKeys, targetCount = onlineBatchSize) {
+  const collected = [];
+  let attempts = 0;
+
+  while (collected.length < targetCount && attempts < onlineSources.length * 3) {
+    const source = nextOnlineSource();
+    if (!source) break;
+
+    attempts += 1;
+    try {
+      const onlineItems = await fetchOnlineSource(source);
+      onlineItems.forEach((item) => {
+        const key = sourceKey(item);
+        if (seenKeys.has(key)) return;
+        seenKeys.add(key);
+        collected.push(item);
+      });
+    } catch {
+      source.failures = (source.failures || 0) + 1;
+      if (source.failures >= 2) source.exhausted = true;
+    }
+  }
+
+  return collected.slice(0, targetCount);
+}
+
 function createTile(item, index) {
   const link = document.createElement("a");
   link.className = `tile tile--${item.shape || "standard"}`;
@@ -1150,8 +1381,6 @@ function createTile(item, index) {
   link.append(img, caption);
   return link;
 }
-
-const batchSize = 64;
 
 function columnCount() {
   const width = window.innerWidth || document.documentElement.clientWidth || 1200;
@@ -1213,31 +1442,45 @@ function render() {
   sentinel.setAttribute("aria-hidden", "true");
 
   const feedItems = buildUniqueFeed();
+  const seenKeys = new Set(feedItems.map(sourceKey));
   let cursor = 0;
   let exhausted = false;
+  let loading = false;
   const renderedItems = [];
-  const appendBatch = () => {
-    if (exhausted) return;
+  const appendBatch = async () => {
+    if (exhausted || loading) return;
+    loading = true;
+    try {
+      if (cursor >= feedItems.length) {
+        const onlineItems = await loadMoreOnlineItems(seenKeys, onlineBatchSize);
+        feedItems.push(...onlineItems);
+        if (!onlineItems.length) {
+          exhausted = onlineSources.every((source) => source.exhausted);
+        }
+      }
 
-    const nextItems = feedItems.slice(cursor, cursor + batchSize);
-    cursor += nextItems.length;
-    if (cursor >= feedItems.length) {
-      exhausted = true;
+      const nextItems = feedItems.slice(cursor, cursor + batchSize);
+      cursor += nextItems.length;
+      if (!nextItems.length && onlineSources.every((source) => source.exhausted)) {
+        exhausted = true;
+      }
+
+      renderedItems.push(...nextItems);
+      layoutWall(wall, renderedItems);
+      sentinel.dataset.remaining = String(Math.max(0, feedItems.length - cursor));
+    } finally {
+      loading = false;
     }
-
-    renderedItems.push(...nextItems);
-    layoutWall(wall, renderedItems);
-    sentinel.dataset.remaining = String(Math.max(0, feedItems.length - cursor));
   };
 
-  appendBatch();
-  appendBatch();
+  appendBatch().then(() => appendBatch());
 
   if ("IntersectionObserver" in window) {
     const observer = new IntersectionObserver((entries) => {
       if (entries.some((entry) => entry.isIntersecting)) {
-        appendBatch();
-        if (exhausted) observer.disconnect();
+        appendBatch().then(() => {
+          if (exhausted) observer.disconnect();
+        });
       }
     }, { rootMargin: "1800px 0px" });
     observer.observe(sentinel);
