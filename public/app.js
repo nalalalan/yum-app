@@ -1060,10 +1060,10 @@ function buildCameoPool(list) {
   return interleaveGroups(grouped);
 }
 
-const carInterval = 5;
-const cameoInterval = 9;
 const batchSize = 64;
 const onlineBatchSize = 24;
+const categories = ["food", "kpop", "car"];
+const mixPattern = ["food", "kpop", "car", "food", "car", "kpop", "food", "kpop", "car", "food", "car", "kpop"];
 const foodItems = uniqueBySource(baseItems.filter((item) => !item.file || !skippedFiles.has(item.file)));
 const kpopItems = buildCameoPool(cameoItems);
 const dreamCarItems = uniqueBySource(carItems);
@@ -1094,7 +1094,16 @@ const onlineSources = [
   { query: "Mercedes GLA 2025", label: "Mercedes compact SUV", kind: "car", requireAny: ["mercedes", "gla"] },
   { query: "Audi A3 Sportback 2024", label: "Audi compact hatchback", kind: "car", requireAny: ["audi", "a3"] },
   { query: "Audi Q3 2025", label: "Audi compact SUV", kind: "car", requireAny: ["audi", "q3"] },
+  { query: "Hanni NewJeans 2025", label: "Hanni", category: "kpop", person: "Hanni", requireAny: ["hanni", "newjeans"] },
+  { query: "Haerin NewJeans 2025", label: "Haerin", category: "kpop", person: "Haerin", requireAny: ["haerin", "newjeans"] },
+  { query: "Jang Wonyoung 2025", label: "Wonyoung", category: "kpop", person: "Wonyoung", requireAny: ["wonyoung", "jang"] },
+  { query: "Ningning aespa 2025", label: "Ningning", category: "kpop", person: "Ningning", requireAny: ["ningning", "aespa"] },
+  { query: "Hong Eunchae 2025", label: "Eunchae", category: "kpop", person: "Eunchae", requireAny: ["eunchae", "le sserafim"] },
 ];
+
+onlineSources.forEach((source) => {
+  source.category = source.category || (source.kind === "car" ? "car" : "food");
+});
 
 const blockedOnlineTitleTerms = [
   "ai generated",
@@ -1116,9 +1125,16 @@ const blockedOnlineTitleTerms = [
   "curry",
   "indian",
   "mediterranean",
+  "airport",
+  "concert",
+  "festival",
+  "live",
+  "microphone",
+  "music bank",
+  "radio",
 ];
 
-let onlineSourceIndex = 0;
+const onlineSourceIndex = { food: 0, kpop: 0, car: 0 };
 
 function imageFor(item) {
   return item.image || commonsImage(item.file, item.width || 1800);
@@ -1168,43 +1184,71 @@ function sourceKey(item) {
     .toLowerCase();
 }
 
-function buildUniqueFeed() {
-  const feed = [];
-  const seen = new Set();
-  let foodIndex = 0;
-  let carIndex = 0;
-  let cameoIndex = 0;
-  let foodPosition = 0;
+function taggedItems(items, category) {
+  return items.map((item) => ({ ...item, category }));
+}
 
-  const addUnique = (item) => {
-    if (!item) return;
-    const key = sourceKey(item);
-    if (seen.has(key)) return;
-    seen.add(key);
-    feed.push(item);
+function createFeedState() {
+  const queues = {
+    food: taggedItems(foodItems, "food"),
+    kpop: taggedItems(kpopItems, "kpop"),
+    car: taggedItems(dreamCarItems, "car"),
   };
+  const queuedKeys = new Set(categories.flatMap((category) => queues[category].map(sourceKey)));
+  return {
+    queues,
+    queuedKeys,
+    seenKeys: new Set(),
+    patternIndex: 0,
+    exhausted: false,
+  };
+}
 
-  while (foodIndex < foodItems.length || carIndex < dreamCarItems.length || cameoIndex < kpopItems.length) {
-    if (foodIndex < foodItems.length) {
-      foodPosition += 1;
-      addUnique(foodItems[foodIndex]);
-      foodIndex += 1;
+function enqueueUnique(state, category, item) {
+  if (!item) return false;
+  const nextItem = { ...item, category: item.category || category };
+  const key = sourceKey(nextItem);
+  if (!key || state.seenKeys.has(key) || state.queuedKeys.has(key)) return false;
+  state.queuedKeys.add(key);
+  state.queues[category].push(nextItem);
+  return true;
+}
 
-      if (foodPosition % carInterval === 0 && carIndex < dreamCarItems.length) {
-        addUnique(dreamCarItems[carIndex]);
-        carIndex += 1;
-      }
+function dequeueUnique(state, category) {
+  const queue = state.queues[category] || [];
+  while (queue.length) {
+    const item = queue.shift();
+    const key = sourceKey(item);
+    if (state.seenKeys.has(key)) continue;
+    state.seenKeys.add(key);
+    return item;
+  }
+  return null;
+}
 
-      if (foodPosition % cameoInterval === 0 && cameoIndex < kpopItems.length) {
-        addUnique(kpopItems[cameoIndex]);
-        cameoIndex += 1;
-      }
-    } else {
-      addUnique(dreamCarItems[carIndex]);
-      carIndex += 1;
-      addUnique(kpopItems[cameoIndex]);
-      cameoIndex += 1;
+function fallbackCategories(preferred) {
+  return [preferred, ...categories.filter((category) => category !== preferred)];
+}
+
+function buildUniqueFeed() {
+  const state = createFeedState();
+  const feed = [];
+  let misses = 0;
+
+  while (misses < mixPattern.length * categories.length) {
+    const preferred = mixPattern[state.patternIndex % mixPattern.length];
+    state.patternIndex += 1;
+    let item = null;
+    for (const category of fallbackCategories(preferred)) {
+      item = dequeueUnique(state, category);
+      if (item) break;
     }
+    if (!item) {
+      misses += 1;
+      continue;
+    }
+    feed.push(item);
+    misses = 0;
   }
 
   return feed;
@@ -1286,6 +1330,10 @@ function itemFromCommonsPage(source, page) {
     return null;
   }
 
+  if (source.category === "kpop" && /2020|2021|2022|2023|220|230|fan|fancam|stage|performance/i.test(lowerTitle)) {
+    return null;
+  }
+
   const fileName = String(page.title || "").replace(/^File:/i, "");
   return {
     image: info.thumburl || info.url,
@@ -1293,18 +1341,19 @@ function itemFromCommonsPage(source, page) {
     sourceId: fileName,
     url: commonsSource(fileName),
     caption: onlineCaption(source, page.title),
+    category: source.category,
+    person: source.person || "",
     shape: shapeFromDimensions(width, height, source.kind === "car" ? "wide" : "portrait"),
     focus: "center 50%",
   };
 }
 
-function nextOnlineSource() {
-  for (let index = 0; index < onlineSources.length; index += 1) {
-    const source = onlineSources[onlineSourceIndex % onlineSources.length];
-    onlineSourceIndex += 1;
-    if (!source.exhausted) return source;
-  }
-  return null;
+function nextOnlineSource(category) {
+  const sources = onlineSources.filter((source) => source.category === category && !source.exhausted);
+  if (!sources.length) return null;
+  const source = sources[onlineSourceIndex[category] % sources.length];
+  onlineSourceIndex[category] += 1;
+  return source;
 }
 
 async function fetchOnlineSource(source) {
@@ -1328,22 +1377,19 @@ async function fetchOnlineSource(source) {
     .filter(Boolean);
 }
 
-async function loadMoreOnlineItems(seenKeys, targetCount = onlineBatchSize) {
-  const collected = [];
+async function loadMoreOnlineItemsForCategory(state, category, targetCount = onlineBatchSize) {
+  let added = 0;
   let attempts = 0;
 
-  while (collected.length < targetCount && attempts < onlineSources.length * 3) {
-    const source = nextOnlineSource();
+  while (added < targetCount && attempts < onlineSources.length * 2) {
+    const source = nextOnlineSource(category);
     if (!source) break;
 
     attempts += 1;
     try {
       const onlineItems = await fetchOnlineSource(source);
       onlineItems.forEach((item) => {
-        const key = sourceKey(item);
-        if (seenKeys.has(key)) return;
-        seenKeys.add(key);
-        collected.push(item);
+        if (enqueueUnique(state, category, item)) added += 1;
       });
     } catch {
       source.failures = (source.failures || 0) + 1;
@@ -1351,7 +1397,48 @@ async function loadMoreOnlineItems(seenKeys, targetCount = onlineBatchSize) {
     }
   }
 
-  return collected.slice(0, targetCount);
+  return added;
+}
+
+async function nextMixedItems(state, targetCount = batchSize) {
+  const nextItems = [];
+  let misses = 0;
+
+  while (nextItems.length < targetCount && misses < mixPattern.length * categories.length) {
+    const preferred = mixPattern[state.patternIndex % mixPattern.length];
+    state.patternIndex += 1;
+
+    let item = dequeueUnique(state, preferred);
+    if (!item) {
+      await loadMoreOnlineItemsForCategory(state, preferred, onlineBatchSize);
+      item = dequeueUnique(state, preferred);
+    }
+
+    if (!item) {
+      for (const category of categories.filter((candidate) => candidate !== preferred)) {
+        item = dequeueUnique(state, category);
+        if (!item) {
+          await loadMoreOnlineItemsForCategory(state, category, Math.ceil(onlineBatchSize / 2));
+          item = dequeueUnique(state, category);
+        }
+        if (item) break;
+      }
+    }
+
+    if (!item) {
+      misses += 1;
+      continue;
+    }
+
+    nextItems.push(item);
+    misses = 0;
+  }
+
+  if (!nextItems.length) {
+    state.exhausted = onlineSources.every((source) => source.exhausted);
+  }
+
+  return nextItems;
 }
 
 function createTile(item, index) {
@@ -1403,6 +1490,13 @@ function shapeScore(item) {
   }[item.shape || "standard"] || 1.25;
 }
 
+function categoryFor(item) {
+  if (item.category) return item.category;
+  if (item.person) return "kpop";
+  if (item.kind === "car" || /bmw|mercedes|audi|mini|mediapool|uploads\.audi|mercedes-benz/i.test(item.image || "")) return "car";
+  return "food";
+}
+
 function layoutWall(wall, renderedItems) {
   const count = columnCount();
   const columns = Array.from({ length: count }, () => {
@@ -1411,13 +1505,18 @@ function layoutWall(wall, renderedItems) {
     return column;
   });
   const heights = Array.from({ length: count }, () => 0);
+  const lastCategoryByColumn = Array.from({ length: count }, () => "");
 
   renderedItems.forEach((item, index) => {
+    const category = categoryFor(item);
     let target = 0;
     for (let i = 1; i < heights.length; i += 1) {
-      if (heights[i] < heights[target]) target = i;
+      const score = heights[i] + (lastCategoryByColumn[i] === category ? 0.55 : 0);
+      const targetScore = heights[target] + (lastCategoryByColumn[target] === category ? 0.55 : 0);
+      if (score < targetScore) target = i;
     }
     columns[target].append(createTile(item, index));
+    lastCategoryByColumn[target] = category;
     heights[target] += shapeScore(item) + 0.03;
   });
 
@@ -1441,9 +1540,7 @@ function render() {
   sentinel.className = "sentinel";
   sentinel.setAttribute("aria-hidden", "true");
 
-  const feedItems = buildUniqueFeed();
-  const seenKeys = new Set(feedItems.map(sourceKey));
-  let cursor = 0;
+  const feedState = createFeedState();
   let exhausted = false;
   let loading = false;
   const renderedItems = [];
@@ -1451,23 +1548,14 @@ function render() {
     if (exhausted || loading) return;
     loading = true;
     try {
-      if (cursor >= feedItems.length) {
-        const onlineItems = await loadMoreOnlineItems(seenKeys, onlineBatchSize);
-        feedItems.push(...onlineItems);
-        if (!onlineItems.length) {
-          exhausted = onlineSources.every((source) => source.exhausted);
-        }
-      }
-
-      const nextItems = feedItems.slice(cursor, cursor + batchSize);
-      cursor += nextItems.length;
-      if (!nextItems.length && onlineSources.every((source) => source.exhausted)) {
+      const nextItems = await nextMixedItems(feedState, batchSize);
+      if (!nextItems.length && feedState.exhausted) {
         exhausted = true;
       }
 
       renderedItems.push(...nextItems);
       layoutWall(wall, renderedItems);
-      sentinel.dataset.remaining = String(Math.max(0, feedItems.length - cursor));
+      sentinel.dataset.remaining = String(categories.reduce((total, category) => total + feedState.queues[category].length, 0));
     } finally {
       loading = false;
     }
