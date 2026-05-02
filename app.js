@@ -521,6 +521,33 @@ const ningningItems = [
   },
 ];
 
+const eunchaeItems = [
+  {
+    person: "Eunchae",
+    file: "Hong Eunchae of Le Sserafim, January 10, 2025.png",
+    caption: "Eunchae cameo, adult-era Coach photocall softness.",
+    shape: "portrait",
+    focus: "center 34%",
+    width: 1500,
+  },
+  {
+    person: "Eunchae",
+    file: "Le Sserafim at 2026 Golden Disc awards.png",
+    caption: "Eunchae with LE SSERAFIM, pink ruffle awards styling.",
+    shape: "wide",
+    focus: "center 42%",
+    width: 1500,
+  },
+  {
+    person: "Eunchae",
+    file: "Le Sserafim at the 2026 Golden Disc Awards.png",
+    caption: "Eunchae with LE SSERAFIM, polished pink-and-white awards frame.",
+    shape: "wide",
+    focus: "center 42%",
+    width: 1500,
+  },
+];
+
 function addCameos(target, person, entries) {
   target.push(...entries.map(([file, caption, shape = "portrait", focus = "center 36%"]) => ({
     person,
@@ -641,7 +668,7 @@ addCameos(ningningItems, "Ningning", [
   ["Ningning in SBS Radio on 061021.jpg", "Ningning cameo, cozy radio-day softness."],
 ]);
 
-const cameoItems = interleaveGroups([hanniItems, haerinItems, wonyoungItems, ningningItems]);
+const cameoItems = interleaveGroups([hanniItems, haerinItems, wonyoungItems, ningningItems, eunchaeItems]);
 
 const blockedCameoFiles = new Set([
   "Newjeans Hanni 2023 01.jpg",
@@ -955,11 +982,18 @@ function interleaveGroups(groups) {
 // Current Haerin Commons files are from under-18 shoots; add confirmed adult-era files here.
 const adultHaerinFiles = new Set([]);
 
+const adultEunchaeFiles = new Set([
+  "Hong Eunchae of Le Sserafim, January 10, 2025.png",
+  "Le Sserafim at 2026 Golden Disc awards.png",
+  "Le Sserafim at the 2026 Golden Disc Awards.png",
+]);
+
 function isAllowedCameo(item) {
   if (blockedCameoFiles.has(item.file)) return false;
   if (casualCameoFiles.has(item.file)) return false;
   if (livePerformanceCameoFiles.has(item.file)) return false;
   if (item.person === "Haerin" && !adultHaerinFiles.has(item.file)) return false;
+  if (item.person === "Eunchae" && !adultEunchaeFiles.has(item.file)) return false;
   return true;
 }
 
@@ -987,7 +1021,7 @@ function glamScore(item) {
 
 function buildCameoPool(list) {
   const clean = uniqueBySource(list.filter(isAllowedCameo).map(glamCaption));
-  const grouped = ["Hanni", "Wonyoung", "Ningning"]
+  const grouped = ["Hanni", "Eunchae", "Wonyoung", "Ningning"]
     .map((person) => clean
       .filter((item) => item.person === person)
       .map((item, index) => ({ item, index, score: glamScore(item) }))
