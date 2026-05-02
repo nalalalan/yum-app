@@ -1066,16 +1066,58 @@ const foodItems = uniqueBySource(baseItems.filter((item) => !item.file || !skipp
 const kpopItems = buildCameoPool(cameoItems);
 const dreamCarItems = uniqueBySource(carItems);
 
-function cycleItem(pool, index) {
-  return pool[index % pool.length];
-}
-
 function imageFor(item) {
   return item.image || commonsImage(item.file, item.width || 1800);
 }
 
 function sourceFor(item) {
   return item.url || commonsSource(item.file);
+}
+
+function sourceKey(item) {
+  return item.image || item.file || item.url || item.caption;
+}
+
+function buildUniqueFeed() {
+  const feed = [];
+  const seen = new Set();
+  let foodIndex = 0;
+  let carIndex = 0;
+  let cameoIndex = 0;
+  let foodPosition = 0;
+
+  const addUnique = (item) => {
+    if (!item) return;
+    const key = sourceKey(item);
+    if (seen.has(key)) return;
+    seen.add(key);
+    feed.push(item);
+  };
+
+  while (foodIndex < foodItems.length || carIndex < dreamCarItems.length || cameoIndex < kpopItems.length) {
+    if (foodIndex < foodItems.length) {
+      foodPosition += 1;
+      addUnique(foodItems[foodIndex]);
+      foodIndex += 1;
+
+      if (foodPosition % carInterval === 0 && carIndex < dreamCarItems.length) {
+        addUnique(dreamCarItems[carIndex]);
+        carIndex += 1;
+      }
+
+      if (foodPosition % cameoInterval === 0 && cameoIndex < kpopItems.length) {
+        addUnique(kpopItems[cameoIndex]);
+        cameoIndex += 1;
+      }
+    } else {
+      addUnique(dreamCarItems[carIndex]);
+      carIndex += 1;
+      addUnique(kpopItems[cameoIndex]);
+      cameoIndex += 1;
+    }
+  }
+
+  return feed;
 }
 
 function createTile(item, index) {
@@ -1167,35 +1209,22 @@ function render() {
   sentinel.className = "sentinel";
   sentinel.setAttribute("aria-hidden", "true");
 
-  let batch = 0;
-  let foodIndex = 0;
-  let carIndex = 0;
-  let cameoIndex = 0;
+  const feedItems = buildUniqueFeed();
+  let cursor = 0;
+  let exhausted = false;
   const renderedItems = [];
   const appendBatch = () => {
-    const nextItems = [];
+    if (exhausted) return;
 
-    while (nextItems.length < batchSize) {
-      const position = foodIndex + 1;
-      nextItems.push(cycleItem(foodItems, foodIndex));
-
-      if (position % carInterval === 0) {
-        nextItems.push(cycleItem(dreamCarItems, carIndex));
-        carIndex += 1;
-      }
-
-      if (position % cameoInterval === 0) {
-        nextItems.push(cycleItem(kpopItems, cameoIndex));
-        cameoIndex += 1;
-      }
-
-      foodIndex += 1;
+    const nextItems = feedItems.slice(cursor, cursor + batchSize);
+    cursor += nextItems.length;
+    if (cursor >= feedItems.length) {
+      exhausted = true;
     }
 
     renderedItems.push(...nextItems);
     layoutWall(wall, renderedItems);
-    batch += 1;
-    sentinel.dataset.batch = String(batch);
+    sentinel.dataset.remaining = String(Math.max(0, feedItems.length - cursor));
   };
 
   appendBatch();
@@ -1205,6 +1234,7 @@ function render() {
     const observer = new IntersectionObserver((entries) => {
       if (entries.some((entry) => entry.isIntersecting)) {
         appendBatch();
+        if (exhausted) observer.disconnect();
       }
     }, { rootMargin: "1800px 0px" });
     observer.observe(sentinel);
