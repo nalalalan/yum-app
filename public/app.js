@@ -697,7 +697,7 @@ addCameos(ningningItems, "Ningning", [
   ["Ningning in SBS Radio on 061021.jpg", "Ningning cameo, cozy radio-day softness."],
 ]);
 
-const cameoItems = interleaveGroups([haerinItems, ningningItems]);
+const cameoItems = interleaveGroups([haerinItems, ningningItems, wonyoungItems]);
 
 const blockedCameoFiles = new Set([
   "Newjeans Hanni 2023 01.jpg",
@@ -1027,7 +1027,7 @@ const adultEunchaeFiles = new Set([
   "Le Sserafim in Manila (2025).jpg",
 ]);
 
-const allowedCameoPeople = new Set(["Haerin", "Ningning"]);
+const allowedCameoPeople = new Set(["Haerin", "Ningning", "Wonyoung"]);
 
 function isAllowedCameo(item) {
   if (!allowedCameoPeople.has(item.person)) return false;
@@ -1065,7 +1065,7 @@ function glamScore(item) {
 function buildCameoPool(list) {
   const maxCameosPerPerson = 4;
   const clean = uniqueBySource(list.filter(isAllowedCameo).map(glamCaption));
-  const grouped = ["Haerin", "Ningning"]
+  const grouped = ["Haerin", "Ningning", "Wonyoung"]
     .map((person) => clean
       .filter((item) => item.person === person)
       .map((item, index) => ({ item, index, score: glamScore(item) }))
