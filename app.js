@@ -697,7 +697,7 @@ addCameos(ningningItems, "Ningning", [
   ["Ningning in SBS Radio on 061021.jpg", "Ningning cameo, cozy radio-day softness."],
 ]);
 
-const cameoItems = interleaveGroups([hanniItems, haerinItems, wonyoungItems, ningningItems, eunchaeItems]);
+const cameoItems = interleaveGroups([haerinItems, ningningItems]);
 
 const blockedCameoFiles = new Set([
   "Newjeans Hanni 2023 01.jpg",
@@ -1008,8 +1008,15 @@ function interleaveGroups(groups) {
   return interleaved;
 }
 
-// Current Haerin Commons files are from under-18 shoots; add confirmed adult-era files here.
-const adultHaerinFiles = new Set([]);
+const adultHaerinFiles = new Set([
+  "Kang Haerin for OLENS.jpg",
+  "Kang Haerin for OLENS 2.jpg",
+  "Kang Haerin for OLENS 3.jpg",
+  "NewJeans OLensglobal Haerin.jpg",
+  "NewJeans HAERIN Dior 1.jpg",
+  "NewJeans HAERIN Dior 2.jpg",
+  "NewJeans HAERIN Dior 3.jpg",
+]);
 
 const adultEunchaeFiles = new Set([
   "Hong Eunchae of Le Sserafim, January 10, 2025.png",
@@ -1020,7 +1027,10 @@ const adultEunchaeFiles = new Set([
   "Le Sserafim in Manila (2025).jpg",
 ]);
 
+const allowedCameoPeople = new Set(["Haerin", "Ningning"]);
+
 function isAllowedCameo(item) {
+  if (!allowedCameoPeople.has(item.person)) return false;
   if (blockedCameoFiles.has(item.file)) return false;
   if (casualCameoFiles.has(item.file)) return false;
   if (livePerformanceCameoFiles.has(item.file)) return false;
@@ -1036,7 +1046,7 @@ function glamCaption(item) {
   let mood = "polished editorial glow";
   if (/mma|mama|melon|golden|disc/.test(source)) {
     mood = "polished awards-event frame";
-  } else if (/miu|miu|bvlgari|tommy|dyson|rimowa|photocall|launch|event/.test(source)) {
+  } else if (/miu|miu|dior|bvlgari|tommy|dyson|rimowa|photocall|launch|event/.test(source)) {
     mood = "sleek fashion-event frame";
   } else if (/olens|kérastase|kerastase|mise-en-scene|beauty|marie claire/.test(source)) {
     mood = "beauty-editorial close-up";
@@ -1047,18 +1057,20 @@ function glamCaption(item) {
 
 function glamScore(item) {
   const source = `${item.file || ""} ${item.caption || ""}`.toLowerCase();
-  if (/miu|bvlgari|tommy|dyson|rimowa|photocall|launch|event|mma|mama|melon|golden|disc/.test(source)) return 3;
+  if (/miu|dior|bvlgari|tommy|dyson|rimowa|photocall|launch|event|mma|mama|melon|golden|disc/.test(source)) return 3;
   if (/olens|kérastase|kerastase|mise-en-scene|beauty|marie claire/.test(source)) return 2;
   return 0;
 }
 
 function buildCameoPool(list) {
+  const maxCameosPerPerson = 4;
   const clean = uniqueBySource(list.filter(isAllowedCameo).map(glamCaption));
-  const grouped = ["Hanni", "Eunchae", "Wonyoung", "Ningning"]
+  const grouped = ["Haerin", "Ningning"]
     .map((person) => clean
       .filter((item) => item.person === person)
       .map((item, index) => ({ item, index, score: glamScore(item) }))
       .sort((a, b) => b.score - a.score || a.index - b.index)
+      .slice(0, maxCameosPerPerson)
       .map(({ item }) => item))
     .filter((group) => group.length);
 
@@ -1068,7 +1080,7 @@ function buildCameoPool(list) {
 const batchSize = 64;
 const onlineBatchSize = 24;
 const categories = ["food", "kpop", "car"];
-const mixPattern = ["food", "kpop", "car", "food", "car", "kpop", "food", "kpop", "car", "food", "car", "kpop"];
+const mixPattern = ["food", "food", "car", "food", "food", "kpop", "food", "car", "food", "food", "food", "car"];
 const foodItems = uniqueBySource(baseItems.filter((item) => !item.file || !skippedFiles.has(item.file)));
 const kpopItems = buildCameoPool(cameoItems);
 const dreamCarItems = uniqueBySource(carItems);
@@ -1076,11 +1088,7 @@ const dreamCarItems = uniqueBySource(carItems);
 const onlineSources = [
   // Food and car Commons searches were too noisy for Yum: they pulled in package shots,
   // interiors, flowers, random street cars, and other review rejects.
-  { query: "Hanni NewJeans 2025", label: "Hanni", category: "kpop", person: "Hanni", requireAny: ["hanni", "newjeans"] },
-  { query: "Haerin NewJeans 2025", label: "Haerin", category: "kpop", person: "Haerin", requireAny: ["haerin", "newjeans"] },
-  { query: "Jang Wonyoung 2025", label: "Wonyoung", category: "kpop", person: "Wonyoung", requireAny: ["wonyoung", "jang"] },
-  { query: "Ningning aespa 2025", label: "Ningning", category: "kpop", person: "Ningning", requireAny: ["ningning", "aespa"] },
-  { query: "Hong Eunchae 2025", label: "Eunchae", category: "kpop", person: "Eunchae", requireAny: ["eunchae", "le sserafim"] },
+  // Kpop lookups are disabled too so the late feed never turns into an idol-only wall.
 ];
 
 onlineSources.forEach((source) => {
@@ -1209,7 +1217,21 @@ function dequeueUnique(state, category) {
 }
 
 function fallbackCategories(preferred) {
-  return [preferred, ...categories.filter((category) => category !== preferred)];
+  const fallback = categories.filter((category) => category !== preferred);
+  if (preferred !== "kpop") {
+    return [preferred, ...fallback.filter((category) => category !== "kpop")];
+  }
+  return [preferred, ...fallback];
+}
+
+function hasQueuedNonKpop(state) {
+  return categories
+    .filter((category) => category !== "kpop")
+    .some((category) => (state.queues[category] || []).length > 0);
+}
+
+function hasRenderedNonKpop(items) {
+  return items.some((item) => categoryFor(item) !== "kpop");
 }
 
 function buildUniqueFeed() {
@@ -1339,6 +1361,11 @@ function nextOnlineSource(category) {
 }
 
 async function fetchOnlineSource(source) {
+  if (source.maxItems && source.added >= source.maxItems) {
+    source.exhausted = true;
+    return [];
+  }
+
   const response = await fetch(commonsSearchUrl(source), { headers: { Accept: "application/json" } });
   if (!response.ok) {
     throw new Error(`Commons search failed: ${response.status}`);
@@ -1371,7 +1398,15 @@ async function loadMoreOnlineItemsForCategory(state, category, targetCount = onl
     try {
       const onlineItems = await fetchOnlineSource(source);
       onlineItems.forEach((item) => {
-        if (enqueueUnique(state, category, item)) added += 1;
+        if (source.maxItems && source.added >= source.maxItems) {
+          source.exhausted = true;
+          return;
+        }
+        if (enqueueUnique(state, category, item)) {
+          source.added = (source.added || 0) + 1;
+          added += 1;
+          if (source.maxItems && source.added >= source.maxItems) source.exhausted = true;
+        }
       });
     } catch {
       source.failures = (source.failures || 0) + 1;
@@ -1390,6 +1425,11 @@ async function nextMixedItems(state, targetCount = batchSize) {
     const preferred = mixPattern[state.patternIndex % mixPattern.length];
     state.patternIndex += 1;
 
+    if (preferred === "kpop" && !hasQueuedNonKpop(state) && !hasRenderedNonKpop(nextItems)) {
+      misses += 1;
+      continue;
+    }
+
     let item = dequeueUnique(state, preferred);
     if (!item) {
       await loadMoreOnlineItemsForCategory(state, preferred, onlineBatchSize);
@@ -1397,7 +1437,7 @@ async function nextMixedItems(state, targetCount = batchSize) {
     }
 
     if (!item) {
-      for (const category of categories.filter((candidate) => candidate !== preferred)) {
+      for (const category of fallbackCategories(preferred).slice(1)) {
         item = dequeueUnique(state, category);
         if (!item) {
           await loadMoreOnlineItemsForCategory(state, category, Math.ceil(onlineBatchSize / 2));
@@ -1417,7 +1457,7 @@ async function nextMixedItems(state, targetCount = batchSize) {
   }
 
   if (!nextItems.length) {
-    state.exhausted = onlineSources.every((source) => source.exhausted);
+    state.exhausted = true;
   }
 
   return nextItems;
