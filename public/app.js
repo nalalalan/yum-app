@@ -1150,7 +1150,8 @@ const adultEunchaeFiles = new Set([
   "Le Sserafim in Manila (2025).jpg",
 ]);
 
-const allowedCameoPeople = new Set(["Haerin", "Ningning", "Wonyoung"]);
+const cameoPeople = ["Haerin", "Wonyoung", "Ningning"];
+const allowedCameoPeople = new Set(cameoPeople);
 
 function isAllowedCameo(item) {
   if (!allowedCameoPeople.has(item.person)) return false;
@@ -1197,7 +1198,7 @@ function diversifyCameoGroup(person, items) {
 function buildCameoPool(list) {
   const maxCameosPerPerson = 42;
   const clean = uniqueBySource(list.filter(isAllowedCameo).map(glamCaption));
-  const grouped = new Map(["Haerin", "Ningning", "Wonyoung"]
+  const grouped = new Map(cameoPeople
     .map((person) => [person, diversifyCameoGroup(person, clean
       .filter((item) => item.person === person)
       .map((item, index) => ({ item, index, score: glamScore(item) }))
@@ -1207,7 +1208,7 @@ function buildCameoPool(list) {
     .filter(([, group]) => group.length));
 
   const result = [];
-  const personPattern = ["Haerin", "Ningning", "Wonyoung", "Wonyoung", "Ningning", "Wonyoung"];
+  const personPattern = ["Haerin", "Wonyoung", "Ningning"];
   while ([...grouped.values()].some((group) => group.length)) {
     for (const person of personPattern) {
       const group = grouped.get(person);
@@ -1361,9 +1362,8 @@ function longScrollItems(items, category, targetCount = longScrollItemsPerCatego
 }
 
 function longScrollCameoItems(items, targetCount = longScrollItemsPerCategory) {
-  const people = ["Haerin", "Ningning", "Wonyoung"];
-  const perPerson = Math.ceil(targetCount / people.length);
-  const groups = people.map((person) => longScrollItems(
+  const perPerson = Math.ceil(targetCount / cameoPeople.length);
+  const groups = cameoPeople.map((person) => longScrollItems(
     items.filter((item) => item.person === person),
     "kpop",
     perPerson,
@@ -1686,6 +1686,8 @@ function createTile(item, index) {
   link.target = "_blank";
   link.rel = "noopener noreferrer";
   link.setAttribute("aria-label", item.caption);
+  link.dataset.category = categoryFor(item);
+  if (item.person) link.dataset.person = item.person;
   if (item.focus) {
     link.style.setProperty("--focus", item.focus);
   }
@@ -1738,6 +1740,10 @@ function categoryFor(item) {
   return "food";
 }
 
+function personFor(item) {
+  return item.person || "";
+}
+
 function layoutWall(wall, renderedItems) {
   const count = columnCount();
   const columns = Array.from({ length: count }, () => {
@@ -1747,17 +1753,43 @@ function layoutWall(wall, renderedItems) {
   });
   const heights = Array.from({ length: count }, () => 0);
   const lastCategoryByColumn = Array.from({ length: count }, () => "");
+  const lastPersonByColumn = Array.from({ length: count }, () => "");
+  const recentPeopleByColumn = Array.from({ length: count }, () => []);
+  const recentPeople = [];
+
+  function placementScore(item, columnIndex) {
+    const category = categoryFor(item);
+    const person = personFor(item);
+    const columnPeople = recentPeopleByColumn[columnIndex];
+    let score = heights[columnIndex] + (lastCategoryByColumn[columnIndex] === category ? 0.55 : 0);
+
+    if (person) {
+      if (lastPersonByColumn[columnIndex] === person) score += 1.45;
+      score += columnPeople.filter((recentPerson) => recentPerson === person).length * 0.52;
+      score += recentPeople.filter((recentPerson) => recentPerson === person).length * 0.2;
+    }
+
+    return score;
+  }
 
   renderedItems.forEach((item, index) => {
     const category = categoryFor(item);
+    const person = personFor(item);
     let target = 0;
     for (let i = 1; i < heights.length; i += 1) {
-      const score = heights[i] + (lastCategoryByColumn[i] === category ? 0.55 : 0);
-      const targetScore = heights[target] + (lastCategoryByColumn[target] === category ? 0.55 : 0);
+      const score = placementScore(item, i);
+      const targetScore = placementScore(item, target);
       if (score < targetScore) target = i;
     }
     columns[target].append(createTile(item, index));
     lastCategoryByColumn[target] = category;
+    if (person) {
+      lastPersonByColumn[target] = person;
+      recentPeopleByColumn[target].push(person);
+      if (recentPeopleByColumn[target].length > 4) recentPeopleByColumn[target].shift();
+      recentPeople.push(person);
+      if (recentPeople.length > 12) recentPeople.shift();
+    }
     heights[target] += shapeScore(item) + 0.03;
   });
 
