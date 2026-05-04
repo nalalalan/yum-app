@@ -1636,6 +1636,17 @@ async function nextMixedItems(state, targetCount = batchSize) {
   return nextItems;
 }
 
+function toneFor(item) {
+  const category = categoryFor(item);
+  if (category === "food") {
+    return { warmth: "0.085", saturation: "1.16", contrast: "1.045", brightness: "1.025", wash: "0.88" };
+  }
+  if (category === "car") {
+    return { warmth: "0.045", saturation: "1.1", contrast: "1.04", brightness: "1.012", wash: "0.62" };
+  }
+  return { warmth: "0.055", saturation: "1.12", contrast: "1.03", brightness: "1.018", wash: "0.68" };
+}
+
 function createTile(item, index) {
   const link = document.createElement("a");
   link.className = `tile tile--${item.shape || "standard"}`;
@@ -1646,6 +1657,9 @@ function createTile(item, index) {
   if (item.focus) {
     link.style.setProperty("--focus", item.focus);
   }
+  Object.entries(toneFor(item)).forEach(([key, value]) => {
+    link.style.setProperty(`--${key}`, value);
+  });
 
   const img = document.createElement("img");
   img.src = imageFor(item);
