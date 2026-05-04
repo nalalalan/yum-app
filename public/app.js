@@ -121,6 +121,9 @@ const skippedFiles = new Set([
   "Tonkotsu ramen.jpg",
   "Tonkotsu ramen in Tokyo.jpg",
   "Free-photo-of-a-bowl-of-ramen-with-eggs-and-meat.jpg",
+  "Bottle soju.jpg",
+  "Soju in korean restaurant.JPG",
+  "Oppa Lychee Soju.jpg",
   "Soft Shelled Crab on Sushi Rice - Arintji (69449046).jpg",
   "Soft shell crab (3196520484).jpg",
   "Spider hand roll.jpg",
@@ -773,13 +776,6 @@ const carItems = [
     focus: "center 53%",
   },
   {
-    image: "https://group.mercedes-benz.com/bilder/produkte/pkw/mercedes-benz/cla-2025/mercedes-benz-cla-2025-weltpremiere-02-w614xh345-cutout.jpg?im=AspectCrop%3D%284%2C3%29%2CxPosition%3D0.5%2CyPosition%3D0&impolicy=acrop",
-    url: "https://group.mercedes-benz.com/company/news/cla-car-of-the-year-2026.html",
-    caption: "Mercedes-Benz CLA in red, compact sedan dream-car energy on a mountain road.",
-    shape: "wide",
-    focus: "center 50%",
-  },
-  {
     image: "https://uploads.audi-mediacenter.com/system/production/media/128049/images/b7b9b3a54ec0babd478998a6d901a5fd61f1e39b/A250945_web_2880.jpg?1749650205",
     url: "https://www.audi-mediacenter.com/en/photos/detail/audi-q3-suv-128049",
     caption: "Audi Q3, compact SUV with glossy official-photo confidence.",
@@ -1018,6 +1014,35 @@ const adultHaerinFiles = new Set([
   "NewJeans HAERIN Dior 3.jpg",
 ]);
 
+const featuredWonyoungFiles = new Set([
+  "20241010 Wonyoung for Tommy Hilfiger 01.jpg",
+  "Jang Won-young IVE Marie Claire Korea.jpg",
+  "Wonyoung at Bvlgari event.png",
+  "20231202 IVE's Jang Wonyoung at the MAMA2023 02.png",
+  "JANG WON YOUNG (장원영) – MIUMIU PHOTOCALL – 2025.06.20 – P1.jpg",
+  "JANG WON YOUNG (장원영) – MIUMIU PHOTOCALL – 2025.06.20 – P2.jpg",
+  "Jang Won Young 2025.jpg",
+  "Jang Won-young at the 2024 Melon Music Awards-2.png",
+  "Jang Won-young January 29, 2026 (1).png",
+  "Jang Won-young January 29, 2026 (2).png",
+  "Jang Won-young of Ive, April 16, 2025.png",
+  "Jang Wonyoung 장원영 Kérastase’s NEW Ambassador 01.jpg",
+  "Jang Wonyoung 장원영 Kérastase’s NEW Ambassador 04.jpg",
+  "Jang Wonyoung 장원영 Kérastase’s NEW Ambassador 09.jpg",
+  "Jang Wonyoung 장원영 Kérastase’s NEW Ambassador 10.jpg",
+  "장원영 (JANG WONYOUNG) - RIMOWA - 2023.05.13 P1.jpg",
+  "장원영 (JANG WONYOUNG) - RIMOWA - 2023.05.13 P2.jpg",
+  "Wonyoung in 2025.png",
+  "Wonyoung in January 2026.png",
+  "Jang Won-young of Ive, March 27, 2025.png",
+  "Jang Won-young for Dyson April 2026.png",
+  "Jang Won-young at the Dyson Launch Event, April 23, 2026 (1).png",
+  "Jang Won-young at the Dyson Launch Event, April 23, 2026 (4).png",
+  "Jang Won-young at the Miu Miu Beauty event, April 6, 2026 (1).png",
+  "Jang Won-young at the Miu Miu Beauty event, April 6, 2026 (3).png",
+  "Jang Won-young at the 40th Golden Disc Awards, January 10, 2026 (1).png",
+]);
+
 const adultEunchaeFiles = new Set([
   "Hong Eunchae of Le Sserafim, January 10, 2025.png",
   "Le Sserafim at 2026 Golden Disc awards.png",
@@ -1035,6 +1060,7 @@ function isAllowedCameo(item) {
   if (casualCameoFiles.has(item.file)) return false;
   if (livePerformanceCameoFiles.has(item.file)) return false;
   if (item.person === "Haerin" && !adultHaerinFiles.has(item.file)) return false;
+  if (item.person === "Wonyoung" && !featuredWonyoungFiles.has(item.file)) return false;
   if (item.person === "Eunchae" && !adultEunchaeFiles.has(item.file)) return false;
   return true;
 }
@@ -1062,19 +1088,36 @@ function glamScore(item) {
   return 0;
 }
 
+function diversifyCameoGroup(person, items) {
+  if (person !== "Haerin") return items;
+  const dior = items.filter((item) => /dior/i.test(item.file || ""));
+  const olens = items.filter((item) => /olens/i.test(item.file || ""));
+  const other = items.filter((item) => !/dior|olens/i.test(item.file || ""));
+  return interleaveGroups([dior, olens, other]);
+}
+
 function buildCameoPool(list) {
-  const maxCameosPerPerson = 18;
+  const maxCameosPerPerson = 42;
   const clean = uniqueBySource(list.filter(isAllowedCameo).map(glamCaption));
-  const grouped = ["Haerin", "Ningning", "Wonyoung"]
-    .map((person) => clean
+  const grouped = new Map(["Haerin", "Ningning", "Wonyoung"]
+    .map((person) => [person, diversifyCameoGroup(person, clean
       .filter((item) => item.person === person)
       .map((item, index) => ({ item, index, score: glamScore(item) }))
       .sort((a, b) => b.score - a.score || a.index - b.index)
       .slice(0, maxCameosPerPerson)
-      .map(({ item }) => item))
-    .filter((group) => group.length);
+      .map(({ item }) => item))])
+    .filter(([, group]) => group.length));
 
-  return interleaveGroups(grouped);
+  const result = [];
+  const personPattern = ["Haerin", "Ningning", "Wonyoung", "Wonyoung", "Ningning", "Wonyoung"];
+  while ([...grouped.values()].some((group) => group.length)) {
+    for (const person of personPattern) {
+      const group = grouped.get(person);
+      if (group && group.length) result.push(group.shift());
+    }
+  }
+
+  return result;
 }
 
 const batchSize = 64;
@@ -1601,7 +1644,7 @@ function render() {
     }
   };
 
-  appendBatch().then(() => appendBatch());
+  appendBatch();
 
   if ("IntersectionObserver" in window) {
     const observer = new IntersectionObserver((entries) => {
