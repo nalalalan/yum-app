@@ -1063,7 +1063,7 @@ function glamScore(item) {
 }
 
 function buildCameoPool(list) {
-  const maxCameosPerPerson = 4;
+  const maxCameosPerPerson = 18;
   const clean = uniqueBySource(list.filter(isAllowedCameo).map(glamCaption));
   const grouped = ["Haerin", "Ningning", "Wonyoung"]
     .map((person) => clean
@@ -1080,7 +1080,8 @@ function buildCameoPool(list) {
 const batchSize = 64;
 const onlineBatchSize = 24;
 const categories = ["food", "kpop", "car"];
-const mixPattern = ["food", "food", "car", "food", "food", "kpop", "food", "car", "food", "food", "food", "car"];
+const mixPattern = ["food", "kpop", "car"];
+const longScrollItemsPerCategory = 144;
 const foodItems = uniqueBySource(baseItems.filter((item) => !item.file || !skippedFiles.has(item.file)));
 const kpopItems = buildCameoPool(cameoItems);
 const dreamCarItems = uniqueBySource(carItems);
@@ -1164,6 +1165,8 @@ function canonicalFileKey(value) {
 }
 
 function sourceKey(item) {
+  if (item.repeatKey) return item.repeatKey;
+
   const primary = item.sourceId || item.file || item.original || item.image || item.url || item.caption || "";
   const fileKey = canonicalFileKey(primary);
   if (fileKey) return fileKey;
@@ -1178,11 +1181,26 @@ function taggedItems(items, category) {
   return items.map((item) => ({ ...item, category }));
 }
 
+function longScrollItems(items, category, targetCount = longScrollItemsPerCategory) {
+  if (!items.length) return [];
+
+  return Array.from({ length: targetCount }, (_, index) => {
+    const cycle = Math.floor(index / items.length);
+    const sourceIndex = (index + cycle * 7) % items.length;
+    const item = items[sourceIndex];
+    return {
+      ...item,
+      category,
+      repeatKey: `${category}:${cycle}:${sourceKey(item)}`,
+    };
+  });
+}
+
 function createFeedState() {
   const queues = {
-    food: taggedItems(foodItems, "food"),
-    kpop: taggedItems(kpopItems, "kpop"),
-    car: taggedItems(dreamCarItems, "car"),
+    food: longScrollItems(foodItems, "food"),
+    kpop: longScrollItems(kpopItems, "kpop"),
+    car: longScrollItems(dreamCarItems, "car"),
   };
   const queuedKeys = new Set(categories.flatMap((category) => queues[category].map(sourceKey)));
   return {
