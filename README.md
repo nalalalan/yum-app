@@ -16,9 +16,10 @@ npm start
 
 Open `http://localhost:3000`.
 
-## Deploy To Railway
+## Deploy To GitHub Pages
 
-1. Push this folder to a GitHub repo.
-2. Create a Railway project from the repo.
-3. Railway should detect Node and run `npm start`.
-4. Add the custom domain `yum.aolabs.io`.
+The live site is served from the `gh-pages` branch with the custom domain `yum.aolabs.io`.
+
+1. Commit changes on `main`.
+2. Copy the updated `public` files into the `gh-pages` deployment worktree.
+3. Commit and push `gh-pages`.
