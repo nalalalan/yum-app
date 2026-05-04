@@ -1093,10 +1093,19 @@ function interleaveGroups(groups) {
   return interleaved;
 }
 
-const adultHaerinFiles = new Set([
+const featuredHaerinFiles = new Set([
+  "Haerin (NewJeans) 220813.jpg",
+  "20230905 Haerin (NewJeans).jpg",
+  "Haerin Seoul Fashion Week 1.jpg",
+  "Haerin Seoul Fashion Week 2.jpg",
+  "Haerin Seoul Fashion Week 3.jpg",
   "Kang Haerin for OLENS.jpg",
   "Kang Haerin for OLENS 2.jpg",
   "Kang Haerin for OLENS 3.jpg",
+  "NewJeans Haerin Seoul Fashion Week 1.jpg",
+  "NewJeans Haerin Seoul Fashion Week 2.jpg",
+  "2023 MMA NewJeans Haerin 1.jpg",
+  "2023 MMA NewJeans Haerin 2.jpg",
   "NewJeans OLensglobal Haerin.jpg",
   "NewJeans HAERIN Dior 1.jpg",
   "NewJeans HAERIN Dior 2.jpg",
@@ -1148,7 +1157,7 @@ function isAllowedCameo(item) {
   if (blockedCameoFiles.has(item.file)) return false;
   if (casualCameoFiles.has(item.file)) return false;
   if (livePerformanceCameoFiles.has(item.file)) return false;
-  if (item.person === "Haerin" && !adultHaerinFiles.has(item.file)) return false;
+  if (item.person === "Haerin" && !featuredHaerinFiles.has(item.file)) return false;
   if (item.person === "Wonyoung" && !featuredWonyoungFiles.has(item.file)) return false;
   if (item.person === "Eunchae" && !adultEunchaeFiles.has(item.file)) return false;
   return true;
@@ -1213,7 +1222,7 @@ const batchSize = 64;
 const onlineBatchSize = 24;
 const categories = ["food", "kpop", "car"];
 const mixPattern = ["food", "kpop", "car"];
-const longScrollItemsPerCategory = 240;
+const longScrollItemsPerCategory = 360;
 const foodItems = uniqueBySource(baseItems.filter((item) => !item.file || !skippedFiles.has(item.file)));
 const kpopItems = buildCameoPool(cameoItems);
 const dreamCarItems = uniqueBySource(carItems);
@@ -1351,10 +1360,33 @@ function longScrollItems(items, category, targetCount = longScrollItemsPerCatego
   });
 }
 
+function longScrollCameoItems(items, targetCount = longScrollItemsPerCategory) {
+  const people = ["Haerin", "Ningning", "Wonyoung"];
+  const perPerson = Math.ceil(targetCount / people.length);
+  const groups = people.map((person) => longScrollItems(
+    items.filter((item) => item.person === person),
+    "kpop",
+    perPerson,
+  ));
+
+  const result = [];
+  let index = 0;
+  while (result.length < targetCount && groups.some((group) => index < group.length)) {
+    groups.forEach((group) => {
+      if (group[index] && result.length < targetCount) {
+        result.push(group[index]);
+      }
+    });
+    index += 1;
+  }
+
+  return result;
+}
+
 function createFeedState() {
   const queues = {
     food: longScrollItems(foodItems, "food"),
-    kpop: longScrollItems(kpopItems, "kpop"),
+    kpop: longScrollCameoItems(kpopItems),
     car: longScrollItems(dreamCarItems, "car"),
   };
   const queuedKeys = new Set(categories.flatMap((category) => queues[category].map(sourceKey)));
@@ -1639,12 +1671,12 @@ async function nextMixedItems(state, targetCount = batchSize) {
 function toneFor(item) {
   const category = categoryFor(item);
   if (category === "food") {
-    return { warmth: "0.085", saturation: "1.16", contrast: "1.045", brightness: "1.025", wash: "0.88" };
+    return { warmth: "0.12", saturation: "1.2", contrast: "1.05", brightness: "1.03", wash: "0.96" };
   }
   if (category === "car") {
-    return { warmth: "0.045", saturation: "1.1", contrast: "1.04", brightness: "1.012", wash: "0.62" };
+    return { warmth: "0.075", saturation: "1.12", contrast: "1.04", brightness: "1.018", wash: "0.72" };
   }
-  return { warmth: "0.055", saturation: "1.12", contrast: "1.03", brightness: "1.018", wash: "0.68" };
+  return { warmth: "0.08", saturation: "1.13", contrast: "1.035", brightness: "1.02", wash: "0.78" };
 }
 
 function createTile(item, index) {
