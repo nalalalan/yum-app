@@ -460,105 +460,6 @@ const wonyoungItems = [
   },
 ];
 
-const ningningItems = [
-  {
-    person: "Ningning",
-    file: "NINGNING (54295363093).jpg",
-    caption: "Ningning cameo, sweet stage sparkle before ramen returns.",
-    shape: "portrait",
-    focus: "center 36%",
-    width: 1500,
-  },
-  {
-    person: "Ningning",
-    file: "250111 aespa Ningning.jpg",
-    caption: "Ningning cameo, sweet aespa stage-card glow.",
-    shape: "portrait",
-    focus: "center 36%",
-    width: 1500,
-  },
-  {
-    person: "Ningning",
-    file: "241005 Ningning K-Link Festival 02.jpg",
-    caption: "Ningning cameo, bright festival smile.",
-    shape: "portrait",
-    focus: "center 36%",
-    width: 1500,
-  },
-  {
-    person: "Ningning",
-    file: "241005 Ningning K-Link Festival.jpg",
-    caption: "Ningning cameo, soft K-Link stage sparkle.",
-    shape: "wide",
-    focus: "center 42%",
-    width: 1500,
-  },
-  {
-    person: "Ningning",
-    file: "250315 Ningning at SYNK PARALLEL LINE Encore 2.jpg",
-    caption: "Ningning cameo, cute encore glow.",
-    shape: "portrait",
-    focus: "center 36%",
-    width: 1500,
-  },
-  {
-    person: "Ningning",
-    file: "250315 Ningning at SYNK PARALLEL LINE Encore 3.jpg",
-    caption: "Ningning cameo, clean concert-card energy.",
-    shape: "portrait",
-    focus: "center 36%",
-    width: 1500,
-  },
-  {
-    person: "Ningning",
-    file: "250315 Ningning at SYNK PARALLEL LINE Encore.jpg",
-    caption: "Ningning cameo, bright stage moment before more ramen.",
-    shape: "portrait",
-    focus: "center 36%",
-    width: 1500,
-  },
-  {
-    person: "Ningning",
-    file: "250315-16 aespa Ningning 01.jpg",
-    caption: "Ningning cameo, soft red-carpet sparkle.",
-    shape: "portrait",
-    focus: "center 36%",
-    width: 1500,
-  },
-  {
-    person: "Ningning",
-    file: "250315-16 aespa Ningning 02.jpg",
-    caption: "Ningning cameo, little concert-glow pause.",
-    shape: "portrait",
-    focus: "center 36%",
-    width: 1500,
-  },
-  {
-    person: "Ningning",
-    file: "Aespa Ningning.jpg",
-    caption: "Ningning cameo, simple cute portrait energy.",
-    shape: "portrait",
-    focus: "center 36%",
-    width: 1500,
-  },
-  {
-    person: "Ningning",
-    file: "NINGNING - AESPA - 2025.01.28.jpg",
-    caption: "Ningning cameo, bright soft event smile.",
-    shape: "portrait",
-    focus: "center 36%",
-    width: 1500,
-  },
-  {
-    person: "Ningning",
-    file: "NINGNING.jpg",
-    caption: "Ningning cameo, clean little idol-card glow.",
-    shape: "portrait",
-    focus: "center 36%",
-    width: 1500,
-  },
-];
-
 const eunchaeItems = [
   {
     person: "Eunchae",
@@ -719,31 +620,6 @@ addCameos(wonyoungItems, "Wonyoung", [
   ["Jang Won-young at IVE 4th Fan Concert DIVE into IVE March 22, 2026 (6).jpg", "Wonyoung cameo, polished stage portrait.", "tall"],
 ]);
 
-addCameos(ningningItems, "Ningning", [
-  ["Aespa Ningning 2024 MMA.jpg", "Ningning cameo, sharp MMA awards-night styling."],
-  ["2023 MMA aespa Ningning 1 (cropped).jpg", "Ningning cameo, tiny MMA sparkle.", "square"],
-  ["2023 MMA aespa Ningning 1.jpg", "Ningning cameo, sweet awards-night frame."],
-  ["250316 Ningning at SYNK PARALLEL LINE Encore.jpg", "Ningning cameo, bright encore smile.", "tall"],
-  ["250316 Ningning at SYNK PARALLEL LINE Encore 2.jpg", "Ningning cameo, soft concert-card glow.", "tall"],
-  ["250316 Ningning at SYNK PARALLEL LINE Encore 3.jpg", "Ningning cameo, clean stage sparkle.", "tall"],
-  ["Aespa Ningning 2024 MMA 2.jpg", "Ningning cameo, polished MMA portrait."],
-  ["Aespa's Ningning 3.png", "Ningning cameo, cute little aespa card."],
-  ["Aespa's Ningning 4 (cropped).jpg", "Ningning cameo, soft cropped portrait.", "tall"],
-  ["Aespa's Ningning 4.jpg", "Ningning cameo, tall clean idol frame.", "tall"],
-  ["Ningning at Incheon Airport on 25022026 (1).png", "Ningning cameo, bright airport-day smile."],
-  ["Ningning at Incheon Airport on 25022026 (2).png", "Ningning cameo, soft travel-day portrait."],
-  ["Ningning at Incheon Airport on 25022026 (3).png", "Ningning cameo, neat tiny airport sparkle.", "square"],
-  ["Ningning at Incheon Airport on 25022026 (4).png", "Ningning cameo, cute travel-card pause."],
-  ["Ningning at Mise-en-Scene event on 19022026 (1).png", "Ningning cameo, soft beauty-event glow."],
-  ["Ningning at Mise-en-Scene event on 19022026 (2).png", "Ningning cameo, polished event smile."],
-  ["Ningning at Mise-en-Scene event on 19022026 (3).png", "Ningning cameo, tall bright portrait shine.", "tall"],
-  ["Ningning for Eternal Return \u00d7 aespa collaboration BTS photoshoot (cropped).jpg", "Ningning cameo, cute BTS photoshoot crop."],
-  ["Ningning for Eternal Return \u00d7 aespa collaboration BTS photoshoot.jpg", "Ningning cameo, soft gaming-collab portrait.", "tall"],
-  ["Ningning for Eternal Return \u00d7 aespa collaboration BTS photoshoot 02.jpg", "Ningning cameo, bright collab-card moment.", "tall"],
-  ["Ningning for Eternal Return \u00d7 aespa collaboration BTS photoshoot 03.jpg", "Ningning cameo, tiny sweet collab frame."],
-  ["Ningning in SBS Radio on 061021.jpg", "Ningning cameo, cozy radio-day softness."],
-]);
-
 addExternalCameos(haerinItems, "Haerin", "https://kpopping.com/kpics/240526-NewJeans-Haerin-How-Sweet-Bubble-Gum-at-Inkigayo", [
   ["https://legacy.kpopping.com/9f/1/240526-NewJeans-Haerin-How-Sweet-at-Inkigayo-documents-1.jpeg", "Haerin cameo, adult-era bright stage portrait.", "portrait", "center 36%"],
 ]);
@@ -763,13 +639,7 @@ addExternalCameos(wonyoungItems, "Wonyoung", "https://kpopping.com/kpics/WONYOUN
   ["https://pub-dc9a9c6ac2a64ba48bce426ced0ac56a.r2.dev/kpics/2026/05/1777628047807-iz6r3x-0.jpg", "Wonyoung cameo, soft curl beauty-card glow.", "portrait", "center 38%"],
 ]);
 
-addExternalCameos(ningningItems, "Ningning", "https://kpopping.com/kpics/241026-aespa-Ningning-Whiplash-at-Music-Core", [
-  ["https://pub-dc9a9c6ac2a64ba48bce426ced0ac56a.r2.dev/kpics/2026/05/1777621018392-n7qxyk-0.jpg", "Ningning cameo, black backstage stage-glam pose.", "portrait", "center 38%"],
-  ["https://pub-dc9a9c6ac2a64ba48bce426ced0ac56a.r2.dev/kpics/2026/04/1777539437287-fun55g-0.jpg", "Ningning cameo, sleek black-dress backstage frame.", "wide", "center 48%"],
-  ["https://pub-dc9a9c6ac2a64ba48bce426ced0ac56a.r2.dev/kpics/2026/04/1777450712823-s31ac6-0.jpg", "Ningning cameo, sharp red-background editorial frame.", "portrait", "center 42%"],
-]);
-
-const cameoItems = interleaveGroups([haerinItems, wonyoungItems, ningningItems, hanniItems]);
+const cameoItems = interleaveGroups([haerinItems, wonyoungItems, hanniItems]);
 
 const blockedCameoFiles = new Set([
   "Newjeans Hanni 2023 01.jpg",
@@ -783,19 +653,11 @@ const blockedCameoFiles = new Set([
   "Newjeans Hanni 2023 09.png",
   "Newjeans Hanni 2023 10.jpg",
   "Hanni at Music Bank on August 4, 2022.jpg",
-  "NINGNING (54295363093).jpg",
-  "2023 MMA aespa Ningning 1 (cropped).jpg",
-  "2023 MMA aespa Ningning 1.jpg",
 ]);
 
 const casualCameoFiles = new Set([
   "20230905 Hanni (NewJeans).jpg",
   "IVE Wonyoung on the way to Music Bank - October 13, 2023 01.jpg",
-  "Ningning in SBS Radio on 061021.jpg",
-  "Ningning at Incheon Airport on 25022026 (1).png",
-  "Ningning at Incheon Airport on 25022026 (2).png",
-  "Ningning at Incheon Airport on 25022026 (3).png",
-  "Ningning at Incheon Airport on 25022026 (4).png",
 ]);
 
 const carItems = [
@@ -1097,6 +959,7 @@ carItems.push(
 function uniqueBySource(list) {
   const seen = new Set();
   return list.filter((item) => {
+    if (isBlockedContentItem(item)) return false;
     const key = sourceKey(item);
     if (seen.has(key)) return false;
     seen.add(key);
@@ -1113,6 +976,21 @@ function interleaveGroups(groups) {
     });
   }
   return interleaved;
+}
+
+const blockedContentTerms = ["ningning"];
+
+function isBlockedContentItem(item) {
+  const text = [
+    item && item.person,
+    item && item.file,
+    item && item.caption,
+    item && item.sourceId,
+    item && item.image,
+    item && item.url,
+  ].map((value) => normalizeSourceText(value || "").toLowerCase()).join(" ");
+
+  return blockedContentTerms.some((term) => text.includes(term));
 }
 
 const featuredHaerinFiles = new Set([
@@ -1161,25 +1039,6 @@ const featuredWonyoungFiles = new Set([
   "Jang Won-young at IVE 4th Fan Concert DIVE into IVE March 22, 2026 (6).jpg",
 ]);
 
-const featuredNingningFiles = new Set([
-  "250111 aespa Ningning.jpg",
-  "241005 Ningning K-Link Festival 02.jpg",
-  "241005 Ningning K-Link Festival.jpg",
-  "250315 Ningning at SYNK PARALLEL LINE Encore 2.jpg",
-  "250315 Ningning at SYNK PARALLEL LINE Encore 3.jpg",
-  "250315 Ningning at SYNK PARALLEL LINE Encore.jpg",
-  "250315-16 aespa Ningning 01.jpg",
-  "250315-16 aespa Ningning 02.jpg",
-  "NINGNING - AESPA - 2025.01.28.jpg",
-  "Aespa Ningning 2024 MMA.jpg",
-  "250316 Ningning at SYNK PARALLEL LINE Encore.jpg",
-  "250316 Ningning at SYNK PARALLEL LINE Encore 2.jpg",
-  "250316 Ningning at SYNK PARALLEL LINE Encore 3.jpg",
-  "Ningning at Mise-en-Scene event on 19022026 (1).png",
-  "Ningning at Mise-en-Scene event on 19022026 (2).png",
-  "Ningning at Mise-en-Scene event on 19022026 (3).png",
-]);
-
 const featuredHanniFiles = new Set([
   "Hanni 241022 2.jpg",
   "Hanni 241022 2.png",
@@ -1189,7 +1048,6 @@ const featuredHanniFiles = new Set([
 const cameoPersonTargets = {
   Haerin: 104,
   Wonyoung: 104,
-  Ningning: 104,
   Hanni: 48,
 };
 const cameoPeople = Object.keys(cameoPersonTargets);
@@ -1202,7 +1060,6 @@ function isAllowedCameo(item) {
   if (casualCameoFiles.has(item.file)) return false;
   if (item.person === "Haerin" && !featuredHaerinFiles.has(item.file)) return false;
   if (item.person === "Wonyoung" && !featuredWonyoungFiles.has(item.file)) return false;
-  if (item.person === "Ningning" && !featuredNingningFiles.has(item.file)) return false;
   if (item.person === "Hanni" && !featuredHanniFiles.has(item.file)) return false;
   return true;
 }
@@ -1236,12 +1093,6 @@ function glamScore(item) {
 
 function diversifyCameoGroup(person, items) {
   if (person === "Hanni") return items;
-  if (person === "Ningning") {
-    const stage = items.filter((item) => /synk|concert|encore|k-link|stage/i.test(item.file || ""));
-    const event = items.filter((item) => /mise-en-scene|mma|2025\.01\.28/i.test(item.file || ""));
-    const other = items.filter((item) => !/synk|concert|encore|k-link|stage|mise-en-scene|mma|2025\.01\.28/i.test(item.file || ""));
-    return interleaveGroups([stage, event, other]);
-  }
   if (person !== "Haerin") return items;
   const dior = items.filter((item) => /dior/i.test(item.file || ""));
   const olens = items.filter((item) => /olens/i.test(item.file || ""));
@@ -1283,9 +1134,24 @@ const kpopItems = buildCameoPool(cameoItems);
 const dreamCarItems = uniqueBySource(carItems);
 
 const onlineSources = [
-  // Food and car Commons searches were too noisy for Yum: they pulled in package shots,
-  // interiors, flowers, random street cars, and other review rejects.
-  // Kpop lookups are disabled too so the late feed never turns into an idol-only wall.
+  { category: "food", label: "Korean barbecue", query: "korean barbecue galbi food", requireAny: ["galbi", "barbecue"], maxItems: 90 },
+  { category: "food", label: "Bulgogi", query: "bulgogi korean food", requireAny: ["bulgogi"], maxItems: 72 },
+  { category: "food", label: "Ramen", query: "ramen noodles bowl food", requireAny: ["ramen", "noodle"], maxItems: 90 },
+  { category: "food", label: "Sushi", query: "sushi salmon sashimi food", requireAny: ["sushi", "sashimi"], maxItems: 90 },
+  { category: "food", label: "Dumplings", query: "dumplings jiaozi gyoza food", requireAny: ["dumpling", "jiaozi", "gyoza"], maxItems: 84 },
+  { category: "food", label: "Pho", query: "pho vietnamese noodle soup food", requireAny: ["pho"], maxItems: 60 },
+  { category: "food", label: "Carbonara", query: "carbonara pasta food", requireAny: ["carbonara", "pasta"], maxItems: 72 },
+  { category: "food", label: "Burgers", query: "cheeseburger hamburger fries food", requireAny: ["burger", "hamburger", "cheeseburger"], maxItems: 90 },
+  { category: "food", label: "Steak", query: "steak dinner restaurant food", requireAny: ["steak"], maxItems: 90 },
+  { category: "food", label: "Tacos", query: "tacos carnitas quesadilla mexican food", requireAny: ["taco", "carnitas", "quesadilla"], maxItems: 84 },
+  { category: "food", label: "Cajun", query: "gumbo cajun seafood food", requireAny: ["gumbo", "cajun"], maxItems: 48 },
+  { category: "food", label: "Fried chicken", query: "fried chicken food", requireAny: ["fried chicken", "chicken"], maxItems: 72 },
+  { category: "car", label: "BMW M2", query: "BMW M2 coupe car", requireAny: ["bmw m2", "m2"], kind: "car", maxItems: 72 },
+  { category: "car", label: "BMW M235", query: "BMW M235 Gran Coupe car", requireAny: ["m235", "gran coupe"], kind: "car", maxItems: 48 },
+  { category: "car", label: "Audi RS3", query: "Audi RS3 car", requireAny: ["rs3", "audi"], kind: "car", maxItems: 60 },
+  { category: "car", label: "Mercedes-AMG A45", query: "Mercedes AMG A45 car", requireAny: ["a45", "amg"], kind: "car", maxItems: 60 },
+  { category: "car", label: "Porsche Cayman", query: "Porsche Cayman car", requireAny: ["cayman", "porsche"], kind: "car", maxItems: 60 },
+  { category: "car", label: "MINI JCW", query: "MINI John Cooper Works car", requireAny: ["john cooper works", "mini"], kind: "car", maxItems: 48 },
 ];
 
 onlineSources.forEach((source) => {
@@ -1319,6 +1185,7 @@ const blockedOnlineTitleTerms = [
   "microphone",
   "music bank",
   "radio",
+  "ningning",
 ];
 
 const onlineSourceIndex = { food: 0, kpop: 0, car: 0 };
@@ -1361,8 +1228,6 @@ function canonicalFileKey(value) {
 }
 
 function sourceKey(item) {
-  if (item.repeatKey) return item.repeatKey;
-
   const primary = item.sourceId || item.file || item.original || item.image || item.url || item.caption || "";
   const fileKey = canonicalFileKey(primary);
   if (fileKey) return fileKey;
@@ -1399,18 +1264,18 @@ function spreadStride(length, category) {
 }
 
 function longScrollItems(items, category, targetCount = longScrollItemsPerCategory) {
-  if (!items.length) return [];
-  const stride = spreadStride(items.length, category);
+  const uniqueItems = uniqueBySource(items);
+  if (!uniqueItems.length) return [];
+  const count = Math.min(uniqueItems.length, targetCount);
+  const stride = spreadStride(uniqueItems.length, category);
   const offset = { food: 0, kpop: 3, car: 5 }[category] || 0;
 
-  return Array.from({ length: targetCount }, (_, index) => {
-    const cycle = Math.floor(index / items.length);
-    const sourceIndex = (index * stride + cycle * 7 + offset) % items.length;
-    const item = items[sourceIndex];
+  return Array.from({ length: count }, (_, index) => {
+    const sourceIndex = (index * stride + offset) % uniqueItems.length;
+    const item = uniqueItems[sourceIndex];
     return {
       ...item,
       category,
-      repeatKey: `${category}:${cycle}:${sourceKey(item)}`,
     };
   });
 }
@@ -1460,17 +1325,13 @@ function cameoPersonSequence(targets, targetCount) {
   return sequence;
 }
 
-function longScrollCameoItems(items, targetCount = longScrollItemsPerCategory) {
-  const targets = scaledCameoTargets(targetCount);
-  const groups = Object.fromEntries(cameoPeople.map((person) => [person, longScrollItems(
+function longScrollCameoItems(items) {
+  const groups = cameoPeople.map((person) => longScrollItems(
     items.filter((item) => item.person === person),
-    "kpop",
-    targets[person],
-  )]));
+    "kpop"
+  ));
 
-  return cameoPersonSequence(targets, targetCount)
-    .map((person) => groups[person].shift())
-    .filter(Boolean);
+  return interleaveGroups(groups);
 }
 
 function createFeedState() {
@@ -1492,6 +1353,7 @@ function createFeedState() {
 function enqueueUnique(state, category, item) {
   if (!item) return false;
   const nextItem = { ...item, category: item.category || category };
+  if (isBlockedContentItem(nextItem)) return false;
   const key = sourceKey(nextItem);
   if (!key || state.seenKeys.has(key) || state.queuedKeys.has(key)) return false;
   state.queuedKeys.add(key);
@@ -1565,7 +1427,7 @@ function cleanOnlineTitle(title) {
 function hasRequiredOnlineTerms(title, source) {
   if (!source.requireAny || !source.requireAny.length) return true;
   const lower = title.toLowerCase();
-  return source.requireAny.some((term) => lower.includes(term));
+  return source.requireAny.some((term) => lower.includes(String(term).toLowerCase()));
 }
 
 function isBlockedOnlineTitle(title) {
