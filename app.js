@@ -16,6 +16,10 @@ function unsplashSource(query) {
   return `https://unsplash.com/s/photos/${encodeURIComponent(query).replace(/%20/g, "-")}`;
 }
 
+function bmwPressImage(id) {
+  return `https://mediapool.bmwgroup.com/download/edown/pressclub/publicq?dokNo=${id}&attachment=1&actEvent=image`;
+}
+
 const baseItems = [
   { image: unsplashImage("1558030006-450675393462"), url: unsplashSource("steak dinner"), caption: "Steak sliced under moody restaurant light, crust first.", shape: "cinema", focus: "center 48%" },
   { image: unsplashImage("1600891964092-4316c288032e"), url: unsplashSource("ribeye steak fries"), caption: "Ribeye and fries, glossy sauce, clean plate drama.", shape: "wide", focus: "center 55%" },
@@ -132,6 +136,32 @@ const skippedFiles = new Set([
   "Pasta carbonara.jpg",
   "Fettuccine Alfredo.jpg",
 ]);
+
+baseItems.push(
+  { image: unsplashImage("1568901346375-23c9450c58cd"), url: unsplashSource("burger close up"), caption: "Stacked burger, glossy bun, clean melted-cheese pull.", shape: "portrait", focus: "center 50%" },
+  { image: unsplashImage("1540189549336-e6e99c3679fe"), url: unsplashSource("restaurant food table"), caption: "Restaurant table spread, warm plates and rich dinner color.", shape: "wide", focus: "center 50%" },
+  { image: unsplashImage("1504674900247-0877df9cc836"), url: unsplashSource("salmon dinner"), caption: "Salmon dinner, crisp color and clean plate light.", shape: "cinema", focus: "center 50%" },
+  { image: unsplashImage("1529042410759-befb1204b468"), url: unsplashSource("burger fries"), caption: "Burger and fries, big diner comfort with a polished crop.", shape: "wide", focus: "center 52%" },
+  { image: unsplashImage("1546069901-ba9599a7e63c"), url: unsplashSource("fried chicken"), caption: "Fried chicken, golden crunch and hot-table energy.", shape: "portrait", focus: "center 52%" },
+  { image: unsplashImage("1512621776951-a57141f2eefd"), url: unsplashSource("grain bowl"), caption: "Bright bowl, clean vegetables and sharp color contrast.", shape: "square", focus: "center 50%" },
+  { image: unsplashImage("1484723091739-30a097e8f929"), url: unsplashSource("steak plate"), caption: "Steak plate, browned crust and moody restaurant finish.", shape: "wide", focus: "center 50%" },
+  { image: unsplashImage("1498837167922-ddd27525d352"), url: unsplashSource("pancake breakfast"), caption: "Breakfast plate, soft syrup shine and clean morning color.", shape: "portrait", focus: "center 48%" },
+  { image: unsplashImage("1467003909585-2f8a72700288"), url: unsplashSource("food table"), caption: "Shared table spread, bright plates and easy dinner chaos.", shape: "wide", focus: "center 50%" },
+  { image: unsplashImage("1565958011703-44f9829ba187"), url: unsplashSource("pizza close up"), caption: "Pizza close-up, melted cheese and crisp edge detail.", shape: "cinema", focus: "center 52%" },
+  { image: unsplashImage("1555939594-58d7cb561ad1"), url: unsplashSource("noodle bowl"), caption: "Noodle bowl, deep broth and glossy toppings.", shape: "portrait", focus: "center 48%" },
+  { image: unsplashImage("1559847844-5315695dadae"), url: unsplashSource("sushi close up"), caption: "Sushi close-up, clean fish color and tight plating.", shape: "square", focus: "center 50%" },
+  { image: unsplashImage("1476224203421-9ac39bcb3327"), url: unsplashSource("burger restaurant"), caption: "Restaurant burger, toasted bun and serious stack.", shape: "wide", focus: "center 50%" },
+  { image: unsplashImage("1512058564366-18510be2db19"), url: unsplashSource("asian noodles"), caption: "Noodles with deep sauce color and clean chopstick energy.", shape: "portrait", focus: "center 50%" },
+  { image: unsplashImage("1481931098730-318b6f776db0"), url: unsplashSource("sushi platter"), caption: "Sushi platter, polished rows and bright fish color.", shape: "wide", focus: "center 50%" },
+  { image: unsplashImage("1544025162-d76694265947"), url: unsplashSource("pizza slice"), caption: "Pizza slice, melted cheese and crisp crust.", shape: "square", focus: "center 50%" },
+  { image: unsplashImage("1574071318508-1cdbab80d002"), url: unsplashSource("margherita pizza"), caption: "Margherita pizza, red sauce, basil, and clean heat.", shape: "wide", focus: "center 50%" },
+  { image: unsplashImage("1513104890138-7c749659a591"), url: unsplashSource("pepperoni pizza"), caption: "Pepperoni pizza, loud color and classic comfort.", shape: "cinema", focus: "center 50%" },
+  { image: unsplashImage("1598515214211-89d3c73ae83b"), url: unsplashSource("ramen noodles"), caption: "Ramen-style noodles, warm broth and tight bowl crop.", shape: "portrait", focus: "center 50%" },
+  { image: unsplashImage("1567620905732-2d1ec7ab7445"), url: unsplashSource("breakfast pancakes"), caption: "Pancakes, soft stack and glossy breakfast light.", shape: "wide", focus: "center 50%" },
+  { image: unsplashImage("1547592166-23ac45744acd"), url: unsplashSource("pasta plate"), caption: "Pasta plate, clean sauce and soft table light.", shape: "square", focus: "center 50%" },
+  { image: unsplashImage("1550547660-d9450f859349"), url: unsplashSource("noodles close up"), caption: "Noodles close-up, glossy sauce and sharp texture.", shape: "wide", focus: "center 50%" },
+  { image: unsplashImage("1554998171-89445e31c52b"), url: unsplashSource("restaurant plate"), caption: "Restaurant plate, tidy plating and rich color.", shape: "portrait", focus: "center 50%" },
+);
 
 const hanniItems = [
   {
@@ -804,13 +834,6 @@ const carItems = [
     focus: "center 53%",
   },
   {
-    image: "https://uploads.audi-mediacenter.com/system/production/media/124860/images/afbf9920906f0243c1d902240e03ccf56efb4589/A242749_web_2880.jpg?1718874290",
-    url: "https://www.audi-mediacenter.com/en/photos/detail/lap-record-for-audi-sport-in-the-compact-segment-124860",
-    caption: "Audi RS 3, small sharp sedan energy, official track-day polish.",
-    shape: "wide",
-    focus: "center 51%",
-  },
-  {
     image: "https://mediapool.bmwgroup.com/download/edown/pressclub/publicq?dokNo=P90543018&attachment=1&actEvent=image",
     url: "https://www.press.bmwgroup.com/usa/photo/detail/P90543018/MINI-John-Cooper-Works-Countryman-03-2024",
     caption: "MINI John Cooper Works Countryman, compact crossover with punchy official-photo drama.",
@@ -856,13 +879,6 @@ carItems.push(
     focus: "center 52%",
   },
   {
-    image: "https://mediapool.bmwgroup.com/download/edown/pressclub/publicq?dokNo=P90572410&attachment=1&actEvent=image",
-    url: "https://www.press.bmwgroup.com/usa/photo/compilation/T0445698EN_US/the-new-2025-bmw-2-series-gran-coupe?language=en_US",
-    caption: "BMW compact sedan, polished wheel-and-body drama.",
-    shape: "cinema",
-    focus: "center 52%",
-  },
-  {
     image: "https://mediapool.bmwgroup.com/download/edown/pressclub/publicq?dokNo=P90525103&attachment=1&actEvent=image",
     url: "https://www.press.bmwgroup.com/usa/article/detail/T0437576EN_US/the-all-new-2024-bmw-x2?language=en_US",
     caption: "BMW X2 M35i, compact SUV motion shot in official light.",
@@ -874,13 +890,6 @@ carItems.push(
     url: "https://www.press.bmwgroup.com/usa/article/detail/T0437576EN_US/the-all-new-2024-bmw-x2?language=en_US",
     caption: "BMW X2 M35i, small crossover coupe with studio polish.",
     shape: "wide",
-    focus: "center 52%",
-  },
-  {
-    image: "https://mediapool.bmwgroup.com/download/edown/pressclub/publicq?dokNo=P90526454&attachment=1&actEvent=image",
-    url: "https://www.press.bmwgroup.com/usa/article/detail/T0437576EN_US/the-all-new-2024-bmw-x2?language=en_US",
-    caption: "BMW X2, compact SUV details in clean official framing.",
-    shape: "cinema",
     focus: "center 52%",
   },
   {
@@ -915,27 +924,6 @@ carItems.push(
     image: "https://uploads.audi-mediacenter.com/system/production/media/127845/images/eb7b0616ae1f2e800a60199af6ae9557d92bceef/A250741_web_2880.jpg?1747923247",
     url: "https://www.audi-mediacenter.com/en/press-releases/more-powerful-and-efficient-than-ever-the-new-a3-sportback-tfsi-e-16301",
     caption: "Audi A3 Sportback, clean compact hatchback dream.",
-    shape: "wide",
-    focus: "center 52%",
-  },
-  {
-    image: "https://uploads.audi-mediacenter.com/system/production/media/124849/images/bad6453d11e7d3705523e3fc1ea72345c2774f4b/A242738_web_2880.jpg?1718705696",
-    url: "https://www.audi-mediacenter.com/en/photos/detail/lap-record-for-audi-sport-in-the-compact-segment-124849",
-    caption: "Audi RS 3, compact sedan track shot with official polish.",
-    shape: "wide",
-    focus: "center 52%",
-  },
-  {
-    image: "https://uploads.audi-mediacenter.com/system/production/media/124852/images/c701ea62ded3a4ed701b87beb6c43b97674dfdea/A242741_web_2880.jpg?1718705681",
-    url: "https://www.audi-mediacenter.com/en/press-releases/back-on-track-lap-record-for-audi-sport-in-the-compact-segment-16057",
-    caption: "Audi RS 3, small fast sedan in official action light.",
-    shape: "cinema",
-    focus: "center 52%",
-  },
-  {
-    image: "https://uploads.audi-mediacenter.com/system/production/media/124858/images/b012bb06448b68ff62cb19968db8438b11c938b7/A242747_web_2880.jpg?1718704979",
-    url: "https://www.audi-mediacenter.com/en/press-releases/back-on-track-lap-record-for-audi-sport-in-the-compact-segment-16057",
-    caption: "Audi RS 3, compact track-day wallpaper energy.",
     shape: "wide",
     focus: "center 52%",
   },
@@ -978,6 +966,107 @@ carItems.push(
     image: "https://mediapool.bmwgroup.com/download/edown/pressclub/publicq?dokNo=P90543026&attachment=1&actEvent=image",
     url: "https://www.press.bmwgroup.com/usa/photo/detail/P90543026/MINI-John-Cooper-Works-Countryman-03-2024",
     caption: "MINI Countryman, official compact-SUV inspiration frame.",
+    shape: "wide",
+    focus: "center 52%",
+  }
+);
+
+carItems.push(
+  {
+    image: bmwPressImage("P90572282"),
+    url: "https://www.press.bmwgroup.com/usa/photo/compilation/T0445698EN_US/the-new-2025-bmw-2-series-gran-coupe?language=en_US",
+    caption: "BMW M235 Gran Coupe, clean official exterior frame with real wallpaper energy.",
+    shape: "wide",
+    focus: "center 52%",
+  },
+  {
+    image: bmwPressImage("P90572283"),
+    url: "https://www.press.bmwgroup.com/usa/photo/compilation/T0445698EN_US/the-new-2025-bmw-2-series-gran-coupe?language=en_US",
+    caption: "BMW M235 Gran Coupe, compact sedan stance in crisp press light.",
+    shape: "cinema",
+    focus: "center 52%",
+  },
+  {
+    image: bmwPressImage("P90572286"),
+    url: "https://www.press.bmwgroup.com/usa/photo/compilation/T0445698EN_US/the-new-2025-bmw-2-series-gran-coupe?language=en_US",
+    caption: "BMW M235 Gran Coupe, low clean frame and serious daily-driver energy.",
+    shape: "cinema",
+    focus: "center 52%",
+  },
+  {
+    image: bmwPressImage("P90572287"),
+    url: "https://www.press.bmwgroup.com/usa/photo/compilation/T0445698EN_US/the-new-2025-bmw-2-series-gran-coupe?language=en_US",
+    caption: "BMW compact sedan, glossy official angle with no filler.",
+    shape: "wide",
+    focus: "center 52%",
+  },
+  {
+    image: bmwPressImage("P90572288"),
+    url: "https://www.press.bmwgroup.com/usa/photo/compilation/T0445698EN_US/the-new-2025-bmw-2-series-gran-coupe?language=en_US",
+    caption: "BMW 2 Series Gran Coupe, clean side profile and tight proportions.",
+    shape: "wide",
+    focus: "center 52%",
+  },
+  {
+    image: bmwPressImage("P90572289"),
+    url: "https://www.press.bmwgroup.com/usa/photo/compilation/T0445698EN_US/the-new-2025-bmw-2-series-gran-coupe?language=en_US",
+    caption: "BMW M235, compact official motion frame with polished paint.",
+    shape: "cinema",
+    focus: "center 52%",
+  },
+  {
+    image: bmwPressImage("P90572290"),
+    url: "https://www.press.bmwgroup.com/usa/photo/compilation/T0445698EN_US/the-new-2025-bmw-2-series-gran-coupe?language=en_US",
+    caption: "BMW M235 Gran Coupe, official exterior shot built for the wall.",
+    shape: "wide",
+    focus: "center 52%",
+  },
+  {
+    image: bmwPressImage("P90572292"),
+    url: "https://www.press.bmwgroup.com/usa/photo/compilation/T0445698EN_US/the-new-2025-bmw-2-series-gran-coupe?language=en_US",
+    caption: "BMW 2 Series Gran Coupe, clean press-gallery compact car shot.",
+    shape: "wide",
+    focus: "center 52%",
+  },
+  {
+    image: bmwPressImage("P90572293"),
+    url: "https://www.press.bmwgroup.com/usa/photo/compilation/T0445698EN_US/the-new-2025-bmw-2-series-gran-coupe?language=en_US",
+    caption: "BMW compact sedan, balanced official composition and sharp stance.",
+    shape: "cinema",
+    focus: "center 52%",
+  },
+  {
+    image: bmwPressImage("P90572295"),
+    url: "https://www.press.bmwgroup.com/usa/photo/compilation/T0445698EN_US/the-new-2025-bmw-2-series-gran-coupe?language=en_US",
+    caption: "BMW M235 Gran Coupe, clean front-three-quarter press shot.",
+    shape: "wide",
+    focus: "center 52%",
+  },
+  {
+    image: bmwPressImage("P90572306"),
+    url: "https://www.press.bmwgroup.com/usa/photo/compilation/T0445698EN_US/the-new-2025-bmw-2-series-gran-coupe?language=en_US",
+    caption: "BMW M235 Gran Coupe, full road shot with clean compact-sedan movement.",
+    shape: "wide",
+    focus: "center 52%",
+  },
+  {
+    image: bmwPressImage("P90572307"),
+    url: "https://www.press.bmwgroup.com/usa/photo/compilation/T0445698EN_US/the-new-2025-bmw-2-series-gran-coupe?language=en_US",
+    caption: "BMW 2 Series Gran Coupe, full exterior frame under sharp architecture.",
+    shape: "wide",
+    focus: "center 52%",
+  },
+  {
+    image: bmwPressImage("P90572308"),
+    url: "https://www.press.bmwgroup.com/usa/photo/compilation/T0445698EN_US/the-new-2025-bmw-2-series-gran-coupe?language=en_US",
+    caption: "BMW M235 Gran Coupe, clean road frame with the whole car visible.",
+    shape: "cinema",
+    focus: "center 52%",
+  },
+  {
+    image: bmwPressImage("P90543017"),
+    url: "https://www.press.bmwgroup.com/usa/photo/detail/P90543017/MINI-John-Cooper-Works-Countryman-03-2024",
+    caption: "MINI Countryman JCW, punchy compact crossover with clean official polish.",
     shape: "wide",
     focus: "center 52%",
   }
@@ -1124,7 +1213,7 @@ const batchSize = 64;
 const onlineBatchSize = 24;
 const categories = ["food", "kpop", "car"];
 const mixPattern = ["food", "kpop", "car"];
-const longScrollItemsPerCategory = 144;
+const longScrollItemsPerCategory = 240;
 const foodItems = uniqueBySource(baseItems.filter((item) => !item.file || !skippedFiles.has(item.file)));
 const kpopItems = buildCameoPool(cameoItems);
 const dreamCarItems = uniqueBySource(carItems);
@@ -1224,12 +1313,35 @@ function taggedItems(items, category) {
   return items.map((item) => ({ ...item, category }));
 }
 
+function greatestCommonDivisor(left, right) {
+  let a = Math.abs(left);
+  let b = Math.abs(right);
+  while (b) {
+    const next = a % b;
+    a = b;
+    b = next;
+  }
+  return a || 1;
+}
+
+function spreadStride(length, category) {
+  if (length <= 1) return 1;
+  const preferred = { food: 17, kpop: 19, car: 23 }[category] || 7;
+  let stride = preferred % length || 1;
+  while (greatestCommonDivisor(stride, length) !== 1) {
+    stride = (stride + 1) % length || 1;
+  }
+  return stride;
+}
+
 function longScrollItems(items, category, targetCount = longScrollItemsPerCategory) {
   if (!items.length) return [];
+  const stride = spreadStride(items.length, category);
+  const offset = { food: 0, kpop: 3, car: 5 }[category] || 0;
 
   return Array.from({ length: targetCount }, (_, index) => {
     const cycle = Math.floor(index / items.length);
-    const sourceIndex = (index + cycle * 7) % items.length;
+    const sourceIndex = (index * stride + cycle * 7 + offset) % items.length;
     const item = items[sourceIndex];
     return {
       ...item,
