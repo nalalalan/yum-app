@@ -6,7 +6,7 @@ Tiles are intentionally image-only. Hovering reveals a short caption; clicking o
 
 The collection is intentionally built around Korean, Chinese, Mexican, American, Japanese, Italian, Vietnamese, and Cajun food, with no Indian or Mediterranean tiles.
 
-Food, Haerin/Hanni/Wonyoung cameo tiles, and compact European luxury car dream tiles are woven together without intentional source repeats. When the curated set runs low, the wall pulls more unique food and car images instead of cycling the same tiles.
+Food, Haerin/Hanni/Wonyoung cameo tiles, and compact European sedan dream tiles are woven together without intentional source repeats. When the curated set runs low, the wall pulls more unique food and sedan-leaning car images instead of cycling the same tiles.
 
 ## Run Locally
 
