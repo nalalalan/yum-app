@@ -960,6 +960,48 @@ carItems.push(
   }
 );
 
+[
+  "P90572284",
+  "P90572285",
+  "P90572291",
+  "P90572294",
+  "P90572296",
+  "P90572297",
+  "P90572298",
+  "P90572299",
+  "P90572300",
+  "P90572301",
+  "P90572302",
+  "P90572303",
+  "P90572304",
+  "P90572305",
+  "P90572309",
+  "P90572310",
+  "P90572311",
+  "P90572312",
+  "P90572313",
+  "P90572314",
+  "P90572315",
+  "P90572316",
+  "P90572317",
+  "P90572318",
+  "P90572319",
+  "P90572320",
+  "P90572321",
+  "P90572322",
+  "P90572323",
+  "P90572324",
+  "P90572325",
+].forEach((id, index) => {
+  carItems.push({
+    image: bmwPressImage(id),
+    url: "https://www.press.bmwgroup.com/usa/photo/compilation/T0445698EN_US/the-new-2025-bmw-2-series-gran-coupe?language=en_US",
+    caption: `BMW M235 Gran Coupe, verified official sedan press angle ${index + 1}.`,
+    shape: index % 4 === 1 ? "cinema" : "wide",
+    focus: "center 52%",
+  });
+});
+
 function uniqueBySource(list) {
   const seen = new Set();
   return list.filter((item) => {
@@ -1021,10 +1063,24 @@ const blockedContentTerms = [
   "china",
   "stage",
   "performance",
+  "editorial",
+  "glam",
+  "awards-night",
+  "awards-event",
+  "fashion-event",
+  "fan concert",
+  "concert-stage",
   "inkigayo",
   "mma",
   "mama",
   "golden disc",
+  "marie claire",
+  "bvlgari",
+  "dior",
+  "dyson",
+  "tommy",
+  "rimowa",
+  "miu miu",
   "photocall",
   "launch event",
   "beauty event",
@@ -1041,6 +1097,82 @@ function isBlockedContentItem(item) {
   ].map((value) => normalizeSourceText(value || "").toLowerCase()).join(" ");
 
   return blockedContentTerms.some((term) => text.includes(term));
+}
+
+const curatorProfiles = {
+  food: {
+    prefer: [
+      /barbecue|galbi|bulgogi|ramen|noodle|sushi platter|sashimi platter|dumpling|jiaozi|pho|carbonara|pasta|burger|steak|ribs|taco|quesadilla|gumbo|fried chicken|pizza|shared table|restaurant table|grill/i,
+      /glossy|char|broth|crispy|golden|platter|plate|bowl|stacked|sliced|sauce|steam|melted/i,
+    ],
+    reject: [
+      /vegetable|vegetables|salad|broccoli|kale|spinach|lettuce|bean|chickpea|olive|nigiri|single|isolated|white background|plain|raw|uncooked|ingredient/i,
+    ],
+    minScore: 2,
+  },
+  kpop: {
+    prefer: [
+      /soft|natural|clean|gentle|bright|smile|calm|airport|public relations|olens|hanni|haerin|wonyoung|newjeans|ive/i,
+      /2024|2025|2026|241|250|260/i,
+    ],
+    reject: [
+      /stage|performance|concert|festival|inkigayo|music bank|microphone|fancam|fan concert|awards?|mma|mama|golden disc|photocall|launch event|beauty event|editorial|glam|heavy makeup|red carpet/i,
+    ],
+    minScore: 3,
+  },
+  car: {
+    prefer: [
+      /sedan|gran coupe|m235|3 series|m3|cla|c-class|a3|a4|rs3|modern|official|press|studio|road|motion|exterior/i,
+      /2024|2025|2026|g20|g80|g87|compact/i,
+    ],
+    reject: [
+      /suv|crossover|countryman|hatchback|sportback|x2|ix2|q3|cayenne|macan|classic|vintage|oldtimer|museum|exhibition|motor show|auto show|show floor|auto zuerich|moscow|iaa|frankfurt|parade|traffic|china|lwb|e class|w212|v212|e36|e46|199[0-9]|200[0-9]|2010|2011|2012/i,
+    ],
+    minScore: 3,
+  },
+};
+
+function curationText(item, source = {}) {
+  return [
+    item && item.person,
+    item && item.file,
+    item && item.caption,
+    item && item.sourceId,
+    item && item.image,
+    item && item.url,
+    source.label,
+    source.query,
+  ].map((value) => normalizeSourceText(value || "").toLowerCase()).join(" ");
+}
+
+function curationCategory(item, source = {}) {
+  return source.category || (item && item.category) || categoryFor(item || {});
+}
+
+function curatorScore(item, source = {}) {
+  const category = curationCategory(item, source);
+  const profile = curatorProfiles[category];
+  if (!profile) return 0;
+
+  const text = curationText(item, source);
+  if (profile.reject.some((pattern) => pattern.test(text))) return -100;
+
+  let score = 0;
+  profile.prefer.forEach((pattern) => {
+    if (pattern.test(text)) score += 2;
+  });
+
+  if (/thumb|official|press|studio|restaurant|platter|road|exterior|airport/i.test(text)) score += 1;
+  if (/cropped|lowres|logo|diagram|map|menu|drawing|illustration/i.test(text)) score -= 3;
+  if (item && ["wide", "cinema", "hero", "portrait"].includes(item.shape || "")) score += 1;
+  return score;
+}
+
+function passesCurator(item, source = {}) {
+  const category = curationCategory(item, source);
+  const profile = curatorProfiles[category];
+  if (!profile) return true;
+  return curatorScore(item, source) >= profile.minScore;
 }
 
 const featuredHaerinFiles = new Set([
@@ -1108,26 +1240,23 @@ function isAllowedCameo(item) {
   if (item.external) return true;
   if (blockedCameoFiles.has(item.file)) return false;
   if (casualCameoFiles.has(item.file)) return false;
-  if (item.person === "Haerin" && !featuredHaerinFiles.has(item.file)) return false;
-  if (item.person === "Wonyoung" && !featuredWonyoungFiles.has(item.file)) return false;
-  if (item.person === "Hanni" && !featuredHanniFiles.has(item.file)) return false;
   return true;
 }
 
 function glamCaption(item) {
   if (!item.person) return item;
   const source = `${item.file || ""} ${item.caption || ""}`.toLowerCase();
-  let mood = "polished editorial glow";
+  let mood = "soft clean portrait";
   if (/hanni|241022/.test(source)) {
-    mood = "hair-up event glow";
+    mood = "natural clean smile";
   } else if (/synk|concert|encore|fan concert|dive into ive|k-link|stage/.test(source)) {
-    mood = "stage-performance glow";
+    mood = "stage-performance frame";
   } else if (/mma|mama|melon|golden|disc/.test(source)) {
-    mood = "polished awards-event frame";
+    mood = "awards-event frame";
   } else if (/miu|miu|dior|bvlgari|tommy|dyson|rimowa|photocall|launch|event/.test(source)) {
-    mood = "sleek fashion-event frame";
+    mood = "fashion-event frame";
   } else if (/olens|kérastase|kerastase|mise-en-scene|beauty|marie claire/.test(source)) {
-    mood = "beauty-editorial close-up";
+    mood = "soft clean close-up";
   }
 
   return { ...item, caption: `${item.person} cameo, ${mood}.` };
@@ -1135,10 +1264,10 @@ function glamCaption(item) {
 
 function glamScore(item) {
   const source = `${item.file || ""} ${item.caption || ""}`.toLowerCase();
-  if (/hanni|241022|synk|concert|encore|fan concert|dive into ive|k-link|stage/.test(source)) return 4;
-  if (/miu|dior|bvlgari|tommy|dyson|rimowa|photocall|launch|event|mma|mama|melon|golden|disc/.test(source)) return 3;
-  if (/olens|kérastase|kerastase|mise-en-scene|beauty|marie claire/.test(source)) return 2;
-  return 0;
+  if (/stage|concert|fan concert|dive into ive|k-link|mma|mama|melon|golden|disc|dior|bvlgari|tommy|dyson|rimowa|photocall|launch|event|marie claire/.test(source)) return -4;
+  if (/airport|olens|hanni|haerin|wonyoung|241022|soft|clean|natural|smile/.test(source)) return 4;
+  if (/kerastase|mise-en-scene/.test(source)) return 1;
+  return 2;
 }
 
 function diversifyCameoGroup(person, items) {
@@ -1196,6 +1325,10 @@ const onlineSources = [
   { category: "food", label: "Tacos", query: "tacos carnitas quesadilla mexican food", requireAny: ["taco", "carnitas", "quesadilla"], maxItems: 84 },
   { category: "food", label: "Cajun", query: "gumbo cajun seafood food", requireAny: ["gumbo", "cajun"], maxItems: 48 },
   { category: "food", label: "Fried chicken", query: "fried chicken food", requireAny: ["fried chicken", "chicken"], maxItems: 72 },
+  { category: "kpop", label: "Hanni natural", query: "Hanni NewJeans airport natural", requireAny: ["hanni"], person: "Hanni", kind: "girl", maxItems: 54 },
+  { category: "kpop", label: "Haerin natural", query: "Haerin NewJeans airport natural", requireAny: ["haerin"], person: "Haerin", kind: "girl", maxItems: 54 },
+  { category: "kpop", label: "Wonyoung natural", query: "Wonyoung IVE airport natural", requireAny: ["wonyoung", "won-young"], person: "Wonyoung", kind: "girl", maxItems: 72 },
+  { category: "kpop", label: "Wonyoung clean portraits", query: "Jang Wonyoung IVE 2024 2025", requireAny: ["wonyoung", "won-young"], person: "Wonyoung", kind: "girl", maxItems: 72 },
   { category: "car", label: "BMW M235 Gran Coupe", query: "BMW M235 Gran Coupe sedan car", requireAny: ["m235", "gran coupe"], kind: "car", maxItems: 72 },
   { category: "car", label: "BMW 3 Series", query: "BMW 3 Series sedan car", requireAny: ["3 series", "sedan"], kind: "car", maxItems: 72 },
   { category: "car", label: "BMW M3 sedan", query: "BMW M3 sedan car", requireAny: ["m3", "sedan"], kind: "car", maxItems: 72 },
@@ -1246,7 +1379,6 @@ const blockedOnlineTitleTerms = [
   "curry",
   "indian",
   "mediterranean",
-  "airport",
   "concert",
   "festival",
   "live",
@@ -1257,6 +1389,10 @@ const blockedOnlineTitleTerms = [
 ];
 
 const onlineSourceIndex = { food: 0, kpop: 0, car: 0 };
+const aiCurateEndpoint = typeof window !== "undefined" && typeof window.YUM_AI_ENDPOINT === "string"
+  ? window.YUM_AI_ENDPOINT
+  : "/api/curate";
+let aiCuratorUnavailable = false;
 
 function imageFor(item) {
   return item.image || commonsImage(item.file, item.width || 1800);
@@ -1538,7 +1674,7 @@ function itemFromCommonsPage(source, page) {
     return null;
   }
 
-  if (source.category === "kpop" && /2020|2021|2022|2023|220|230|fan|fancam|stage|performance/i.test(lowerTitle)) {
+  if (source.category === "kpop" && /2020|2021|2022|220|fan|fancam|stage|performance|concert|festival|music bank|inkigayo|microphone|ningning/i.test(lowerTitle)) {
     return null;
   }
 
@@ -1554,6 +1690,90 @@ function itemFromCommonsPage(source, page) {
     shape: shapeFromDimensions(width, height, source.kind === "car" ? "wide" : "portrait"),
     focus: "center 50%",
   };
+}
+
+function localRankCandidates(source, candidates) {
+  return candidates
+    .map((item) => ({ item, score: curatorScore(item, source) }))
+    .filter(({ item, score }) => score >= (curatorProfiles[source.category] ? curatorProfiles[source.category].minScore : 0) && passesCurator(item, source))
+    .sort((left, right) => right.score - left.score)
+    .map(({ item }) => item);
+}
+
+function aiCandidatePayload(item) {
+  return {
+    image: imageFor(item),
+    original: item.original || imageFor(item),
+    url: sourceFor(item),
+    sourceId: item.sourceId || item.file || item.caption || "",
+    caption: item.caption || "",
+    category: item.category || "",
+    person: item.person || "",
+    shape: item.shape || "",
+    focus: item.focus || "",
+  };
+}
+
+function itemFromAiResponse(source, candidates, item) {
+  const key = sourceKey(item);
+  const matched = candidates.find((candidate) => sourceKey(candidate) === key);
+  const nextItem = matched || item;
+  if (!nextItem || !passesCurator(nextItem, source)) return null;
+  return { ...nextItem, category: nextItem.category || source.category };
+}
+
+async function curateCandidatesWithAi(source, candidates, limit = onlineBatchSize) {
+  if (!aiCurateEndpoint || aiCuratorUnavailable || typeof fetch !== "function" || !candidates.length) {
+    return [];
+  }
+
+  const requestCandidates = candidates.slice(0, 12);
+
+  try {
+    const response = await fetch(aiCurateEndpoint, {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        category: source.category,
+        source: {
+          label: source.label,
+          query: source.query,
+        },
+        limit: Math.min(limit, requestCandidates.length),
+        candidates: requestCandidates.map(aiCandidatePayload),
+      }),
+    });
+
+    if ([404, 405, 501, 503].includes(response.status)) {
+      aiCuratorUnavailable = true;
+      return [];
+    }
+
+    if (!response.ok) return [];
+
+    const data = await response.json();
+    if (!data || !Array.isArray(data.items)) return [];
+
+    return uniqueBySource(
+      data.items
+        .map((item) => itemFromAiResponse(source, requestCandidates, item))
+        .filter(Boolean)
+    );
+  } catch {
+    aiCuratorUnavailable = true;
+    return [];
+  }
+}
+
+async function rankOnlineCandidates(source, candidates) {
+  const locallyRanked = uniqueBySource(localRankCandidates(source, candidates));
+  if (!locallyRanked.length) return [];
+
+  const aiRanked = await curateCandidatesWithAi(source, locallyRanked, onlineBatchSize);
+  return aiRanked.length ? aiRanked : locallyRanked;
 }
 
 function nextOnlineSource(category) {
@@ -1585,9 +1805,11 @@ async function fetchOnlineSource(source) {
     source.exhausted = true;
   }
 
-  return pages
+  const candidates = pages
     .map((page) => itemFromCommonsPage(source, page))
     .filter(Boolean);
+
+  return rankOnlineCandidates(source, candidates);
 }
 
 async function loadMoreOnlineItemsForCategory(state, category, targetCount = onlineBatchSize) {
