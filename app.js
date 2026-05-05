@@ -1134,7 +1134,7 @@ function buildCameoPool(list) {
   return result;
 }
 
-const batchSize = 64;
+const batchSize = 63;
 const onlineBatchSize = 24;
 const categories = ["food", "kpop", "car"];
 const mixPattern = ["food", "kpop", "car"];
@@ -1385,43 +1385,22 @@ function dequeueUnique(state, category) {
   return null;
 }
 
-function fallbackCategories(preferred) {
-  const fallback = categories.filter((category) => category !== preferred);
-  if (preferred !== "kpop") {
-    return [preferred, ...fallback.filter((category) => category !== "kpop")];
-  }
-  return [preferred, ...fallback];
-}
-
-function hasQueuedNonKpop(state) {
-  return categories
-    .filter((category) => category !== "kpop")
-    .some((category) => (state.queues[category] || []).length > 0);
-}
-
-function hasRenderedNonKpop(items) {
-  return items.some((item) => categoryFor(item) !== "kpop");
+function hasAvailableUnique(state, category) {
+  return (state.queues[category] || []).some((item) => {
+    const key = sourceKey(item);
+    return key && !state.seenKeys.has(key);
+  });
 }
 
 function buildUniqueFeed() {
   const state = createFeedState();
   const feed = [];
-  let misses = 0;
 
-  while (misses < mixPattern.length * categories.length) {
-    const preferred = mixPattern[state.patternIndex % mixPattern.length];
-    state.patternIndex += 1;
-    let item = null;
-    for (const category of fallbackCategories(preferred)) {
-      item = dequeueUnique(state, category);
-      if (item) break;
-    }
-    if (!item) {
-      misses += 1;
-      continue;
-    }
-    feed.push(item);
-    misses = 0;
+  while (mixPattern.every((category) => hasAvailableUnique(state, category))) {
+    mixPattern.forEach((category) => {
+      const item = dequeueUnique(state, category);
+      if (item) feed.push(item);
+    });
   }
 
   return feed;
@@ -1588,41 +1567,23 @@ async function loadMoreOnlineItemsForCategory(state, category, targetCount = onl
 
 async function nextMixedItems(state, targetCount = batchSize) {
   const nextItems = [];
-  let misses = 0;
+  const targetSetCount = Math.floor(targetCount / mixPattern.length);
 
-  while (nextItems.length < targetCount && misses < mixPattern.length * categories.length) {
-    const preferred = mixPattern[state.patternIndex % mixPattern.length];
-    state.patternIndex += 1;
-
-    if (preferred === "kpop" && !hasQueuedNonKpop(state) && !hasRenderedNonKpop(nextItems)) {
-      misses += 1;
-      continue;
-    }
-
-    let item = dequeueUnique(state, preferred);
-    if (!item) {
-      await loadMoreOnlineItemsForCategory(state, preferred, onlineBatchSize);
-      item = dequeueUnique(state, preferred);
-    }
-
-    if (!item) {
-      for (const category of fallbackCategories(preferred).slice(1)) {
-        item = dequeueUnique(state, category);
-        if (!item) {
-          await loadMoreOnlineItemsForCategory(state, category, Math.ceil(onlineBatchSize / 2));
-          item = dequeueUnique(state, category);
-        }
-        if (item) break;
+  for (let setIndex = 0; setIndex < targetSetCount; setIndex += 1) {
+    for (const category of mixPattern) {
+      if (!hasAvailableUnique(state, category)) {
+        await loadMoreOnlineItemsForCategory(state, category, onlineBatchSize);
       }
     }
 
-    if (!item) {
-      misses += 1;
-      continue;
+    if (!mixPattern.every((category) => hasAvailableUnique(state, category))) {
+      break;
     }
 
-    nextItems.push(item);
-    misses = 0;
+    mixPattern.forEach((category) => {
+      const item = dequeueUnique(state, category);
+      if (item) nextItems.push(item);
+    });
   }
 
   if (!nextItems.length) {
