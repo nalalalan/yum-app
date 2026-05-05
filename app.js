@@ -978,7 +978,17 @@ function interleaveGroups(groups) {
   return interleaved;
 }
 
-const blockedContentTerms = ["ningning"];
+const blockedContentTerms = [
+  "ningning",
+  "suv",
+  "crossover",
+  "countryman",
+  "hatchback",
+  "sportback",
+  "bmw x2",
+  "bmw ix2",
+  "audi q3",
+];
 
 function isBlockedContentItem(item) {
   const text = [
@@ -1146,12 +1156,14 @@ const onlineSources = [
   { category: "food", label: "Tacos", query: "tacos carnitas quesadilla mexican food", requireAny: ["taco", "carnitas", "quesadilla"], maxItems: 84 },
   { category: "food", label: "Cajun", query: "gumbo cajun seafood food", requireAny: ["gumbo", "cajun"], maxItems: 48 },
   { category: "food", label: "Fried chicken", query: "fried chicken food", requireAny: ["fried chicken", "chicken"], maxItems: 72 },
-  { category: "car", label: "BMW M2", query: "BMW M2 coupe car", requireAny: ["bmw m2", "m2"], kind: "car", maxItems: 72 },
-  { category: "car", label: "BMW M235", query: "BMW M235 Gran Coupe car", requireAny: ["m235", "gran coupe"], kind: "car", maxItems: 48 },
-  { category: "car", label: "Audi RS3", query: "Audi RS3 car", requireAny: ["rs3", "audi"], kind: "car", maxItems: 60 },
-  { category: "car", label: "Mercedes-AMG A45", query: "Mercedes AMG A45 car", requireAny: ["a45", "amg"], kind: "car", maxItems: 60 },
-  { category: "car", label: "Porsche Cayman", query: "Porsche Cayman car", requireAny: ["cayman", "porsche"], kind: "car", maxItems: 60 },
-  { category: "car", label: "MINI JCW", query: "MINI John Cooper Works car", requireAny: ["john cooper works", "mini"], kind: "car", maxItems: 48 },
+  { category: "car", label: "BMW M235 Gran Coupe", query: "BMW M235 Gran Coupe sedan car", requireAny: ["m235", "gran coupe"], kind: "car", maxItems: 72 },
+  { category: "car", label: "BMW 3 Series", query: "BMW 3 Series sedan car", requireAny: ["3 series", "sedan"], kind: "car", maxItems: 72 },
+  { category: "car", label: "BMW M3 sedan", query: "BMW M3 sedan car", requireAny: ["m3", "sedan"], kind: "car", maxItems: 72 },
+  { category: "car", label: "Mercedes CLA", query: "Mercedes CLA sedan car", requireAny: ["cla", "mercedes"], kind: "car", maxItems: 72 },
+  { category: "car", label: "Mercedes C-Class", query: "Mercedes C-Class sedan car", requireAny: ["c-class", "sedan"], kind: "car", maxItems: 72 },
+  { category: "car", label: "Audi A3 sedan", query: "Audi A3 sedan car", requireAny: ["a3", "sedan"], kind: "car", maxItems: 72 },
+  { category: "car", label: "Audi A4 sedan", query: "Audi A4 sedan car", requireAny: ["a4", "sedan"], kind: "car", maxItems: 72 },
+  { category: "car", label: "Audi RS3 sedan", query: "Audi RS3 sedan car", requireAny: ["rs3", "sedan"], kind: "car", maxItems: 72 },
 ];
 
 onlineSources.forEach((source) => {
@@ -1487,7 +1499,7 @@ function itemFromCommonsPage(source, page) {
   if (!hasRequiredOnlineTerms(lowerTitle, source)) return null;
   if (isBlockedOnlineTitle(lowerTitle)) return null;
 
-  if (source.kind === "car" && /dealer|dealership|auction|sale|crash|wreck|damaged|police|taxi/i.test(lowerTitle)) {
+  if (source.kind === "car" && /dealer|dealership|auction|sale|crash|wreck|damaged|police|taxi|suv|crossover|countryman|hatchback|sportback|bmw x[1-7]|audi q[2-8]|cayenne|macan/i.test(lowerTitle)) {
     return null;
   }
 
