@@ -135,6 +135,10 @@ const skippedFiles = new Set([
   "Carbonara 2025.jpg",
   "Pasta carbonara.jpg",
   "Fettuccine Alfredo.jpg",
+  "Salmon Sushi (3332911172).jpg",
+  "Salmon sushi (20250322).jpg",
+  "Salmon Sushi.jpg",
+  "Salmon sushi.jpg",
 ]);
 
 baseItems.push(
@@ -988,6 +992,42 @@ const blockedContentTerms = [
   "bmw x2",
   "bmw ix2",
   "audi q3",
+  "vegetable",
+  "vegetables",
+  "salad",
+  "broccoli",
+  "kale",
+  "spinach",
+  "lettuce",
+  "beans",
+  "chickpea",
+  "olives",
+  "plain",
+  "old car",
+  "classic car",
+  "vintage",
+  "e36",
+  "e46",
+  "e class",
+  "lwb",
+  "iaa",
+  "frankfurt",
+  "show floor",
+  "motor show",
+  "auto show",
+  "exhibition",
+  "parade",
+  "traffic",
+  "china",
+  "stage",
+  "performance",
+  "inkigayo",
+  "mma",
+  "mama",
+  "golden disc",
+  "photocall",
+  "launch event",
+  "beauty event",
 ];
 
 function isBlockedContentItem(item) {
@@ -1181,11 +1221,27 @@ const blockedOnlineTitleTerms = [
   "menu",
   "raw meat",
   "uncooked",
+  "single",
+  "isolated",
+  "white background",
+  "plain",
+  "nigiri",
+  "take away",
   "onion",
   "chili",
   "chilli",
   "jalapeno",
   "pepper",
+  "vegetable",
+  "vegetables",
+  "salad",
+  "broccoli",
+  "kale",
+  "spinach",
+  "lettuce",
+  "bean",
+  "chickpea",
+  "olive",
   "spicy",
   "curry",
   "indian",
@@ -1478,7 +1534,7 @@ function itemFromCommonsPage(source, page) {
   if (!hasRequiredOnlineTerms(lowerTitle, source)) return null;
   if (isBlockedOnlineTitle(lowerTitle)) return null;
 
-  if (source.kind === "car" && /dealer|dealership|auction|sale|crash|wreck|damaged|police|taxi|suv|crossover|countryman|hatchback|sportback|bmw x[1-7]|audi q[2-8]|cayenne|macan/i.test(lowerTitle)) {
+  if (source.kind === "car" && /dealer|dealership|auction|sale|crash|wreck|damaged|police|taxi|suv|crossover|countryman|hatchback|sportback|bmw x[1-7]|audi q[2-8]|cayenne|macan|classic|vintage|oldtimer|museum|exhibition|motor show|auto show|show floor|auto zuerich|moscow|iaa|frankfurt|parade|traffic|china|lwb|e class|w212|v212|e36|e46|199[0-9]|200[0-9]|2010|2011|2012/i.test(lowerTitle)) {
     return null;
   }
 
