@@ -7,7 +7,7 @@ const publicDir = path.join(__dirname, "public");
 const openAiApiKey = process.env.OPENAI_API_KEY || "";
 const openAiModel = process.env.OPENAI_MODEL || "gpt-5-mini";
 const maxCuratorCandidates = Number(process.env.YUM_AI_CANDIDATE_LIMIT || 12);
-const allowedOrigins = String(process.env.YUM_ALLOWED_ORIGINS || "http://localhost:3000,https://yum.aolabs.io")
+const allowedOrigins = String(process.env.YUM_ALLOWED_ORIGINS || "http://localhost:3000,https://yum.aolabs.io,https://www.yum.aolabs.io")
   .split(",")
   .map((origin) => origin.trim())
   .filter(Boolean);

@@ -1389,9 +1389,16 @@ const blockedOnlineTitleTerms = [
 ];
 
 const onlineSourceIndex = { food: 0, kpop: 0, car: 0 };
-const aiCurateEndpoint = typeof window !== "undefined" && typeof window.YUM_AI_ENDPOINT === "string"
-  ? window.YUM_AI_ENDPOINT
-  : "/api/curate";
+const railwayAiEndpoint = "https://yum-app-production.up.railway.app/api/curate";
+
+function defaultAiCurateEndpoint() {
+  if (typeof window === "undefined") return "/api/curate";
+  if (typeof window.YUM_AI_ENDPOINT === "string") return window.YUM_AI_ENDPOINT;
+  const host = window.location && window.location.hostname;
+  return host === "yum.aolabs.io" || host === "www.yum.aolabs.io" ? railwayAiEndpoint : "/api/curate";
+}
+
+const aiCurateEndpoint = defaultAiCurateEndpoint();
 let aiCuratorUnavailable = false;
 
 function imageFor(item) {

@@ -30,7 +30,7 @@ OPENAI_MODEL=gpt-5-mini
 Optional:
 
 ```bash
-YUM_ALLOWED_ORIGINS=https://yum.aolabs.io,http://localhost:3000
+YUM_ALLOWED_ORIGINS=https://yum.aolabs.io,https://www.yum.aolabs.io,http://localhost:3000
 YUM_AI_CANDIDATE_LIMIT=12
 ```
 
