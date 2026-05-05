@@ -34,15 +34,20 @@ function cacheSet(key, value) {
   }
 }
 
+function responseCorsOrigin(origin) {
+  if (origin && allowedOrigins.includes(origin)) return origin;
+  return allowedOrigins.find((candidate) => candidate === "https://yum.aolabs.io") || allowedOrigins[0] || "*";
+}
+
 function sendJson(req, res, status, payload) {
   const origin = req.headers.origin || "";
   const headers = {
     "Content-Type": "application/json; charset=utf-8",
     "Cache-Control": "no-store",
+    "Access-Control-Allow-Origin": responseCorsOrigin(origin),
   };
 
   if (origin && allowedOrigins.includes(origin)) {
-    headers["Access-Control-Allow-Origin"] = origin;
     headers.Vary = "Origin";
   }
 
@@ -56,10 +61,10 @@ function sendOptions(req, res) {
     "Access-Control-Allow-Methods": "POST, OPTIONS",
     "Access-Control-Allow-Headers": "Content-Type",
     "Access-Control-Max-Age": "86400",
+    "Access-Control-Allow-Origin": responseCorsOrigin(origin),
   };
 
   if (origin && allowedOrigins.includes(origin)) {
-    headers["Access-Control-Allow-Origin"] = origin;
     headers.Vary = "Origin";
   }
 
