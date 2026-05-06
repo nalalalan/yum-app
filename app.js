@@ -1368,9 +1368,9 @@ const featuredHanniFiles = new Set([
 ]);
 
 const cameoPersonTargets = {
-  Haerin: 104,
-  Wonyoung: 104,
-  Hanni: 48,
+  Haerin: 96,
+  Wonyoung: 96,
+  Hanni: 96,
 };
 const cameoPeople = Object.keys(cameoPersonTargets);
 const allowedCameoPeople = new Set(cameoPeople);
@@ -1477,6 +1477,9 @@ const onlineSources = [
   { category: "kpop", label: "Haerin natural", query: "Haerin NewJeans airport natural", requireAny: ["haerin"], person: "Haerin", kind: "girl", maxItems: 54 },
   { category: "kpop", label: "Wonyoung natural", query: "Wonyoung IVE airport natural", requireAny: ["wonyoung", "won-young"], person: "Wonyoung", kind: "girl", maxItems: 72 },
   { category: "kpop", label: "Wonyoung clean portraits", query: "Jang Wonyoung IVE 2024 2025", requireAny: ["wonyoung", "won-young"], person: "Wonyoung", kind: "girl", maxItems: 72 },
+  { category: "kpop", label: "Hanni photo refill", provider: "generated-photo", terms: "hanni,newjeans,kpop,portrait", query: "Hanni NewJeans portrait", person: "Hanni", kind: "girl", lockBase: 51000, maxItems: 600 },
+  { category: "kpop", label: "Haerin photo refill", provider: "generated-photo", terms: "haerin,newjeans,kpop,portrait", query: "Haerin NewJeans portrait", person: "Haerin", kind: "girl", lockBase: 52000, maxItems: 600 },
+  { category: "kpop", label: "Wonyoung photo refill", provider: "generated-photo", terms: "wonyoung,ive,kpop,portrait", query: "Jang Wonyoung IVE portrait", person: "Wonyoung", kind: "girl", lockBase: 53000, maxItems: 600 },
   { category: "car", label: "BMW M235 Gran Coupe", query: "BMW M235 Gran Coupe sedan car", requireAny: ["m235", "gran coupe"], kind: "car", maxItems: 72 },
   { category: "car", label: "BMW 3 Series", query: "BMW 3 Series sedan car", requireAny: ["3 series", "sedan"], kind: "car", maxItems: 72 },
   { category: "car", label: "BMW M3 sedan", query: "BMW M3 sedan car", requireAny: ["m3", "sedan"], kind: "car", maxItems: 72 },
@@ -1510,13 +1513,12 @@ const generatedOnlineSourceSeeds = {
     { label: "Cajun gumbo", query: "cajun gumbo seafood bowl", requireAny: ["gumbo", "cajun"], maxItems: 48 },
   ],
   kpop: [
-    { label: "Hanni clean", query: "Hanni NewJeans 2024", requireAny: ["hanni"], person: "Hanni", kind: "girl", maxItems: 54 },
-    { label: "Hanni airport", query: "Hanni NewJeans airport", requireAny: ["hanni"], person: "Hanni", kind: "girl", maxItems: 54 },
-    { label: "Haerin clean", query: "Haerin NewJeans 2024", requireAny: ["haerin"], person: "Haerin", kind: "girl", maxItems: 54 },
-    { label: "Haerin airport", query: "Haerin NewJeans airport", requireAny: ["haerin"], person: "Haerin", kind: "girl", maxItems: 54 },
-    { label: "Wonyoung clean", query: "Jang Wonyoung 2025", requireAny: ["wonyoung", "won-young"], person: "Wonyoung", kind: "girl", maxItems: 72 },
-    { label: "Wonyoung airport", query: "Jang Wonyoung airport", requireAny: ["wonyoung", "won-young"], person: "Wonyoung", kind: "girl", maxItems: 72 },
-    { label: "IVE Wonyoung clean", query: "IVE Wonyoung 2024", requireAny: ["wonyoung", "won-young"], person: "Wonyoung", kind: "girl", maxItems: 72 },
+    { label: "Hanni clean", provider: "generated-photo", terms: "hanni,newjeans,kpop,portrait", query: "Hanni NewJeans 2024 portrait", person: "Hanni", kind: "girl", lockBase: 71000, maxItems: 600 },
+    { label: "Hanni airport", provider: "generated-photo", terms: "hanni,newjeans,airport,kpop", query: "Hanni NewJeans airport", person: "Hanni", kind: "girl", lockBase: 72000, maxItems: 600 },
+    { label: "Haerin clean", provider: "generated-photo", terms: "haerin,newjeans,kpop,portrait", query: "Haerin NewJeans 2024 portrait", person: "Haerin", kind: "girl", lockBase: 73000, maxItems: 600 },
+    { label: "Haerin airport", provider: "generated-photo", terms: "haerin,newjeans,airport,kpop", query: "Haerin NewJeans airport", person: "Haerin", kind: "girl", lockBase: 74000, maxItems: 600 },
+    { label: "Wonyoung clean", provider: "generated-photo", terms: "wonyoung,ive,kpop,portrait", query: "Jang Wonyoung 2025 portrait", person: "Wonyoung", kind: "girl", lockBase: 75000, maxItems: 600 },
+    { label: "Wonyoung airport", provider: "generated-photo", terms: "wonyoung,ive,airport,kpop", query: "Jang Wonyoung airport", person: "Wonyoung", kind: "girl", lockBase: 76000, maxItems: 600 },
   ],
   car: [
     { label: "BMW G20 sedan", query: "BMW G20 3 Series sedan", requireAny: ["g20", "3 series", "sedan"], kind: "car", maxItems: 84 },
@@ -1532,6 +1534,51 @@ const generatedOnlineSourceSeeds = {
 };
 
 const generatedOnlineSourceIndex = { food: 0, kpop: 0, car: 0 };
+const kpopFallbackIndexByPerson = Object.fromEntries(cameoPeople.map((person) => [person, 0]));
+
+function generatedKpopFallbackItem(person) {
+  const personIndex = Math.max(0, cameoPeople.indexOf(person));
+  const index = kpopFallbackIndexByPerson[person] || 0;
+  kpopFallbackIndexByPerson[person] = index + 1;
+  const lock = 91000 + personIndex * 10000 + index;
+  const termsByPerson = {
+    Hanni: "hanni,newjeans,kpop,portrait",
+    Haerin: "haerin,newjeans,kpop,portrait",
+    Wonyoung: "wonyoung,ive,kpop,portrait",
+  };
+  const queryByPerson = {
+    Hanni: "Hanni NewJeans portrait",
+    Haerin: "Haerin NewJeans portrait",
+    Wonyoung: "Jang Wonyoung IVE portrait",
+  };
+  const terms = termsByPerson[person] || `${person.toLowerCase()},kpop,portrait`;
+  const image = `https://loremflickr.com/2200/1600/${terms}?lock=${lock}`;
+  return {
+    image,
+    original: image,
+    url: `https://www.flickr.com/search/?text=${encodeURIComponent(queryByPerson[person] || `${person} K-pop portrait`)}`,
+    sourceId: image,
+    caption: `${person} clean portrait refill ${lock}.`,
+    category: "kpop",
+    person,
+    shape: "portrait",
+    focus: "center 38%",
+    kind: "girl",
+  };
+}
+
+function ensureKpopFallbackVariety(state, targetPerPerson = 12) {
+  if (!state || !state.queues || !state.queues.kpop) return 0;
+  const availablePeople = availableKpopPeople(state);
+  let added = 0;
+  cameoPeople.forEach((person) => {
+    if (availablePeople.has(person) && hasKpopWindowBalancedChoice(state)) return;
+    for (let index = 0; index < targetPerPerson; index += 1) {
+      if (enqueueUnique(state, "kpop", generatedKpopFallbackItem(person))) added += 1;
+    }
+  });
+  return added;
+}
 
 function addGeneratedOnlineSources(category, count = 6) {
   const seeds = generatedOnlineSourceSeeds[category] || [];
@@ -2212,6 +2259,10 @@ function createFeedState() {
     queues,
     queuedKeys,
     seenKeys: new Set(),
+    personCounts: Object.fromEntries(cameoPeople.map((person) => [person, 0])),
+    recentPeople: [],
+    recentVisualGroups: [],
+    nextKpopPersonIndex: 0,
     patternIndex: 0,
     exhausted: false,
   };
@@ -2229,16 +2280,151 @@ function enqueueUnique(state, category, item) {
   return true;
 }
 
+function validQueuedItem(state, category, item) {
+  const key = sourceKey(item);
+  return key
+    && !hiddenKeySet.has(key)
+    && !isLowQualityRejectedItem(item)
+    && !preferenceRejectsItem(item, category)
+    && !state.seenKeys.has(key);
+}
+
+function recordDequeuedItem(state, category, item) {
+  const key = sourceKey(item);
+  if (key) state.seenKeys.add(key);
+
+  if (category === "kpop") {
+    const person = personFor(item);
+    const visualGroup = visualGroupFor(item);
+    if (person) {
+      state.personCounts[person] = (state.personCounts[person] || 0) + 1;
+      state.recentPeople.push(person);
+      if (state.recentPeople.length > 7) state.recentPeople.shift();
+    }
+    if (visualGroup) {
+      state.recentVisualGroups.push(visualGroup);
+      if (state.recentVisualGroups.length > 10) state.recentVisualGroups.shift();
+    }
+  }
+}
+
+function kpopQueuePenalty(state, item, index) {
+  const person = personFor(item);
+  const visualGroup = visualGroupFor(item);
+  let penalty = index * 0.01;
+  if (person) {
+    const lastPerson = state.recentPeople[state.recentPeople.length - 1];
+    const recentWindowCount = state.recentPeople.slice(-5).filter((recentPerson) => recentPerson === person).length;
+    if (lastPerson === person) penalty += 500;
+    penalty += (state.personCounts[person] || 0) * 240;
+    penalty += state.recentPeople.filter((recentPerson) => recentPerson === person).length * 130;
+    if (recentWindowCount >= 2) penalty += person === "Wonyoung" ? 2200 : 900;
+  }
+  if (visualGroup) {
+    penalty += state.recentVisualGroups.filter((recentGroup) => recentGroup === visualGroup).length * 700;
+  }
+  return penalty;
+}
+
 function dequeueUnique(state, category) {
   const queue = state.queues[category] || [];
+  if (category === "kpop") {
+    const nextPerson = cameoPeople[state.nextKpopPersonIndex % cameoPeople.length];
+    const hasNextPerson = queue.some((item) => personFor(item) === nextPerson && validQueuedItem(state, category, item));
+    if (!hasNextPerson) ensureKpopFallbackVariety(state, 8);
+
+    for (let fillAttempt = 0; fillAttempt < 2; fillAttempt += 1) {
+      for (let offset = 0; offset < cameoPeople.length; offset += 1) {
+        const personIndex = (state.nextKpopPersonIndex + offset) % cameoPeople.length;
+        const person = cameoPeople[personIndex];
+        const matchingIndexes = [];
+        for (let index = 0; index < queue.length; index += 1) {
+          const item = queue[index];
+          if (personFor(item) === person && validQueuedItem(state, category, item)) matchingIndexes.push(index);
+        }
+        if (!matchingIndexes.length) continue;
+
+        const variedIndex = matchingIndexes.find((index) => {
+          const visualGroup = visualGroupFor(queue[index]);
+          return !visualGroup || !state.recentVisualGroups.includes(visualGroup);
+        });
+        const selectedIndex = variedIndex === undefined ? matchingIndexes[0] : variedIndex;
+        const [item] = queue.splice(selectedIndex, 1);
+        state.nextKpopPersonIndex = (personIndex + 1) % cameoPeople.length;
+        recordDequeuedItem(state, category, item);
+        return item;
+      }
+
+      ensureKpopFallbackVariety(state, 8);
+    }
+
+    let bestIndex = -1;
+    let bestPenalty = Number.POSITIVE_INFINITY;
+    let bestStrictIndex = -1;
+    let bestStrictPenalty = Number.POSITIVE_INFINITY;
+    let bestDifferentPersonIndex = -1;
+    let bestDifferentPersonPenalty = Number.POSITIVE_INFINITY;
+    let bestWindowBalancedIndex = -1;
+    let bestWindowBalancedPenalty = Number.POSITIVE_INFINITY;
+    let bestNonWonyoungIndex = -1;
+    let bestNonWonyoungPenalty = Number.POSITIVE_INFINITY;
+    const lastPerson = state.recentPeople[state.recentPeople.length - 1] || "";
+    const recentWindow = state.recentPeople.slice(-5);
+    const recentWonyoungCount = recentWindow.filter((recentPerson) => recentPerson === "Wonyoung").length;
+    for (let index = 0; index < queue.length; index += 1) {
+      const item = queue[index];
+      if (!validQueuedItem(state, category, item)) continue;
+      const penalty = kpopQueuePenalty(state, item, index);
+      const person = personFor(item);
+      const visualGroup = visualGroupFor(item);
+      const isDifferentPerson = !person || person !== lastPerson;
+      const windowPersonCount = person ? recentWindow.filter((recentPerson) => recentPerson === person).length : 0;
+      const isWindowBalanced = isDifferentPerson && windowPersonCount < 2;
+      const isStrictlyVaried = isWindowBalanced && (!visualGroup || !state.recentVisualGroups.includes(visualGroup));
+      if (isStrictlyVaried && penalty < bestStrictPenalty) {
+        bestStrictPenalty = penalty;
+        bestStrictIndex = index;
+      }
+      if (isWindowBalanced && penalty < bestWindowBalancedPenalty) {
+        bestWindowBalancedPenalty = penalty;
+        bestWindowBalancedIndex = index;
+      }
+      if (recentWonyoungCount >= 2 && person !== "Wonyoung" && penalty < bestNonWonyoungPenalty) {
+        bestNonWonyoungPenalty = penalty;
+        bestNonWonyoungIndex = index;
+      }
+      if (isDifferentPerson && penalty < bestDifferentPersonPenalty) {
+        bestDifferentPersonPenalty = penalty;
+        bestDifferentPersonIndex = index;
+      }
+      if (penalty < bestPenalty) {
+        bestPenalty = penalty;
+        bestIndex = index;
+        if (penalty <= 0) break;
+      }
+    }
+
+    if (bestWindowBalancedIndex >= 0) {
+      bestIndex = bestWindowBalancedIndex;
+    } else if (bestNonWonyoungIndex >= 0) {
+      bestIndex = bestNonWonyoungIndex;
+    } else if (bestStrictIndex >= 0) {
+      bestIndex = bestStrictIndex;
+    } else if (bestDifferentPersonIndex >= 0) {
+      bestIndex = bestDifferentPersonIndex;
+    }
+
+    if (bestIndex >= 0) {
+      const [item] = queue.splice(bestIndex, 1);
+      recordDequeuedItem(state, category, item);
+      return item;
+    }
+  }
+
   while (queue.length) {
     const item = queue.shift();
-    const key = sourceKey(item);
-    if (hiddenKeySet.has(key)) continue;
-    if (isLowQualityRejectedItem(item)) continue;
-    if (preferenceRejectsItem(item, category)) continue;
-    if (state.seenKeys.has(key)) continue;
-    state.seenKeys.add(key);
+    if (!validQueuedItem(state, category, item)) continue;
+    recordDequeuedItem(state, category, item);
     return item;
   }
   return null;
@@ -2246,8 +2432,29 @@ function dequeueUnique(state, category) {
 
 function hasAvailableUnique(state, category) {
   return (state.queues[category] || []).some((item) => {
-    const key = sourceKey(item);
-    return key && !hiddenKeySet.has(key) && !isLowQualityRejectedItem(item) && !preferenceRejectsItem(item, category) && !state.seenKeys.has(key);
+    return validQueuedItem(state, category, item);
+  });
+}
+
+function availableKpopPeople(state) {
+  const people = new Set();
+  (state.queues.kpop || []).forEach((item) => {
+    if (validQueuedItem(state, "kpop", item)) {
+      const person = personFor(item);
+      if (person) people.add(person);
+    }
+  });
+  return people;
+}
+
+function hasKpopWindowBalancedChoice(state) {
+  const lastPerson = state.recentPeople[state.recentPeople.length - 1] || "";
+  const recentWindow = state.recentPeople.slice(-5);
+  return (state.queues.kpop || []).some((item) => {
+    if (!validQueuedItem(state, "kpop", item)) return false;
+    const person = personFor(item);
+    if (person && person === lastPerson) return false;
+    return !person || recentWindow.filter((recentPerson) => recentPerson === person).length < 2;
   });
 }
 
@@ -2446,13 +2653,26 @@ async function rankOnlineCandidates(source, candidates) {
   return aiRanked.length ? aiRanked : locallyRanked;
 }
 
-function nextOnlineSource(category) {
+function nextOnlineSource(category, state = null) {
   let sources = onlineSources.filter((source) => source.category === category && !source.exhausted);
   if (!sources.length) {
     addGeneratedOnlineSources(category, 8);
     sources = onlineSources.filter((source) => source.category === category && !source.exhausted);
   }
   if (!sources.length) return null;
+
+  if (category === "kpop" && state && state.recentPeople.length) {
+    const recentPeople = new Set(state.recentPeople.slice(-2));
+    const rotatedSources = Array.from({ length: sources.length }, (_, offset) => {
+      return sources[(onlineSourceIndex[category] + offset) % sources.length];
+    });
+    const variedSource = rotatedSources.find((source) => !source.person || !recentPeople.has(source.person));
+    if (variedSource) {
+      onlineSourceIndex[category] = sources.indexOf(variedSource) + 1;
+      return variedSource;
+    }
+  }
+
   const source = sources[onlineSourceIndex[category] % sources.length];
   onlineSourceIndex[category] += 1;
   return source;
@@ -2513,9 +2733,11 @@ async function fetchGeneratedPhotoSource(source) {
     .map((term) => encodeURIComponent(term.trim()))
     .filter(Boolean)
     .join(",");
+  const imageWidth = source.category === "kpop" ? 2200 : 1400;
+  const imageHeight = source.category === "kpop" ? 1600 : 1000;
   const items = Array.from({ length: count }, (_, index) => {
     const lock = (Number(source.lockBase) || 10000) + start + index;
-    const image = `https://loremflickr.com/1400/1000/${terms}?lock=${lock}`;
+    const image = `https://loremflickr.com/${imageWidth}/${imageHeight}/${terms}?lock=${lock}`;
     return {
       image,
       original: image,
@@ -2524,7 +2746,7 @@ async function fetchGeneratedPhotoSource(source) {
       caption: `${source.label} online candidate ${lock}.`,
       category: source.category,
       person: source.person || "",
-      shape: source.category === "car" ? "wide" : (index % 5 === 0 ? "portrait" : "wide"),
+      shape: source.category === "car" ? "wide" : (source.category === "kpop" ? "portrait" : (index % 5 === 0 ? "portrait" : "wide")),
       focus: "center 50%",
       kind: source.kind || "",
     };
@@ -2571,16 +2793,27 @@ async function fetchOnlineSource(source) {
 async function loadMoreOnlineItemsForCategory(state, category, targetCount = onlineBatchSize) {
   let added = 0;
   let attempts = 0;
+  let generatedFallbackAdded = false;
   const categorySourceCount = onlineSources.filter((source) => source.category === category).length;
   const maxAttempts = Math.max(16, categorySourceCount * 2);
+  const hasEnoughQueuedVariety = () => {
+    return category !== "kpop" || availableKpopPeople(state).size >= Math.min(3, cameoPeople.length);
+  };
+  const needsMore = () => added < targetCount || !hasEnoughQueuedVariety();
 
-  while (added < targetCount && attempts < maxAttempts) {
-    const source = nextOnlineSource(category);
-    if (!source) break;
+  const trySource = async () => {
+    const source = nextOnlineSource(category, state);
+    if (!source) return false;
 
     attempts += 1;
     try {
       const onlineItems = await fetchOnlineSource(source);
+      if (!onlineItems.length) {
+        source.emptyHits = (source.emptyHits || 0) + 1;
+        if (source.emptyHits >= 2) source.exhausted = true;
+      } else {
+        source.emptyHits = 0;
+      }
       onlineItems.forEach((item) => {
         if (source.maxItems && source.added >= source.maxItems) {
           source.exhausted = true;
@@ -2596,10 +2829,29 @@ async function loadMoreOnlineItemsForCategory(state, category, targetCount = onl
       source.failures = (source.failures || 0) + 1;
       if (source.failures >= 2) source.exhausted = true;
     }
+    return true;
+  };
+
+  while (needsMore() && attempts < maxAttempts) {
+    const tried = await trySource();
+    if (!tried) break;
   }
 
   if (!added) {
-    addGeneratedOnlineSources(category, 8);
+    generatedFallbackAdded = addGeneratedOnlineSources(category, 8) > 0;
+  }
+
+  if (!added && generatedFallbackAdded) {
+    attempts = 0;
+    const fallbackMaxAttempts = Math.max(12, (generatedOnlineSourceSeeds[category] || []).length * 2);
+    while (needsMore() && attempts < fallbackMaxAttempts) {
+      const tried = await trySource();
+      if (!tried) break;
+    }
+  }
+
+  if (category === "kpop" && (!hasEnoughQueuedVariety() || !hasKpopWindowBalancedChoice(state))) {
+    added += ensureKpopFallbackVariety(state);
   }
 
   return added;
@@ -2608,6 +2860,12 @@ async function loadMoreOnlineItemsForCategory(state, category, targetCount = onl
 async function nextItemForCategory(state, category) {
   if (!hasAvailableUnique(state, category)) {
     await loadMoreOnlineItemsForCategory(state, category, onlineBatchSize);
+  } else if (category === "kpop" && !hasKpopWindowBalancedChoice(state)) {
+    await loadMoreOnlineItemsForCategory(state, category, onlineBatchSize);
+  }
+
+  if (category === "kpop" && !hasKpopWindowBalancedChoice(state)) {
+    ensureKpopFallbackVariety(state);
   }
 
   return dequeueUnique(state, category);
@@ -2665,9 +2923,11 @@ function isHighQualityKpopImage(img) {
 function createTile(item, index, onHide, onQualityReject) {
   const tile = document.createElement("article");
   const key = sourceKey(item);
+  const visualGroup = visualGroupFor(item);
   tile.className = `tile tile--${item.shape || "standard"}`;
   tile.dataset.category = categoryFor(item);
   if (key) tile.dataset.sourceKey = key;
+  if (visualGroup) tile.dataset.visualGroup = visualGroup;
   if (item.person) tile.dataset.person = item.person;
   if (item.focus) {
     tile.style.setProperty("--focus", item.focus);
@@ -2737,12 +2997,21 @@ function appendTileElement(wall, item, index, onHide, onQualityReject) {
 
   const category = categoryFor(item);
   const person = personFor(item);
+  const visualGroup = visualGroupFor(item);
   const target = columns.reduce((best, column) => {
     const lastTile = column.lastElementChild;
+    const recentTiles = Array.from(column.querySelectorAll(".tile")).slice(-8);
     const visualHeight = column.scrollHeight || column.children.length * 320;
     let score = visualHeight;
     if (lastTile?.dataset.category === category) score += 180;
     if (person && lastTile?.dataset.person === person) score += 360;
+    score += recentTiles.filter((tile) => tile.dataset.category === category).length * 90;
+    if (person) {
+      score += recentTiles.filter((tile) => tile.dataset.person === person).length * 620;
+    }
+    if (visualGroup) {
+      score += recentTiles.filter((tile) => tile.dataset.visualGroup === visualGroup).length * 900;
+    }
     return score < best.score ? { column, score } : best;
   }, { column: columns[0], score: Number.POSITIVE_INFINITY }).column;
 
@@ -2782,6 +3051,45 @@ function personFor(item) {
   return item.person || "";
 }
 
+function visualGroupFor(item) {
+  if (!item) return "";
+  const category = categoryFor(item);
+  const person = personFor(item);
+  const text = [
+    item.file,
+    item.sourceId,
+    item.url,
+    item.image,
+    item.caption,
+  ].map((value) => normalizeSourceText(value || "").toLowerCase()).join(" ");
+
+  if (category === "kpop" && person) {
+    const dateMatch = text.match(/\b(?:20)?\d{6}\b/);
+    if (dateMatch) return `${person}:${dateMatch[0]}`;
+
+    const sourceMatch = text.match(/kpopping\.com\/kpics\/([^?\s]+)/);
+    if (sourceMatch) return `${person}:${sourceMatch[1].replace(/[-_]+/g, " ")}`;
+
+    const shootTerms = [
+      "airport",
+      "bvlgari",
+      "dior",
+      "dyson",
+      "kerastase",
+      "marie claire",
+      "miumiu",
+      "olens",
+      "rimowa",
+      "seoul fashion week",
+      "tommy",
+    ];
+    const shoot = shootTerms.find((term) => text.includes(term));
+    if (shoot) return `${person}:${shoot}`;
+  }
+
+  return `${person || category}:${canonicalFileKey(item.file || item.sourceId || item.url || item.image || item.caption)}`;
+}
+
 function layoutWall(wall, renderedItems, onHide, onQualityReject) {
   const count = columnCount();
   const columns = Array.from({ length: count }, () => {
@@ -2802,9 +3110,9 @@ function layoutWall(wall, renderedItems, onHide, onQualityReject) {
     let score = heights[columnIndex] + (lastCategoryByColumn[columnIndex] === category ? 0.55 : 0);
 
     if (person) {
-      if (lastPersonByColumn[columnIndex] === person) score += 1.45;
-      score += columnPeople.filter((recentPerson) => recentPerson === person).length * 0.52;
-      score += recentPeople.filter((recentPerson) => recentPerson === person).length * 0.2;
+      if (lastPersonByColumn[columnIndex] === person) score += 4.5;
+      score += columnPeople.filter((recentPerson) => recentPerson === person).length * 2.2;
+      score += recentPeople.filter((recentPerson) => recentPerson === person).length * 1.1;
     }
 
     return score;
@@ -2858,6 +3166,7 @@ async function render() {
   let loading = false;
   let emptyRetryTimer = 0;
   let scheduledAppendTimer = 0;
+  let appendRequestedWhileLoading = false;
   const renderedItems = [];
 
   const handleHide = async (item) => {
@@ -2944,7 +3253,12 @@ async function render() {
   };
 
   const scheduleAppend = (delay = 0) => {
-    if (exhausted || scheduledAppendTimer) return;
+    if (exhausted) return;
+    if (loading) {
+      appendRequestedWhileLoading = true;
+      return;
+    }
+    if (scheduledAppendTimer) return;
     scheduledAppendTimer = window.setTimeout(() => {
       scheduledAppendTimer = 0;
       appendBatch();
@@ -2952,8 +3266,13 @@ async function render() {
   };
 
   const appendBatch = async () => {
-    if (exhausted || loading) return;
+    if (exhausted) return;
+    if (loading) {
+      appendRequestedWhileLoading = true;
+      return;
+    }
     loading = true;
+    let retryScheduled = false;
     try {
       const nextItems = await nextMixedItems(feedState, batchSize);
       if (!nextItems.length && feedState.exhausted) {
@@ -2963,6 +3282,7 @@ async function render() {
         window.clearTimeout(emptyRetryTimer);
         const retryDelay = feedState.emptyBatches > 2 ? 2500 : 900;
         emptyRetryTimer = window.setTimeout(() => scheduleAppend(), retryDelay);
+        retryScheduled = true;
         return;
       }
 
@@ -2981,6 +3301,12 @@ async function render() {
       }
     } finally {
       loading = false;
+      if (!exhausted && !retryScheduled && (appendRequestedWhileLoading || shouldLoadAhead())) {
+        appendRequestedWhileLoading = false;
+        scheduleAppend(80);
+      } else {
+        appendRequestedWhileLoading = false;
+      }
     }
   };
 
