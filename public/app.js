@@ -1602,6 +1602,7 @@ const blockedOnlineTitleTerms = [
 ];
 
 const onlineSourceIndex = { food: 0, kpop: 0, car: 0 };
+const lowQualityRejectedKeySet = new Set();
 const railwayApiBase = "https://yum-app-production.up.railway.app";
 const preferenceStorageKey = "yum.preference.v1";
 const editTokenStorageKey = "yum.editToken.v1";
@@ -1636,8 +1637,14 @@ const preferenceEndpoint = apiEndpoint("/api/preferences");
 const kpopCandidateEndpoint = apiEndpoint("/api/kpop-candidates");
 let aiCuratorUnavailable = false;
 
+function requestedImageWidth(item) {
+  if (item && item.width) return item.width;
+  if (item && (item.category === "kpop" || item.person)) return 2600;
+  return 1800;
+}
+
 function imageFor(item) {
-  return item.image || commonsImage(item.file, item.width || 1800);
+  return item.image || commonsImage(item.file, requestedImageWidth(item));
 }
 
 function sourceFor(item) {
@@ -1866,6 +1873,11 @@ function addPreferenceSample(list, sample) {
 function isHiddenItem(item) {
   const key = sourceKey(item);
   return Boolean(key && hiddenKeySet.has(key));
+}
+
+function isLowQualityRejectedItem(item) {
+  const key = sourceKey(item);
+  return Boolean(key && lowQualityRejectedKeySet.has(key));
 }
 
 async function submitPreferenceAction(payload, pin = "") {
@@ -2211,7 +2223,7 @@ function enqueueUnique(state, category, item) {
   if (isBlockedContentItem(nextItem)) return false;
   if (preferenceRejectsItem(nextItem, category)) return false;
   const key = sourceKey(nextItem);
-  if (!key || hiddenKeySet.has(key) || state.seenKeys.has(key) || state.queuedKeys.has(key)) return false;
+  if (!key || hiddenKeySet.has(key) || isLowQualityRejectedItem(nextItem) || state.seenKeys.has(key) || state.queuedKeys.has(key)) return false;
   state.queuedKeys.add(key);
   state.queues[category].push(nextItem);
   return true;
@@ -2223,6 +2235,7 @@ function dequeueUnique(state, category) {
     const item = queue.shift();
     const key = sourceKey(item);
     if (hiddenKeySet.has(key)) continue;
+    if (isLowQualityRejectedItem(item)) continue;
     if (preferenceRejectsItem(item, category)) continue;
     if (state.seenKeys.has(key)) continue;
     state.seenKeys.add(key);
@@ -2234,7 +2247,7 @@ function dequeueUnique(state, category) {
 function hasAvailableUnique(state, category) {
   return (state.queues[category] || []).some((item) => {
     const key = sourceKey(item);
-    return key && !hiddenKeySet.has(key) && !preferenceRejectsItem(item, category) && !state.seenKeys.has(key);
+    return key && !hiddenKeySet.has(key) && !isLowQualityRejectedItem(item) && !preferenceRejectsItem(item, category) && !state.seenKeys.has(key);
   });
 }
 
@@ -2641,7 +2654,15 @@ function toneFor(item) {
   return { warmth: "0.08", saturation: "1.13", contrast: "1.035", brightness: "1.02", wash: "0.78" };
 }
 
-function createTile(item, index, onHide) {
+function isHighQualityKpopImage(img) {
+  const width = Number(img.naturalWidth) || 0;
+  const height = Number(img.naturalHeight) || 0;
+  const shortEdge = Math.min(width, height);
+  const longEdge = Math.max(width, height);
+  return width * height >= 1600000 && shortEdge >= 900 && longEdge >= 1550;
+}
+
+function createTile(item, index, onHide, onQualityReject) {
   const tile = document.createElement("article");
   tile.className = `tile tile--${item.shape || "standard"}`;
   tile.dataset.category = categoryFor(item);
@@ -2666,6 +2687,13 @@ function createTile(item, index, onHide) {
   img.loading = index < 18 ? "eager" : "lazy";
   img.decoding = "async";
   img.addEventListener("error", () => tile.remove(), { once: true });
+  if (categoryFor(item) === "kpop") {
+    img.addEventListener("load", () => {
+      if (typeof onQualityReject === "function" && !isHighQualityKpopImage(img)) {
+        onQualityReject(item);
+      }
+    }, { once: true });
+  }
 
   const caption = document.createElement("span");
   caption.className = "caption";
@@ -2722,7 +2750,7 @@ function personFor(item) {
   return item.person || "";
 }
 
-function layoutWall(wall, renderedItems, onHide) {
+function layoutWall(wall, renderedItems, onHide, onQualityReject) {
   const count = columnCount();
   const columns = Array.from({ length: count }, () => {
     const column = document.createElement("div");
@@ -2759,7 +2787,7 @@ function layoutWall(wall, renderedItems, onHide) {
       const targetScore = placementScore(item, target);
       if (score < targetScore) target = i;
     }
-    columns[target].append(createTile(item, index, onHide));
+    columns[target].append(createTile(item, index, onHide, onQualityReject));
     lastCategoryByColumn[target] = category;
     if (person) {
       lastPersonByColumn[target] = person;
@@ -2825,7 +2853,26 @@ async function render() {
       }
     }
 
-    layoutWall(wall, renderedItems, handleHide);
+    layoutWall(wall, renderedItems, handleHide, handleQualityReject);
+    if (shouldLoadAhead()) scheduleAppend();
+  };
+
+  const handleQualityReject = async (item) => {
+    const key = sourceKey(item);
+    if (!key || lowQualityRejectedKeySet.has(key) || categoryFor(item) !== "kpop") return;
+
+    lowQualityRejectedKeySet.add(key);
+    const itemIndex = renderedItems.findIndex((renderedItem) => sourceKey(renderedItem) === key);
+    if (itemIndex < 0) return;
+
+    const replacement = await nextItemForCategory(feedState, "kpop");
+    if (replacement) {
+      renderedItems.splice(itemIndex, 1, replacement);
+    } else {
+      renderedItems.splice(itemIndex, 1);
+    }
+
+    layoutWall(wall, renderedItems, handleHide, handleQualityReject);
   };
 
   const shouldLoadAhead = () => {
@@ -2864,7 +2911,7 @@ async function render() {
       }
 
       renderedItems.push(...nextItems);
-      layoutWall(wall, renderedItems, handleHide);
+      layoutWall(wall, renderedItems, handleHide, handleQualityReject);
       sentinel.dataset.remaining = String(categories.reduce((total, category) => total + feedState.queues[category].length, 0));
       if (shouldLoadAhead()) {
         scheduleAppend(80);
@@ -2896,7 +2943,7 @@ async function render() {
   window.addEventListener("resize", () => {
     window.clearTimeout(resizeTimer);
     resizeTimer = window.setTimeout(() => {
-      layoutWall(wall, renderedItems, handleHide);
+      layoutWall(wall, renderedItems, handleHide, handleQualityReject);
       if (shouldLoadAhead()) scheduleAppend();
     }, 140);
   }, { passive: true });

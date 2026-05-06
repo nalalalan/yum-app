@@ -6,7 +6,7 @@ Tiles are intentionally image-only. Hovering reveals a short caption; clicking o
 
 The collection is intentionally built around Korean, Chinese, Mexican, American, Japanese, Italian, Vietnamese, and Cajun food, with no Indian or Mediterranean tiles.
 
-Food, softer Haerin/Hanni/Wonyoung cameo tiles, and modern compact European sedan dream tiles are woven in a strict 1:1:1 ratio without intentional source repeats. The wall filters out heavy stage/editorial makeup, plain vegetable or single-piece food shots, and old/show-floor/traffic car photos.
+Food, softer Haerin/Hanni/Wonyoung cameo tiles, and modern compact European sedan dream tiles are woven in a strict 1:1:1 ratio without intentional source repeats. The wall filters out heavy stage/editorial makeup, low-resolution K-pop images, plain vegetable or single-piece food shots, and old/show-floor/traffic car photos.
 
 When the Node server is deployed with OpenAI configured, `/api/curate` uses ChatGPT image understanding to rank new online image candidates before they enter the wall. The backend also supplies deeper K-pop archive candidates so the strict 1:1:1 feed does not stop after the small static set. If the endpoint is unavailable, the browser falls back to the local taste filters so the static GitHub Pages version still works.
 
