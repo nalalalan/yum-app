@@ -8,7 +8,7 @@ The collection is intentionally built around Korean, Chinese, Mexican, American,
 
 Food, softer Haerin/Hanni/Wonyoung cameo tiles, and modern compact European sedan dream tiles are woven in a strict 1:1:1 ratio without intentional source repeats. The wall filters out heavy stage/editorial makeup, plain vegetable or single-piece food shots, and old/show-floor/traffic car photos.
 
-When the Node server is deployed with OpenAI configured, `/api/curate` uses ChatGPT image understanding to rank new online image candidates before they enter the wall. If the endpoint is unavailable, the browser falls back to the local taste filters so the static GitHub Pages version still works.
+When the Node server is deployed with OpenAI configured, `/api/curate` uses ChatGPT image understanding to rank new online image candidates before they enter the wall. The backend also supplies deeper K-pop archive candidates so the strict 1:1:1 feed does not stop after the small static set. If the endpoint is unavailable, the browser falls back to the local taste filters so the static GitHub Pages version still works.
 
 Each tile has a quiet hide control. Hidden source keys and compact taste samples are stored by the Node backend through `/api/preferences`, then mirrored in the browser. The first edit requires a PIN; after that the browser keeps an edit token. Because the preference file lives on the hosted backend, hidden tiles and taste memory carry across computers and sessions.
 

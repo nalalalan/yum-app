@@ -992,6 +992,146 @@ carItems.push(
   "P90572323",
   "P90572324",
   "P90572325",
+  "P90572326",
+  "P90572327",
+  "P90572328",
+  "P90572329",
+  "P90572330",
+  "P90572331",
+  "P90572332",
+  "P90572333",
+  "P90572334",
+  "P90572335",
+  "P90572336",
+  "P90572337",
+  "P90572338",
+  "P90572339",
+  "P90572340",
+  "P90572341",
+  "P90572342",
+  "P90572343",
+  "P90572344",
+  "P90572345",
+  "P90572346",
+  "P90572347",
+  "P90572348",
+  "P90572349",
+  "P90572350",
+  "P90572351",
+  "P90572352",
+  "P90572353",
+  "P90572354",
+  "P90572355",
+  "P90572356",
+  "P90572357",
+  "P90572358",
+  "P90572359",
+  "P90572360",
+  "P90572361",
+  "P90572362",
+  "P90572363",
+  "P90572364",
+  "P90572365",
+  "P90572366",
+  "P90572367",
+  "P90572368",
+  "P90572369",
+  "P90572370",
+  "P90572371",
+  "P90572372",
+  "P90572373",
+  "P90572374",
+  "P90572375",
+  "P90572376",
+  "P90572377",
+  "P90572378",
+  "P90572379",
+  "P90572380",
+  "P90572381",
+  "P90572382",
+  "P90572383",
+  "P90572384",
+  "P90572385",
+  "P90572386",
+  "P90572387",
+  "P90572388",
+  "P90572389",
+  "P90572390",
+  "P90572391",
+  "P90572392",
+  "P90572393",
+  "P90572394",
+  "P90572395",
+  "P90572396",
+  "P90572397",
+  "P90572398",
+  "P90572399",
+  "P90572400",
+  "P90572401",
+  "P90572402",
+  "P90572403",
+  "P90572404",
+  "P90572405",
+  "P90572406",
+  "P90572407",
+  "P90572408",
+  "P90572409",
+  "P90572410",
+  "P90572411",
+  "P90572412",
+  "P90572413",
+  "P90572414",
+  "P90572415",
+  "P90572416",
+  "P90572417",
+  "P90572418",
+  "P90572419",
+  "P90572420",
+  "P90572421",
+  "P90572422",
+  "P90572423",
+  "P90572424",
+  "P90572425",
+  "P90572426",
+  "P90572427",
+  "P90572428",
+  "P90572429",
+  "P90572430",
+  "P90572431",
+  "P90572432",
+  "P90572433",
+  "P90572434",
+  "P90572435",
+  "P90572436",
+  "P90572437",
+  "P90572438",
+  "P90572439",
+  "P90572440",
+  "P90572441",
+  "P90572442",
+  "P90572455",
+  "P90572456",
+  "P90572457",
+  "P90572458",
+  "P90572459",
+  "P90572460",
+  "P90572461",
+  "P90572462",
+  "P90572463",
+  "P90572464",
+  "P90572465",
+  "P90572468",
+  "P90572469",
+  "P90572470",
+  "P90572471",
+  "P90572472",
+  "P90572473",
+  "P90572474",
+  "P90572475",
+  "P90572476",
+  "P90572477",
+  "P90572478",
+  "P90572479",
 ].forEach((id, index) => {
   carItems.push({
     image: bmwPressImage(id),
@@ -1325,6 +1465,14 @@ const onlineSources = [
   { category: "food", label: "Tacos", query: "tacos carnitas quesadilla mexican food", requireAny: ["taco", "carnitas", "quesadilla"], maxItems: 84 },
   { category: "food", label: "Cajun", query: "gumbo cajun seafood food", requireAny: ["gumbo", "cajun"], maxItems: 48 },
   { category: "food", label: "Fried chicken", query: "fried chicken food", requireAny: ["fried chicken", "chicken"], maxItems: 72 },
+  { category: "food", label: "Ramen refill", provider: "generated-photo", terms: "ramen,noodles,food", query: "ramen noodles restaurant food", lockBase: 41000, maxItems: 600 },
+  { category: "food", label: "Steak refill", provider: "generated-photo", terms: "steak,dinner,food", query: "steak dinner restaurant food", lockBase: 42000, maxItems: 600 },
+  { category: "food", label: "Burger refill", provider: "generated-photo", terms: "burger,fries,food", query: "burger fries restaurant food", lockBase: 43000, maxItems: 600 },
+  { category: "food", label: "Pasta refill", provider: "generated-photo", terms: "pasta,restaurant,food", query: "pasta restaurant food", lockBase: 44000, maxItems: 600 },
+  { category: "food", label: "Korean refill", provider: "generated-photo", terms: "korean,barbecue,food", query: "korean barbecue food", lockBase: 45000, maxItems: 600 },
+  { category: "kpop", label: "Hanni archive", provider: "kpopping", person: "Hanni", query: "Hanni clean online portrait", maxItems: 180 },
+  { category: "kpop", label: "Haerin archive", provider: "kpopping", person: "Haerin", query: "Haerin clean online portrait", maxItems: 180 },
+  { category: "kpop", label: "Wonyoung archive", provider: "kpopping", person: "Wonyoung", query: "Wonyoung clean online portrait", maxItems: 240 },
   { category: "kpop", label: "Hanni natural", query: "Hanni NewJeans airport natural", requireAny: ["hanni"], person: "Hanni", kind: "girl", maxItems: 54 },
   { category: "kpop", label: "Haerin natural", query: "Haerin NewJeans airport natural", requireAny: ["haerin"], person: "Haerin", kind: "girl", maxItems: 54 },
   { category: "kpop", label: "Wonyoung natural", query: "Wonyoung IVE airport natural", requireAny: ["wonyoung", "won-young"], person: "Wonyoung", kind: "girl", maxItems: 72 },
@@ -1337,11 +1485,76 @@ const onlineSources = [
   { category: "car", label: "Audi A3 sedan", query: "Audi A3 sedan car", requireAny: ["a3", "sedan"], kind: "car", maxItems: 72 },
   { category: "car", label: "Audi A4 sedan", query: "Audi A4 sedan car", requireAny: ["a4", "sedan"], kind: "car", maxItems: 72 },
   { category: "car", label: "Audi RS3 sedan", query: "Audi RS3 sedan car", requireAny: ["rs3", "sedan"], kind: "car", maxItems: 72 },
+  { category: "car", label: "BMW sedan refill", provider: "generated-photo", terms: "bmw,sedan,car", query: "modern BMW sedan exterior", kind: "car", lockBase: 61000, maxItems: 600 },
+  { category: "car", label: "Mercedes sedan refill", provider: "generated-photo", terms: "mercedes,sedan,car", query: "modern Mercedes sedan exterior", kind: "car", lockBase: 62000, maxItems: 600 },
+  { category: "car", label: "Audi sedan refill", provider: "generated-photo", terms: "audi,sedan,car", query: "modern Audi sedan exterior", kind: "car", lockBase: 63000, maxItems: 600 },
 ];
 
 onlineSources.forEach((source) => {
   source.category = source.category || (source.kind === "car" ? "car" : "food");
 });
+
+const generatedOnlineSourceSeeds = {
+  food: [
+    { label: "Tonkotsu ramen", query: "tonkotsu ramen bowl food", requireAny: ["ramen", "tonkotsu"], maxItems: 72 },
+    { label: "Japanese ramen", query: "japanese ramen noodles restaurant", requireAny: ["ramen", "noodle"], maxItems: 72 },
+    { label: "Korean stew", query: "korean jjigae stew food", requireAny: ["jjigae", "stew"], maxItems: 60 },
+    { label: "Korean fried chicken", query: "korean fried chicken food", requireAny: ["fried chicken", "chicken"], maxItems: 72 },
+    { label: "Korean barbecue table", query: "korean barbecue meat grill restaurant", requireAny: ["barbecue", "grill", "galbi"], maxItems: 90 },
+    { label: "Vietnamese pho", query: "vietnamese pho noodle soup", requireAny: ["pho", "noodle"], maxItems: 60 },
+    { label: "Dumpling table", query: "jiaozi gyoza dumplings restaurant", requireAny: ["dumpling", "jiaozi", "gyoza"], maxItems: 72 },
+    { label: "Burger close-up", query: "restaurant cheeseburger fries", requireAny: ["burger", "cheeseburger", "hamburger"], maxItems: 84 },
+    { label: "Steak plate", query: "restaurant steak dinner plate", requireAny: ["steak"], maxItems: 84 },
+    { label: "Pizza table", query: "pizza restaurant melted cheese food", requireAny: ["pizza"], maxItems: 72 },
+    { label: "Mexican tacos", query: "tacos carnitas mexican restaurant food", requireAny: ["taco", "carnitas"], maxItems: 72 },
+    { label: "Cajun gumbo", query: "cajun gumbo seafood bowl", requireAny: ["gumbo", "cajun"], maxItems: 48 },
+  ],
+  kpop: [
+    { label: "Hanni clean", query: "Hanni NewJeans 2024", requireAny: ["hanni"], person: "Hanni", kind: "girl", maxItems: 54 },
+    { label: "Hanni airport", query: "Hanni NewJeans airport", requireAny: ["hanni"], person: "Hanni", kind: "girl", maxItems: 54 },
+    { label: "Haerin clean", query: "Haerin NewJeans 2024", requireAny: ["haerin"], person: "Haerin", kind: "girl", maxItems: 54 },
+    { label: "Haerin airport", query: "Haerin NewJeans airport", requireAny: ["haerin"], person: "Haerin", kind: "girl", maxItems: 54 },
+    { label: "Wonyoung clean", query: "Jang Wonyoung 2025", requireAny: ["wonyoung", "won-young"], person: "Wonyoung", kind: "girl", maxItems: 72 },
+    { label: "Wonyoung airport", query: "Jang Wonyoung airport", requireAny: ["wonyoung", "won-young"], person: "Wonyoung", kind: "girl", maxItems: 72 },
+    { label: "IVE Wonyoung clean", query: "IVE Wonyoung 2024", requireAny: ["wonyoung", "won-young"], person: "Wonyoung", kind: "girl", maxItems: 72 },
+  ],
+  car: [
+    { label: "BMW G20 sedan", query: "BMW G20 3 Series sedan", requireAny: ["g20", "3 series", "sedan"], kind: "car", maxItems: 84 },
+    { label: "BMW 330i sedan", query: "BMW 330i sedan car", requireAny: ["330i", "sedan"], kind: "car", maxItems: 84 },
+    { label: "BMW M340i sedan", query: "BMW M340i sedan car", requireAny: ["m340i", "sedan"], kind: "car", maxItems: 72 },
+    { label: "BMW M3 G80 sedan", query: "BMW G80 M3 sedan", requireAny: ["g80", "m3", "sedan"], kind: "car", maxItems: 84 },
+    { label: "Mercedes CLA sedan", query: "Mercedes CLA sedan exterior", requireAny: ["cla", "mercedes"], kind: "car", maxItems: 72 },
+    { label: "Mercedes C-Class sedan", query: "Mercedes C-Class W206 sedan", requireAny: ["c-class", "w206", "sedan"], kind: "car", maxItems: 72 },
+    { label: "Audi A3 sedan", query: "Audi A3 sedan exterior", requireAny: ["a3", "sedan"], kind: "car", maxItems: 72 },
+    { label: "Audi A4 sedan", query: "Audi A4 sedan exterior", requireAny: ["a4", "sedan"], kind: "car", maxItems: 72 },
+    { label: "Audi RS3 sedan", query: "Audi RS3 sedan exterior", requireAny: ["rs3", "sedan"], kind: "car", maxItems: 72 },
+  ],
+};
+
+const generatedOnlineSourceIndex = { food: 0, kpop: 0, car: 0 };
+
+function addGeneratedOnlineSources(category, count = 6) {
+  const seeds = generatedOnlineSourceSeeds[category] || [];
+  if (!seeds.length) return 0;
+
+  for (let index = 0; index < count; index += 1) {
+    const generation = generatedOnlineSourceIndex[category] || 0;
+    const seed = seeds[generation % seeds.length];
+    const page = Math.floor(generation / seeds.length);
+    generatedOnlineSourceIndex[category] = generation + 1;
+    onlineSources.push({
+      ...seed,
+      category,
+      offset: page > 0 ? page * 36 : undefined,
+      added: 0,
+      failures: 0,
+      exhausted: false,
+      generated: true,
+    });
+  }
+
+  return count;
+}
 
 const blockedOnlineTitleTerms = [
   "ai generated",
@@ -1420,6 +1633,7 @@ function defaultAiCurateEndpoint() {
 
 const aiCurateEndpoint = defaultAiCurateEndpoint();
 const preferenceEndpoint = apiEndpoint("/api/preferences");
+const kpopCandidateEndpoint = apiEndpoint("/api/kpop-candidates");
 let aiCuratorUnavailable = false;
 
 function imageFor(item) {
@@ -1530,21 +1744,40 @@ function cleanPreferenceSample(sample) {
   };
 }
 
-function applyPreferenceState(next, { save = true } = {}) {
+function mergePreferenceSamples(existing, incoming, limit = maxStoredPreferenceSamples) {
+  const merged = [];
+  [...(existing || []), ...(incoming || [])].forEach((sample) => {
+    const cleaned = cleanPreferenceSample(sample);
+    if (!cleaned.key) return;
+    const index = merged.findIndex((item) => item.key === cleaned.key);
+    if (index >= 0) merged.splice(index, 1);
+    merged.push(cleaned);
+  });
+  return merged.slice(-limit);
+}
+
+function applyPreferenceState(next, { save = true, merge = false } = {}) {
   if (!next || typeof next !== "object") return;
 
   const hiddenKeys = Array.isArray(next.hiddenKeys) ? next.hiddenKeys.map(normalizePreferenceKey).filter(Boolean) : [];
+  const nextHiddenSet = merge ? new Set([...hiddenKeySet, ...hiddenKeys]) : new Set(hiddenKeys);
+  if (Array.isArray(next.hiddenSamples)) {
+    next.hiddenSamples
+      .map((sample) => normalizePreferenceKey(sample && sample.key))
+      .filter(Boolean)
+      .forEach((key) => nextHiddenSet.add(key));
+  }
   hiddenKeySet.clear();
-  hiddenKeys.forEach((key) => hiddenKeySet.add(key));
+  nextHiddenSet.forEach((key) => hiddenKeySet.add(key));
 
-  preferenceState.version = Number(next.version) || 0;
+  preferenceState.version = Math.max(merge ? preferenceState.version : 0, Number(next.version) || 0);
   preferenceState.hiddenKeys = [...hiddenKeySet];
-  preferenceState.hiddenSamples = Array.isArray(next.hiddenSamples)
-    ? next.hiddenSamples.map(cleanPreferenceSample).filter((sample) => sample.key).slice(-maxStoredPreferenceSamples)
-    : [];
-  preferenceState.keptSamples = Array.isArray(next.keptSamples)
-    ? next.keptSamples.map(cleanPreferenceSample).filter((sample) => sample.key).slice(-maxStoredPreferenceSamples)
-    : [];
+  preferenceState.hiddenSamples = merge
+    ? mergePreferenceSamples(preferenceState.hiddenSamples, next.hiddenSamples)
+    : mergePreferenceSamples([], next.hiddenSamples);
+  preferenceState.keptSamples = merge
+    ? mergePreferenceSamples(preferenceState.keptSamples, next.keptSamples)
+    : mergePreferenceSamples([], next.keptSamples);
 
   if (save) savePreferenceState();
 }
@@ -1560,10 +1793,19 @@ async function loadRemotePreferences() {
     });
     if (!response.ok) return;
     const data = await response.json();
-    if (data && data.preferences) applyPreferenceState(data.preferences);
+    if (data && data.preferences) applyPreferenceState(data.preferences, { merge: true });
   } catch {
     remotePreferencesLoaded = false;
   }
+}
+
+function preferenceStatePayload() {
+  return {
+    version: preferenceState.version,
+    hiddenKeys: [...hiddenKeySet].slice(-700),
+    hiddenSamples: (preferenceState.hiddenSamples || []).slice(-maxStoredPreferenceSamples),
+    keptSamples: (preferenceState.keptSamples || []).slice(-maxStoredPreferenceSamples),
+  };
 }
 
 function storedEditToken() {
@@ -1632,7 +1874,7 @@ async function submitPreferenceAction(payload, pin = "") {
   }
 
   const token = storedEditToken();
-  const body = { ...payload };
+  const body = { ...payload, clientPreferences: preferenceStatePayload() };
   if (token) body.token = token;
   if (pin) body.pin = pin;
 
@@ -1653,7 +1895,7 @@ async function submitPreferenceAction(payload, pin = "") {
   }
 
   if (data.editToken) saveEditToken(data.editToken);
-  if (data.preferences) applyPreferenceState(data.preferences);
+  if (data.preferences) applyPreferenceState(data.preferences, { merge: true });
   return { ok: true };
 }
 
@@ -1741,7 +1983,80 @@ function preferenceSampleText(sample) {
     sample.caption,
     sample.sourceId,
     sample.url,
+    sample.image,
   ].join(" ");
+}
+
+const preferenceFeaturePatterns = {
+  food: [
+    ["vegetable_spread", /vegetable|vegetables|salad|broccoli|kale|spinach|lettuce|bean|chickpea|olive|corn|tomato|pepper|ingredient/i],
+    ["isolated_sushi", /nigiri|single|isolated|plain|white background|salmon sushi(?!.*platter)|sushi close-up|sushi close up/i],
+    ["raw_plain", /raw|uncooked|ingredient|sterile|product shot|white background/i],
+  ],
+  kpop: [
+    ["stage", /stage|performance|concert|festival|inkigayo|music bank|microphone|fancam|fan concert|k-link/i],
+    ["awards", /awards?|awards-night|awards-event|mma|mama|melon|golden disc|red carpet/i],
+    ["fashion_event", /fashion-event|fashion week|dior|bvlgari|tommy|rimowa|miu miu|photocall|launch event/i],
+    ["beauty_editorial", /beauty|editorial|glam|heavy makeup|marie claire|kerastase|mise-en-scene|olens|magazine|shoulder-pose|off-shoulder/i],
+    ["too_polished", /press-day|event frame|glossy|sparkle|polished awards|polished press/i],
+  ],
+  car: [
+    ["old_car", /classic|vintage|oldtimer|old car|e36|e46|199[0-9]|200[0-9]|2010|2011|2012/i],
+    ["show_floor", /museum|exhibition|motor show|auto show|show floor|auto zuerich|iaa|frankfurt|parade/i],
+    ["traffic_doc", /traffic|china|lwb|e class|w212|v212|taxi|police|surveillance|license plate/i],
+    ["suv_hatch", /suv|crossover|countryman|hatchback|sportback|bmw x[1-7]|audi q[2-8]|cayenne|macan/i],
+    ["dealer_bad", /dealer|dealership|auction|sale|used car|damaged|wreck|crash/i],
+  ],
+};
+
+const strongNegativeFeatures = new Set([
+  "vegetable_spread",
+  "isolated_sushi",
+  "raw_plain",
+  "stage",
+  "awards",
+  "fashion_event",
+  "beauty_editorial",
+  "too_polished",
+  "old_car",
+  "show_floor",
+  "traffic_doc",
+  "suv_hatch",
+  "dealer_bad",
+]);
+
+function preferenceFeaturesFromText(text, category) {
+  const features = new Set();
+  (preferenceFeaturePatterns[category] || []).forEach(([feature, pattern]) => {
+    if (pattern.test(text)) features.add(feature);
+  });
+  return features;
+}
+
+function itemPreferenceText(item, category) {
+  return curationText(item, { category });
+}
+
+function preferenceRejectsItem(item, category = categoryFor(item)) {
+  if (!item || !category) return false;
+  if (isHiddenItem(item)) return true;
+
+  const itemText = itemPreferenceText(item, category);
+  const itemFeatures = preferenceFeaturesFromText(itemText, category);
+  if (!itemFeatures.size) return false;
+
+  return categoryPreferenceSamples(category, "hiddenSamples").some((sample) => {
+    const hiddenFeatures = preferenceFeaturesFromText(preferenceSampleText(sample), category);
+    if (!hiddenFeatures.size) return false;
+
+    let overlap = 0;
+    hiddenFeatures.forEach((feature) => {
+      if (itemFeatures.has(feature)) overlap += 1;
+    });
+
+    if (overlap >= 2) return true;
+    return overlap >= 1 && [...hiddenFeatures].some((feature) => strongNegativeFeatures.has(feature));
+  });
 }
 
 function categoryPreferenceSamples(category, field) {
@@ -1752,12 +2067,13 @@ function categoryPreferenceSamples(category, field) {
 
 function preferenceScoreAdjustment(item, category) {
   const tokens = new Set(preferenceTokensFromText(curationText(item, { category })));
-  if (!tokens.size) return 0;
+  const featurePenalty = preferenceRejectsItem(item, category) ? -6 : 0;
+  if (!tokens.size) return featurePenalty;
 
-  let score = 0;
+  let score = featurePenalty;
   categoryPreferenceSamples(category, "hiddenSamples").forEach((sample) => {
     preferenceTokensFromText(preferenceSampleText(sample)).forEach((token) => {
-      if (tokens.has(token)) score -= 0.85;
+      if (tokens.has(token)) score -= 1.4;
     });
   });
   categoryPreferenceSamples(category, "keptSamples").forEach((sample) => {
@@ -1803,7 +2119,7 @@ function spreadStride(length, category) {
 }
 
 function longScrollItems(items, category, targetCount = longScrollItemsPerCategory) {
-  const uniqueItems = uniqueBySource(items).filter((item) => !isHiddenItem(item));
+  const uniqueItems = uniqueBySource(items).filter((item) => !preferenceRejectsItem(item, category));
   if (!uniqueItems.length) return [];
   const count = Math.min(uniqueItems.length, targetCount);
   const stride = spreadStride(uniqueItems.length, category);
@@ -1893,6 +2209,7 @@ function enqueueUnique(state, category, item) {
   if (!item) return false;
   const nextItem = { ...item, category: item.category || category };
   if (isBlockedContentItem(nextItem)) return false;
+  if (preferenceRejectsItem(nextItem, category)) return false;
   const key = sourceKey(nextItem);
   if (!key || hiddenKeySet.has(key) || state.seenKeys.has(key) || state.queuedKeys.has(key)) return false;
   state.queuedKeys.add(key);
@@ -1906,6 +2223,7 @@ function dequeueUnique(state, category) {
     const item = queue.shift();
     const key = sourceKey(item);
     if (hiddenKeySet.has(key)) continue;
+    if (preferenceRejectsItem(item, category)) continue;
     if (state.seenKeys.has(key)) continue;
     state.seenKeys.add(key);
     return item;
@@ -1916,7 +2234,7 @@ function dequeueUnique(state, category) {
 function hasAvailableUnique(state, category) {
   return (state.queues[category] || []).some((item) => {
     const key = sourceKey(item);
-    return key && !hiddenKeySet.has(key) && !state.seenKeys.has(key);
+    return key && !hiddenKeySet.has(key) && !preferenceRejectsItem(item, category) && !state.seenKeys.has(key);
   });
 }
 
@@ -2031,7 +2349,7 @@ function itemFromCommonsPage(source, page) {
 function localRankCandidates(source, candidates) {
   const category = source.category;
   return candidates
-    .filter((item) => !isHiddenItem(item))
+    .filter((item) => !preferenceRejectsItem(item, category))
     .map((item) => ({ item, score: curatorScore(item, source) + preferenceScoreAdjustment(item, category) }))
     .filter(({ item, score }) => score >= (curatorProfiles[source.category] ? curatorProfiles[source.category].minScore : 0) && passesCurator(item, source))
     .sort((left, right) => right.score - left.score)
@@ -2056,7 +2374,7 @@ function itemFromAiResponse(source, candidates, item) {
   const key = sourceKey(item);
   const matched = candidates.find((candidate) => sourceKey(candidate) === key);
   const nextItem = matched || item;
-  if (!nextItem || isHiddenItem(nextItem) || !passesCurator(nextItem, source)) return null;
+  if (!nextItem || preferenceRejectsItem(nextItem, source.category) || !passesCurator(nextItem, source)) return null;
   return { ...nextItem, category: nextItem.category || source.category };
 }
 
@@ -2116,14 +2434,100 @@ async function rankOnlineCandidates(source, candidates) {
 }
 
 function nextOnlineSource(category) {
-  const sources = onlineSources.filter((source) => source.category === category && !source.exhausted);
+  let sources = onlineSources.filter((source) => source.category === category && !source.exhausted);
+  if (!sources.length) {
+    addGeneratedOnlineSources(category, 8);
+    sources = onlineSources.filter((source) => source.category === category && !source.exhausted);
+  }
   if (!sources.length) return null;
   const source = sources[onlineSourceIndex[category] % sources.length];
   onlineSourceIndex[category] += 1;
   return source;
 }
 
+async function fetchKpoppingSource(source) {
+  if (!kpopCandidateEndpoint || typeof fetch !== "function") return [];
+  if (source.maxItems && source.added >= source.maxItems) {
+    source.exhausted = true;
+    return [];
+  }
+
+  const params = new URLSearchParams({
+    person: source.person || "",
+    offset: String(source.offset || 0),
+    limit: "42",
+  });
+  const response = await fetch(`${kpopCandidateEndpoint}?${params.toString()}`, {
+    headers: { Accept: "application/json" },
+    cache: "no-store",
+  });
+  if (!response.ok) {
+    throw new Error(`K-pop source failed: ${response.status}`);
+  }
+
+  const data = await response.json();
+  const candidates = Array.isArray(data.items) ? data.items : [];
+  if (data.nextOffset === null || data.nextOffset === undefined) {
+    source.exhausted = true;
+  } else {
+    source.offset = data.nextOffset;
+  }
+
+  return rankOnlineCandidates(source, candidates);
+}
+
+async function fetchGeneratedPhotoSource(source) {
+  if (source.maxItems && source.added >= source.maxItems) {
+    source.exhausted = true;
+    return [];
+  }
+
+  const start = Number(source.offset) || 0;
+  const remaining = source.maxItems ? Math.max(0, source.maxItems - start) : 48;
+  const count = Math.min(48, remaining);
+  if (!count) {
+    source.exhausted = true;
+    return [];
+  }
+
+  source.offset = start + count;
+  if (source.maxItems && source.offset >= source.maxItems) {
+    source.exhausted = true;
+  }
+
+  const terms = String(source.terms || source.query || source.label || "food")
+    .split(",")
+    .map((term) => encodeURIComponent(term.trim()))
+    .filter(Boolean)
+    .join(",");
+  const items = Array.from({ length: count }, (_, index) => {
+    const lock = (Number(source.lockBase) || 10000) + start + index;
+    const image = `https://loremflickr.com/1400/1000/${terms}?lock=${lock}`;
+    return {
+      image,
+      original: image,
+      url: `https://www.flickr.com/search/?text=${encodeURIComponent(source.query || source.label || "")}`,
+      sourceId: image,
+      caption: `${source.label} online candidate ${lock}.`,
+      category: source.category,
+      person: source.person || "",
+      shape: source.category === "car" ? "wide" : (index % 5 === 0 ? "portrait" : "wide"),
+      focus: "center 50%",
+      kind: source.kind || "",
+    };
+  });
+
+  return rankOnlineCandidates(source, items);
+}
+
 async function fetchOnlineSource(source) {
+  if (source.provider === "kpopping") {
+    return fetchKpoppingSource(source);
+  }
+  if (source.provider === "generated-photo") {
+    return fetchGeneratedPhotoSource(source);
+  }
+
   if (source.maxItems && source.added >= source.maxItems) {
     source.exhausted = true;
     return [];
@@ -2154,8 +2558,10 @@ async function fetchOnlineSource(source) {
 async function loadMoreOnlineItemsForCategory(state, category, targetCount = onlineBatchSize) {
   let added = 0;
   let attempts = 0;
+  const categorySourceCount = onlineSources.filter((source) => source.category === category).length;
+  const maxAttempts = Math.max(16, categorySourceCount * 2);
 
-  while (added < targetCount && attempts < onlineSources.length * 2) {
+  while (added < targetCount && attempts < maxAttempts) {
     const source = nextOnlineSource(category);
     if (!source) break;
 
@@ -2177,6 +2583,10 @@ async function loadMoreOnlineItemsForCategory(state, category, targetCount = onl
       source.failures = (source.failures || 0) + 1;
       if (source.failures >= 2) source.exhausted = true;
     }
+  }
+
+  if (!added) {
+    addGeneratedOnlineSources(category, 8);
   }
 
   return added;
@@ -2212,7 +2622,9 @@ async function nextMixedItems(state, targetCount = batchSize) {
   }
 
   if (!nextItems.length) {
-    state.exhausted = true;
+    state.emptyBatches = (state.emptyBatches || 0) + 1;
+  } else {
+    state.emptyBatches = 0;
   }
 
   return nextItems;
@@ -2384,6 +2796,7 @@ async function render() {
   const feedState = createFeedState();
   let exhausted = false;
   let loading = false;
+  let emptyRetryTimer = 0;
   const renderedItems = [];
 
   const handleHide = async (item) => {
@@ -2421,6 +2834,12 @@ async function render() {
       const nextItems = await nextMixedItems(feedState, batchSize);
       if (!nextItems.length && feedState.exhausted) {
         exhausted = true;
+      }
+      if (!nextItems.length && !exhausted) {
+        window.clearTimeout(emptyRetryTimer);
+        const retryDelay = feedState.emptyBatches > 2 ? 2500 : 900;
+        emptyRetryTimer = window.setTimeout(() => appendBatch(), retryDelay);
+        return;
       }
 
       renderedItems.push(...nextItems);

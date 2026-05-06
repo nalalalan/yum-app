@@ -18,6 +18,34 @@ const allowedOrigins = String(process.env.YUM_ALLOWED_ORIGINS || "http://localho
   .map((origin) => origin.trim())
   .filter(Boolean);
 const curationCache = new Map();
+const kpopAlbumCache = new Map();
+
+const kpopAlbums = [
+  { person: "Hanni", label: "Hanni Instagram", url: "https://kpopping.com/kpics/240715-NewJeans-Hanni-Instagram-Update" },
+  { person: "Hanni", label: "Hanni Instagram", url: "https://kpopping.com/kpics/240102-NEW-JEANS-INSTAGRAM-UPDATE-HANNI" },
+  { person: "Hanni", label: "Hanni SNS", url: "https://kpopping.com/kpics/250319-NJZ-Instagram-Update-with-HANNI" },
+  { person: "Hanni", label: "Hanni SNS", url: "https://kpopping.com/kpics/241023-New-Jeans-Instagram-Update-Hanni" },
+  { person: "Hanni", label: "Hanni SNS", url: "https://kpopping.com/kpics/250820-Update-HANNI-With-bunnie" },
+  { person: "Hanni", label: "Hanni SNS", url: "https://kpopping.com/kpics/220802-NewJeans-Instagram-Update-Hanni" },
+  { person: "Hanni", label: "Hanni clean portrait", url: "https://kpopping.com/kpics/NewJeans-Hanni-for-W-Korea-Vol-2-February-2024-Issue" },
+  { person: "Hanni", label: "Hanni clean event", url: "https://kpopping.com/kpics/240201-New-Jeans-Hanni-2024-F-W-Seoul-Fashion-Week" },
+  { person: "Haerin", label: "Haerin Instagram", url: "https://kpopping.com/kpics/240622-NewJeans-Instagram-Update-with-HAERIN" },
+  { person: "Haerin", label: "Haerin Instagram", url: "https://kpopping.com/kpics/240525-NewJeans-Instagram-Update-Haerin" },
+  { person: "Haerin", label: "Haerin Instagram", url: "https://kpopping.com/kpics/241029-New-Jeans-Instagram-Update-Haerin" },
+  { person: "Haerin", label: "Haerin friends update", url: "https://kpopping.com/kpics/250515-mhdhh-friends-Instagram-Update-with-HYEIN-n-HAERIN" },
+  { person: "Haerin", label: "Haerin friends update", url: "https://kpopping.com/kpics/250515-mhdhh-friends-Instagram-Update-with-HAERIN-n-MINJI" },
+  { person: "Haerin", label: "Haerin SNS", url: "https://kpopping.com/kpics/250118-NewJeans-Haerin-SNS-Update" },
+  { person: "Haerin", label: "Haerin friends update", url: "https://kpopping.com/kpics/250515-mhdhh-friends-Instagram-Update-with-HAERIN" },
+  { person: "Haerin", label: "Haerin clean event", url: "https://kpopping.com/kpics/240201-New-Jeans-Haerin-2024-F-W-Seoul-Fashion-Week" },
+  { person: "Wonyoung", label: "Wonyoung airport", url: "https://kpopping.com/kpics/221014-IVE-Wonyoung-at-Incheon-International-Airport" },
+  { person: "Wonyoung", label: "Wonyoung airport", url: "https://kpopping.com/kpics/240921-IVE-Wonyoung-at-Gimpo-International-Airport" },
+  { person: "Wonyoung", label: "Wonyoung airport", url: "https://kpopping.com/kpics/220513-IVE-s-Wonyoung-at-Incheon-International-Airport-for-KPOP-Flex-Germany" },
+  { person: "Wonyoung", label: "Wonyoung Instagram", url: "https://kpopping.com/kpics/260425-wonyoung-instagram-update" },
+  { person: "Wonyoung", label: "Wonyoung Instagram", url: "https://kpopping.com/kpics/250329-WONYOUNG-Instagram-Update" },
+  { person: "Wonyoung", label: "Wonyoung Instagram", url: "https://kpopping.com/kpics/230615-IVE-Wonyoung-Instagram-Update" },
+  { person: "Wonyoung", label: "Wonyoung fansign", url: "https://kpopping.com/kpics/260503-wonyoung-at-makestar-fansign" },
+  { person: "Wonyoung", label: "Wonyoung clean public frame", url: "https://kpopping.com/kpics/250730-IVE-WONYOUNG-at-2025-Coupang-Play-Series" },
+];
 
 const mimeTypes = {
   ".html": "text/html; charset=utf-8",
@@ -290,6 +318,156 @@ function publicPreferences(preferences) {
   };
 }
 
+function mergeClientPreferences(preferences, submitted) {
+  if (!submitted || typeof submitted !== "object") return false;
+  let changed = false;
+  const hiddenKeys = new Set((preferences.hiddenKeys || []).map((key) => cleanText(key, 500)).filter(Boolean));
+
+  if (Array.isArray(submitted.hiddenKeys)) {
+    submitted.hiddenKeys.map((key) => cleanText(key, 500)).filter(Boolean).forEach((key) => {
+      if (!hiddenKeys.has(key)) changed = true;
+      hiddenKeys.add(key);
+    });
+  }
+
+  if (Array.isArray(submitted.hiddenSamples)) {
+    submitted.hiddenSamples.map(safePreferenceSample).filter((sample) => sample.key).forEach((sample) => {
+      if (!hiddenKeys.has(sample.key)) changed = true;
+      hiddenKeys.add(sample.key);
+      addPreferenceSample(preferences.hiddenSamples, sample);
+    });
+  }
+
+  if (Array.isArray(submitted.keptSamples)) {
+    submitted.keptSamples.map(safePreferenceSample).filter((sample) => sample.key).forEach((sample) => {
+      addPreferenceSample(preferences.keptSamples, sample);
+    });
+  }
+
+  preferences.hiddenKeys = [...hiddenKeys].slice(-900);
+  preferences.version = Math.max(Number(preferences.version) || 0, Number(submitted.version) || 0);
+  return changed;
+}
+
+function cleanExtractedImageUrl(value) {
+  let url = String(value || "")
+    .replace(/\\u002F/g, "/")
+    .replace(/&amp;/g, "&")
+    .replace(/\\+/g, "")
+    .replace(/["'<>]+$/g, "")
+    .trim();
+
+  try {
+    url = decodeURIComponent(url);
+  } catch {
+    // Keep the original URL if a page contains a partially encoded fragment.
+  }
+
+  if (!/^https?:\/\//i.test(url) && /^(legacy\.kpopping\.com|pub-dc9a9c6ac2a64ba48bce426ced0ac56a\.r2\.dev)\//i.test(url)) {
+    url = `https://${url}`;
+  }
+
+  url = url
+    .replace(/[?&](w|q|size)=.*$/i, "")
+    .replace(/["'<>]+$/g, "")
+    .trim();
+
+  if (!/^https?:\/\/(legacy\.kpopping\.com|pub-dc9a9c6ac2a64ba48bce426ced0ac56a\.r2\.dev)\//i.test(url)) return "";
+  if (!/\.(jpe?g|png|webp)(?:$|\?)/i.test(url)) return "";
+  if (/graph|logo|icon|avatar|profile|favicon|apple/i.test(url)) return "";
+  return url;
+}
+
+function extractKpopImages(html) {
+  const candidates = new Set();
+  const text = String(html || "").replace(/&amp;/g, "&");
+  const directPattern = /https?:\/\/(?:legacy\.kpopping\.com|pub-dc9a9c6ac2a64ba48bce426ced0ac56a\.r2\.dev)\/[^"'<>\s]+/gi;
+  const encodedPattern = /https%3A%2F%2F(?:legacy\.kpopping\.com|pub-dc9a9c6ac2a64ba48bce426ced0ac56a\.r2\.dev)%2F[^"'<>\s&]+/gi;
+  const protocolLessPattern = /(?:legacy\.kpopping\.com|pub-dc9a9c6ac2a64ba48bce426ced0ac56a\.r2\.dev)%2F[^"'<>\s&]+/gi;
+
+  [directPattern, encodedPattern, protocolLessPattern].forEach((pattern) => {
+    for (const match of text.matchAll(pattern)) {
+      const cleaned = cleanExtractedImageUrl(match[0]);
+      if (cleaned) candidates.add(cleaned);
+    }
+  });
+
+  return [...candidates];
+}
+
+async function fetchKpopAlbum(album) {
+  const cached = kpopAlbumCache.get(album.url);
+  if (cached && Date.now() - cached.fetchedAt < 60 * 60 * 1000) return cached.images;
+
+  const response = await fetch(album.url, {
+    headers: {
+      "User-Agent": "Mozilla/5.0 Yum image wall",
+      Accept: "text/html,application/xhtml+xml",
+    },
+  });
+  if (!response.ok) throw new Error(`K-pop album fetch failed: ${response.status}`);
+
+  const html = await response.text();
+  const images = extractKpopImages(html);
+  kpopAlbumCache.set(album.url, { fetchedAt: Date.now(), images });
+  return images;
+}
+
+async function handleKpopCandidates(req, res, requestUrl) {
+  if (req.method === "OPTIONS") {
+    sendOptions(req, res);
+    return;
+  }
+
+  if (req.method !== "GET") {
+    sendJson(req, res, 405, { error: "Use GET" });
+    return;
+  }
+
+  const person = cleanText(requestUrl.searchParams.get("person") || "", 40);
+  const offset = Math.max(0, Number(requestUrl.searchParams.get("offset") || 0) || 0);
+  const limit = Math.min(Math.max(Number(requestUrl.searchParams.get("limit") || 36) || 36, 1), 60);
+  const albums = kpopAlbums.filter((album) => !person || album.person.toLowerCase() === person.toLowerCase());
+  const items = [];
+
+  await Promise.all(albums.map(async (album) => {
+    try {
+      const images = await fetchKpopAlbum(album);
+      images.forEach((image, index) => {
+        items.push({
+          image,
+          original: image,
+          url: album.url,
+          sourceId: image,
+          caption: `${album.person} cameo, natural clean online portrait ${index + 1}.`,
+          category: "kpop",
+          person: album.person,
+          shape: index % 7 === 0 ? "tall" : "portrait",
+          focus: "center 38%",
+          albumLabel: album.label,
+        });
+      });
+    } catch {
+      // A single source should not empty the whole feed.
+    }
+  }));
+
+  const uniqueItems = [];
+  const seen = new Set();
+  items.forEach((item) => {
+    if (seen.has(item.sourceId)) return;
+    seen.add(item.sourceId);
+    uniqueItems.push(item);
+  });
+
+  const sliced = uniqueItems.slice(offset, offset + limit);
+  sendJson(req, res, 200, {
+    items: sliced,
+    nextOffset: offset + sliced.length < uniqueItems.length ? offset + sliced.length : null,
+    total: uniqueItems.length,
+  });
+}
+
 function sendPreferenceAuthError(req, res) {
   if (!editPin) {
     sendJson(req, res, 503, { error: "YUM_EDIT_PIN is not configured" });
@@ -331,8 +509,10 @@ async function handlePreferences(req, res) {
   }
 
   const preferences = await readPreferences();
+  const mergedClientPreferences = mergeClientPreferences(preferences, payload.clientPreferences);
   if (payload.action === "auth") {
-    sendJson(req, res, 200, { preferences: publicPreferences(preferences), editToken: authorization.token });
+    const responsePreferences = mergedClientPreferences ? await writePreferences(preferences) : preferences;
+    sendJson(req, res, 200, { preferences: publicPreferences(responsePreferences), editToken: authorization.token });
     return;
   }
 
@@ -666,6 +846,13 @@ const server = http.createServer((req, res) => {
   if (pathname === "/api/preferences") {
     handlePreferences(req, res).catch((error) => {
       sendJson(req, res, 500, { error: error.message });
+    });
+    return;
+  }
+
+  if (pathname === "/api/kpop-candidates") {
+    handleKpopCandidates(req, res, requestUrl).catch((error) => {
+      sendJson(req, res, 502, { error: error.message });
     });
     return;
   }
