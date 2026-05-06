@@ -960,188 +960,6 @@ carItems.push(
   }
 );
 
-[
-  "P90572284",
-  "P90572285",
-  "P90572291",
-  "P90572294",
-  "P90572296",
-  "P90572297",
-  "P90572298",
-  "P90572299",
-  "P90572300",
-  "P90572301",
-  "P90572302",
-  "P90572303",
-  "P90572304",
-  "P90572305",
-  "P90572309",
-  "P90572310",
-  "P90572311",
-  "P90572312",
-  "P90572313",
-  "P90572314",
-  "P90572315",
-  "P90572316",
-  "P90572317",
-  "P90572318",
-  "P90572319",
-  "P90572320",
-  "P90572321",
-  "P90572322",
-  "P90572323",
-  "P90572324",
-  "P90572325",
-  "P90572326",
-  "P90572327",
-  "P90572328",
-  "P90572329",
-  "P90572330",
-  "P90572331",
-  "P90572332",
-  "P90572333",
-  "P90572334",
-  "P90572335",
-  "P90572336",
-  "P90572337",
-  "P90572338",
-  "P90572339",
-  "P90572340",
-  "P90572341",
-  "P90572342",
-  "P90572343",
-  "P90572344",
-  "P90572345",
-  "P90572346",
-  "P90572347",
-  "P90572348",
-  "P90572349",
-  "P90572350",
-  "P90572351",
-  "P90572352",
-  "P90572353",
-  "P90572354",
-  "P90572355",
-  "P90572356",
-  "P90572357",
-  "P90572358",
-  "P90572359",
-  "P90572360",
-  "P90572361",
-  "P90572362",
-  "P90572363",
-  "P90572364",
-  "P90572365",
-  "P90572366",
-  "P90572367",
-  "P90572368",
-  "P90572369",
-  "P90572370",
-  "P90572371",
-  "P90572372",
-  "P90572373",
-  "P90572374",
-  "P90572375",
-  "P90572376",
-  "P90572377",
-  "P90572378",
-  "P90572379",
-  "P90572380",
-  "P90572381",
-  "P90572382",
-  "P90572383",
-  "P90572384",
-  "P90572385",
-  "P90572386",
-  "P90572387",
-  "P90572388",
-  "P90572389",
-  "P90572390",
-  "P90572391",
-  "P90572392",
-  "P90572393",
-  "P90572394",
-  "P90572395",
-  "P90572396",
-  "P90572397",
-  "P90572398",
-  "P90572399",
-  "P90572400",
-  "P90572401",
-  "P90572402",
-  "P90572403",
-  "P90572404",
-  "P90572405",
-  "P90572406",
-  "P90572407",
-  "P90572408",
-  "P90572409",
-  "P90572410",
-  "P90572411",
-  "P90572412",
-  "P90572413",
-  "P90572414",
-  "P90572415",
-  "P90572416",
-  "P90572417",
-  "P90572418",
-  "P90572419",
-  "P90572420",
-  "P90572421",
-  "P90572422",
-  "P90572423",
-  "P90572424",
-  "P90572425",
-  "P90572426",
-  "P90572427",
-  "P90572428",
-  "P90572429",
-  "P90572430",
-  "P90572431",
-  "P90572432",
-  "P90572433",
-  "P90572434",
-  "P90572435",
-  "P90572436",
-  "P90572437",
-  "P90572438",
-  "P90572439",
-  "P90572440",
-  "P90572441",
-  "P90572442",
-  "P90572455",
-  "P90572456",
-  "P90572457",
-  "P90572458",
-  "P90572459",
-  "P90572460",
-  "P90572461",
-  "P90572462",
-  "P90572463",
-  "P90572464",
-  "P90572465",
-  "P90572468",
-  "P90572469",
-  "P90572470",
-  "P90572471",
-  "P90572472",
-  "P90572473",
-  "P90572474",
-  "P90572475",
-  "P90572476",
-  "P90572477",
-  "P90572478",
-  "P90572479",
-].forEach((id, index) => {
-  carItems.push({
-    image: bmwPressImage(id),
-    url: "https://www.press.bmwgroup.com/usa/photo/compilation/T0445698EN_US/the-new-2025-bmw-2-series-gran-coupe?language=en_US",
-    caption: `BMW M235 Gran Coupe, verified official sedan press angle ${index + 1}.`,
-    shape: index % 4 === 1 ? "cinema" : "wide",
-    focus: "center 52%",
-  });
-});
-
 function uniqueBySource(list) {
   const seen = new Set();
   return list.filter((item) => {
@@ -1175,13 +993,33 @@ const blockedContentTerms = [
   "bmw x2",
   "bmw ix2",
   "audi q3",
+  "firefighter",
+  "fire truck",
+  "firetruck",
+  "fire engine",
+  "fire department",
+  "feuerwehr",
+  "werkfeuerwehr",
+  "p905430",
   "vegetable",
   "vegetables",
+  "veggies",
   "salad",
   "broccoli",
   "kale",
   "spinach",
   "lettuce",
+  "greens",
+  "leafy",
+  "arugula",
+  "cucumber",
+  "zucchini",
+  "squash",
+  "pumpkin",
+  "tomato soup",
+  "carrot",
+  "corn",
+  "cabbage",
   "beans",
   "chickpea",
   "olives",
@@ -1233,7 +1071,7 @@ const blockedContentTerms = [
   "beauty event",
 ];
 
-const disallowedCarPattern = /suv|crossover|countryman|hatchback|sportback|bmw x[1-7]|bmw ix[1-7]|audi q[2-8]|cayenne|macan|classic|vintage|oldtimer|youngtimer|old car|museum|exhibition|motor show|auto show|show floor|auto zuerich|sauerland|tuning show|moscow|iaa|frankfurt|parade|traffic|china|lwb|e class|w212|v212|e30|e34|e36|e39|e46|e60|e90|e92|e93|f30|w124|w201|w202|w203|w204|199[0-9]|200[0-9]|201[0-9]/i;
+const disallowedCarPattern = /firefighter|fire truck|firetruck|fire engine|fire department|feuerwehr|werkfeuerwehr|p905430|suv|crossover|countryman|hatchback|sportback|bmw x[1-7]|bmw ix[1-7]|audi q[2-8]|cayenne|macan|classic|vintage|oldtimer|youngtimer|old car|museum|exhibition|motor show|auto show|show floor|auto zuerich|sauerland|tuning show|moscow|iaa|frankfurt|parade|traffic|china|lwb|e class|w212|v212|e30|e34|e36|e39|e46|e60|e90|e92|e93|f30|w124|w201|w202|w203|w204|199[0-9]|200[0-9]|201[0-9]/i;
 const carIdentityPattern = /bmw|mercedes|benz|audi|mini|sedan|gran coupe|m235|m3|3 series|cla|c-class|a3|a4|rs3|mediapool|uploads\.audi|mercedes-benz/i;
 
 function isDisallowedCarText(text) {
@@ -1261,7 +1099,7 @@ const curatorProfiles = {
       /glossy|char|broth|crispy|golden|platter|plate|bowl|stacked|sliced|sauce|steam|melted/i,
     ],
     reject: [
-      /vegetable|vegetables|salad|broccoli|kale|spinach|lettuce|bean|chickpea|olive|nigiri|single|isolated|white background|plain|raw|uncooked|ingredient/i,
+      /vegetable|vegetables|veggies|salad|broccoli|kale|spinach|lettuce|greens|leafy|arugula|cucumber|zucchini|squash|pumpkin|tomato soup|carrot|corn|cabbage|bean|chickpea|olive|nigiri|single|isolated|white background|plain|raw|uncooked|ingredient/i,
     ],
     minScore: 2,
   },
@@ -1637,13 +1475,32 @@ const blockedOnlineTitleTerms = [
   "chilli",
   "jalapeno",
   "pepper",
+  "firefighter",
+  "fire truck",
+  "firetruck",
+  "fire engine",
+  "fire department",
+  "feuerwehr",
+  "werkfeuerwehr",
   "vegetable",
   "vegetables",
+  "veggies",
   "salad",
   "broccoli",
   "kale",
   "spinach",
   "lettuce",
+  "greens",
+  "leafy",
+  "arugula",
+  "cucumber",
+  "zucchini",
+  "squash",
+  "pumpkin",
+  "tomato soup",
+  "carrot",
+  "corn",
+  "cabbage",
   "bean",
   "chickpea",
   "olive",
@@ -2079,7 +1936,7 @@ function preferenceSampleText(sample) {
 
 const preferenceFeaturePatterns = {
   food: [
-    ["vegetable_spread", /vegetable|vegetables|salad|broccoli|kale|spinach|lettuce|bean|chickpea|olive|corn|tomato|pepper|ingredient/i],
+    ["vegetable_spread", /vegetable|vegetables|veggies|salad|broccoli|kale|spinach|lettuce|greens|leafy|arugula|cucumber|zucchini|squash|pumpkin|tomato soup|carrot|corn|cabbage|bean|chickpea|olive|tomato|pepper|ingredient/i],
     ["isolated_sushi", /nigiri|single|isolated|plain|white background|salmon sushi(?!.*platter)|sushi close-up|sushi close up/i],
     ["raw_plain", /raw|uncooked|ingredient|sterile|product shot|white background/i],
   ],
@@ -2095,6 +1952,7 @@ const preferenceFeaturePatterns = {
     ["show_floor", /museum|exhibition|motor show|auto show|show floor|auto zuerich|iaa|frankfurt|parade/i],
     ["traffic_doc", /traffic|china|lwb|e class|w212|v212|taxi|police|surveillance|license plate/i],
     ["suv_hatch", /suv|crossover|countryman|hatchback|sportback|bmw x[1-7]|audi q[2-8]|cayenne|macan/i],
+    ["service_vehicle", /firefighter|fire truck|firetruck|fire engine|fire department|feuerwehr|werkfeuerwehr|p905430/i],
     ["dealer_bad", /dealer|dealership|auction|sale|used car|damaged|wreck|crash/i],
   ],
 };
@@ -2112,6 +1970,7 @@ const strongNegativeFeatures = new Set([
   "show_floor",
   "traffic_doc",
   "suv_hatch",
+  "service_vehicle",
   "dealer_bad",
 ]);
 
@@ -2317,6 +2176,7 @@ function validQueuedItem(state, category, item) {
   const key = sourceKey(item);
   return key
     && !hiddenKeySet.has(key)
+    && !isBlockedContentItem(item)
     && !isLowQualityRejectedItem(item)
     && !preferenceRejectsItem(item, category)
     && !state.seenKeys.has(key);
@@ -2377,7 +2237,7 @@ function carQueuePenalty(state, item, index) {
   }
 
   const text = curationText(item, { category: "car" });
-  if (/interior|cupholder|gear|dashboard|seat|vent|console|badge|emblem|detail|firefighter|werkfeuerwehr/i.test(text)) {
+  if (/interior|cupholder|gear|dashboard|seat|vent|console|badge|emblem|detail|firefighter|fire truck|firetruck|fire engine|feuerwehr|werkfeuerwehr|p905430/i.test(text)) {
     penalty += 900;
   }
 
@@ -2726,6 +2586,20 @@ function itemFromAiResponse(source, candidates, item) {
   return { ...nextItem, category: nextItem.category || source.category };
 }
 
+async function fetchWithTimeout(url, options = {}, timeoutMs = 6500) {
+  if (typeof AbortController === "undefined") {
+    return fetch(url, options);
+  }
+
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), timeoutMs);
+  try {
+    return await fetch(url, { ...options, signal: controller.signal });
+  } finally {
+    clearTimeout(timeout);
+  }
+}
+
 async function curateCandidatesWithAi(source, candidates, limit = onlineBatchSize) {
   if (!aiCurateEndpoint || aiCuratorUnavailable || typeof fetch !== "function" || !candidates.length) {
     return [];
@@ -2734,7 +2608,7 @@ async function curateCandidatesWithAi(source, candidates, limit = onlineBatchSiz
   const requestCandidates = candidates.slice(0, 12);
 
   try {
-    const response = await fetch(aiCurateEndpoint, {
+    const response = await fetchWithTimeout(aiCurateEndpoint, {
       method: "POST",
       headers: {
         Accept: "application/json",
@@ -2750,7 +2624,7 @@ async function curateCandidatesWithAi(source, candidates, limit = onlineBatchSiz
         limit: Math.min(limit, requestCandidates.length),
         candidates: requestCandidates.map(aiCandidatePayload),
       }),
-    });
+    }, 4500);
 
     if ([404, 405, 501, 503].includes(response.status)) {
       aiCuratorUnavailable = true;
@@ -2818,10 +2692,10 @@ async function fetchKpoppingSource(source) {
     offset: String(source.offset || 0),
     limit: "42",
   });
-  const response = await fetch(`${kpopCandidateEndpoint}?${params.toString()}`, {
+  const response = await fetchWithTimeout(`${kpopCandidateEndpoint}?${params.toString()}`, {
     headers: { Accept: "application/json" },
     cache: "no-store",
-  });
+  }, 7000);
   if (!response.ok) {
     throw new Error(`K-pop source failed: ${response.status}`);
   }
@@ -2855,7 +2729,7 @@ async function fetchOnlineSource(source) {
     return [];
   }
 
-  const response = await fetch(commonsSearchUrl(source), { headers: { Accept: "application/json" } });
+  const response = await fetchWithTimeout(commonsSearchUrl(source), { headers: { Accept: "application/json" } }, 7000);
   if (!response.ok) {
     throw new Error(`Commons search failed: ${response.status}`);
   }
@@ -2966,33 +2840,52 @@ async function nextItemForCategory(state, category) {
   return dequeueUnique(state, category);
 }
 
+function restoreDequeuedItems(state, items) {
+  items.slice().reverse().forEach((item) => {
+    const category = categoryFor(item);
+    const key = sourceKey(item);
+    if (key) state.seenKeys.delete(key);
+    if (!state.queues[category]) state.queues[category] = [];
+    state.queues[category].unshift(item);
+  });
+}
+
 async function nextMixedItems(state, targetCount = batchSize) {
   const nextItems = [];
   const targetSetCount = Math.floor(targetCount / mixPattern.length);
 
   for (let setIndex = 0; setIndex < targetSetCount; setIndex += 1) {
     for (const category of mixPattern) {
-      if (!hasAvailableUnique(state, category)) {
-        await loadMoreOnlineItemsForCategory(state, category, onlineBatchSize);
-      }
+      const needsRefill = !hasAvailableUnique(state, category)
+        || (category === "kpop" && !hasKpopWindowBalancedChoice(state))
+        || (category === "car" && !hasCarWindowBalancedChoice(state));
+      if (needsRefill) await loadMoreOnlineItemsForCategory(state, category, onlineBatchSize);
     }
 
     if (!mixPattern.every((category) => hasAvailableUnique(state, category))) {
-      break;
+      state.emptyBatches = nextItems.length ? 0 : ((state.emptyBatches || 0) + 1);
+      return nextItems;
     }
 
-    mixPattern.forEach((category) => {
-      const item = dequeueUnique(state, category);
-      if (item) nextItems.push(item);
-    });
+    const setItems = [];
+    for (const category of mixPattern) {
+      let item = await nextItemForCategory(state, category);
+      if (!item) {
+        await loadMoreOnlineItemsForCategory(state, category, onlineBatchSize);
+        item = await nextItemForCategory(state, category);
+      }
+      if (!item) {
+        restoreDequeuedItems(state, setItems);
+        state.emptyBatches = nextItems.length ? 0 : ((state.emptyBatches || 0) + 1);
+        return nextItems;
+      }
+      setItems.push(item);
+    }
+
+    nextItems.push(...setItems);
   }
 
-  if (!nextItems.length) {
-    state.emptyBatches = (state.emptyBatches || 0) + 1;
-  } else {
-    state.emptyBatches = 0;
-  }
-
+  state.emptyBatches = nextItems.length ? 0 : ((state.emptyBatches || 0) + 1);
   return nextItems;
 }
 
@@ -3058,23 +2951,8 @@ function createTile(item, index, onHide, onQualityReject) {
   captionText.textContent = item.caption;
   caption.append(captionText);
 
-  const hideButton = document.createElement("button");
-  hideButton.type = "button";
-  hideButton.className = "hide-tile";
-  hideButton.textContent = "x";
-  hideButton.title = "Hide";
-  hideButton.setAttribute("aria-label", "Hide this tile");
-  hideButton.addEventListener("click", (event) => {
-    event.preventDefault();
-    event.stopPropagation();
-    hideButton.disabled = true;
-    tile.classList.add("tile--hiding");
-    tile.remove();
-    onHide(item, tile);
-  });
-
   link.append(img, caption);
-  tile.append(link, hideButton);
+  tile.append(link);
   return tile;
 }
 
@@ -3111,6 +2989,7 @@ function appendTileElement(wall, item, index, onHide, onQualityReject) {
   const category = categoryFor(item);
   const person = personFor(item);
   const visualGroup = visualGroupFor(item);
+  const globalRecentTiles = Array.from(wall.querySelectorAll(".tile")).slice(-32);
   const target = columns.reduce((best, column) => {
     const lastTile = column.lastElementChild;
     const recentTiles = Array.from(column.querySelectorAll(".tile")).slice(-8);
@@ -3119,11 +2998,14 @@ function appendTileElement(wall, item, index, onHide, onQualityReject) {
     if (lastTile?.dataset.category === category) score += 180;
     if (person && lastTile?.dataset.person === person) score += 360;
     score += recentTiles.filter((tile) => tile.dataset.category === category).length * 90;
+    score += globalRecentTiles.filter((tile) => tile.dataset.category === category).length * 22;
     if (person) {
       score += recentTiles.filter((tile) => tile.dataset.person === person).length * 620;
+      score += globalRecentTiles.filter((tile) => tile.dataset.person === person).length * 220;
     }
     if (visualGroup) {
       score += recentTiles.filter((tile) => tile.dataset.visualGroup === visualGroup).length * 900;
+      score += globalRecentTiles.filter((tile) => tile.dataset.visualGroup === visualGroup).length * 520;
     }
     return score < best.score ? { column, score } : best;
   }, { column: columns[0], score: Number.POSITIVE_INFINITY }).column;

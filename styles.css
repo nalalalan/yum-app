@@ -96,8 +96,7 @@ noscript {
   outline: none;
 }
 
-.tile-link:focus-visible,
-.hide-tile:focus-visible {
+.tile-link:focus-visible {
   outline: 2px solid rgba(255, 253, 248, 0.78);
   outline-offset: 2px;
 }
@@ -206,42 +205,6 @@ noscript {
   transform: translateY(0);
 }
 
-.hide-tile {
-  position: absolute;
-  top: 8px;
-  right: 8px;
-  z-index: 6;
-  display: grid;
-  width: 28px;
-  height: 28px;
-  place-items: center;
-  border: 1px solid rgba(255, 245, 235, 0.28);
-  border-radius: 999px;
-  background: rgba(12, 8, 6, 0.58);
-  color: rgba(255, 253, 248, 0.88);
-  cursor: pointer;
-  opacity: 0;
-  transform: translateY(-4px);
-  transition: opacity 160ms ease, transform 160ms ease, background 160ms ease;
-}
-
-.hide-tile:hover,
-.hide-tile:focus-visible {
-  background: rgba(12, 8, 6, 0.86);
-  opacity: 1;
-  transform: translateY(0);
-}
-
-.hide-tile:disabled {
-  pointer-events: none;
-}
-
-.tile:hover .hide-tile,
-.tile:focus-within .hide-tile {
-  opacity: 0.78;
-  transform: translateY(0);
-}
-
 .corner-mark {
   position: fixed;
   right: 10px;
@@ -285,13 +248,6 @@ noscript {
     font-size: 13px;
   }
 
-  .hide-tile {
-    top: 7px;
-    right: 7px;
-    width: 30px;
-    height: 30px;
-    opacity: 0.72;
-  }
 }
 
 @media (max-width: 820px) {
@@ -317,8 +273,7 @@ noscript {
 
 @media (prefers-reduced-motion: reduce) {
   .tile img,
-  .caption,
-  .hide-tile {
+  .caption {
     transition: none;
   }
 }
