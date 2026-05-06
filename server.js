@@ -118,6 +118,34 @@ function safeCandidate(candidate, index) {
   };
 }
 
+function safePreferenceSample(sample = {}) {
+  return {
+    key: cleanText(sample.key || sample.sourceId || sample.caption || "", 500),
+    image: cleanText(sample.image || "", 1000),
+    url: cleanText(sample.url || "", 1000),
+    sourceId: cleanText(sample.sourceId || "", 500),
+    caption: cleanText(sample.caption || "", 500),
+    category: cleanText(sample.category || "", 40),
+    person: cleanText(sample.person || "", 80),
+    shape: cleanText(sample.shape || "", 40),
+  };
+}
+
+function safePreferences(preferences, category) {
+  const hidden = Array.isArray(preferences && preferences.hidden)
+    ? preferences.hidden.map(safePreferenceSample).filter((sample) => sample.key || sample.image || sample.caption)
+    : [];
+  const kept = Array.isArray(preferences && preferences.kept)
+    ? preferences.kept.map(safePreferenceSample).filter((sample) => sample.key || sample.image || sample.caption)
+    : [];
+
+  return {
+    version: Number(preferences && preferences.version) || 0,
+    hidden: hidden.filter((sample) => !sample.category || sample.category === category).slice(-8),
+    kept: kept.filter((sample) => !sample.category || sample.category === category).slice(-6),
+  };
+}
+
 function extractResponseText(data) {
   if (typeof data.output_text === "string") return data.output_text;
 
@@ -152,6 +180,8 @@ function curatorInstructions(category) {
     "You curate an endless image wall for one person with strict taste rules.",
     "Reject repeated-looking, low-effort, ugly, boring, awkward, watermarked, diagram, menu, logo, or low quality images.",
     "Never select Ningning.",
+    "Use the user's hide history as taste memory. Hidden examples are stronger than the general rules.",
+    "Infer unlabeled patterns from hidden examples, including pose, styling, clothing, lighting, color, crop, car type, food composition, and overall vibe. Do not overgeneralize from one example, but repeated patterns should strongly affect ranking.",
     "Return only indexes for candidates that are genuinely good fits. If the batch is weak, select fewer items.",
   ];
 
@@ -173,9 +203,29 @@ function curatorInstructions(category) {
   return [...shared, ...(categoryRules[category] || [])].join("\n");
 }
 
-async function curateWithOpenAi({ category, source, candidates, limit }) {
+function preferenceMemoryText(preferences) {
+  const lines = [];
+  if (preferences.hidden.length) {
+    lines.push("Hidden examples. Treat these as negative taste signals:");
+    preferences.hidden.forEach((sample, index) => {
+      lines.push(`Hidden ${index + 1}: ${[sample.person, sample.caption, sample.sourceId, sample.shape].filter(Boolean).join(" | ")}`);
+    });
+  }
+
+  if (preferences.kept.length) {
+    lines.push("Nearby examples the user did not hide. Treat these as weaker positive signals:");
+    preferences.kept.forEach((sample, index) => {
+      lines.push(`Kept ${index + 1}: ${[sample.person, sample.caption, sample.sourceId, sample.shape].filter(Boolean).join(" | ")}`);
+    });
+  }
+
+  return lines.join("\n");
+}
+
+async function curateWithOpenAi({ category, source, candidates, limit, preferences }) {
   const clippedCandidates = candidates.slice(0, Math.max(1, maxCuratorCandidates));
   const selectedLimit = Math.min(Number(limit) || clippedCandidates.length, clippedCandidates.length);
+  const preferenceText = preferenceMemoryText(preferences);
   const content = [
     {
       type: "input_text",
@@ -183,10 +233,39 @@ async function curateWithOpenAi({ category, source, candidates, limit }) {
         `Category: ${category}`,
         `Source: ${cleanText(source && source.label, 120)}`,
         `Search query: ${cleanText(source && source.query, 180)}`,
+        preferenceText,
         "Pick the best candidates by index. Use the image itself, not only the metadata.",
-      ].join("\n"),
+      ].filter(Boolean).join("\n"),
     },
   ];
+
+  preferences.hidden.slice(-5).forEach((sample, index) => {
+    content.push({
+      type: "input_text",
+      text: `Negative visual memory ${index + 1}: ${[sample.person, sample.caption, sample.sourceId].filter(Boolean).join(" | ")}`,
+    });
+    if (/^https?:\/\//i.test(sample.image)) {
+      content.push({
+        type: "input_image",
+        image_url: sample.image,
+        detail: "low",
+      });
+    }
+  });
+
+  preferences.kept.slice(-3).forEach((sample, index) => {
+    content.push({
+      type: "input_text",
+      text: `Weak positive visual memory ${index + 1}: ${[sample.person, sample.caption, sample.sourceId].filter(Boolean).join(" | ")}`,
+    });
+    if (/^https?:\/\//i.test(sample.image)) {
+      content.push({
+        type: "input_image",
+        image_url: sample.image,
+        detail: "low",
+      });
+    }
+  });
 
   clippedCandidates.forEach((candidate) => {
     content.push({
@@ -296,10 +375,18 @@ async function handleCurate(req, res) {
     return;
   }
 
+  const preferences = safePreferences(payload.preferences || {}, category);
+  const preferenceSignature = {
+    version: preferences.version,
+    hidden: preferences.hidden.map((sample) => sample.key || sample.sourceId || sample.image).slice(-8),
+    kept: preferences.kept.map((sample) => sample.key || sample.sourceId || sample.image).slice(-6),
+  };
+
   const cacheKey = JSON.stringify({
     model: openAiModel,
     category,
     limit,
+    preferences: preferenceSignature,
     candidates: candidates.slice(0, maxCuratorCandidates).map((candidate) => candidate.sourceId || candidate.image),
   });
 
@@ -314,8 +401,9 @@ async function handleCurate(req, res) {
       source: payload.source || {},
       candidates,
       limit,
+      preferences,
     });
-    const response = { ai: true, model: openAiModel, items };
+    const response = { ai: true, model: openAiModel, preferenceVersion: preferences.version, items };
     cacheSet(cacheKey, response);
     sendJson(req, res, 200, response);
   } catch (error) {

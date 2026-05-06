@@ -1390,6 +1390,9 @@ const blockedOnlineTitleTerms = [
 
 const onlineSourceIndex = { food: 0, kpop: 0, car: 0 };
 const railwayAiEndpoint = "https://yum-app-production.up.railway.app/api/curate";
+const preferenceStorageKey = "yum.preference.v1";
+const maxStoredPreferenceSamples = 140;
+const maxPreferenceSamplesPerRequest = 12;
 
 function defaultAiCurateEndpoint() {
   if (typeof window === "undefined") return "/api/curate";
@@ -1439,6 +1442,7 @@ function canonicalFileKey(value) {
 }
 
 function sourceKey(item) {
+  if (!item) return "";
   const primary = item.sourceId || item.file || item.original || item.image || item.url || item.caption || "";
   const fileKey = canonicalFileKey(primary);
   if (fileKey) return fileKey;
@@ -1447,6 +1451,148 @@ function sourceKey(item) {
     .replace(/\s+/g, " ")
     .trim()
     .toLowerCase();
+}
+
+function readStoredPreferenceState() {
+  if (typeof localStorage === "undefined") {
+    return { version: 0, hiddenKeys: [], hiddenSamples: [], keptSamples: [] };
+  }
+
+  try {
+    const parsed = JSON.parse(localStorage.getItem(preferenceStorageKey) || "{}");
+    return {
+      version: Number(parsed.version) || 0,
+      hiddenKeys: Array.isArray(parsed.hiddenKeys) ? parsed.hiddenKeys : [],
+      hiddenSamples: Array.isArray(parsed.hiddenSamples) ? parsed.hiddenSamples : [],
+      keptSamples: Array.isArray(parsed.keptSamples) ? parsed.keptSamples : [],
+    };
+  } catch {
+    return { version: 0, hiddenKeys: [], hiddenSamples: [], keptSamples: [] };
+  }
+}
+
+const preferenceState = readStoredPreferenceState();
+const hiddenKeySet = new Set(preferenceState.hiddenKeys);
+
+function savePreferenceState() {
+  preferenceState.hiddenKeys = [...hiddenKeySet].slice(-700);
+  preferenceState.hiddenSamples = preferenceState.hiddenSamples.slice(-maxStoredPreferenceSamples);
+  preferenceState.keptSamples = preferenceState.keptSamples.slice(-maxStoredPreferenceSamples);
+
+  if (typeof localStorage === "undefined") return;
+
+  try {
+    localStorage.setItem(preferenceStorageKey, JSON.stringify(preferenceState));
+  } catch {
+    // Preference memory is a convenience layer; the feed still works without storage.
+  }
+}
+
+function compactPreferenceSample(item) {
+  const key = sourceKey(item);
+  if (!key) return null;
+
+  return {
+    key,
+    category: categoryFor(item),
+    person: item.person || "",
+    caption: item.caption || "",
+    sourceId: item.sourceId || item.file || "",
+    url: sourceFor(item),
+    image: imageFor(item),
+    shape: item.shape || "",
+  };
+}
+
+function addPreferenceSample(list, sample) {
+  if (!sample || !sample.key) return;
+  const existingIndex = list.findIndex((item) => item.key === sample.key);
+  if (existingIndex >= 0) list.splice(existingIndex, 1);
+  list.push({ ...sample, updatedAt: new Date().toISOString() });
+  if (list.length > maxStoredPreferenceSamples) {
+    list.splice(0, list.length - maxStoredPreferenceSamples);
+  }
+}
+
+function isHiddenItem(item) {
+  const key = sourceKey(item);
+  return Boolean(key && hiddenKeySet.has(key));
+}
+
+function rememberHiddenItem(item, visibleItems = []) {
+  const key = sourceKey(item);
+  if (!key) return;
+
+  hiddenKeySet.add(key);
+  addPreferenceSample(preferenceState.hiddenSamples, compactPreferenceSample(item));
+
+  const category = categoryFor(item);
+  visibleItems
+    .filter((visibleItem) => {
+      const visibleKey = sourceKey(visibleItem);
+      return visibleKey && visibleKey !== key && !hiddenKeySet.has(visibleKey) && categoryFor(visibleItem) === category;
+    })
+    .slice(-10)
+    .forEach((visibleItem) => addPreferenceSample(preferenceState.keptSamples, compactPreferenceSample(visibleItem)));
+
+  preferenceState.version += 1;
+  savePreferenceState();
+}
+
+const preferenceTokenStopWords = new Set([
+  "2023", "2024", "2025", "2026", "audi", "benz", "bmw", "cameo", "car", "clean", "find",
+  "food", "gran", "haerin", "hanni", "image", "ive", "jang", "mercedes", "newjeans",
+  "official", "online", "press", "sedan", "soft", "the", "wonyoung", "young",
+]);
+
+function preferenceTokensFromText(text) {
+  return normalizeSourceText(text)
+    .toLowerCase()
+    .replace(/[^a-z0-9\s-]/g, " ")
+    .split(/\s+/)
+    .filter((token) => token.length >= 4 && !preferenceTokenStopWords.has(token));
+}
+
+function preferenceSampleText(sample) {
+  return [
+    sample.person,
+    sample.caption,
+    sample.sourceId,
+    sample.url,
+  ].join(" ");
+}
+
+function categoryPreferenceSamples(category, field) {
+  return (preferenceState[field] || [])
+    .filter((sample) => sample.category === category)
+    .slice(-maxPreferenceSamplesPerRequest);
+}
+
+function preferenceScoreAdjustment(item, category) {
+  const tokens = new Set(preferenceTokensFromText(curationText(item, { category })));
+  if (!tokens.size) return 0;
+
+  let score = 0;
+  categoryPreferenceSamples(category, "hiddenSamples").forEach((sample) => {
+    preferenceTokensFromText(preferenceSampleText(sample)).forEach((token) => {
+      if (tokens.has(token)) score -= 0.85;
+    });
+  });
+  categoryPreferenceSamples(category, "keptSamples").forEach((sample) => {
+    preferenceTokensFromText(preferenceSampleText(sample)).forEach((token) => {
+      if (tokens.has(token)) score += 0.25;
+    });
+  });
+
+  return Math.max(-5, Math.min(2, score));
+}
+
+function preferenceProfileFor(category) {
+  return {
+    version: preferenceState.version,
+    hidden: categoryPreferenceSamples(category, "hiddenSamples"),
+    kept: categoryPreferenceSamples(category, "keptSamples").slice(-8),
+  };
 }
 
 function taggedItems(items, category) {
@@ -1475,7 +1621,7 @@ function spreadStride(length, category) {
 }
 
 function longScrollItems(items, category, targetCount = longScrollItemsPerCategory) {
-  const uniqueItems = uniqueBySource(items);
+  const uniqueItems = uniqueBySource(items).filter((item) => !isHiddenItem(item));
   if (!uniqueItems.length) return [];
   const count = Math.min(uniqueItems.length, targetCount);
   const stride = spreadStride(uniqueItems.length, category);
@@ -1566,7 +1712,7 @@ function enqueueUnique(state, category, item) {
   const nextItem = { ...item, category: item.category || category };
   if (isBlockedContentItem(nextItem)) return false;
   const key = sourceKey(nextItem);
-  if (!key || state.seenKeys.has(key) || state.queuedKeys.has(key)) return false;
+  if (!key || hiddenKeySet.has(key) || state.seenKeys.has(key) || state.queuedKeys.has(key)) return false;
   state.queuedKeys.add(key);
   state.queues[category].push(nextItem);
   return true;
@@ -1577,6 +1723,7 @@ function dequeueUnique(state, category) {
   while (queue.length) {
     const item = queue.shift();
     const key = sourceKey(item);
+    if (hiddenKeySet.has(key)) continue;
     if (state.seenKeys.has(key)) continue;
     state.seenKeys.add(key);
     return item;
@@ -1587,7 +1734,7 @@ function dequeueUnique(state, category) {
 function hasAvailableUnique(state, category) {
   return (state.queues[category] || []).some((item) => {
     const key = sourceKey(item);
-    return key && !state.seenKeys.has(key);
+    return key && !hiddenKeySet.has(key) && !state.seenKeys.has(key);
   });
 }
 
@@ -1700,8 +1847,10 @@ function itemFromCommonsPage(source, page) {
 }
 
 function localRankCandidates(source, candidates) {
+  const category = source.category;
   return candidates
-    .map((item) => ({ item, score: curatorScore(item, source) }))
+    .filter((item) => !isHiddenItem(item))
+    .map((item) => ({ item, score: curatorScore(item, source) + preferenceScoreAdjustment(item, category) }))
     .filter(({ item, score }) => score >= (curatorProfiles[source.category] ? curatorProfiles[source.category].minScore : 0) && passesCurator(item, source))
     .sort((left, right) => right.score - left.score)
     .map(({ item }) => item);
@@ -1725,7 +1874,7 @@ function itemFromAiResponse(source, candidates, item) {
   const key = sourceKey(item);
   const matched = candidates.find((candidate) => sourceKey(candidate) === key);
   const nextItem = matched || item;
-  if (!nextItem || !passesCurator(nextItem, source)) return null;
+  if (!nextItem || isHiddenItem(nextItem) || !passesCurator(nextItem, source)) return null;
   return { ...nextItem, category: nextItem.category || source.category };
 }
 
@@ -1749,6 +1898,7 @@ async function curateCandidatesWithAi(source, candidates, limit = onlineBatchSiz
           label: source.label,
           query: source.query,
         },
+        preferences: preferenceProfileFor(source.category),
         limit: Math.min(limit, requestCandidates.length),
         candidates: requestCandidates.map(aiCandidatePayload),
       }),
@@ -1850,6 +2000,14 @@ async function loadMoreOnlineItemsForCategory(state, category, targetCount = onl
   return added;
 }
 
+async function nextItemForCategory(state, category) {
+  if (!hasAvailableUnique(state, category)) {
+    await loadMoreOnlineItemsForCategory(state, category, onlineBatchSize);
+  }
+
+  return dequeueUnique(state, category);
+}
+
 async function nextMixedItems(state, targetCount = batchSize) {
   const nextItems = [];
   const targetSetCount = Math.floor(targetCount / mixPattern.length);
@@ -1889,28 +2047,31 @@ function toneFor(item) {
   return { warmth: "0.08", saturation: "1.13", contrast: "1.035", brightness: "1.02", wash: "0.78" };
 }
 
-function createTile(item, index) {
+function createTile(item, index, onHide) {
+  const tile = document.createElement("article");
+  tile.className = `tile tile--${item.shape || "standard"}`;
+  tile.dataset.category = categoryFor(item);
+  if (item.person) tile.dataset.person = item.person;
+  if (item.focus) {
+    tile.style.setProperty("--focus", item.focus);
+  }
+  Object.entries(toneFor(item)).forEach(([key, value]) => {
+    tile.style.setProperty(`--${key}`, value);
+  });
+
   const link = document.createElement("a");
-  link.className = `tile tile--${item.shape || "standard"}`;
+  link.className = "tile-link";
   link.href = sourceFor(item);
   link.target = "_blank";
   link.rel = "noopener noreferrer";
   link.setAttribute("aria-label", item.caption);
-  link.dataset.category = categoryFor(item);
-  if (item.person) link.dataset.person = item.person;
-  if (item.focus) {
-    link.style.setProperty("--focus", item.focus);
-  }
-  Object.entries(toneFor(item)).forEach(([key, value]) => {
-    link.style.setProperty(`--${key}`, value);
-  });
 
   const img = document.createElement("img");
   img.src = imageFor(item);
   img.alt = "";
   img.loading = index < 18 ? "eager" : "lazy";
   img.decoding = "async";
-  img.addEventListener("error", () => link.remove(), { once: true });
+  img.addEventListener("error", () => tile.remove(), { once: true });
 
   const caption = document.createElement("span");
   caption.className = "caption";
@@ -1918,8 +2079,21 @@ function createTile(item, index) {
   captionText.textContent = item.caption;
   caption.append(captionText);
 
+  const hideButton = document.createElement("button");
+  hideButton.type = "button";
+  hideButton.className = "hide-tile";
+  hideButton.textContent = "x";
+  hideButton.title = "Hide";
+  hideButton.setAttribute("aria-label", "Hide this tile");
+  hideButton.addEventListener("click", (event) => {
+    event.preventDefault();
+    event.stopPropagation();
+    onHide(item);
+  });
+
   link.append(img, caption);
-  return link;
+  tile.append(link, hideButton);
+  return tile;
 }
 
 function columnCount() {
@@ -1954,7 +2128,7 @@ function personFor(item) {
   return item.person || "";
 }
 
-function layoutWall(wall, renderedItems) {
+function layoutWall(wall, renderedItems, onHide) {
   const count = columnCount();
   const columns = Array.from({ length: count }, () => {
     const column = document.createElement("div");
@@ -1991,7 +2165,7 @@ function layoutWall(wall, renderedItems) {
       const targetScore = placementScore(item, target);
       if (score < targetScore) target = i;
     }
-    columns[target].append(createTile(item, index));
+    columns[target].append(createTile(item, index, onHide));
     lastCategoryByColumn[target] = category;
     if (person) {
       lastPersonByColumn[target] = person;
@@ -2027,6 +2201,27 @@ function render() {
   let exhausted = false;
   let loading = false;
   const renderedItems = [];
+
+  const handleHide = async (item) => {
+    const key = sourceKey(item);
+    if (!key || hiddenKeySet.has(key)) return;
+
+    const category = categoryFor(item);
+    const itemIndex = renderedItems.findIndex((renderedItem) => sourceKey(renderedItem) === key);
+    rememberHiddenItem(item, renderedItems);
+
+    const replacement = await nextItemForCategory(feedState, category);
+    if (itemIndex >= 0) {
+      if (replacement) {
+        renderedItems.splice(itemIndex, 1, replacement);
+      } else {
+        renderedItems.splice(itemIndex, 1);
+      }
+    }
+
+    layoutWall(wall, renderedItems, handleHide);
+  };
+
   const appendBatch = async () => {
     if (exhausted || loading) return;
     loading = true;
@@ -2037,7 +2232,7 @@ function render() {
       }
 
       renderedItems.push(...nextItems);
-      layoutWall(wall, renderedItems);
+      layoutWall(wall, renderedItems, handleHide);
       sentinel.dataset.remaining = String(categories.reduce((total, category) => total + feedState.queues[category].length, 0));
     } finally {
       loading = false;
@@ -2065,7 +2260,7 @@ function render() {
   let resizeTimer = 0;
   window.addEventListener("resize", () => {
     window.clearTimeout(resizeTimer);
-    resizeTimer = window.setTimeout(() => layoutWall(wall, renderedItems), 140);
+    resizeTimer = window.setTimeout(() => layoutWall(wall, renderedItems, handleHide), 140);
   }, { passive: true });
 
   main.append(wall, marker, sentinel);

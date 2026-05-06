@@ -10,6 +10,8 @@ Food, softer Haerin/Hanni/Wonyoung cameo tiles, and modern compact European seda
 
 When the Node server is deployed with OpenAI configured, `/api/curate` uses ChatGPT image understanding to rank new online image candidates before they enter the wall. If the endpoint is unavailable, the browser falls back to the local taste filters so the static GitHub Pages version still works.
 
+Each tile has a quiet hide control. Hidden source keys and compact taste samples are stored in the browser and sent to `/api/curate` so future online batches can infer what the user dislikes without requiring explicit labels.
+
 ## Run Locally
 
 ```bash
