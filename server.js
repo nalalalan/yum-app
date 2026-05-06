@@ -1,12 +1,18 @@
 const http = require("node:http");
+const crypto = require("node:crypto");
 const fs = require("node:fs");
 const path = require("node:path");
 
+const fsp = fs.promises;
 const port = Number(process.env.PORT || 3000);
 const publicDir = path.join(__dirname, "public");
+const dataDir = path.resolve(process.env.YUM_DATA_DIR || path.join(__dirname, ".yum-data"));
+const preferencesPath = path.join(dataDir, "preferences.json");
 const openAiApiKey = process.env.OPENAI_API_KEY || "";
 const openAiModel = process.env.OPENAI_MODEL || "gpt-5-mini";
 const maxCuratorCandidates = Number(process.env.YUM_AI_CANDIDATE_LIMIT || 12);
+const editPin = process.env.YUM_EDIT_PIN || "";
+const sessionSecret = process.env.YUM_SESSION_SECRET || process.env.OPENAI_API_KEY || "local-yum-session-secret";
 const allowedOrigins = String(process.env.YUM_ALLOWED_ORIGINS || "http://localhost:3000,https://yum.aolabs.io,https://www.yum.aolabs.io")
   .split(/[,\s]+/)
   .map((origin) => origin.trim())
@@ -58,8 +64,8 @@ function sendJson(req, res, status, payload) {
 function sendOptions(req, res) {
   const origin = req.headers.origin || "";
   const headers = {
-    "Access-Control-Allow-Methods": "POST, OPTIONS",
-    "Access-Control-Allow-Headers": "Content-Type",
+    "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
+    "Access-Control-Allow-Headers": "Content-Type, Authorization",
     "Access-Control-Max-Age": "86400",
     "Access-Control-Allow-Origin": responseCorsOrigin(origin),
   };
@@ -103,6 +109,46 @@ function cleanText(value, maxLength = 360) {
     .slice(0, maxLength);
 }
 
+function defaultPreferences() {
+  return {
+    version: 0,
+    hiddenKeys: [],
+    hiddenSamples: [],
+    keptSamples: [],
+    updatedAt: "",
+  };
+}
+
+async function readPreferences() {
+  try {
+    const parsed = JSON.parse(await fsp.readFile(preferencesPath, "utf8"));
+    return {
+      ...defaultPreferences(),
+      ...parsed,
+      version: Number(parsed.version) || 0,
+      hiddenKeys: Array.isArray(parsed.hiddenKeys) ? parsed.hiddenKeys : [],
+      hiddenSamples: Array.isArray(parsed.hiddenSamples) ? parsed.hiddenSamples : [],
+      keptSamples: Array.isArray(parsed.keptSamples) ? parsed.keptSamples : [],
+    };
+  } catch {
+    return defaultPreferences();
+  }
+}
+
+async function writePreferences(preferences) {
+  await fsp.mkdir(dataDir, { recursive: true });
+  const next = {
+    ...defaultPreferences(),
+    ...preferences,
+    hiddenKeys: Array.isArray(preferences.hiddenKeys) ? preferences.hiddenKeys.slice(-900) : [],
+    hiddenSamples: Array.isArray(preferences.hiddenSamples) ? preferences.hiddenSamples.slice(-180) : [],
+    keptSamples: Array.isArray(preferences.keptSamples) ? preferences.keptSamples.slice(-180) : [],
+    updatedAt: new Date().toISOString(),
+  };
+  await fsp.writeFile(preferencesPath, JSON.stringify(next, null, 2));
+  return next;
+}
+
 function safeCandidate(candidate, index) {
   return {
     index,
@@ -131,12 +177,25 @@ function safePreferenceSample(sample = {}) {
   };
 }
 
+function addPreferenceSample(list, sample) {
+  if (!sample || !sample.key) return;
+  const index = list.findIndex((item) => item.key === sample.key);
+  if (index >= 0) list.splice(index, 1);
+  list.push({ ...sample, updatedAt: new Date().toISOString() });
+}
+
 function safePreferences(preferences, category) {
-  const hidden = Array.isArray(preferences && preferences.hidden)
-    ? preferences.hidden.map(safePreferenceSample).filter((sample) => sample.key || sample.image || sample.caption)
+  const hiddenSource = Array.isArray(preferences && preferences.hidden)
+    ? preferences.hidden
+    : preferences && preferences.hiddenSamples;
+  const keptSource = Array.isArray(preferences && preferences.kept)
+    ? preferences.kept
+    : preferences && preferences.keptSamples;
+  const hidden = Array.isArray(hiddenSource)
+    ? hiddenSource.map(safePreferenceSample).filter((sample) => sample.key || sample.image || sample.caption)
     : [];
-  const kept = Array.isArray(preferences && preferences.kept)
-    ? preferences.kept.map(safePreferenceSample).filter((sample) => sample.key || sample.image || sample.caption)
+  const kept = Array.isArray(keptSource)
+    ? keptSource.map(safePreferenceSample).filter((sample) => sample.key || sample.image || sample.caption)
     : [];
 
   return {
@@ -144,6 +203,171 @@ function safePreferences(preferences, category) {
     hidden: hidden.filter((sample) => !sample.category || sample.category === category).slice(-8),
     kept: kept.filter((sample) => !sample.category || sample.category === category).slice(-6),
   };
+}
+
+function mergePreferenceSamples(...lists) {
+  const result = [];
+  lists.flat().forEach((sample) => {
+    if (!sample || !sample.key) return;
+    const index = result.findIndex((item) => item.key === sample.key);
+    if (index >= 0) result.splice(index, 1);
+    result.push(sample);
+  });
+  return result;
+}
+
+function mergeCurationPreferences(stored, submitted) {
+  return {
+    version: Math.max(Number(stored.version) || 0, Number(submitted.version) || 0),
+    hidden: mergePreferenceSamples(stored.hidden, submitted.hidden).slice(-8),
+    kept: mergePreferenceSamples(stored.kept, submitted.kept).slice(-6),
+  };
+}
+
+function base64url(input) {
+  return Buffer.from(JSON.stringify(input)).toString("base64url");
+}
+
+function signTokenPayload(encodedPayload) {
+  return crypto.createHmac("sha256", sessionSecret).update(encodedPayload).digest("base64url");
+}
+
+function createEditToken() {
+  const payload = {
+    scope: "yum-edit",
+    iat: Date.now(),
+    exp: Date.now() + 180 * 24 * 60 * 60 * 1000,
+  };
+  const encoded = base64url(payload);
+  return `${encoded}.${signTokenPayload(encoded)}`;
+}
+
+function isValidEditToken(token) {
+  const [encoded, signature] = String(token || "").split(".");
+  if (!encoded || !signature) return false;
+
+  const expected = signTokenPayload(encoded);
+  const expectedBytes = Buffer.from(expected);
+  const signatureBytes = Buffer.from(signature);
+  if (expectedBytes.length !== signatureBytes.length || !crypto.timingSafeEqual(expectedBytes, signatureBytes)) {
+    return false;
+  }
+
+  try {
+    const payload = JSON.parse(Buffer.from(encoded, "base64url").toString("utf8"));
+    return payload.scope === "yum-edit" && Number(payload.exp) > Date.now();
+  } catch {
+    return false;
+  }
+}
+
+function requestBearerToken(req) {
+  const authorization = req.headers.authorization || "";
+  const match = authorization.match(/^Bearer\s+(.+)$/i);
+  return match ? match[1].trim() : "";
+}
+
+function authorizePreferenceWrite(req, payload) {
+  const token = payload.token || requestBearerToken(req);
+  if (isValidEditToken(token)) {
+    return { ok: true, token };
+  }
+
+  if (editPin && String(payload.pin || "") === editPin) {
+    return { ok: true, token: createEditToken() };
+  }
+
+  return { ok: false };
+}
+
+function publicPreferences(preferences) {
+  return {
+    version: Number(preferences.version) || 0,
+    hiddenKeys: Array.isArray(preferences.hiddenKeys) ? preferences.hiddenKeys : [],
+    hiddenSamples: Array.isArray(preferences.hiddenSamples) ? preferences.hiddenSamples : [],
+    keptSamples: Array.isArray(preferences.keptSamples) ? preferences.keptSamples : [],
+    updatedAt: preferences.updatedAt || "",
+  };
+}
+
+function sendPreferenceAuthError(req, res) {
+  if (!editPin) {
+    sendJson(req, res, 503, { error: "YUM_EDIT_PIN is not configured" });
+    return;
+  }
+
+  sendJson(req, res, 401, { error: "PIN required", pinRequired: true });
+}
+
+async function handlePreferences(req, res) {
+  if (req.method === "OPTIONS") {
+    sendOptions(req, res);
+    return;
+  }
+
+  if (req.method === "GET") {
+    const preferences = await readPreferences();
+    sendJson(req, res, 200, { preferences: publicPreferences(preferences), authRequired: Boolean(editPin) });
+    return;
+  }
+
+  if (req.method !== "POST") {
+    sendJson(req, res, 405, { error: "Use GET or POST" });
+    return;
+  }
+
+  let payload;
+  try {
+    payload = await readJsonBody(req, 256 * 1024);
+  } catch (error) {
+    sendJson(req, res, 400, { error: error.message });
+    return;
+  }
+
+  const authorization = authorizePreferenceWrite(req, payload);
+  if (!authorization.ok) {
+    sendPreferenceAuthError(req, res);
+    return;
+  }
+
+  const preferences = await readPreferences();
+  if (payload.action === "auth") {
+    sendJson(req, res, 200, { preferences: publicPreferences(preferences), editToken: authorization.token });
+    return;
+  }
+
+  if (payload.action !== "hide") {
+    sendJson(req, res, 400, { error: "Unsupported preference action" });
+    return;
+  }
+
+  const hiddenSample = safePreferenceSample(payload.item || payload.hidden || {});
+  if (!hiddenSample.key) {
+    sendJson(req, res, 400, { error: "A hide action requires an item key" });
+    return;
+  }
+
+  const hiddenKeys = new Set((preferences.hiddenKeys || []).map((key) => cleanText(key, 500)).filter(Boolean));
+  hiddenKeys.add(hiddenSample.key);
+  preferences.hiddenKeys = [...hiddenKeys].slice(-900);
+  addPreferenceSample(preferences.hiddenSamples, hiddenSample);
+
+  const hiddenCategory = hiddenSample.category;
+  const visibleItems = Array.isArray(payload.visibleItems) ? payload.visibleItems : [];
+  visibleItems
+    .map(safePreferenceSample)
+    .filter((sample) => {
+      return sample.key
+        && sample.key !== hiddenSample.key
+        && !hiddenKeys.has(sample.key)
+        && (!hiddenCategory || sample.category === hiddenCategory);
+    })
+    .slice(-18)
+    .forEach((sample) => addPreferenceSample(preferences.keptSamples, sample));
+
+  preferences.version = (Number(preferences.version) || 0) + 1;
+  const saved = await writePreferences(preferences);
+  sendJson(req, res, 200, { preferences: publicPreferences(saved), editToken: authorization.token });
 }
 
 function extractResponseText(data) {
@@ -375,7 +599,10 @@ async function handleCurate(req, res) {
     return;
   }
 
-  const preferences = safePreferences(payload.preferences || {}, category);
+  const preferences = mergeCurationPreferences(
+    safePreferences(await readPreferences(), category),
+    safePreferences(payload.preferences || {}, category),
+  );
   const preferenceSignature = {
     version: preferences.version,
     hidden: preferences.hidden.map((sample) => sample.key || sample.sourceId || sample.image).slice(-8),
@@ -433,6 +660,13 @@ const server = http.createServer((req, res) => {
 
   if (pathname === "/api/curate") {
     handleCurate(req, res);
+    return;
+  }
+
+  if (pathname === "/api/preferences") {
+    handlePreferences(req, res).catch((error) => {
+      sendJson(req, res, 500, { error: error.message });
+    });
     return;
   }
 

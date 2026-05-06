@@ -1389,19 +1389,37 @@ const blockedOnlineTitleTerms = [
 ];
 
 const onlineSourceIndex = { food: 0, kpop: 0, car: 0 };
-const railwayAiEndpoint = "https://yum-app-production.up.railway.app/api/curate";
+const railwayApiBase = "https://yum-app-production.up.railway.app";
 const preferenceStorageKey = "yum.preference.v1";
+const editTokenStorageKey = "yum.editToken.v1";
 const maxStoredPreferenceSamples = 140;
 const maxPreferenceSamplesPerRequest = 12;
+
+function normalizedApiBase(value) {
+  return String(value || "").replace(/\/+$/, "");
+}
+
+function defaultApiBase() {
+  if (typeof window === "undefined") return "";
+  if (typeof window.YUM_API_BASE === "string") return normalizedApiBase(window.YUM_API_BASE);
+  const host = window.location && window.location.hostname;
+  return host === "yum.aolabs.io" || host === "www.yum.aolabs.io" ? railwayApiBase : "";
+}
+
+const apiBase = defaultApiBase();
+
+function apiEndpoint(path) {
+  return `${apiBase}${path}`;
+}
 
 function defaultAiCurateEndpoint() {
   if (typeof window === "undefined") return "/api/curate";
   if (typeof window.YUM_AI_ENDPOINT === "string") return window.YUM_AI_ENDPOINT;
-  const host = window.location && window.location.hostname;
-  return host === "yum.aolabs.io" || host === "www.yum.aolabs.io" ? railwayAiEndpoint : "/api/curate";
+  return apiEndpoint("/api/curate");
 }
 
 const aiCurateEndpoint = defaultAiCurateEndpoint();
+const preferenceEndpoint = apiEndpoint("/api/preferences");
 let aiCuratorUnavailable = false;
 
 function imageFor(item) {
@@ -1453,6 +1471,13 @@ function sourceKey(item) {
     .toLowerCase();
 }
 
+function normalizePreferenceKey(value) {
+  return normalizeSourceText(value)
+    .replace(/\s+/g, " ")
+    .trim()
+    .toLowerCase();
+}
+
 function readStoredPreferenceState() {
   if (typeof localStorage === "undefined") {
     return { version: 0, hiddenKeys: [], hiddenSamples: [], keptSamples: [] };
@@ -1462,7 +1487,7 @@ function readStoredPreferenceState() {
     const parsed = JSON.parse(localStorage.getItem(preferenceStorageKey) || "{}");
     return {
       version: Number(parsed.version) || 0,
-      hiddenKeys: Array.isArray(parsed.hiddenKeys) ? parsed.hiddenKeys : [],
+      hiddenKeys: Array.isArray(parsed.hiddenKeys) ? parsed.hiddenKeys.map(normalizePreferenceKey).filter(Boolean) : [],
       hiddenSamples: Array.isArray(parsed.hiddenSamples) ? parsed.hiddenSamples : [],
       keptSamples: Array.isArray(parsed.keptSamples) ? parsed.keptSamples : [],
     };
@@ -1473,6 +1498,8 @@ function readStoredPreferenceState() {
 
 const preferenceState = readStoredPreferenceState();
 const hiddenKeySet = new Set(preferenceState.hiddenKeys);
+const pendingHideKeySet = new Set();
+let remotePreferencesLoaded = false;
 
 function savePreferenceState() {
   preferenceState.hiddenKeys = [...hiddenKeySet].slice(-700);
@@ -1485,6 +1512,86 @@ function savePreferenceState() {
     localStorage.setItem(preferenceStorageKey, JSON.stringify(preferenceState));
   } catch {
     // Preference memory is a convenience layer; the feed still works without storage.
+  }
+}
+
+function cleanPreferenceSample(sample) {
+  const key = normalizePreferenceKey(sample && sample.key);
+  return {
+    key,
+    category: String(sample && sample.category || ""),
+    person: String(sample && sample.person || ""),
+    caption: String(sample && sample.caption || ""),
+    sourceId: String(sample && sample.sourceId || ""),
+    url: String(sample && sample.url || ""),
+    image: String(sample && sample.image || ""),
+    shape: String(sample && sample.shape || ""),
+    updatedAt: String(sample && sample.updatedAt || ""),
+  };
+}
+
+function applyPreferenceState(next, { save = true } = {}) {
+  if (!next || typeof next !== "object") return;
+
+  const hiddenKeys = Array.isArray(next.hiddenKeys) ? next.hiddenKeys.map(normalizePreferenceKey).filter(Boolean) : [];
+  hiddenKeySet.clear();
+  hiddenKeys.forEach((key) => hiddenKeySet.add(key));
+
+  preferenceState.version = Number(next.version) || 0;
+  preferenceState.hiddenKeys = [...hiddenKeySet];
+  preferenceState.hiddenSamples = Array.isArray(next.hiddenSamples)
+    ? next.hiddenSamples.map(cleanPreferenceSample).filter((sample) => sample.key).slice(-maxStoredPreferenceSamples)
+    : [];
+  preferenceState.keptSamples = Array.isArray(next.keptSamples)
+    ? next.keptSamples.map(cleanPreferenceSample).filter((sample) => sample.key).slice(-maxStoredPreferenceSamples)
+    : [];
+
+  if (save) savePreferenceState();
+}
+
+async function loadRemotePreferences() {
+  if (remotePreferencesLoaded || !preferenceEndpoint || typeof fetch !== "function") return;
+  remotePreferencesLoaded = true;
+
+  try {
+    const response = await fetch(preferenceEndpoint, {
+      headers: { Accept: "application/json" },
+      cache: "no-store",
+    });
+    if (!response.ok) return;
+    const data = await response.json();
+    if (data && data.preferences) applyPreferenceState(data.preferences);
+  } catch {
+    remotePreferencesLoaded = false;
+  }
+}
+
+function storedEditToken() {
+  if (typeof localStorage === "undefined") return "";
+  try {
+    return localStorage.getItem(editTokenStorageKey) || "";
+  } catch {
+    return "";
+  }
+}
+
+function saveEditToken(token) {
+  if (!token || typeof localStorage === "undefined") return;
+  try {
+    localStorage.setItem(editTokenStorageKey, token);
+  } catch {
+    // The next edit can ask for the PIN again if browser storage is blocked.
+  }
+}
+
+function requestEditPin() {
+  if (typeof window === "undefined" || typeof window.prompt !== "function") return "";
+  return window.prompt("PIN to edit Yum") || "";
+}
+
+function reportPreferenceSaveError(message) {
+  if (typeof window !== "undefined" && typeof window.alert === "function") {
+    window.alert(message);
   }
 }
 
@@ -1517,6 +1624,81 @@ function addPreferenceSample(list, sample) {
 function isHiddenItem(item) {
   const key = sourceKey(item);
   return Boolean(key && hiddenKeySet.has(key));
+}
+
+async function submitPreferenceAction(payload, pin = "") {
+  if (!preferenceEndpoint || typeof fetch !== "function") {
+    throw new Error("The Yum preference server is unavailable.");
+  }
+
+  const token = storedEditToken();
+  const body = { ...payload };
+  if (token) body.token = token;
+  if (pin) body.pin = pin;
+
+  const response = await fetch(preferenceEndpoint, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    cache: "no-store",
+    body: JSON.stringify(body),
+  });
+  const data = await response.json().catch(() => ({}));
+
+  if (response.status === 401 && data && data.pinRequired) {
+    return { ok: false, pinRequired: true };
+  }
+
+  if (!response.ok) {
+    throw new Error((data && data.error) || "Yum could not save that edit.");
+  }
+
+  if (data.editToken) saveEditToken(data.editToken);
+  if (data.preferences) applyPreferenceState(data.preferences);
+  return { ok: true };
+}
+
+async function persistHiddenPreference(item, visibleItems = []) {
+  const sample = compactPreferenceSample(item);
+  if (!sample) return false;
+  const key = sample.key;
+  const visibleSamples = visibleItems
+    .map(compactPreferenceSample)
+    .filter((visibleSample) => {
+      return visibleSample
+        && visibleSample.key !== key
+        && !hiddenKeySet.has(visibleSample.key)
+        && visibleSample.category === sample.category;
+    })
+    .slice(-18);
+
+  const payload = { action: "hide", item: sample, visibleItems: visibleSamples };
+  let result;
+
+  try {
+    result = await submitPreferenceAction(payload);
+  } catch {
+    reportPreferenceSaveError("Yum could not save that edit to the website. Try again in a moment.");
+    return false;
+  }
+
+  if (result.pinRequired) {
+    const pin = requestEditPin();
+    if (!pin) return false;
+
+    try {
+      result = await submitPreferenceAction(payload, pin);
+    } catch {
+      reportPreferenceSaveError("Yum could not save that edit to the website. Try again in a moment.");
+      return false;
+    }
+
+    if (result.pinRequired) {
+      reportPreferenceSaveError("That PIN did not work.");
+      return false;
+    }
+  }
+
+  return result.ok;
 }
 
 function rememberHiddenItem(item, visibleItems = []) {
@@ -2181,7 +2363,9 @@ function layoutWall(wall, renderedItems, onHide) {
   wall.replaceChildren(...columns);
 }
 
-function render() {
+async function render() {
+  await loadRemotePreferences();
+
   const main = document.createElement("main");
   main.className = "image-app";
   main.setAttribute("aria-label", "Food source wall");
@@ -2204,11 +2388,19 @@ function render() {
 
   const handleHide = async (item) => {
     const key = sourceKey(item);
-    if (!key || hiddenKeySet.has(key)) return;
+    if (!key || hiddenKeySet.has(key) || pendingHideKeySet.has(key)) return;
 
     const category = categoryFor(item);
     const itemIndex = renderedItems.findIndex((renderedItem) => sourceKey(renderedItem) === key);
-    rememberHiddenItem(item, renderedItems);
+    pendingHideKeySet.add(key);
+
+    try {
+      const saved = await persistHiddenPreference(item, renderedItems);
+      if (!saved) return;
+      if (!hiddenKeySet.has(key)) rememberHiddenItem(item, renderedItems);
+    } finally {
+      pendingHideKeySet.delete(key);
+    }
 
     const replacement = await nextItemForCategory(feedState, category);
     if (itemIndex >= 0) {

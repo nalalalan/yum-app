@@ -10,7 +10,7 @@ Food, softer Haerin/Hanni/Wonyoung cameo tiles, and modern compact European seda
 
 When the Node server is deployed with OpenAI configured, `/api/curate` uses ChatGPT image understanding to rank new online image candidates before they enter the wall. If the endpoint is unavailable, the browser falls back to the local taste filters so the static GitHub Pages version still works.
 
-Each tile has a quiet hide control. Hidden source keys and compact taste samples are stored in the browser and sent to `/api/curate` so future online batches can infer what the user dislikes without requiring explicit labels.
+Each tile has a quiet hide control. Hidden source keys and compact taste samples are stored by the Node backend through `/api/preferences`, then mirrored in the browser. The first edit requires a PIN; after that the browser keeps an edit token. Because the preference file lives on the hosted backend, hidden tiles and taste memory carry across computers and sessions.
 
 ## Run Locally
 
@@ -34,9 +34,12 @@ Optional:
 ```bash
 YUM_ALLOWED_ORIGINS=https://yum.aolabs.io,https://www.yum.aolabs.io,http://localhost:3000
 YUM_AI_CANDIDATE_LIMIT=12
+YUM_DATA_DIR=/data
+YUM_EDIT_PIN=...
+YUM_SESSION_SECRET=...
 ```
 
-The OpenAI key must stay on the server. Do not put it in `public/` files.
+The OpenAI key, edit PIN, and session secret must stay on the server. Do not put them in `public/` files.
 
 ## Deploy To GitHub Pages
 
@@ -48,4 +51,4 @@ The live site is served from the `gh-pages` branch with the custom domain `yum.a
 
 ## Deploy To Railway
 
-Railway can run this app as a Node service with `npm start`. Configure `OPENAI_API_KEY`, then point `yum.aolabs.io` at the Railway service if the AI curation endpoint should run on the same origin as the site.
+Railway can run this app as a Node service with `npm start`. Configure `OPENAI_API_KEY`, `YUM_EDIT_PIN`, `YUM_SESSION_SECRET`, and a persistent volume mounted at `YUM_DATA_DIR` so `/api/preferences` survives deploys and restarts. The static GitHub Pages site can still call the Railway API from `yum.aolabs.io`.
