@@ -1,28 +1,14 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 180 180">
-  <defs>
-    <linearGradient id="bg" x1="25" y1="20" x2="155" y2="166" gradientUnits="userSpaceOnUse">
-      <stop stop-color="#2a2016"/>
-      <stop offset=".48" stop-color="#11110f"/>
-      <stop offset="1" stop-color="#31210e"/>
-    </linearGradient>
-    <linearGradient id="salmon" x1="51" y1="57" x2="132" y2="110" gradientUnits="userSpaceOnUse">
-      <stop stop-color="#ffb08b"/>
-      <stop offset=".52" stop-color="#ff765c"/>
-      <stop offset="1" stop-color="#d94f3f"/>
-    </linearGradient>
-    <radialGradient id="glow" cx="0" cy="0" r="1" gradientTransform="matrix(68 57 -57 68 87 91)" gradientUnits="userSpaceOnUse">
-      <stop stop-color="#ffe5a8"/>
-      <stop offset=".65" stop-color="#e2ad45"/>
-      <stop offset="1" stop-color="#8b5b13"/>
-    </radialGradient>
-  </defs>
-  <rect width="180" height="180" rx="32" fill="url(#bg)"/>
-  <circle cx="90" cy="98" r="64" fill="url(#glow)" opacity=".95"/>
-  <ellipse cx="90" cy="112" rx="56" ry="31" fill="#fff8ed"/>
-  <ellipse cx="90" cy="107" rx="45" ry="20" fill="#f4d6bb"/>
-  <path d="M45 71c17-23 59-34 93-8 6 6 5 14-3 20l-48 34c-9 6-20 6-28 0L37 102c-12-9-6-23 8-31Z" fill="url(#salmon)"/>
-  <path d="M56 76c17 11 37 17 65 9M68 67c14 11 31 17 53 11M68 99c14 3 28 0 42-8" fill="none" stroke="#ffe0c9" stroke-width="6" stroke-linecap="round" opacity=".8"/>
-  <path d="M127 39 51 135M144 51 70 146" stroke="#f7e4c8" stroke-width="8" stroke-linecap="round"/>
-  <circle cx="138" cy="129" r="17" fill="#2caa73"/>
-  <path d="M130 129h16M138 121v16" stroke="#d7ffe9" stroke-width="4.5" stroke-linecap="round" opacity=".75"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img" aria-label="Yum icon">
+  <rect width="128" height="128" rx="18" fill="#141419"/>
+
+  <rect x="25" y="24" width="32" height="27" rx="7" fill="none" stroke="#f7f8f5" stroke-width="7"/>
+  <rect x="72" y="24" width="32" height="27" rx="7" fill="none" stroke="#f7f8f5" stroke-width="7"/>
+  <circle cx="41" cy="38" r="8" fill="#ff907d"/>
+  <path d="M81 39h15" stroke="#f3c969" stroke-width="6" stroke-linecap="round"/>
+  <ellipse cx="64" cy="83" rx="43" ry="24" fill="none" stroke="#f7f8f5" stroke-width="8"/>
+  <path d="M41 76c12 8 30 10 48 2" fill="none" stroke="#ff907d" stroke-width="9" stroke-linecap="round"/>
+  <path d="M46 66c12 7 28 8 45 2" fill="none" stroke="#f3c969" stroke-width="6" stroke-linecap="round"/>
+  <path d="M98 35 50 99M108 42 62 102" stroke="#f7f8f5" stroke-width="6" stroke-linecap="round"/>
+  <circle cx="100" cy="96" r="12" fill="#59c5b8" stroke="#141419" stroke-width="4"/>
+  <path d="M94 96h12M100 90v12" stroke="#f7f8f5" stroke-width="4" stroke-linecap="round"/>
 </svg>
