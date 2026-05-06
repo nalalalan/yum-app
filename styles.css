@@ -82,6 +82,8 @@ noscript {
   background: #160d08;
   outline: none;
   isolation: isolate;
+  content-visibility: auto;
+  contain-intrinsic-size: 360px 430px;
   box-shadow: 0 18px 52px rgba(17, 8, 3, 0.38);
   transform: translateZ(0);
 }
@@ -228,6 +230,10 @@ noscript {
   background: rgba(12, 8, 6, 0.86);
   opacity: 1;
   transform: translateY(0);
+}
+
+.hide-tile:disabled {
+  pointer-events: none;
 }
 
 .tile:hover .hide-tile,

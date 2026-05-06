@@ -1199,6 +1199,12 @@ const blockedContentTerms = [
   "auto show",
   "exhibition",
   "parade",
+  "sauerland",
+  "youngtimer",
+  "tuning show",
+  "classic bmw",
+  "classic mercedes",
+  "classic audi",
   "traffic",
   "china",
   "stage",
@@ -1226,6 +1232,13 @@ const blockedContentTerms = [
   "beauty event",
 ];
 
+const disallowedCarPattern = /suv|crossover|countryman|hatchback|sportback|bmw x[1-7]|bmw ix[1-7]|audi q[2-8]|cayenne|macan|classic|vintage|oldtimer|youngtimer|old car|museum|exhibition|motor show|auto show|show floor|auto zuerich|sauerland|tuning show|moscow|iaa|frankfurt|parade|traffic|china|lwb|e class|w212|v212|e30|e34|e36|e39|e46|e60|e90|e92|e93|f30|w124|w201|w202|w203|w204|199[0-9]|200[0-9]|201[0-9]/i;
+const carIdentityPattern = /bmw|mercedes|benz|audi|mini|sedan|gran coupe|m235|m3|3 series|cla|c-class|a3|a4|rs3|mediapool|uploads\.audi|mercedes-benz/i;
+
+function isDisallowedCarText(text) {
+  return disallowedCarPattern.test(text);
+}
+
 function isBlockedContentItem(item) {
   const text = [
     item && item.person,
@@ -1236,6 +1249,7 @@ function isBlockedContentItem(item) {
     item && item.url,
   ].map((value) => normalizeSourceText(value || "").toLowerCase()).join(" ");
 
+  if (carIdentityPattern.test(text) && isDisallowedCarText(text)) return true;
   return blockedContentTerms.some((term) => text.includes(term));
 }
 
@@ -1266,7 +1280,7 @@ const curatorProfiles = {
       /2024|2025|2026|g20|g80|g87|compact/i,
     ],
     reject: [
-      /suv|crossover|countryman|hatchback|sportback|x2|ix2|q3|cayenne|macan|classic|vintage|oldtimer|museum|exhibition|motor show|auto show|show floor|auto zuerich|moscow|iaa|frankfurt|parade|traffic|china|lwb|e class|w212|v212|e36|e46|199[0-9]|200[0-9]|2010|2011|2012/i,
+      disallowedCarPattern,
     ],
     minScore: 3,
   },
@@ -1480,17 +1494,17 @@ const onlineSources = [
   { category: "kpop", label: "Hanni photo refill", provider: "generated-photo", terms: "hanni,newjeans,kpop,portrait", query: "Hanni NewJeans portrait", person: "Hanni", kind: "girl", lockBase: 51000, maxItems: 600 },
   { category: "kpop", label: "Haerin photo refill", provider: "generated-photo", terms: "haerin,newjeans,kpop,portrait", query: "Haerin NewJeans portrait", person: "Haerin", kind: "girl", lockBase: 52000, maxItems: 600 },
   { category: "kpop", label: "Wonyoung photo refill", provider: "generated-photo", terms: "wonyoung,ive,kpop,portrait", query: "Jang Wonyoung IVE portrait", person: "Wonyoung", kind: "girl", lockBase: 53000, maxItems: 600 },
-  { category: "car", label: "BMW M235 Gran Coupe", query: "BMW M235 Gran Coupe sedan car", requireAny: ["m235", "gran coupe"], kind: "car", maxItems: 72 },
-  { category: "car", label: "BMW 3 Series", query: "BMW 3 Series sedan car", requireAny: ["3 series", "sedan"], kind: "car", maxItems: 72 },
-  { category: "car", label: "BMW M3 sedan", query: "BMW M3 sedan car", requireAny: ["m3", "sedan"], kind: "car", maxItems: 72 },
-  { category: "car", label: "Mercedes CLA", query: "Mercedes CLA sedan car", requireAny: ["cla", "mercedes"], kind: "car", maxItems: 72 },
-  { category: "car", label: "Mercedes C-Class", query: "Mercedes C-Class sedan car", requireAny: ["c-class", "sedan"], kind: "car", maxItems: 72 },
-  { category: "car", label: "Audi A3 sedan", query: "Audi A3 sedan car", requireAny: ["a3", "sedan"], kind: "car", maxItems: 72 },
-  { category: "car", label: "Audi A4 sedan", query: "Audi A4 sedan car", requireAny: ["a4", "sedan"], kind: "car", maxItems: 72 },
-  { category: "car", label: "Audi RS3 sedan", query: "Audi RS3 sedan car", requireAny: ["rs3", "sedan"], kind: "car", maxItems: 72 },
-  { category: "car", label: "BMW sedan refill", provider: "generated-photo", terms: "bmw,sedan,car", query: "modern BMW sedan exterior", kind: "car", lockBase: 61000, maxItems: 600 },
-  { category: "car", label: "Mercedes sedan refill", provider: "generated-photo", terms: "mercedes,sedan,car", query: "modern Mercedes sedan exterior", kind: "car", lockBase: 62000, maxItems: 600 },
-  { category: "car", label: "Audi sedan refill", provider: "generated-photo", terms: "audi,sedan,car", query: "modern Audi sedan exterior", kind: "car", lockBase: 63000, maxItems: 600 },
+  { category: "car", label: "BMW M235 Gran Coupe", query: "2025 BMW M235 Gran Coupe sedan car", requireAny: ["2025", "2026", "m235", "gran coupe"], kind: "car", maxItems: 72 },
+  { category: "car", label: "BMW G20 3 Series", query: "2024 2025 BMW G20 3 Series sedan car", requireAny: ["2024", "2025", "2026", "g20", "3 series"], kind: "car", maxItems: 72 },
+  { category: "car", label: "BMW G80 M3 sedan", query: "2024 2025 BMW G80 M3 sedan car", requireAny: ["2024", "2025", "2026", "g80"], kind: "car", maxItems: 72 },
+  { category: "car", label: "Mercedes CLA", query: "2025 2026 Mercedes CLA sedan car", requireAny: ["2025", "2026", "cla"], kind: "car", maxItems: 72 },
+  { category: "car", label: "Mercedes W206 C-Class", query: "2024 2025 Mercedes W206 C-Class sedan car", requireAny: ["2024", "2025", "2026", "w206", "c-class"], kind: "car", maxItems: 72 },
+  { category: "car", label: "Audi A3 sedan", query: "2024 2025 Audi A3 sedan car", requireAny: ["2024", "2025", "2026", "a3"], kind: "car", maxItems: 72 },
+  { category: "car", label: "Audi A4 sedan", query: "2024 2025 Audi A4 sedan car", requireAny: ["2024", "2025", "2026", "a4"], kind: "car", maxItems: 72 },
+  { category: "car", label: "Audi RS3 sedan", query: "2024 2025 Audi RS3 sedan car", requireAny: ["2024", "2025", "2026", "rs3"], kind: "car", maxItems: 72 },
+  { category: "car", label: "Modern BMW sedan refill", provider: "generated-photo", terms: "2025,bmw,sedan,car", query: "modern 2025 BMW sedan exterior", kind: "car", lockBase: 61000, maxItems: 600 },
+  { category: "car", label: "Modern Mercedes sedan refill", provider: "generated-photo", terms: "2025,mercedes,sedan,car", query: "modern 2025 Mercedes sedan exterior", kind: "car", lockBase: 62000, maxItems: 600 },
+  { category: "car", label: "Modern Audi sedan refill", provider: "generated-photo", terms: "2025,audi,sedan,car", query: "modern 2025 Audi sedan exterior", kind: "car", lockBase: 63000, maxItems: 600 },
 ];
 
 onlineSources.forEach((source) => {
@@ -1521,15 +1535,15 @@ const generatedOnlineSourceSeeds = {
     { label: "Wonyoung airport", provider: "generated-photo", terms: "wonyoung,ive,airport,kpop", query: "Jang Wonyoung airport", person: "Wonyoung", kind: "girl", lockBase: 76000, maxItems: 600 },
   ],
   car: [
-    { label: "BMW G20 sedan", query: "BMW G20 3 Series sedan", requireAny: ["g20", "3 series", "sedan"], kind: "car", maxItems: 84 },
-    { label: "BMW 330i sedan", query: "BMW 330i sedan car", requireAny: ["330i", "sedan"], kind: "car", maxItems: 84 },
-    { label: "BMW M340i sedan", query: "BMW M340i sedan car", requireAny: ["m340i", "sedan"], kind: "car", maxItems: 72 },
-    { label: "BMW M3 G80 sedan", query: "BMW G80 M3 sedan", requireAny: ["g80", "m3", "sedan"], kind: "car", maxItems: 84 },
-    { label: "Mercedes CLA sedan", query: "Mercedes CLA sedan exterior", requireAny: ["cla", "mercedes"], kind: "car", maxItems: 72 },
-    { label: "Mercedes C-Class sedan", query: "Mercedes C-Class W206 sedan", requireAny: ["c-class", "w206", "sedan"], kind: "car", maxItems: 72 },
-    { label: "Audi A3 sedan", query: "Audi A3 sedan exterior", requireAny: ["a3", "sedan"], kind: "car", maxItems: 72 },
-    { label: "Audi A4 sedan", query: "Audi A4 sedan exterior", requireAny: ["a4", "sedan"], kind: "car", maxItems: 72 },
-    { label: "Audi RS3 sedan", query: "Audi RS3 sedan exterior", requireAny: ["rs3", "sedan"], kind: "car", maxItems: 72 },
+    { label: "BMW G20 sedan", query: "2024 2025 BMW G20 3 Series sedan", requireAny: ["2024", "2025", "2026", "g20"], kind: "car", maxItems: 84 },
+    { label: "BMW 330i sedan", query: "2024 2025 BMW 330i sedan car", requireAny: ["2024", "2025", "2026", "330i"], kind: "car", maxItems: 84 },
+    { label: "BMW M340i sedan", query: "2024 2025 BMW M340i sedan car", requireAny: ["2024", "2025", "2026", "m340i"], kind: "car", maxItems: 72 },
+    { label: "BMW M3 G80 sedan", query: "2024 2025 BMW G80 M3 sedan", requireAny: ["2024", "2025", "2026", "g80"], kind: "car", maxItems: 84 },
+    { label: "Mercedes CLA sedan", query: "2025 2026 Mercedes CLA sedan exterior", requireAny: ["2025", "2026", "cla"], kind: "car", maxItems: 72 },
+    { label: "Mercedes C-Class sedan", query: "2024 2025 Mercedes C-Class W206 sedan", requireAny: ["2024", "2025", "2026", "w206"], kind: "car", maxItems: 72 },
+    { label: "Audi A3 sedan", query: "2024 2025 Audi A3 sedan exterior", requireAny: ["2024", "2025", "2026", "a3"], kind: "car", maxItems: 72 },
+    { label: "Audi A4 sedan", query: "2024 2025 Audi A4 sedan exterior", requireAny: ["2024", "2025", "2026", "a4"], kind: "car", maxItems: 72 },
+    { label: "Audi RS3 sedan", query: "2024 2025 Audi RS3 sedan exterior", requireAny: ["2024", "2025", "2026", "rs3"], kind: "car", maxItems: 72 },
   ],
 };
 
@@ -1538,51 +1552,51 @@ const kpopFallbackIndexByPerson = Object.fromEntries(cameoPeople.map((person) =>
 const carFallbackGroups = [
   {
     group: "car:bmw-3-series",
-    label: "BMW 3 Series sedan",
-    terms: "bmw,3-series,sedan,car",
-    query: "BMW 3 Series sedan exterior",
+    label: "Modern BMW 3 Series sedan",
+    terms: "2025,bmw,3-series,sedan,car",
+    query: "2025 BMW 3 Series sedan exterior",
     lockBase: 131000,
   },
   {
     group: "car:bmw-m3",
-    label: "BMW M3 sedan",
-    terms: "bmw,m3,sedan,car",
-    query: "BMW M3 sedan exterior",
+    label: "Modern BMW M3 sedan",
+    terms: "2025,bmw,m3,g80,sedan,car",
+    query: "2025 BMW G80 M3 sedan exterior",
     lockBase: 132000,
   },
   {
     group: "car:mercedes-cla",
-    label: "Mercedes CLA sedan",
-    terms: "mercedes,cla,sedan,car",
-    query: "Mercedes CLA sedan exterior",
+    label: "Modern Mercedes CLA sedan",
+    terms: "2025,mercedes,cla,sedan,car",
+    query: "2025 Mercedes CLA sedan exterior",
     lockBase: 133000,
   },
   {
     group: "car:mercedes-c-class",
-    label: "Mercedes C-Class sedan",
-    terms: "mercedes,c-class,sedan,car",
-    query: "Mercedes C-Class sedan exterior",
+    label: "Modern Mercedes C-Class sedan",
+    terms: "2025,mercedes,c-class,w206,sedan,car",
+    query: "2025 Mercedes C-Class W206 sedan exterior",
     lockBase: 134000,
   },
   {
     group: "car:audi-a3",
-    label: "Audi A3 sedan",
-    terms: "audi,a3,sedan,car",
-    query: "Audi A3 sedan exterior",
+    label: "Modern Audi A3 sedan",
+    terms: "2025,audi,a3,sedan,car",
+    query: "2025 Audi A3 sedan exterior",
     lockBase: 135000,
   },
   {
     group: "car:audi-a4",
-    label: "Audi A4 sedan",
-    terms: "audi,a4,sedan,car",
-    query: "Audi A4 sedan exterior",
+    label: "Modern Audi A4 sedan",
+    terms: "2025,audi,a4,sedan,car",
+    query: "2025 Audi A4 sedan exterior",
     lockBase: 136000,
   },
   {
     group: "car:audi-rs3",
-    label: "Audi RS3 sedan",
-    terms: "audi,rs3,sedan,car",
-    query: "Audi RS3 sedan exterior",
+    label: "Modern Audi RS3 sedan",
+    terms: "2025,audi,rs3,sedan,car",
+    query: "2025 Audi RS3 sedan exterior",
     lockBase: 137000,
   },
 ];
@@ -2104,6 +2118,25 @@ function rememberHiddenItem(item, visibleItems = []) {
 
   preferenceState.version += 1;
   savePreferenceState();
+}
+
+function nearbyVisibleItems(renderedItems, itemIndex, category, hiddenKey, limit = 18) {
+  if (!Array.isArray(renderedItems) || itemIndex < 0) return [];
+  const selected = [];
+  const maxDistance = Math.min(120, Math.max(renderedItems.length, 0));
+
+  for (let distance = 1; distance <= maxDistance && selected.length < limit; distance += 1) {
+    [itemIndex - distance, itemIndex + distance].forEach((index) => {
+      if (selected.length >= limit || index < 0 || index >= renderedItems.length) return;
+      const item = renderedItems[index];
+      const key = sourceKey(item);
+      if (key && key !== hiddenKey && !hiddenKeySet.has(key) && categoryFor(item) === category) {
+        selected.push(item);
+      }
+    });
+  }
+
+  return selected;
 }
 
 const preferenceTokenStopWords = new Set([
@@ -2725,7 +2758,7 @@ function itemFromCommonsPage(source, page) {
   if (!hasRequiredOnlineTerms(lowerTitle, source)) return null;
   if (isBlockedOnlineTitle(lowerTitle)) return null;
 
-  if (source.kind === "car" && /dealer|dealership|auction|sale|crash|wreck|damaged|police|taxi|suv|crossover|countryman|hatchback|sportback|bmw x[1-7]|audi q[2-8]|cayenne|macan|classic|vintage|oldtimer|museum|exhibition|motor show|auto show|show floor|auto zuerich|moscow|iaa|frankfurt|parade|traffic|china|lwb|e class|w212|v212|e36|e46|199[0-9]|200[0-9]|2010|2011|2012/i.test(lowerTitle)) {
+  if (source.kind === "car" && (/dealer|dealership|auction|sale|crash|wreck|damaged|police|taxi/i.test(lowerTitle) || isDisallowedCarText(lowerTitle))) {
     return null;
   }
 
@@ -3161,7 +3194,10 @@ function createTile(item, index, onHide, onQualityReject) {
   hideButton.addEventListener("click", (event) => {
     event.preventDefault();
     event.stopPropagation();
-    onHide(item);
+    hideButton.disabled = true;
+    tile.classList.add("tile--hiding");
+    tile.remove();
+    onHide(item, tile);
   });
 
   link.append(img, caption);
@@ -3169,7 +3205,12 @@ function createTile(item, index, onHide, onQualityReject) {
   return tile;
 }
 
-function removeTileElement(wall, key) {
+function removeTileElement(wall, key, tileElement = null) {
+  if (tileElement && tileElement.dataset && tileElement.dataset.sourceKey === key) {
+    if (tileElement.isConnected) tileElement.remove();
+    return true;
+  }
+
   const tiles = wall.querySelectorAll(".tile");
   for (const tile of tiles) {
     if (tile.dataset.sourceKey === key) {
@@ -3178,6 +3219,16 @@ function removeTileElement(wall, key) {
     }
   }
   return false;
+}
+
+function yieldToBrowser(delay = 0) {
+  return new Promise((resolve) => {
+    if (typeof window !== "undefined" && typeof window.setTimeout === "function") {
+      window.setTimeout(resolve, delay);
+    } else {
+      setTimeout(resolve, delay);
+    }
+  });
 }
 
 function appendTileElement(wall, item, index, onHide, onQualityReject) {
@@ -3205,6 +3256,14 @@ function appendTileElement(wall, item, index, onHide, onQualityReject) {
   }, { column: columns[0], score: Number.POSITIVE_INFINITY }).column;
 
   target.append(createTile(item, index, onHide, onQualityReject));
+  return true;
+}
+
+async function appendTileElementsInChunks(wall, items, startIndex, onHide, onQualityReject, chunkSize = 10) {
+  for (let offset = 0; offset < items.length; offset += 1) {
+    if (!appendTileElement(wall, items[offset], startIndex + offset, onHide, onQualityReject)) return false;
+    if ((offset + 1) % chunkSize === 0) await yieldToBrowser();
+  }
   return true;
 }
 
@@ -3379,46 +3438,49 @@ async function render() {
   let appendRequestedWhileLoading = false;
   const renderedItems = [];
 
-  const handleHide = async (item) => {
+  const handleHide = (item, tileElement = null) => {
     const key = sourceKey(item);
     if (!key || hiddenKeySet.has(key) || pendingHideKeySet.has(key)) return;
 
     const category = categoryFor(item);
     const itemIndex = renderedItems.findIndex((renderedItem) => sourceKey(renderedItem) === key);
-    const visibleSnapshot = renderedItems.slice();
+    const visibleSnapshot = nearbyVisibleItems(renderedItems, itemIndex, category, key);
     pendingHideKeySet.add(key);
 
     rememberHiddenItem(item, visibleSnapshot);
 
     if (itemIndex >= 0) {
       renderedItems.splice(itemIndex, 1);
-      if (!removeTileElement(wall, key)) {
+      if (!removeTileElement(wall, key, tileElement)) {
         layoutWall(wall, renderedItems, handleHide, handleQualityReject);
       }
       if (shouldLoadAhead()) scheduleAppend();
     }
 
-    persistHiddenPreference(item, visibleSnapshot)
-      .catch(() => false)
-      .finally(() => {
-        pendingHideKeySet.delete(key);
-      });
+    window.setTimeout(() => {
+      persistHiddenPreference(item, visibleSnapshot)
+        .catch(() => false)
+        .finally(() => {
+          pendingHideKeySet.delete(key);
+        });
 
-    let replacement = null;
-    try {
-      replacement = await nextItemForCategory(feedState, category);
-    } catch {
-      replacement = null;
-    }
+      window.setTimeout(async () => {
+        let replacement = null;
+        try {
+          replacement = await nextItemForCategory(feedState, category);
+        } catch {
+          replacement = null;
+        }
 
-    if (replacement) {
-      const insertIndex = itemIndex >= 0 ? Math.min(itemIndex, renderedItems.length) : renderedItems.length;
-      renderedItems.splice(insertIndex, 0, replacement);
-      if (!appendTileElement(wall, replacement, insertIndex, handleHide, handleQualityReject)) {
-        layoutWall(wall, renderedItems, handleHide, handleQualityReject);
-      }
-      if (shouldLoadAhead()) scheduleAppend();
-    }
+        if (replacement) {
+          renderedItems.push(replacement);
+          if (!appendTileElement(wall, replacement, renderedItems.length - 1, handleHide, handleQualityReject)) {
+            layoutWall(wall, renderedItems, handleHide, handleQualityReject);
+          }
+          if (shouldLoadAhead()) scheduleAppend();
+        }
+      }, 20);
+    }, 0);
   };
 
   const handleQualityReject = async (item) => {
@@ -3499,9 +3561,8 @@ async function render() {
       const startIndex = renderedItems.length;
       renderedItems.push(...nextItems);
       const hasColumns = wall.querySelectorAll(".masonry-column").length > 0;
-      const appended = hasColumns && nextItems.every((item, offset) => {
-        return appendTileElement(wall, item, startIndex + offset, handleHide, handleQualityReject);
-      });
+      const appended = hasColumns
+        && await appendTileElementsInChunks(wall, nextItems, startIndex, handleHide, handleQualityReject);
       if (!appended) {
         layoutWall(wall, renderedItems, handleHide, handleQualityReject);
       }
