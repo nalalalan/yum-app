@@ -167,6 +167,84 @@ baseItems.push(
   { image: unsplashImage("1554998171-89445e31c52b"), url: unsplashSource("restaurant plate"), caption: "Restaurant plate, tidy plating and rich color.", shape: "portrait", focus: "center 50%" },
 );
 
+baseItems.push(
+  { file: "Bowl of Ramen (Unsplash 1RyWImEc7K4).jpg", caption: "Ramen bowl, rich broth and a clean restaurant crop.", shape: "square", focus: "center 50%" },
+  { file: "Hakata ramen bowl closeup.jpg", caption: "Hakata ramen, glossy noodles and deep broth.", shape: "portrait", focus: "center 52%" },
+  { file: "Hakata ramen bowl closeup second shot.jpg", caption: "Hakata ramen close frame, soft egg and savory depth.", shape: "portrait", focus: "center 52%" },
+  { file: "Ramen in Peru.jpg", caption: "Ramen bowl, bright broth and a full-table feel.", shape: "wide", focus: "center 50%" },
+  { file: "Ramen 2.jpg", caption: "Ramen, warm broth and tight noodle detail.", shape: "wide", focus: "center 50%" },
+  { file: "Ramen 3.jpg", caption: "Ramen, clean bowl shape and glossy surface.", shape: "wide", focus: "center 50%" },
+  { file: "20210212 LA\uac08\ube44.jpg", caption: "LA galbi, glossy grilled beef and a serious plate.", shape: "portrait", focus: "center 54%" },
+  { file: "Beef Bulgogi Bento.JPG", caption: "Beef bulgogi bento, warm rice and saucy beef.", shape: "wide", focus: "center 50%" },
+  { file: "Tukbaegi Bulgogi.jpg", caption: "Ttukbaegi bulgogi, hot broth and soft beef.", shape: "wide", focus: "center 50%" },
+  { file: "Korean marinated beef -Bulgogi- (8634652350).jpg", caption: "Marinated bulgogi beef, glossy and generous.", shape: "wide", focus: "center 52%" },
+  { file: "Mandoo Panfried Dumplings - Hello Cook AUD6.60.jpg", caption: "Pan-fried mandoo, browned edges and tight pleats.", shape: "wide", focus: "center 50%" },
+  { file: "Mandoo - Han Guuk Guan Korean.jpg", caption: "Korean mandoo, full plate and soft wrappers.", shape: "wide", focus: "center 50%" },
+  { file: "Iraqi cuisine-Mixed Shawarma platter.jpg", caption: "Mixed shawarma platter, rich meat and warm plate color.", shape: "wide", focus: "center 50%" },
+  { file: "Chicken Shawarma Platter - Lavash 2025-02-10.jpg", caption: "Chicken shawarma platter, crisp edges and bright sauce.", shape: "wide", focus: "center 50%" },
+  { file: "Tonkatsu by ayustety in Tokyo.jpg", caption: "Tokyo tonkatsu, golden crust and clean plating.", shape: "wide", focus: "center 50%" },
+  { file: "Japanese tonkatsu.jpg", caption: "Tonkatsu, crisp cutlet and a warm dinner plate.", shape: "wide", focus: "center 50%" },
+  { file: "Tonkatsu (1795368622).jpg", caption: "Tonkatsu close frame, golden crust and soft rice.", shape: "wide", focus: "center 50%" },
+  { file: "Tonkatsu (3103951877).jpg", caption: "Tonkatsu plate, crunchy cutlet and rich sauce.", shape: "wide", focus: "center 50%" },
+  { file: "Tonkatsu (3224306289).jpg", caption: "Tonkatsu dinner, clean cutlet slices and warm light.", shape: "wide", focus: "center 50%" },
+  { file: "Tonkatsu Ganko Shinsaibashi.jpg", caption: "Tonkatsu set, crisp pork and calm restaurant light.", shape: "portrait", focus: "center 50%" },
+  { file: "Korean cuisine-Kimchi bokkeumbap-01.jpg", caption: "Kimchi fried rice, deep red gloss and hot-pan comfort.", shape: "wide", focus: "center 50%" },
+  { file: "A bowl of Kimchi Fried Rice.jpg", caption: "Kimchi fried rice bowl, rich color and compact comfort.", shape: "wide", focus: "center 50%" },
+  { file: "Korean stew-Budae jjigae-01.jpg", caption: "Budae jjigae, bubbling broth and cozy heat.", shape: "wide", focus: "center 50%" },
+  { file: "Budae jjigae after boiling.jpg", caption: "Budae jjigae after boiling, glossy broth and soft steam.", shape: "wide", focus: "center 50%" },
+  { file: "Budae jjigae 2014-12-14 (1).jpg", caption: "Budae jjigae table frame, full pot and warm broth.", shape: "wide", focus: "center 50%" },
+  { file: "Budae jjigae (28048555734).jpg", caption: "Budae jjigae, dense broth and a generous pot.", shape: "wide", focus: "center 50%" },
+  { file: "Budae jjigae (28049377433).jpg", caption: "Budae jjigae, rich red soup and comfort-table energy.", shape: "wide", focus: "center 50%" },
+  { file: "Budae jjigae (28587380901).jpg", caption: "Budae jjigae, glossy broth and full dinner warmth.", shape: "wide", focus: "center 50%" },
+  { file: "Fried Chicken (Unsplash).jpg", caption: "Fried chicken, golden crust and sharp table light.", shape: "wide", focus: "center 50%" },
+  { file: "Boneless chicken wings and fries.jpg", caption: "Boneless chicken wings and fries, crisp and heavy.", shape: "square", focus: "center 50%" },
+  { file: "Lasagne side.png", caption: "Lasagne slice, molten layers and deep red sauce.", shape: "wide", focus: "center 50%" },
+  { file: "Original Mac n Cheese .jpg", caption: "Mac and cheese, creamy folds and warm diner color.", shape: "square", focus: "center 50%" },
+  { file: "Boston Market Mac and Cheese (35116783173).jpg", caption: "Mac and cheese, soft pasta and rich sauce.", shape: "wide", focus: "center 50%" },
+  { file: "Mac and cheese (3123345645).jpg", caption: "Mac and cheese, glossy comfort in a tight crop.", shape: "wide", focus: "center 50%" },
+  { file: "Mac and Cheese (4999893437).jpg", caption: "Mac and cheese, golden sauce and clean plate shine.", shape: "wide", focus: "center 50%" },
+  { file: "Pulled pork with mac and cheese at the office.jpg", caption: "Pulled pork with mac and cheese, rich and heavy.", shape: "wide", focus: "center 50%" },
+  { file: "Trenne Carbonara (3113690414).jpg", caption: "Trenne carbonara, creamy pasta and sharp black pepper.", shape: "wide", focus: "center 50%" },
+  { file: "Pasta Carbonara in Yl\u00e4maa.jpg", caption: "Carbonara, glossy sauce and a clean restaurant plate.", shape: "portrait", focus: "center 50%" },
+  { file: "Pasta Carbonara at restaurant Vltava.jpg", caption: "Carbonara at a restaurant, soft pasta and warm sauce.", shape: "wide", focus: "center 50%" },
+  { file: "Pasta carbonara at Gete Deli.jpg", caption: "Carbonara plate, rich sauce and soft table light.", shape: "wide", focus: "center 50%" },
+  { file: "Pasta Carbonara in Vyborg (cropped).jpg", caption: "Carbonara close frame, creamy and clean.", shape: "cinema", focus: "center 50%" },
+  { file: "Fuddruckers cheeseburger and steak fries.jpg", caption: "Cheeseburger and steak fries, big diner plate.", shape: "wide", focus: "center 50%" },
+  { file: "Cheeseburger and steak fries at Rentier-Burger.jpg", caption: "Cheeseburger with steak fries, crisp and generous.", shape: "wide", focus: "center 50%" },
+  { file: "Hamburger and fries - Grand Union, Lambeth North, London.jpg", caption: "Hamburger and fries, polished pub-table comfort.", shape: "wide", focus: "center 50%" },
+  { file: "Cheeseburger and fries, Elephant Bar, Cupertino, CA.jpg", caption: "Cheeseburger and fries, clean diner color.", shape: "wide", focus: "center 50%" },
+  { file: "Steak Dinner (37335080850).jpg", caption: "Steak dinner, browned crust and warm plate light.", shape: "wide", focus: "center 52%" },
+  { file: "Steak dinner at 1640 Restaurant, Quebec City, Canada.jpg", caption: "Steak dinner, rich sauce and restaurant polish.", shape: "portrait", focus: "center 50%" },
+  { file: "Food-restaurant-dinner-lunch (24300637966).jpg", caption: "Restaurant dinner plate, warm meat and glossy sauce.", shape: "wide", focus: "center 50%" },
+);
+
+baseItems.push(
+  { file: "HK MK \u91d1\u7532\u97d3\u570b\u6599\u7406 Gold Beetle Korean Restaurant food fried chicken wings April 2017 IX1.jpg", caption: "Korean fried chicken wings, golden and crisp.", shape: "wide", focus: "center 50%" },
+  { file: "Korean fried chicken wings - 48112567596.jpg", caption: "Korean fried chicken wings, glossy sauce and crunch.", shape: "wide", focus: "center 50%" },
+  { file: "Korean fried chicken wings.jpg", caption: "Korean fried chicken wings, hot-table comfort.", shape: "wide", focus: "center 50%" },
+  { file: "Suwon Chicken.jpg", caption: "Suwon fried chicken, golden pieces and clean heat.", shape: "wide", focus: "center 50%" },
+  { file: "Korean fried chicken with cheese flavor (Chikin).jpg", caption: "Korean fried chicken, cheese flavor and crisp crust.", shape: "wide", focus: "center 50%" },
+  { file: "Korean fried chicken with honey mustard sauce.jpg", caption: "Korean fried chicken, honey mustard shine and crunch.", shape: "wide", focus: "center 50%" },
+  { file: "DFC 4204 Cheesy slice pull gooey golden pizza perfection.jpg", caption: "Cheesy pizza slice pull, glossy and golden.", shape: "wide", focus: "center 50%" },
+  { file: "Whataburger hamburger and fries.jpg", caption: "Hamburger and fries, diner stack and crisp edges.", shape: "wide", focus: "center 50%" },
+  { file: "Hamburger and fries - Brownswood, Finsbury Park, London.jpg", caption: "Hamburger and fries, pub-table comfort.", shape: "wide", focus: "center 50%" },
+  { file: "2019-02-15 20 51 38 A bacon cheeseburger and french fries at the Applebee's in Fair Lakes, Fairfax County, Virginia.jpg", caption: "Bacon cheeseburger and fries, big warm plate.", shape: "wide", focus: "center 50%" },
+  { file: "Shoarma Carrefour Laval.jpg", caption: "Shawarma plate, warm meat and rich table color.", shape: "wide", focus: "center 50%" },
+  { file: "Eating Pancakes (Unsplash).jpg", caption: "Pancakes, soft stack and syrup gloss.", shape: "wide", focus: "center 50%" },
+  { file: "Pancake Breakfast (Unsplash).jpg", caption: "Pancake breakfast, warm stack and clean morning light.", shape: "wide", focus: "center 50%" },
+  { file: "Pancakes with Walnuts.png", caption: "Pancakes with walnuts, soft stack and warm syrup.", shape: "square", focus: "center 50%" },
+  { file: "NY breakfast 01.jpg", caption: "New York breakfast plate, rich diner comfort.", shape: "wide", focus: "center 50%" },
+  { file: "NY breakfast 02.jpg", caption: "New York breakfast, warm plate and clean table light.", shape: "wide", focus: "center 50%" },
+  { file: "Chicken wings at Hesburger.jpg", caption: "Chicken wings and fries, crisp and snackable.", shape: "wide", focus: "center 50%" },
+  { file: "My old mother fried chicken wings at home.jpg", caption: "Homestyle fried chicken wings, golden and hot.", shape: "cinema", focus: "center 50%" },
+  { file: "LOW CARB KETO FRIED CHICKEN by Keto Diet Delish Medium.jpg", caption: "Fried chicken close frame, crunchy crust and warm color.", shape: "wide", focus: "center 50%" },
+  { file: "Mac and cheese (home cooking) August 2024.JPG", caption: "Mac and cheese, creamy home-cooked comfort.", shape: "wide", focus: "center 50%" },
+  { file: "Mac and Cheese.jpg", caption: "Mac and cheese, golden sauce and soft pasta.", shape: "portrait", focus: "center 50%" },
+  { file: "Budae jjigae before boiling.jpg", caption: "Budae jjigae pot, ready for rich broth.", shape: "wide", focus: "center 50%" },
+  { file: "Tonkatsu lunch box of Japanese National Diet Library.jpg", caption: "Tonkatsu lunch box, crisp cutlet and rice.", shape: "wide", focus: "center 50%" },
+  { file: "Tonkatsu lunch box of Japanese National Diet Library 2022.jpg", caption: "Tonkatsu lunch box, neat cutlet slices and warm rice.", shape: "wide", focus: "center 50%" },
+);
+
 const hanniItems = [
   {
     person: "Hanni",
@@ -960,6 +1038,178 @@ carItems.push(
   }
 );
 
+[
+  "P90572309",
+  "P90572310",
+  "P90572311",
+  "P90572312",
+  "P90572313",
+  "P90572314",
+  "P90572315",
+  "P90572316",
+  "P90572317",
+  "P90572318",
+  "P90572319",
+  "P90572320",
+  "P90572332",
+  "P90572333",
+  "P90572337",
+  "P90572340",
+  "P90572342",
+  "P90572343",
+  "P90572344",
+  "P90572345",
+  "P90572346",
+  "P90572347",
+  "P90572348",
+].forEach((id, index) => {
+  carItems.push({
+    image: bmwPressImage(id),
+    url: "https://www.press.bmwgroup.com/usa/photo/compilation/T0445698EN_US/the-new-2025-bmw-2-series-gran-coupe?language=en_US",
+    caption: `BMW M235 Gran Coupe, curated official full-car exterior ${index + 1}.`,
+    carGroup: "car:bmw-m235-gran-coupe",
+    shape: index % 5 === 0 ? "cinema" : "wide",
+    focus: "center 52%",
+  });
+});
+
+[
+  "P90550995",
+  "P90550998",
+  "P90551001",
+  "P90551003",
+  "P90551005",
+  "P90551006",
+  "P90551007",
+  "P90551008",
+  "P90551009",
+  "P90551010",
+  "P90551013",
+  "P90551015",
+].forEach((id, index) => {
+  carItems.push({
+    image: bmwPressImage(id),
+    url: "https://www.press.bmwgroup.com/usa/article/detail/T0433849EN_US/the-new-bmw-m3-cs?language=en_US",
+    caption: `BMW M3 sedan, curated official full-car exterior ${index + 1}.`,
+    carGroup: "car:bmw-m3",
+    shape: index % 4 === 1 ? "cinema" : "wide",
+    focus: "center 52%",
+  });
+});
+
+[
+  "P90557405",
+  "P90557502",
+  "P90557503",
+  "P90557504",
+  "P90557505",
+  "P90557511",
+  "P90557512",
+  "P90557513",
+  "P90557514",
+].forEach((id, index) => {
+  carItems.push({
+    image: bmwPressImage(id),
+    url: "https://www.press.bmwgroup.com/usa/photo/compilation/T0442513EN_US/the-new-bmw-m5-sedan?language=en_US",
+    caption: `BMW M5 sedan, curated official green full-car exterior ${index + 1}.`,
+    carGroup: "car:bmw-m5-green",
+    shape: index % 4 === 2 ? "cinema" : "wide",
+    focus: "center 52%",
+  });
+});
+
+[
+  "P90575570",
+  "P90575571",
+  "P90575572",
+  "P90575573",
+  "P90575574",
+  "P90575575",
+  "P90575576",
+  "P90575577",
+  "P90575578",
+  "P90575579",
+  "P90575580",
+  "P90575581",
+  "P90575582",
+  "P90575583",
+  "P90575584",
+  "P90575585",
+  "P90575586",
+  "P90575587",
+  "P90575588",
+  "P90575589",
+  "P90575590",
+  "P90575591",
+  "P90575592",
+  "P90575593",
+  "P90575594",
+  "P90575595",
+  "P90575596",
+  "P90575597",
+  "P90575598",
+  "P90575599",
+  "P90575600",
+  "P90575601",
+  "P90575602",
+  "P90575603",
+  "P90575604",
+  "P90575605",
+  "P90575606",
+  "P90575607",
+  "P90575608",
+  "P90575609",
+  "P90575610",
+  "P90575611",
+  "P90575612",
+  "P90575613",
+  "P90575614",
+  "P90575615",
+  "P90575616",
+  "P90575617",
+  "P90575618",
+  "P90575619",
+  "P90575620",
+  "P90575621",
+  "P90575622",
+  "P90575623",
+  "P90575624",
+  "P90575625",
+  "P90575626",
+  "P90575627",
+].forEach((id, index) => {
+  carItems.push({
+    image: bmwPressImage(id),
+    url: "https://www.press.bmwgroup.com/usa/photo/compilation/T0442513EN_US/the-new-bmw-m5-sedan?language=en_US",
+    caption: `BMW M5 sedan, curated official purple full-car exterior ${index + 1}.`,
+    carGroup: "car:bmw-m5-purple",
+    shape: index % 5 === 3 ? "cinema" : "wide",
+    focus: "center 52%",
+  });
+});
+
+[
+  {
+    image: "https://uploads.audi-mediacenter.com/system/production/media/123466/images/8ca5985ca52960bbfc34e66fd827954bad211bce/A241355_web_2880.jpg?1709725757",
+    url: "https://www.audi-mediacenter.com/en/photos/detail/audi-a3-sedan-123466",
+    caption: "Audi A3 Sedan, curated official full-car road exterior.",
+    shape: "wide",
+    focus: "center 52%",
+  },
+  {
+    image: "https://uploads.audi-mediacenter.com/system/production/media/123476/images/5afcdd90bae420f700a74ad94163f7f01e6d6b9e/A241365_web_2880.jpg?1709726540",
+    url: "https://www.audi-mediacenter.com/en/photos/detail/audi-a3-sedan-123476",
+    caption: "Audi A3 Sedan, curated official rear exterior under clean architecture.",
+    shape: "wide",
+    focus: "center 52%",
+  },
+].forEach((item) => {
+  carItems.push({
+    ...item,
+    carGroup: "car:audi-a3",
+  });
+});
+
 function uniqueBySource(list) {
   const seen = new Set();
   return list.filter((item) => {
@@ -1023,6 +1273,15 @@ const blockedContentTerms = [
   "beans",
   "chickpea",
   "olives",
+  "nigiri",
+  "single sushi",
+  "sushi close-up",
+  "sushi close up",
+  "isolated",
+  "white background",
+  "raw",
+  "uncooked",
+  "ingredient",
   "plain",
   "old car",
   "classic car",
@@ -1156,8 +1415,9 @@ function curatorScore(item, source = {}) {
   });
 
   if (/thumb|official|press|studio|restaurant|platter|road|exterior|airport/i.test(text)) score += 1;
+  if (category === "kpop" && source.provider === "kpopping" && /natural|clean|portrait/i.test(text)) score += 1;
   if (/cropped|lowres|logo|diagram|map|menu|drawing|illustration/i.test(text)) score -= 3;
-  if (item && ["wide", "cinema", "hero", "portrait"].includes(item.shape || "")) score += 1;
+  if (item && ["wide", "cinema", "hero", "portrait", "tall"].includes(item.shape || "")) score += 1;
   return score;
 }
 
@@ -1518,6 +1778,7 @@ const blockedOnlineTitleTerms = [
 ];
 
 const onlineSourceIndex = { food: 0, kpop: 0, car: 0 };
+const onlineSourceCooldownUntil = { food: 0, kpop: 0, car: 0 };
 const lowQualityRejectedKeySet = new Set();
 const railwayApiBase = "https://yum-app-production.up.railway.app";
 const preferenceStorageKey = "yum.preference.v1";
@@ -1554,8 +1815,8 @@ const kpopCandidateEndpoint = apiEndpoint("/api/kpop-candidates");
 let aiCuratorUnavailable = false;
 
 function requestedImageWidth(item) {
-  if (item && item.width) return item.width;
   if (item && (item.category === "kpop" || item.person)) return 2600;
+  if (item && item.width) return item.width;
   return 1800;
 }
 
@@ -1911,9 +2172,12 @@ function nearbyVisibleItems(renderedItems, itemIndex, category, hiddenKey, limit
 }
 
 const preferenceTokenStopWords = new Set([
-  "2023", "2024", "2025", "2026", "audi", "benz", "bmw", "cameo", "car", "clean", "find",
-  "food", "gran", "haerin", "hanni", "image", "ive", "jang", "mercedes", "newjeans",
-  "official", "online", "press", "sedan", "soft", "the", "wonyoung", "young",
+  "2023", "2024", "2025", "2026", "audi", "benz", "bmw", "cameo", "car", "clean",
+  "archive", "documents", "find", "food", "frame", "glow", "gran", "haerin", "hanni",
+  "https", "image", "instagram", "ive", "jang", "jpeg", "jpg", "kpics", "kpopping",
+  "legacy", "mercedes", "natural", "newjeans", "official", "online", "photo",
+  "portrait", "press", "pub", "sedan", "smile", "soft", "the", "update", "webp",
+  "wonyoung", "young",
 ]);
 
 function preferenceTokensFromText(text) {
@@ -1921,7 +2185,12 @@ function preferenceTokensFromText(text) {
     .toLowerCase()
     .replace(/[^a-z0-9\s-]/g, " ")
     .split(/\s+/)
-    .filter((token) => token.length >= 4 && !preferenceTokenStopWords.has(token));
+    .filter((token) => {
+      return token.length >= 4
+        && !preferenceTokenStopWords.has(token)
+        && !/^\d/.test(token)
+        && !token.includes("-");
+    });
 }
 
 function preferenceSampleText(sample) {
@@ -2260,14 +2529,14 @@ function dequeueVariedCar(state, category) {
   let bestPenalty = Number.POSITIVE_INFINITY;
   let bestFreshIndex = -1;
   let bestFreshPenalty = Number.POSITIVE_INFINITY;
-  const recentWindow = state.recentCarGroups.slice(-6);
+  const recentWindow = state.recentCarGroups.slice(-4);
 
   for (let index = 0; index < queue.length; index += 1) {
     const item = queue[index];
     if (!validQueuedItem(state, category, item)) continue;
     const penalty = carQueuePenalty(state, item, index);
     const group = visualGroupFor(item);
-    const isFresh = group && !recentWindow.includes(group);
+    const isFresh = group && recentWindow.filter((recentGroup) => recentGroup === group).length < 2;
     if (isFresh && penalty < bestFreshPenalty) {
       bestFreshPenalty = penalty;
       bestFreshIndex = index;
@@ -2279,6 +2548,12 @@ function dequeueVariedCar(state, category) {
   }
 
   if (bestFreshIndex >= 0) bestIndex = bestFreshIndex;
+  if (bestFreshIndex < 0 && bestIndex >= 0) {
+    const group = visualGroupFor(queue[bestIndex]);
+    if (group && recentWindow.filter((recentGroup) => recentGroup === group).length >= 2) {
+      return null;
+    }
+  }
 
   if (bestIndex >= 0) {
     const [item] = queue.splice(bestIndex, 1);
@@ -2656,6 +2931,8 @@ async function rankOnlineCandidates(source, candidates) {
 }
 
 function nextOnlineSource(category, state = null) {
+  if ((onlineSourceCooldownUntil[category] || 0) > Date.now()) return null;
+
   let sources = onlineSources.filter((source) => source.category === category && !source.exhausted);
   if (!sources.length) {
     addGeneratedOnlineSources(category, 8);
@@ -2729,7 +3006,17 @@ async function fetchOnlineSource(source) {
     return [];
   }
 
-  const response = await fetchWithTimeout(commonsSearchUrl(source), { headers: { Accept: "application/json" } }, 7000);
+  const response = await fetchWithTimeout(commonsSearchUrl(source), {
+    headers: {
+      Accept: "application/json",
+      "Api-User-Agent": "YumWall/1.0 (https://yum.aolabs.io)",
+    },
+  }, 7000);
+  if (response.status === 429) {
+    onlineSourceCooldownUntil[source.category] = Date.now() + 60000;
+    source.exhausted = true;
+    throw new Error("Commons search rate limited");
+  }
   if (!response.ok) {
     throw new Error(`Commons search failed: ${response.status}`);
   }
