@@ -2797,6 +2797,7 @@ async function render() {
   let exhausted = false;
   let loading = false;
   let emptyRetryTimer = 0;
+  let scheduledAppendTimer = 0;
   const renderedItems = [];
 
   const handleHide = async (item) => {
@@ -2827,6 +2828,26 @@ async function render() {
     layoutWall(wall, renderedItems, handleHide);
   };
 
+  const shouldLoadAhead = () => {
+    const scrollTop = window.scrollY || document.documentElement.scrollTop || 0;
+    const viewportHeight = window.innerHeight || document.documentElement.clientHeight || 0;
+    const scrollHeight = Math.max(
+      document.body.scrollHeight,
+      document.documentElement.scrollHeight,
+      wall.scrollHeight,
+    );
+    const loadAheadDistance = Math.max(3200, viewportHeight * 3.5);
+    return scrollHeight - (scrollTop + viewportHeight) < loadAheadDistance;
+  };
+
+  const scheduleAppend = (delay = 0) => {
+    if (exhausted || scheduledAppendTimer) return;
+    scheduledAppendTimer = window.setTimeout(() => {
+      scheduledAppendTimer = 0;
+      appendBatch();
+    }, delay);
+  };
+
   const appendBatch = async () => {
     if (exhausted || loading) return;
     loading = true;
@@ -2838,40 +2859,46 @@ async function render() {
       if (!nextItems.length && !exhausted) {
         window.clearTimeout(emptyRetryTimer);
         const retryDelay = feedState.emptyBatches > 2 ? 2500 : 900;
-        emptyRetryTimer = window.setTimeout(() => appendBatch(), retryDelay);
+        emptyRetryTimer = window.setTimeout(() => scheduleAppend(), retryDelay);
         return;
       }
 
       renderedItems.push(...nextItems);
       layoutWall(wall, renderedItems, handleHide);
       sentinel.dataset.remaining = String(categories.reduce((total, category) => total + feedState.queues[category].length, 0));
+      if (shouldLoadAhead()) {
+        scheduleAppend(80);
+      }
     } finally {
       loading = false;
     }
   };
 
-  appendBatch();
+  scheduleAppend();
 
   if ("IntersectionObserver" in window) {
     const observer = new IntersectionObserver((entries) => {
       if (entries.some((entry) => entry.isIntersecting)) {
-        appendBatch().then(() => {
+        scheduleAppend();
+        Promise.resolve().then(() => {
           if (exhausted) observer.disconnect();
         });
       }
     }, { rootMargin: "1800px 0px" });
     observer.observe(sentinel);
-  } else {
-    window.addEventListener("scroll", () => {
-      const nearBottom = window.innerHeight + window.scrollY > document.body.offsetHeight - 1800;
-      if (nearBottom) appendBatch();
-    }, { passive: true });
   }
+
+  window.addEventListener("scroll", () => {
+    if (shouldLoadAhead()) scheduleAppend();
+  }, { passive: true });
 
   let resizeTimer = 0;
   window.addEventListener("resize", () => {
     window.clearTimeout(resizeTimer);
-    resizeTimer = window.setTimeout(() => layoutWall(wall, renderedItems, handleHide), 140);
+    resizeTimer = window.setTimeout(() => {
+      layoutWall(wall, renderedItems, handleHide);
+      if (shouldLoadAhead()) scheduleAppend();
+    }, 140);
   }, { passive: true });
 
   main.append(wall, marker, sentinel);
