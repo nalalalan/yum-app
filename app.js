@@ -2664,8 +2664,10 @@ function isHighQualityKpopImage(img) {
 
 function createTile(item, index, onHide, onQualityReject) {
   const tile = document.createElement("article");
+  const key = sourceKey(item);
   tile.className = `tile tile--${item.shape || "standard"}`;
   tile.dataset.category = categoryFor(item);
+  if (key) tile.dataset.sourceKey = key;
   if (item.person) tile.dataset.person = item.person;
   if (item.focus) {
     tile.style.setProperty("--focus", item.focus);
@@ -2716,6 +2718,36 @@ function createTile(item, index, onHide, onQualityReject) {
   link.append(img, caption);
   tile.append(link, hideButton);
   return tile;
+}
+
+function removeTileElement(wall, key) {
+  const tiles = wall.querySelectorAll(".tile");
+  for (const tile of tiles) {
+    if (tile.dataset.sourceKey === key) {
+      tile.remove();
+      return true;
+    }
+  }
+  return false;
+}
+
+function appendTileElement(wall, item, index, onHide, onQualityReject) {
+  const columns = Array.from(wall.querySelectorAll(".masonry-column"));
+  if (!columns.length) return false;
+
+  const category = categoryFor(item);
+  const person = personFor(item);
+  const target = columns.reduce((best, column) => {
+    const lastTile = column.lastElementChild;
+    const visualHeight = column.scrollHeight || column.children.length * 320;
+    let score = visualHeight;
+    if (lastTile?.dataset.category === category) score += 180;
+    if (person && lastTile?.dataset.person === person) score += 360;
+    return score < best.score ? { column, score } : best;
+  }, { column: columns[0], score: Number.POSITIVE_INFINITY }).column;
+
+  target.append(createTile(item, index, onHide, onQualityReject));
+  return true;
 }
 
 function columnCount() {
@@ -2834,27 +2866,40 @@ async function render() {
 
     const category = categoryFor(item);
     const itemIndex = renderedItems.findIndex((renderedItem) => sourceKey(renderedItem) === key);
+    const visibleSnapshot = renderedItems.slice();
     pendingHideKeySet.add(key);
 
-    try {
-      const saved = await persistHiddenPreference(item, renderedItems);
-      if (!saved) return;
-      if (!hiddenKeySet.has(key)) rememberHiddenItem(item, renderedItems);
-    } finally {
-      pendingHideKeySet.delete(key);
-    }
+    rememberHiddenItem(item, visibleSnapshot);
 
-    const replacement = await nextItemForCategory(feedState, category);
     if (itemIndex >= 0) {
-      if (replacement) {
-        renderedItems.splice(itemIndex, 1, replacement);
-      } else {
-        renderedItems.splice(itemIndex, 1);
+      renderedItems.splice(itemIndex, 1);
+      if (!removeTileElement(wall, key)) {
+        layoutWall(wall, renderedItems, handleHide, handleQualityReject);
       }
+      if (shouldLoadAhead()) scheduleAppend();
     }
 
-    layoutWall(wall, renderedItems, handleHide, handleQualityReject);
-    if (shouldLoadAhead()) scheduleAppend();
+    persistHiddenPreference(item, visibleSnapshot)
+      .catch(() => false)
+      .finally(() => {
+        pendingHideKeySet.delete(key);
+      });
+
+    let replacement = null;
+    try {
+      replacement = await nextItemForCategory(feedState, category);
+    } catch {
+      replacement = null;
+    }
+
+    if (replacement) {
+      const insertIndex = itemIndex >= 0 ? Math.min(itemIndex, renderedItems.length) : renderedItems.length;
+      renderedItems.splice(insertIndex, 0, replacement);
+      if (!appendTileElement(wall, replacement, insertIndex, handleHide, handleQualityReject)) {
+        layoutWall(wall, renderedItems, handleHide, handleQualityReject);
+      }
+      if (shouldLoadAhead()) scheduleAppend();
+    }
   };
 
   const handleQualityReject = async (item) => {
