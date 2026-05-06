@@ -1535,6 +1535,58 @@ const generatedOnlineSourceSeeds = {
 
 const generatedOnlineSourceIndex = { food: 0, kpop: 0, car: 0 };
 const kpopFallbackIndexByPerson = Object.fromEntries(cameoPeople.map((person) => [person, 0]));
+const carFallbackGroups = [
+  {
+    group: "car:bmw-3-series",
+    label: "BMW 3 Series sedan",
+    terms: "bmw,3-series,sedan,car",
+    query: "BMW 3 Series sedan exterior",
+    lockBase: 131000,
+  },
+  {
+    group: "car:bmw-m3",
+    label: "BMW M3 sedan",
+    terms: "bmw,m3,sedan,car",
+    query: "BMW M3 sedan exterior",
+    lockBase: 132000,
+  },
+  {
+    group: "car:mercedes-cla",
+    label: "Mercedes CLA sedan",
+    terms: "mercedes,cla,sedan,car",
+    query: "Mercedes CLA sedan exterior",
+    lockBase: 133000,
+  },
+  {
+    group: "car:mercedes-c-class",
+    label: "Mercedes C-Class sedan",
+    terms: "mercedes,c-class,sedan,car",
+    query: "Mercedes C-Class sedan exterior",
+    lockBase: 134000,
+  },
+  {
+    group: "car:audi-a3",
+    label: "Audi A3 sedan",
+    terms: "audi,a3,sedan,car",
+    query: "Audi A3 sedan exterior",
+    lockBase: 135000,
+  },
+  {
+    group: "car:audi-a4",
+    label: "Audi A4 sedan",
+    terms: "audi,a4,sedan,car",
+    query: "Audi A4 sedan exterior",
+    lockBase: 136000,
+  },
+  {
+    group: "car:audi-rs3",
+    label: "Audi RS3 sedan",
+    terms: "audi,rs3,sedan,car",
+    query: "Audi RS3 sedan exterior",
+    lockBase: 137000,
+  },
+];
+const carFallbackIndexByGroup = Object.fromEntries(carFallbackGroups.map((entry) => [entry.group, 0]));
 
 function generatedKpopFallbackItem(person) {
   const personIndex = Math.max(0, cameoPeople.indexOf(person));
@@ -1567,6 +1619,25 @@ function generatedKpopFallbackItem(person) {
   };
 }
 
+function generatedCarFallbackItem(entry) {
+  const index = carFallbackIndexByGroup[entry.group] || 0;
+  carFallbackIndexByGroup[entry.group] = index + 1;
+  const lock = entry.lockBase + index;
+  const image = `https://loremflickr.com/1800/1100/${entry.terms}?lock=${lock}`;
+  return {
+    image,
+    original: image,
+    url: `https://www.flickr.com/search/?text=${encodeURIComponent(entry.query)}`,
+    sourceId: image,
+    caption: `${entry.label} exterior refill ${lock}.`,
+    category: "car",
+    kind: "car",
+    carGroup: entry.group,
+    shape: index % 3 === 1 ? "cinema" : "wide",
+    focus: "center 52%",
+  };
+}
+
 function ensureKpopFallbackVariety(state, targetPerPerson = 12) {
   if (!state || !state.queues || !state.queues.kpop) return 0;
   const availablePeople = availableKpopPeople(state);
@@ -1575,6 +1646,19 @@ function ensureKpopFallbackVariety(state, targetPerPerson = 12) {
     if (availablePeople.has(person) && hasKpopWindowBalancedChoice(state)) return;
     for (let index = 0; index < targetPerPerson; index += 1) {
       if (enqueueUnique(state, "kpop", generatedKpopFallbackItem(person))) added += 1;
+    }
+  });
+  return added;
+}
+
+function ensureCarFallbackVariety(state, targetPerGroup = 8) {
+  if (!state || !state.queues || !state.queues.car) return 0;
+  const availableGroups = availableVisualGroups(state, "car");
+  let added = 0;
+  carFallbackGroups.forEach((entry) => {
+    if (availableGroups.has(entry.group) && hasCarWindowBalancedChoice(state)) return;
+    for (let index = 0; index < targetPerGroup; index += 1) {
+      if (enqueueUnique(state, "car", generatedCarFallbackItem(entry))) added += 1;
     }
   });
   return added;
@@ -2262,6 +2346,8 @@ function createFeedState() {
     personCounts: Object.fromEntries(cameoPeople.map((person) => [person, 0])),
     recentPeople: [],
     recentVisualGroups: [],
+    carGroupCounts: {},
+    recentCarGroups: [],
     nextKpopPersonIndex: 0,
     patternIndex: 0,
     exhausted: false,
@@ -2292,10 +2378,10 @@ function validQueuedItem(state, category, item) {
 function recordDequeuedItem(state, category, item) {
   const key = sourceKey(item);
   if (key) state.seenKeys.add(key);
+  const visualGroup = visualGroupFor(item);
 
   if (category === "kpop") {
     const person = personFor(item);
-    const visualGroup = visualGroupFor(item);
     if (person) {
       state.personCounts[person] = (state.personCounts[person] || 0) + 1;
       state.recentPeople.push(person);
@@ -2305,6 +2391,12 @@ function recordDequeuedItem(state, category, item) {
       state.recentVisualGroups.push(visualGroup);
       if (state.recentVisualGroups.length > 10) state.recentVisualGroups.shift();
     }
+  }
+
+  if (category === "car" && visualGroup) {
+    state.carGroupCounts[visualGroup] = (state.carGroupCounts[visualGroup] || 0) + 1;
+    state.recentCarGroups.push(visualGroup);
+    if (state.recentCarGroups.length > 12) state.recentCarGroups.shift();
   }
 }
 
@@ -2324,6 +2416,70 @@ function kpopQueuePenalty(state, item, index) {
     penalty += state.recentVisualGroups.filter((recentGroup) => recentGroup === visualGroup).length * 700;
   }
   return penalty;
+}
+
+function carQueuePenalty(state, item, index) {
+  const visualGroup = visualGroupFor(item);
+  let penalty = index * 0.01;
+  if (visualGroup) {
+    const recentWindow = state.recentCarGroups.slice(-8);
+    const lastGroup = state.recentCarGroups[state.recentCarGroups.length - 1];
+    if (lastGroup === visualGroup) penalty += 2800;
+    penalty += recentWindow.filter((recentGroup) => recentGroup === visualGroup).length * 1250;
+    penalty += (state.carGroupCounts[visualGroup] || 0) * 80;
+  }
+
+  const text = curationText(item, { category: "car" });
+  if (/interior|cupholder|gear|dashboard|seat|vent|console|badge|emblem|detail|firefighter|werkfeuerwehr/i.test(text)) {
+    penalty += 900;
+  }
+
+  return penalty;
+}
+
+function dequeueVariedCar(state, category) {
+  const queue = state.queues[category] || [];
+  const hasBalancedChoice = () => {
+    return queue.some((item) => {
+      if (!validQueuedItem(state, category, item)) return false;
+      const group = visualGroupFor(item);
+      return group && !state.recentCarGroups.slice(-6).includes(group);
+    });
+  };
+
+  if (!hasBalancedChoice()) ensureCarFallbackVariety(state, 6);
+
+  let bestIndex = -1;
+  let bestPenalty = Number.POSITIVE_INFINITY;
+  let bestFreshIndex = -1;
+  let bestFreshPenalty = Number.POSITIVE_INFINITY;
+  const recentWindow = state.recentCarGroups.slice(-6);
+
+  for (let index = 0; index < queue.length; index += 1) {
+    const item = queue[index];
+    if (!validQueuedItem(state, category, item)) continue;
+    const penalty = carQueuePenalty(state, item, index);
+    const group = visualGroupFor(item);
+    const isFresh = group && !recentWindow.includes(group);
+    if (isFresh && penalty < bestFreshPenalty) {
+      bestFreshPenalty = penalty;
+      bestFreshIndex = index;
+    }
+    if (penalty < bestPenalty) {
+      bestPenalty = penalty;
+      bestIndex = index;
+    }
+  }
+
+  if (bestFreshIndex >= 0) bestIndex = bestFreshIndex;
+
+  if (bestIndex >= 0) {
+    const [item] = queue.splice(bestIndex, 1);
+    recordDequeuedItem(state, category, item);
+    return item;
+  }
+
+  return null;
 }
 
 function dequeueUnique(state, category) {
@@ -2421,6 +2577,11 @@ function dequeueUnique(state, category) {
     }
   }
 
+  if (category === "car") {
+    const carItem = dequeueVariedCar(state, category);
+    if (carItem) return carItem;
+  }
+
   while (queue.length) {
     const item = queue.shift();
     if (!validQueuedItem(state, category, item)) continue;
@@ -2447,6 +2608,17 @@ function availableKpopPeople(state) {
   return people;
 }
 
+function availableVisualGroups(state, category) {
+  const groups = new Set();
+  ((state.queues && state.queues[category]) || []).forEach((item) => {
+    if (validQueuedItem(state, category, item)) {
+      const group = visualGroupFor(item);
+      if (group) groups.add(group);
+    }
+  });
+  return groups;
+}
+
 function hasKpopWindowBalancedChoice(state) {
   const lastPerson = state.recentPeople[state.recentPeople.length - 1] || "";
   const recentWindow = state.recentPeople.slice(-5);
@@ -2455,6 +2627,15 @@ function hasKpopWindowBalancedChoice(state) {
     const person = personFor(item);
     if (person && person === lastPerson) return false;
     return !person || recentWindow.filter((recentPerson) => recentPerson === person).length < 2;
+  });
+}
+
+function hasCarWindowBalancedChoice(state) {
+  const recentWindow = state.recentCarGroups.slice(-6);
+  return (state.queues.car || []).some((item) => {
+    if (!validQueuedItem(state, "car", item)) return false;
+    const group = visualGroupFor(item);
+    return group && !recentWindow.includes(group);
   });
 }
 
@@ -2797,7 +2978,9 @@ async function loadMoreOnlineItemsForCategory(state, category, targetCount = onl
   const categorySourceCount = onlineSources.filter((source) => source.category === category).length;
   const maxAttempts = Math.max(16, categorySourceCount * 2);
   const hasEnoughQueuedVariety = () => {
-    return category !== "kpop" || availableKpopPeople(state).size >= Math.min(3, cameoPeople.length);
+    if (category === "kpop") return availableKpopPeople(state).size >= Math.min(3, cameoPeople.length);
+    if (category === "car") return availableVisualGroups(state, "car").size >= Math.min(5, carFallbackGroups.length);
+    return true;
   };
   const needsMore = () => added < targetCount || !hasEnoughQueuedVariety();
 
@@ -2853,6 +3036,9 @@ async function loadMoreOnlineItemsForCategory(state, category, targetCount = onl
   if (category === "kpop" && (!hasEnoughQueuedVariety() || !hasKpopWindowBalancedChoice(state))) {
     added += ensureKpopFallbackVariety(state);
   }
+  if (category === "car" && (!hasEnoughQueuedVariety() || !hasCarWindowBalancedChoice(state))) {
+    added += ensureCarFallbackVariety(state);
+  }
 
   return added;
 }
@@ -2866,6 +3052,9 @@ async function nextItemForCategory(state, category) {
 
   if (category === "kpop" && !hasKpopWindowBalancedChoice(state)) {
     ensureKpopFallbackVariety(state);
+  }
+  if (category === "car" && !hasCarWindowBalancedChoice(state)) {
+    ensureCarFallbackVariety(state);
   }
 
   return dequeueUnique(state, category);
@@ -3051,6 +3240,22 @@ function personFor(item) {
   return item.person || "";
 }
 
+function carGroupFor(item, text) {
+  if (item && item.carGroup) return item.carGroup;
+  if (/m235|2 series gran coupe|gran-coup|gran coupe|t0445698|p90572[234]/i.test(text)) return "car:bmw-m235-gran-coupe";
+  if (/m340i|330i|3 series|g20/i.test(text)) return "car:bmw-3-series";
+  if (/\bm3\b|g80/i.test(text)) return "car:bmw-m3";
+  if (/\bcla\b/i.test(text)) return "car:mercedes-cla";
+  if (/c-class|c class|w206/i.test(text)) return "car:mercedes-c-class";
+  if (/\brs3\b/i.test(text)) return "car:audi-rs3";
+  if (/\ba3\b/i.test(text)) return "car:audi-a3";
+  if (/\ba4\b/i.test(text)) return "car:audi-a4";
+  if (/mercedes|benz/i.test(text)) return "car:mercedes-sedan";
+  if (/audi/i.test(text)) return "car:audi-sedan";
+  if (/bmw/i.test(text)) return "car:bmw-sedan";
+  return "";
+}
+
 function visualGroupFor(item) {
   if (!item) return "";
   const category = categoryFor(item);
@@ -3085,6 +3290,11 @@ function visualGroupFor(item) {
     ];
     const shoot = shootTerms.find((term) => text.includes(term));
     if (shoot) return `${person}:${shoot}`;
+  }
+
+  if (category === "car") {
+    const group = carGroupFor(item, text);
+    if (group) return group;
   }
 
   return `${person || category}:${canonicalFileKey(item.file || item.sourceId || item.url || item.image || item.caption)}`;
