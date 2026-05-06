@@ -2910,14 +2910,25 @@ async function render() {
     const itemIndex = renderedItems.findIndex((renderedItem) => sourceKey(renderedItem) === key);
     if (itemIndex < 0) return;
 
-    const replacement = await nextItemForCategory(feedState, "kpop");
-    if (replacement) {
-      renderedItems.splice(itemIndex, 1, replacement);
-    } else {
-      renderedItems.splice(itemIndex, 1);
+    renderedItems.splice(itemIndex, 1);
+    if (!removeTileElement(wall, key)) {
+      layoutWall(wall, renderedItems, handleHide, handleQualityReject);
     }
 
-    layoutWall(wall, renderedItems, handleHide, handleQualityReject);
+    let replacement = null;
+    try {
+      replacement = await nextItemForCategory(feedState, "kpop");
+    } catch {
+      replacement = null;
+    }
+
+    if (replacement) {
+      const insertIndex = Math.min(itemIndex, renderedItems.length);
+      renderedItems.splice(insertIndex, 0, replacement);
+      if (!appendTileElement(wall, replacement, insertIndex, handleHide, handleQualityReject)) {
+        layoutWall(wall, renderedItems, handleHide, handleQualityReject);
+      }
+    }
   };
 
   const shouldLoadAhead = () => {
@@ -2955,8 +2966,15 @@ async function render() {
         return;
       }
 
+      const startIndex = renderedItems.length;
       renderedItems.push(...nextItems);
-      layoutWall(wall, renderedItems, handleHide, handleQualityReject);
+      const hasColumns = wall.querySelectorAll(".masonry-column").length > 0;
+      const appended = hasColumns && nextItems.every((item, offset) => {
+        return appendTileElement(wall, item, startIndex + offset, handleHide, handleQualityReject);
+      });
+      if (!appended) {
+        layoutWall(wall, renderedItems, handleHide, handleQualityReject);
+      }
       sentinel.dataset.remaining = String(categories.reduce((total, category) => total + feedState.queues[category].length, 0));
       if (shouldLoadAhead()) {
         scheduleAppend(80);
