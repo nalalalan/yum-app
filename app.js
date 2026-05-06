@@ -1165,6 +1165,7 @@ function interleaveGroups(groups) {
 }
 
 const blockedContentTerms = [
+  "loremflickr",
   "ningning",
   "suv",
   "crossover",
@@ -1323,6 +1324,7 @@ function curatorScore(item, source = {}) {
 }
 
 function passesCurator(item, source = {}) {
+  if (isBlockedContentItem(item)) return false;
   const category = curationCategory(item, source);
   const profile = curatorProfiles[category];
   if (!profile) return true;
@@ -1479,11 +1481,6 @@ const onlineSources = [
   { category: "food", label: "Tacos", query: "tacos carnitas quesadilla mexican food", requireAny: ["taco", "carnitas", "quesadilla"], maxItems: 84 },
   { category: "food", label: "Cajun", query: "gumbo cajun seafood food", requireAny: ["gumbo", "cajun"], maxItems: 48 },
   { category: "food", label: "Fried chicken", query: "fried chicken food", requireAny: ["fried chicken", "chicken"], maxItems: 72 },
-  { category: "food", label: "Ramen refill", provider: "generated-photo", terms: "ramen,noodles,food", query: "ramen noodles restaurant food", lockBase: 41000, maxItems: 600 },
-  { category: "food", label: "Steak refill", provider: "generated-photo", terms: "steak,dinner,food", query: "steak dinner restaurant food", lockBase: 42000, maxItems: 600 },
-  { category: "food", label: "Burger refill", provider: "generated-photo", terms: "burger,fries,food", query: "burger fries restaurant food", lockBase: 43000, maxItems: 600 },
-  { category: "food", label: "Pasta refill", provider: "generated-photo", terms: "pasta,restaurant,food", query: "pasta restaurant food", lockBase: 44000, maxItems: 600 },
-  { category: "food", label: "Korean refill", provider: "generated-photo", terms: "korean,barbecue,food", query: "korean barbecue food", lockBase: 45000, maxItems: 600 },
   { category: "kpop", label: "Hanni archive", provider: "kpopping", person: "Hanni", query: "Hanni clean online portrait", maxItems: 180 },
   { category: "kpop", label: "Haerin archive", provider: "kpopping", person: "Haerin", query: "Haerin clean online portrait", maxItems: 180 },
   { category: "kpop", label: "Wonyoung archive", provider: "kpopping", person: "Wonyoung", query: "Wonyoung clean online portrait", maxItems: 240 },
@@ -1491,9 +1488,6 @@ const onlineSources = [
   { category: "kpop", label: "Haerin natural", query: "Haerin NewJeans airport natural", requireAny: ["haerin"], person: "Haerin", kind: "girl", maxItems: 54 },
   { category: "kpop", label: "Wonyoung natural", query: "Wonyoung IVE airport natural", requireAny: ["wonyoung", "won-young"], person: "Wonyoung", kind: "girl", maxItems: 72 },
   { category: "kpop", label: "Wonyoung clean portraits", query: "Jang Wonyoung IVE 2024 2025", requireAny: ["wonyoung", "won-young"], person: "Wonyoung", kind: "girl", maxItems: 72 },
-  { category: "kpop", label: "Hanni photo refill", provider: "generated-photo", terms: "hanni,newjeans,kpop,portrait", query: "Hanni NewJeans portrait", person: "Hanni", kind: "girl", lockBase: 51000, maxItems: 600 },
-  { category: "kpop", label: "Haerin photo refill", provider: "generated-photo", terms: "haerin,newjeans,kpop,portrait", query: "Haerin NewJeans portrait", person: "Haerin", kind: "girl", lockBase: 52000, maxItems: 600 },
-  { category: "kpop", label: "Wonyoung photo refill", provider: "generated-photo", terms: "wonyoung,ive,kpop,portrait", query: "Jang Wonyoung IVE portrait", person: "Wonyoung", kind: "girl", lockBase: 53000, maxItems: 600 },
   { category: "car", label: "BMW M235 Gran Coupe", query: "2025 BMW M235 Gran Coupe sedan car", requireAny: ["2025", "2026", "m235", "gran coupe"], kind: "car", maxItems: 72 },
   { category: "car", label: "BMW G20 3 Series", query: "2024 2025 BMW G20 3 Series sedan car", requireAny: ["2024", "2025", "2026", "g20", "3 series"], kind: "car", maxItems: 72 },
   { category: "car", label: "BMW G80 M3 sedan", query: "2024 2025 BMW G80 M3 sedan car", requireAny: ["2024", "2025", "2026", "g80"], kind: "car", maxItems: 72 },
@@ -1502,9 +1496,6 @@ const onlineSources = [
   { category: "car", label: "Audi A3 sedan", query: "2024 2025 Audi A3 sedan car", requireAny: ["2024", "2025", "2026", "a3"], kind: "car", maxItems: 72 },
   { category: "car", label: "Audi A4 sedan", query: "2024 2025 Audi A4 sedan car", requireAny: ["2024", "2025", "2026", "a4"], kind: "car", maxItems: 72 },
   { category: "car", label: "Audi RS3 sedan", query: "2024 2025 Audi RS3 sedan car", requireAny: ["2024", "2025", "2026", "rs3"], kind: "car", maxItems: 72 },
-  { category: "car", label: "Modern BMW sedan refill", provider: "generated-photo", terms: "2025,bmw,sedan,car", query: "modern 2025 BMW sedan exterior", kind: "car", lockBase: 61000, maxItems: 600 },
-  { category: "car", label: "Modern Mercedes sedan refill", provider: "generated-photo", terms: "2025,mercedes,sedan,car", query: "modern 2025 Mercedes sedan exterior", kind: "car", lockBase: 62000, maxItems: 600 },
-  { category: "car", label: "Modern Audi sedan refill", provider: "generated-photo", terms: "2025,audi,sedan,car", query: "modern 2025 Audi sedan exterior", kind: "car", lockBase: 63000, maxItems: 600 },
 ];
 
 onlineSources.forEach((source) => {
@@ -1526,14 +1517,7 @@ const generatedOnlineSourceSeeds = {
     { label: "Mexican tacos", query: "tacos carnitas mexican restaurant food", requireAny: ["taco", "carnitas"], maxItems: 72 },
     { label: "Cajun gumbo", query: "cajun gumbo seafood bowl", requireAny: ["gumbo", "cajun"], maxItems: 48 },
   ],
-  kpop: [
-    { label: "Hanni clean", provider: "generated-photo", terms: "hanni,newjeans,kpop,portrait", query: "Hanni NewJeans 2024 portrait", person: "Hanni", kind: "girl", lockBase: 71000, maxItems: 600 },
-    { label: "Hanni airport", provider: "generated-photo", terms: "hanni,newjeans,airport,kpop", query: "Hanni NewJeans airport", person: "Hanni", kind: "girl", lockBase: 72000, maxItems: 600 },
-    { label: "Haerin clean", provider: "generated-photo", terms: "haerin,newjeans,kpop,portrait", query: "Haerin NewJeans 2024 portrait", person: "Haerin", kind: "girl", lockBase: 73000, maxItems: 600 },
-    { label: "Haerin airport", provider: "generated-photo", terms: "haerin,newjeans,airport,kpop", query: "Haerin NewJeans airport", person: "Haerin", kind: "girl", lockBase: 74000, maxItems: 600 },
-    { label: "Wonyoung clean", provider: "generated-photo", terms: "wonyoung,ive,kpop,portrait", query: "Jang Wonyoung 2025 portrait", person: "Wonyoung", kind: "girl", lockBase: 75000, maxItems: 600 },
-    { label: "Wonyoung airport", provider: "generated-photo", terms: "wonyoung,ive,airport,kpop", query: "Jang Wonyoung airport", person: "Wonyoung", kind: "girl", lockBase: 76000, maxItems: 600 },
-  ],
+  kpop: [],
   car: [
     { label: "BMW G20 sedan", query: "2024 2025 BMW G20 3 Series sedan", requireAny: ["2024", "2025", "2026", "g20"], kind: "car", maxItems: 84 },
     { label: "BMW 330i sedan", query: "2024 2025 BMW 330i sedan car", requireAny: ["2024", "2025", "2026", "330i"], kind: "car", maxItems: 84 },
@@ -1548,7 +1532,6 @@ const generatedOnlineSourceSeeds = {
 };
 
 const generatedOnlineSourceIndex = { food: 0, kpop: 0, car: 0 };
-const kpopFallbackIndexByPerson = Object.fromEntries(cameoPeople.map((person) => [person, 0]));
 const carFallbackGroups = [
   {
     group: "car:bmw-3-series",
@@ -1600,82 +1583,13 @@ const carFallbackGroups = [
     lockBase: 137000,
   },
 ];
-const carFallbackIndexByGroup = Object.fromEntries(carFallbackGroups.map((entry) => [entry.group, 0]));
-
-function generatedKpopFallbackItem(person) {
-  const personIndex = Math.max(0, cameoPeople.indexOf(person));
-  const index = kpopFallbackIndexByPerson[person] || 0;
-  kpopFallbackIndexByPerson[person] = index + 1;
-  const lock = 91000 + personIndex * 10000 + index;
-  const termsByPerson = {
-    Hanni: "hanni,newjeans,kpop,portrait",
-    Haerin: "haerin,newjeans,kpop,portrait",
-    Wonyoung: "wonyoung,ive,kpop,portrait",
-  };
-  const queryByPerson = {
-    Hanni: "Hanni NewJeans portrait",
-    Haerin: "Haerin NewJeans portrait",
-    Wonyoung: "Jang Wonyoung IVE portrait",
-  };
-  const terms = termsByPerson[person] || `${person.toLowerCase()},kpop,portrait`;
-  const image = `https://loremflickr.com/2200/1600/${terms}?lock=${lock}`;
-  return {
-    image,
-    original: image,
-    url: `https://www.flickr.com/search/?text=${encodeURIComponent(queryByPerson[person] || `${person} K-pop portrait`)}`,
-    sourceId: image,
-    caption: `${person} clean portrait refill ${lock}.`,
-    category: "kpop",
-    person,
-    shape: "portrait",
-    focus: "center 38%",
-    kind: "girl",
-  };
-}
-
-function generatedCarFallbackItem(entry) {
-  const index = carFallbackIndexByGroup[entry.group] || 0;
-  carFallbackIndexByGroup[entry.group] = index + 1;
-  const lock = entry.lockBase + index;
-  const image = `https://loremflickr.com/1800/1100/${entry.terms}?lock=${lock}`;
-  return {
-    image,
-    original: image,
-    url: `https://www.flickr.com/search/?text=${encodeURIComponent(entry.query)}`,
-    sourceId: image,
-    caption: `${entry.label} exterior refill ${lock}.`,
-    category: "car",
-    kind: "car",
-    carGroup: entry.group,
-    shape: index % 3 === 1 ? "cinema" : "wide",
-    focus: "center 52%",
-  };
-}
 
 function ensureKpopFallbackVariety(state, targetPerPerson = 12) {
-  if (!state || !state.queues || !state.queues.kpop) return 0;
-  const availablePeople = availableKpopPeople(state);
-  let added = 0;
-  cameoPeople.forEach((person) => {
-    if (availablePeople.has(person) && hasKpopWindowBalancedChoice(state)) return;
-    for (let index = 0; index < targetPerPerson; index += 1) {
-      if (enqueueUnique(state, "kpop", generatedKpopFallbackItem(person))) added += 1;
-    }
-  });
-  return added;
+  return 0;
 }
 
 function ensureCarFallbackVariety(state, targetPerGroup = 8) {
-  if (!state || !state.queues || !state.queues.car) return 0;
-  const availableGroups = availableVisualGroups(state, "car");
-  let added = 0;
-  carFallbackGroups.forEach((entry) => {
-    if (availableGroups.has(entry.group) && hasCarWindowBalancedChoice(state)) return;
-    for (let index = 0; index < targetPerGroup; index += 1) {
-      if (enqueueUnique(state, "car", generatedCarFallbackItem(entry))) added += 1;
-    }
-  });
-  return added;
+  return 0;
 }
 
 function addGeneratedOnlineSources(category, count = 6) {
@@ -2924,49 +2838,8 @@ async function fetchKpoppingSource(source) {
 }
 
 async function fetchGeneratedPhotoSource(source) {
-  if (source.maxItems && source.added >= source.maxItems) {
-    source.exhausted = true;
-    return [];
-  }
-
-  const start = Number(source.offset) || 0;
-  const remaining = source.maxItems ? Math.max(0, source.maxItems - start) : 48;
-  const count = Math.min(48, remaining);
-  if (!count) {
-    source.exhausted = true;
-    return [];
-  }
-
-  source.offset = start + count;
-  if (source.maxItems && source.offset >= source.maxItems) {
-    source.exhausted = true;
-  }
-
-  const terms = String(source.terms || source.query || source.label || "food")
-    .split(",")
-    .map((term) => encodeURIComponent(term.trim()))
-    .filter(Boolean)
-    .join(",");
-  const imageWidth = source.category === "kpop" ? 2200 : 1400;
-  const imageHeight = source.category === "kpop" ? 1600 : 1000;
-  const items = Array.from({ length: count }, (_, index) => {
-    const lock = (Number(source.lockBase) || 10000) + start + index;
-    const image = `https://loremflickr.com/${imageWidth}/${imageHeight}/${terms}?lock=${lock}`;
-    return {
-      image,
-      original: image,
-      url: `https://www.flickr.com/search/?text=${encodeURIComponent(source.query || source.label || "")}`,
-      sourceId: image,
-      caption: `${source.label} online candidate ${lock}.`,
-      category: source.category,
-      person: source.person || "",
-      shape: source.category === "car" ? "wide" : (source.category === "kpop" ? "portrait" : (index % 5 === 0 ? "portrait" : "wide")),
-      focus: "center 50%",
-      kind: source.kind || "",
-    };
-  });
-
-  return rankOnlineCandidates(source, items);
+  source.exhausted = true;
+  return [];
 }
 
 async function fetchOnlineSource(source) {
