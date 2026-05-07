@@ -1466,9 +1466,6 @@ const dislikedCarGroups = new Set([
 ]);
 const likedCarGroups = new Set([
   "car:bmw-m235-white",
-  "car:bmw-330i",
-  "car:bmw-3-series",
-  "car:bmw-m340i",
   "car:mercedes-cla-white",
   "car:audi-a3",
   "car:audi-a3-white",
