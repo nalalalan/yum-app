@@ -3499,7 +3499,7 @@ async function render() {
 
   const main = document.createElement("main");
   main.className = "image-app";
-  main.setAttribute("aria-label", "Food source wall");
+  main.setAttribute("aria-label", "Yum media wall");
 
   const wall = document.createElement("div");
   wall.className = "wall";
