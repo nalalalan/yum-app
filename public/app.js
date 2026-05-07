@@ -2688,7 +2688,8 @@ function availableUniqueCount(state, category) {
 
 function prefetchOnlineItemsForCategory(state, category) {
   if (!state || !state.prefetchingCategories || state.prefetchingCategories.has(category)) return;
-  if (availableUniqueCount(state, category) >= onlineBatchSize * 2) return;
+  const targetQueued = category === "kpop" ? onlineBatchSize * 4 : onlineBatchSize * 2;
+  if (availableUniqueCount(state, category) >= targetQueued) return;
 
   state.prefetchingCategories.add(category);
   loadMoreOnlineItemsForCategory(state, category, onlineBatchSize)
@@ -2948,6 +2949,7 @@ async function curateCandidatesWithAi(source, candidates, limit = onlineBatchSiz
 async function rankOnlineCandidates(source, candidates) {
   const locallyRanked = uniqueBySource(localRankCandidates(source, candidates));
   if (!locallyRanked.length) return [];
+  if (source.provider === "kpopping") return locallyRanked;
 
   const aiRanked = await curateCandidatesWithAi(source, locallyRanked, onlineBatchSize);
   return aiRanked.length ? aiRanked : locallyRanked;
@@ -3562,6 +3564,7 @@ async function render() {
     if (!key || lowQualityRejectedKeySet.has(key) || categoryFor(item) !== "kpop") return;
 
     lowQualityRejectedKeySet.add(key);
+    prefetchOnlineItemsForCategory(feedState, "kpop");
     const itemIndex = renderedItems.findIndex((renderedItem) => sourceKey(renderedItem) === key);
     if (itemIndex < 0) return;
 
@@ -3643,7 +3646,8 @@ async function render() {
       sentinel.dataset.remaining = String(categories.reduce((total, category) => total + feedState.queues[category].length, 0));
       prefetchOnlineItems(feedState);
       if (shouldLoadAhead()) {
-        scheduleAppend(80);
+        const refillDelay = feedState.prefetchingCategories && feedState.prefetchingCategories.size ? 320 : 80;
+        scheduleAppend(refillDelay);
       }
     } finally {
       loading = false;
