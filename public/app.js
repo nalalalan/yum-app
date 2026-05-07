@@ -3591,6 +3591,7 @@ async function render() {
       renderedItems.splice(insertIndex, 0, replacement);
       layoutWall(wall, renderedItems, handleHide, handleQualityReject);
     }
+    if (shouldLoadAhead()) scheduleAppend(80);
   };
 
   const shouldLoadAhead = () => {
