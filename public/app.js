@@ -3257,7 +3257,13 @@ function createTile(item, index, onHide, onQualityReject) {
   img.alt = "";
   img.loading = index < 18 ? "eager" : "lazy";
   img.decoding = "async";
-  img.addEventListener("error", () => tile.remove(), { once: true });
+  img.addEventListener("error", () => {
+    if (categoryFor(item) === "kpop" && typeof onQualityReject === "function") {
+      onQualityReject(item);
+      return;
+    }
+    tile.remove();
+  }, { once: true });
   if (categoryFor(item) === "kpop") {
     img.addEventListener("load", () => {
       if (typeof onQualityReject === "function" && !isHighQualityKpopImage(img)) {
@@ -3583,9 +3589,7 @@ async function render() {
     if (replacement) {
       const insertIndex = Math.min(itemIndex, renderedItems.length);
       renderedItems.splice(insertIndex, 0, replacement);
-      if (!appendTileElement(wall, replacement, insertIndex, handleHide, handleQualityReject)) {
-        layoutWall(wall, renderedItems, handleHide, handleQualityReject);
-      }
+      layoutWall(wall, renderedItems, handleHide, handleQualityReject);
     }
   };
 
