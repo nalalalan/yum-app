@@ -1971,15 +1971,15 @@ async function loadRemotePreferences() {
   remotePreferencesLoaded = true;
 
   try {
-    const response = await fetch(preferenceEndpoint, {
+    const response = await fetchWithTimeout(preferenceEndpoint, {
       headers: { Accept: "application/json" },
       cache: "no-store",
-    });
+    }, 1200);
     if (!response.ok) return;
     const data = await response.json();
     if (data && data.preferences) applyPreferenceState(data.preferences, { merge: true });
   } catch {
-    remotePreferencesLoaded = false;
+    remotePreferencesLoaded = true;
   }
 }
 
@@ -2426,6 +2426,7 @@ function createFeedState() {
     nextKpopPersonIndex: 0,
     patternIndex: 0,
     exhausted: false,
+    prefetchingCategories: new Set(),
   };
 }
 
@@ -2677,6 +2678,28 @@ function hasAvailableUnique(state, category) {
   return (state.queues[category] || []).some((item) => {
     return validQueuedItem(state, category, item);
   });
+}
+
+function availableUniqueCount(state, category) {
+  return (state.queues[category] || []).reduce((count, item) => {
+    return validQueuedItem(state, category, item) ? count + 1 : count;
+  }, 0);
+}
+
+function prefetchOnlineItemsForCategory(state, category) {
+  if (!state || !state.prefetchingCategories || state.prefetchingCategories.has(category)) return;
+  if (availableUniqueCount(state, category) >= onlineBatchSize * 2) return;
+
+  state.prefetchingCategories.add(category);
+  loadMoreOnlineItemsForCategory(state, category, onlineBatchSize)
+    .catch(() => 0)
+    .finally(() => {
+      state.prefetchingCategories.delete(category);
+    });
+}
+
+function prefetchOnlineItems(state) {
+  categories.forEach((category) => prefetchOnlineItemsForCategory(state, category));
 }
 
 function availableKpopPeople(state) {
@@ -3013,9 +3036,10 @@ async function fetchOnlineSource(source) {
     },
   }, 7000);
   if (response.status === 429) {
-    onlineSourceCooldownUntil[source.category] = Date.now() + 60000;
-    source.exhausted = true;
-    throw new Error("Commons search rate limited");
+    onlineSourceCooldownUntil[source.category] = Date.now() + 6000;
+    const error = new Error("Commons search rate limited");
+    error.rateLimited = true;
+    throw error;
   }
   if (!response.ok) {
     throw new Error(`Commons search failed: ${response.status}`);
@@ -3075,9 +3099,11 @@ async function loadMoreOnlineItemsForCategory(state, category, targetCount = onl
           if (source.maxItems && source.added >= source.maxItems) source.exhausted = true;
         }
       });
-    } catch {
+    } catch (error) {
       source.failures = (source.failures || 0) + 1;
-      if (source.failures >= 2) source.exhausted = true;
+      if (!error || !error.rateLimited) {
+        if (source.failures >= 2) source.exhausted = true;
+      }
     }
     return true;
   };
@@ -3111,16 +3137,17 @@ async function loadMoreOnlineItemsForCategory(state, category, targetCount = onl
 }
 
 async function nextItemForCategory(state, category) {
+  const firstPaintStillFilling = state.seenKeys.size < batchSize;
   if (!hasAvailableUnique(state, category)) {
     await loadMoreOnlineItemsForCategory(state, category, onlineBatchSize);
-  } else if (category === "kpop" && !hasKpopWindowBalancedChoice(state)) {
-    await loadMoreOnlineItemsForCategory(state, category, onlineBatchSize);
+  } else if (!firstPaintStillFilling && category === "kpop" && !hasKpopWindowBalancedChoice(state)) {
+    prefetchOnlineItemsForCategory(state, category);
   }
 
-  if (category === "kpop" && !hasKpopWindowBalancedChoice(state)) {
+  if (!firstPaintStillFilling && category === "kpop" && !hasKpopWindowBalancedChoice(state)) {
     ensureKpopFallbackVariety(state);
   }
-  if (category === "car" && !hasCarWindowBalancedChoice(state)) {
+  if (!firstPaintStillFilling && category === "car" && !hasCarWindowBalancedChoice(state)) {
     ensureCarFallbackVariety(state);
   }
 
@@ -3143,10 +3170,15 @@ async function nextMixedItems(state, targetCount = batchSize) {
 
   for (let setIndex = 0; setIndex < targetSetCount; setIndex += 1) {
     for (const category of mixPattern) {
+      const firstPaintStillFilling = state.seenKeys.size < batchSize;
       const needsRefill = !hasAvailableUnique(state, category)
-        || (category === "kpop" && !hasKpopWindowBalancedChoice(state))
-        || (category === "car" && !hasCarWindowBalancedChoice(state));
-      if (needsRefill) await loadMoreOnlineItemsForCategory(state, category, onlineBatchSize);
+        || (!firstPaintStillFilling && category === "kpop" && !hasKpopWindowBalancedChoice(state))
+        || (!firstPaintStillFilling && category === "car" && !hasCarWindowBalancedChoice(state));
+      if (!hasAvailableUnique(state, category)) {
+        await loadMoreOnlineItemsForCategory(state, category, onlineBatchSize);
+      } else if (needsRefill) {
+        prefetchOnlineItemsForCategory(state, category);
+      }
     }
 
     if (!mixPattern.every((category) => hasAvailableUnique(state, category))) {
@@ -3455,7 +3487,7 @@ function layoutWall(wall, renderedItems, onHide, onQualityReject) {
 }
 
 async function render() {
-  await loadRemotePreferences();
+  await Promise.race([loadRemotePreferences(), yieldToBrowser(700)]);
 
   const main = document.createElement("main");
   main.className = "image-app";
@@ -3609,6 +3641,7 @@ async function render() {
         layoutWall(wall, renderedItems, handleHide, handleQualityReject);
       }
       sentinel.dataset.remaining = String(categories.reduce((total, category) => total + feedState.queues[category].length, 0));
+      prefetchOnlineItems(feedState);
       if (shouldLoadAhead()) {
         scheduleAppend(80);
       }
