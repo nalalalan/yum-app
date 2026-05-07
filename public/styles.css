@@ -44,6 +44,93 @@ noscript {
   padding: 20px;
 }
 
+.paper-strip {
+  position: relative;
+  z-index: 30;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 22px;
+  padding: 18px clamp(16px, 3vw, 34px);
+  border-bottom: 1px solid rgba(255, 229, 200, 0.18);
+  background:
+    radial-gradient(circle at 18% 0%, rgba(246, 184, 107, 0.20), transparent 38%),
+    linear-gradient(135deg, rgba(35, 22, 13, 0.98), rgba(20, 14, 10, 0.96));
+  box-shadow: 0 18px 44px rgba(0, 0, 0, 0.22);
+}
+
+.paper-copy {
+  min-width: 0;
+}
+
+.paper-copy span {
+  display: block;
+  margin-bottom: 4px;
+  color: rgba(255, 229, 200, 0.58);
+  font-size: 11px;
+  font-weight: 900;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.paper-copy strong {
+  display: block;
+  color: #fffdf8;
+  font-size: clamp(22px, 3vw, 34px);
+  line-height: 1;
+  overflow-wrap: anywhere;
+}
+
+.paper-copy p {
+  max-width: 820px;
+  margin: 8px 0 0;
+  color: rgba(255, 246, 234, 0.70);
+  font-size: 14px;
+  font-weight: 650;
+  line-height: 1.35;
+}
+
+.paper-actions {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+}
+
+.paper-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 42px;
+  border: 1px solid rgba(255, 229, 200, 0.20);
+  border-radius: 6px;
+  padding: 0 14px;
+  background: rgba(255, 253, 248, 0.08);
+  color: #fffaf2;
+  font-size: 13px;
+  font-weight: 900;
+  white-space: nowrap;
+  transition: transform 160ms ease, border-color 160ms ease, background 160ms ease;
+}
+
+.paper-button.primary {
+  border-color: rgba(246, 184, 107, 0.54);
+  background: linear-gradient(135deg, rgba(246, 184, 107, 0.94), rgba(181, 106, 81, 0.86));
+  color: #21140d;
+}
+
+.paper-button:hover,
+.paper-button:focus-visible {
+  transform: translateY(-1px);
+  border-color: rgba(255, 229, 200, 0.46);
+  background: rgba(255, 253, 248, 0.13);
+  outline: none;
+}
+
+.paper-button.primary:hover,
+.paper-button.primary:focus-visible {
+  background: linear-gradient(135deg, rgba(255, 199, 124, 0.98), rgba(196, 116, 87, 0.92));
+}
+
 .image-app {
   min-height: 100vh;
   background:
@@ -224,6 +311,22 @@ noscript {
 }
 
 @media (max-width: 900px), (pointer: coarse) and (max-width: 1180px) {
+  .paper-strip {
+    grid-template-columns: 1fr;
+    gap: 14px;
+    padding: 16px 14px;
+  }
+
+  .paper-actions {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    width: 100%;
+  }
+
+  .paper-button {
+    width: 100%;
+  }
+
   .wall {
     gap: 7px;
     padding: 7px;

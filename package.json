@@ -2,7 +2,7 @@
   "name": "yum-wall",
   "version": "0.1.0",
   "private": true,
-  "description": "A media-first wall of high quality food images and source links.",
+  "description": "A taste-curated media wall for cars, food, alcohol, and K-pop girls.",
   "scripts": {
     "start": "node server.js",
     "dev": "node server.js"
