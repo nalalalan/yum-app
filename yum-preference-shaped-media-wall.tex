@@ -175,9 +175,12 @@ No external scholarly references are cited in this manuscript.
 
 \backmattersection{Tables}
 
-\begin{table}[H]
+\clearpage
+\begin{table}[p]
     \centering
     \small
+    \caption{Current Yum architecture. The system is intentionally static-first, with dynamic curation layered on top instead of required for initial rendering.}
+    \label{tab:architecture}
     \begin{tabular}{p{0.22\textwidth} p{0.66\textwidth}}
         \toprule
         Layer & Implementation role\\
@@ -189,13 +192,14 @@ No external scholarly references are cited in this manuscript.
         Fallback behavior & Static seed pools and generated candidate templates keep the wall useful when network sources or model calls fail.\\
         \bottomrule
     \end{tabular}
-    \caption{Current Yum architecture. The system is intentionally static-first, with dynamic curation layered on top instead of required for initial rendering.}
-    \label{tab:architecture}
 \end{table}
 
-\begin{table}[H]
+\clearpage
+\begin{table}[p]
     \centering
     \small
+    \caption{Curation mechanisms. The table summarizes the mechanisms used to keep Yum from collapsing into a generic image feed.}
+    \label{tab:curation}
     \begin{tabular}{p{0.27\textwidth} p{0.61\textwidth}}
         \toprule
         Mechanism & Purpose\\
@@ -209,10 +213,9 @@ No external scholarly references are cited in this manuscript.
         Source rotation & Keep the wall moving when one candidate source runs thin or stale.\\
         \bottomrule
     \end{tabular}
-    \caption{Curation mechanisms used to keep Yum from collapsing into a generic image feed.}
-    \label{tab:curation}
 \end{table}
 
+\clearpage
 \backmattersection{Figure legends}
 
 No figures are included in this manuscript.
