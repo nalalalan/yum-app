@@ -14,7 +14,6 @@
 \usepackage[font=small,labelfont=bf,labelsep=period]{caption}
 \usepackage{float}
 \usepackage{array}
-\usepackage{multirow}
 \usepackage{setspace}
 \usepackage{titlesec}
 \usepackage{enumitem}
@@ -82,7 +81,7 @@
 
 \pagestyle{fancy}
 \fancyhf{}
-\fancyhead[L]{\footnotesize\sffamily\color{SumiInk} Preference-shaped media walls}
+\fancyhead[L]{\footnotesize\sffamily\color{SumiInk} Correction-conditioned media walls}
 \fancyhead[R]{\footnotesize\sffamily\color{DustyTaupe}\nouppercase{\leftmark}}
 \fancyfoot[C]{\footnotesize\sffamily\thepage}
 \renewcommand{\headrulewidth}{0.35pt}
@@ -103,7 +102,7 @@
     \vspace*{-0.6em}
 
     {\fontsize{20}{22}\selectfont\bfseries\color{SumiInk}
-    Preference-shaped media walls for taste memory\par}
+    Correction-conditioned media walls for personal taste alignment\par}
 
     \vspace{0.95em}
 
@@ -118,133 +117,163 @@
 \end{center}
 
 \vspace{0.35em}
-\noindent\textbf{Yum is a personal taste-memory wall for cars, food, alcohol, and K-pop girls, rather than a food-only media site. The system combines a static media archive, source-aware image metadata, category balancing, remote candidate discovery, optional model-assisted ranking, and cross-device preference memory into a wall that opens directly into images instead of a dashboard. The central design problem is to preserve a specific four-category taste contract while keeping the public page fast, visually continuous, and useful when optional services are unavailable. Here the system is described as a static-first, preference-aware media surface in which local fallback material, remote candidates, hidden-item memory, and source de-duplication jointly maintain variety and personal fit.}
+\noindent\textbf{Personal recommendation systems usually learn taste from ratings, clicks, watch time, purchases, or dense behavioral logs. Yum explores a different unit of personalization: the user's correction. A correction such as ``do not show this model, color, pose, ingredient, or source pattern again'' is treated as a reusable test that updates a deployed media wall through hard rejects, compact preference memory, source de-duplication, visual-group spacing, and optional model-assisted candidate ranking. The novelty is not another image feed, but a correction-conditioned control layer for personal AI alignment: free-form dissatisfaction is converted into inspectable feed constraints without requiring a large surveillance history. We describe a live static-first website, \href{https://yum.aolabs.io}{yum.aolabs.io}, that mixes food, cars, and K-pop imagery while preserving category balance and cross-device preference state. Screenshots of the deployed surface are included as artifact evidence. The system is presented as a design study for preference-aware personal media, not as a population-scale recommendation benchmark.}
 
 \newpage
 \pagestyle{fancy}
 
 \section{Introduction}
 
-Most media walls are either static collections or generic recommendation feeds. Static collections preserve intent, but they become repetitive. Generic feeds keep moving, but they usually lose the specific taste contract that made the page worth opening in the first place. Yum is designed for the middle ground: a personally shaped wall that starts from known-good material, keeps extending through candidate discovery, and remembers negative feedback across sessions.
+Recommender systems have long framed personalization as a prediction problem: infer what an individual will rate, click, purchase, or consume next \cite{resnick1997,adomavicius2005,hu2008,rendle2009}. That framing works when the objective is stable and the signal is abundant. It is weaker when the target is a private aesthetic standard that changes through direct correction: ``not this color,'' ``not this kind of image,'' ``not this person,'' ``not this texture,'' ``not this crop,'' or ``never cluster several similar items again.''
 
-The subject scope is intentionally explicit. Yum is for cars, food, alcohol, and K-pop girls. The value is in allowing those categories to coexist without one category taking over, without source repeats becoming obvious, and without the page becoming a control panel before it becomes a visual experience.
+Yum is built around that second setting. It is a personal media wall whose useful behavior is defined less by aggregate engagement than by whether it stops repeating the user's rejected mistakes. The core design question is therefore not ``how can the system maximize interaction?'' but ``how can a single user's corrections become durable operational constraints on a live visual artifact?''
 
-The public surface is a static GitHub Pages site at \texttt{yum.aolabs.io}. A Node service provides optional dynamic behavior: preference persistence, model-assisted curation, and K-pop candidate discovery. The page still functions when those services are not available, because the first requirement is that the wall opens quickly and remains visually useful.
+This question matters beyond one website. Human-AI systems increasingly depend on natural-language feedback, preference learning, and alignment from human judgments \cite{christiano2017,ouyang2022,amershi2019}. However, most deployed personal interfaces still leave users with brittle local settings, opaque ranking models, or short-lived dislike buttons. Yum treats correction as a first-class artifact. A correction is translated into source keys, semantic rejects, group-spacing penalties, category quotas, and preference samples that are small enough to inspect and persistent enough to matter across sessions.
 
-\section{Design requirements}
+\section{Novelty}
 
-\subsection{Media-first entry}
+\subsection{From implicit feedback to explicit correction}
 
-The first screen should be the wall itself. The interface avoids a heavy onboarding flow, filter dashboard, or explanatory landing page. Captions, source links, and controls are available, but they should not compete with the images.
+Implicit-feedback recommenders infer taste from behavior that was not necessarily intended as feedback \cite{hu2008,rendle2009}. A scroll, linger, or click can be ambiguous. Yum instead elevates direct correction. The user may reject an exact item, but the implementation must infer the reusable failure mode: the source may be low-quality, the category may be overrepresented, the subject may be repeated, the image may violate an aesthetic rule, or a cluster may be visually monotonous.
 
-\subsection{Four-category taste contract}
+The proposed novelty is \textit{correction-conditioned curation}: a deployed feed architecture in which free-form human correction is compiled into a transparent constraint stack. The stack has four properties.
 
-The feed must hold four subject areas at once: cars, food, alcohol, and K-pop girls. This requires a stricter contract than appending images to a masonry grid. The system needs category balance, source de-duplication, person and car-group spacing, and fallback material that still matches the intended taste when online sources are weak.
+\begin{enumerate}
+    \item It is \textbf{persistent}: a correction can affect a later page load and a different device through remote preference state.
+    \item It is \textbf{inspectable}: hidden keys, hidden samples, kept samples, blocked terms, and group identifiers are ordinary data rather than an opaque behavioral archive.
+    \item It is \textbf{compositional}: hard rejects, category balance, source rotation, model ranking, and layout placement each address a different failure mode.
+    \item It is \textbf{artifact-facing}: the final test is not an offline score but whether the public wall stops showing the rejected pattern.
+\end{enumerate}
 
-\subsection{Preference memory}
+\subsection{Why this is different from a dislike button}
 
-Yum uses hide actions as meaningful taste signals. Hidden source keys remove exact items. Hidden samples become stronger negative examples. Nearby visible items can become weaker positive examples because they were present at the time of the rejection and were not removed. This keeps the stored memory compact while still giving the ranking layer useful direction.
+A dislike button removes an item. A correction-conditioned system must generalize without overgeneralizing. If the user rejects a blurred K-pop image, the system should prefer higher-resolution images without eliminating the subject. If the user rejects green or purple performance sedans, the system should block those model-color combinations while still allowing clean white compact sedans and adjacent Audi or Mercedes sedans. If several images from one source appear together, the system should treat the cluster as a layout and queueing failure rather than a single bad tile.
 
-\section{System architecture}
+This makes the central object of study a feedback-to-artifact loop. The user does not need to become a taxonomy editor. The system must convert correction into durable tests and then verify the deployed surface against those tests.
 
-Yum has three main layers: a public static wall, a small backend service, and a preference model that is mirrored between browser state and remote storage. The public wall is responsible for responsive masonry placement, tile shapes, source links, captions, visual grouping, lazy loading, and interaction state. Each tile carries more information than its visible image: a category, shape, source key, caption, source URL, focus hint, and sometimes person or group metadata.
+\section{System design}
 
-The backend preserves the parts of the system that cannot be solved with a static page alone. It accepts and returns preference state, filters and ranks curation candidates, caches responses, and exposes K-pop candidate retrieval as a separate endpoint. This keeps the wall operational while still allowing the taste model to improve beyond a fixed bundle.
+Yum is a static-first site with optional dynamic services. The public wall is served at \href{https://yum.aolabs.io}{yum.aolabs.io}. The frontend contains known-good seed media, source metadata, category labels, captions, source URLs, shape hints, focus hints, and optional person or car-group identifiers. A small Node service provides preference persistence, model-assisted candidate ranking, and K-pop candidate retrieval. The static wall remains useful if the dynamic service is slow or unavailable.
 
-\section{Feed contract}
+\subsection{Taste state}
 
-The feed contract is the heart of Yum. The wall should feel like one visual surface, but the categories have different failure modes. Cars need modern, tasteful reference images and should avoid stale show-floor, traffic, SUV, old-car, or disliked model and colour patterns. Food needs cravings, memory, restaurants, meals, dishes, screenshots, and the kind of image that is worth saving for later. Alcohol needs clean table, bottle, drink, and nightlife-adjacent material without turning the whole feed into bar stock imagery. K-pop girl imagery needs to stay softer and more personal, avoiding heavy stage energy, noisy editorial frames, and low-quality portraits.
+Preference state is intentionally compact. It contains hidden source keys, hidden samples, kept samples, a version number, and timestamps. Hidden keys remove exact items. Hidden samples provide stronger negative examples. Kept samples provide weak positive context from nearby non-hidden material. This is a privacy-leaning alternative to large behavioral histories: the state is small, inspectable, and biased toward explicit correction rather than passive surveillance.
 
-This contract is enforced by multiple mechanisms rather than one filter. Static pools guarantee a baseline. Blocked-term checks remove obvious misses. Source keys prevent exact repeats. Visual groups and person groups prevent one look from dominating the scroll. Recent placement history keeps the wall from forming blocks of the same category.
+\subsection{Candidate control}
 
-\section{Curation and preference stack}
+Candidate generation and candidate control are separated. Candidate generation finds possible images from static pools and remote sources. Candidate control decides what is allowed to reach the wall. Control includes blocked terms, source de-duplication, category balancing, recent-person spacing, visual-group spacing, car-group spacing, quality thresholds, and optional language-model ranking.
 
-Yum separates candidate generation from candidate selection. Candidate generation answers the question, ``what could be shown next?'' Candidate selection answers the harder question, ``what should be shown next, given the current wall and what has already been rejected?''
+This separation is important because visually bad outcomes often arise after a candidate has passed a relevance check. Four similar cars in one view, three portraits of the same person, or repeated low-resolution source patterns are layout-level failures. They must be handled by queue and placement logic, not only by candidate retrieval.
 
-The browser stores a local mirror of preference state so the interface can react immediately. The backend stores the same class of compact state in \texttt{preferences.json}: hidden keys, hidden samples, kept samples, a version number, and an update timestamp. This is enough to make the wall feel persistent across devices without storing a full behavioural history.
+\section{Deployed artifact}
 
-The persistence model favors small, explicit signals. A large opaque log would be harder to reason about and harder to repair. A compact preference object can be inspected, capped, synced, and applied directly to candidate selection.
+The deployed wall is shown in Fig.~\ref{fig:desktop} and Fig.~\ref{fig:mobile}. The screenshots were captured from the live public URL on May 7, 2026. They show the actual interaction surface: a paper link, the wall itself, mixed subject categories, and a responsive masonry layout.
+
+\begin{figure}[p]
+    \centering
+    \includegraphics[width=0.86\textwidth]{assets/yum-wall-desktop-20260507.png}
+    \caption{Desktop view of the deployed Yum wall. The surface opens directly into media rather than a settings dashboard. The visible mix shows the core design tension: category balance, source quality, and visual-group spacing must all hold at once.}
+    \label{fig:desktop}
+\end{figure}
+
+\begin{figure}[p]
+    \centering
+    \includegraphics[width=0.46\textwidth]{assets/yum-wall-mobile-20260507.png}
+    \caption{Narrow viewport view of the deployed wall. The same feed contract must survive a different column count, where clustering is more noticeable and lazy-loading failures are easier to see.}
+    \label{fig:mobile}
+\end{figure}
+
+\section{Relationship to prior work}
+
+Yum builds on recommender-system work but shifts the evaluation target. Classic surveys and hybrid recommender methods emphasize prediction, filtering, and combining sources of evidence \cite{adomavicius2005,burke2002}. Implicit-feedback methods formalize preference from observed behavior \cite{hu2008,rendle2009}. Visual recommendation work extends this to appearance-sensitive domains \cite{he2016}. Human-centered recommender evaluation argues that perceived quality, variety, effort, and privacy affect system experience, not just predictive accuracy \cite{knijnenburg2012}.
+
+The correction-conditioned wall fits between these traditions and human-AI interaction. Human preference learning and instruction-following models demonstrate that human judgments can train or steer model behavior \cite{christiano2017,ouyang2022}. Human-AI guidelines emphasize intelligibility, controllability, and graceful handling of user feedback \cite{amershi2019}. Vision-language models show that natural language can name visual concepts and support flexible image understanding \cite{radford2021}. Yum applies these ideas at the product-surface scale: the user provides corrections in ordinary language, and the live artifact is updated through explicit feed constraints.
+
+\section{Implications}
+
+The strongest implication is that small personal systems can be aligned through correction memory without becoming black-box surveillance systems. A personal media wall does not need to store every scroll event to improve. It can store what the user explicitly rejected, what remained nearby, and how those examples map to transparent constraints. This produces a more repairable system: when the wall is wrong, the correction can become a test.
+
+The second implication is that personalization should be evaluated at the artifact boundary. A recommender may rank candidates correctly in isolation while still producing a bad page because similar items cluster, a category disappears, or a visual pattern repeats. Yum therefore treats the rendered wall as the unit of verification.
+
+\section{Limitations}
+
+This manuscript reports a deployed design study, not a controlled user study. The current evidence is artifact-level: source code, deployed behavior, screenshots, and live verification. No population-scale preference model, benchmark dataset, or statistical generalization claim is made. The system also inherits the limitations of third-party image sources, including uneven metadata quality, unavailable images, source licensing constraints, and inconsistent visual resolution.
+
+The next useful step is not to add more opaque intelligence. It is to measure correction-to-fix latency: after a user gives a rejection pattern, how quickly does the live wall stop violating it, and how often does the generalization accidentally suppress material the user would have liked?
 
 \section{Conclusion}
 
-Yum is a preference-shaped media wall for cars, food, alcohol, and K-pop girls. Its core contribution is not the presence of those categories alone, but the operational system around them: static-first rendering, source-aware metadata, category balance, candidate ranking, compact preference memory, and cross-device persistence. Those pieces allow a simple visual wall to behave like a durable taste surface instead of a one-time image collection.
+Yum argues for correction-conditioned curation as a practical unit of personal AI alignment. A user should not need to repeatedly reject the same failure mode. The system should convert correction into persistent, inspectable constraints and verify the live artifact against those constraints. For personal visual media, this may be a more useful target than engagement maximization: the wall becomes better when it remembers what the user meant, not merely what the user clicked.
 
 \backmattersection{References}
 
-No external scholarly references are cited in this manuscript.
+\begin{thebibliography}{99}
+\bibitem{resnick1997}
+Resnick, P. \& Varian, H. R. Recommender systems. \textit{Communications of the ACM} \textbf{40}, 56--58 (1997). \href{https://doi.org/10.1145/245108.245121}{doi:10.1145/245108.245121}.
 
-\backmattersection{Tables}
+\bibitem{adomavicius2005}
+Adomavicius, G. \& Tuzhilin, A. Toward the next generation of recommender systems: a survey of the state-of-the-art and possible extensions. \textit{IEEE Transactions on Knowledge and Data Engineering} \textbf{17}, 734--749 (2005). \href{https://doi.org/10.1109/TKDE.2005.99}{doi:10.1109/TKDE.2005.99}.
 
-\clearpage
-\begin{table}[p]
-    \centering
-    \small
-    \caption{Current Yum architecture. The system is intentionally static-first, with dynamic curation layered on top instead of required for initial rendering.}
-    \label{tab:architecture}
-    \begin{tabular}{p{0.22\textwidth} p{0.66\textwidth}}
-        \toprule
-        Layer & Implementation role\\
-        \midrule
-        Public surface & GitHub Pages serves the wall, static assets, preview metadata, icon assets, and the paper link at \texttt{yum.aolabs.io}.\\
-        Backend service & A Node service exposes \texttt{/api/curate}, \texttt{/api/preferences}, and \texttt{/api/kpop-candidates}.\\
-        AI ranking & The curation endpoint can score image candidates using the configured OpenAI model and the current taste memory.\\
-        Persistence & Preference state is stored locally for immediate response and remotely for cross-device continuity.\\
-        Fallback behavior & Static seed pools and generated candidate templates keep the wall useful when network sources or model calls fail.\\
-        \bottomrule
-    \end{tabular}
-\end{table}
+\bibitem{burke2002}
+Burke, R. Hybrid recommender systems: survey and experiments. \textit{User Modeling and User-Adapted Interaction} \textbf{12}, 331--370 (2002). \href{https://doi.org/10.1023/A:1021240730564}{doi:10.1023/A:1021240730564}.
 
-\clearpage
-\begin{table}[p]
-    \centering
-    \small
-    \caption{Curation mechanisms. The table summarizes the mechanisms used to keep Yum from collapsing into a generic image feed.}
-    \label{tab:curation}
-    \begin{tabular}{p{0.27\textwidth} p{0.61\textwidth}}
-        \toprule
-        Mechanism & Purpose\\
-        \midrule
-        Static seed pools & Start the wall with known-good cars, food, alcohol, and K-pop girl media.\\
-        Blocked terms & Reject low-fit candidates before they reach the wall.\\
-        Hidden keys & Remove exact source items that the user has rejected.\\
-        Hidden samples & Store stronger negative examples for model-assisted ranking.\\
-        Kept samples & Preserve lightweight positive context from nearby non-hidden items.\\
-        Model ranking & Rank candidates against current taste rules and preference memory when the API is configured.\\
-        Source rotation & Keep the wall moving when one candidate source runs thin or stale.\\
-        \bottomrule
-    \end{tabular}
-\end{table}
+\bibitem{hu2008}
+Hu, Y., Koren, Y. \& Volinsky, C. Collaborative filtering for implicit feedback datasets. In \textit{2008 Eighth IEEE International Conference on Data Mining}, 263--272 (IEEE, 2008). \href{https://doi.org/10.1109/ICDM.2008.22}{doi:10.1109/ICDM.2008.22}.
 
-\clearpage
-\backmattersection{Figure legends}
+\bibitem{rendle2009}
+Rendle, S., Freudenthaler, C., Gantner, Z. \& Schmidt-Thieme, L. BPR: Bayesian personalized ranking from implicit feedback. In \textit{Proceedings of the Twenty-Fifth Conference on Uncertainty in Artificial Intelligence}, 452--461 (AUAI Press, 2009).
 
-No figures are included in this manuscript.
+\bibitem{he2016}
+He, R. \& McAuley, J. VBPR: visual Bayesian personalized ranking from implicit feedback. In \textit{Proceedings of the Thirtieth AAAI Conference on Artificial Intelligence}, 144--150 (AAAI Press, 2016).
+
+\bibitem{knijnenburg2012}
+Knijnenburg, B. P., Willemsen, M. C., Gantner, Z., Soncu, H. \& Newell, C. Explaining the user experience of recommender systems. \textit{User Modeling and User-Adapted Interaction} \textbf{22}, 441--504 (2012). \href{https://doi.org/10.1007/s11257-011-9118-4}{doi:10.1007/s11257-011-9118-4}.
+
+\bibitem{christiano2017}
+Christiano, P. F. et al. Deep reinforcement learning from human preferences. \textit{Advances in Neural Information Processing Systems} \textbf{30} (2017).
+
+\bibitem{ouyang2022}
+Ouyang, L. et al. Training language models to follow instructions with human feedback. \textit{Advances in Neural Information Processing Systems} \textbf{35}, 27730--27744 (2022).
+
+\bibitem{amershi2019}
+Amershi, S. et al. Guidelines for human-AI interaction. In \textit{Proceedings of the 2019 CHI Conference on Human Factors in Computing Systems}, 1--13 (ACM, 2019). \href{https://doi.org/10.1145/3290605.3300233}{doi:10.1145/3290605.3300233}.
+
+\bibitem{radford2021}
+Radford, A. et al. Learning transferable visual models from natural language supervision. In \textit{Proceedings of the 38th International Conference on Machine Learning}, 8748--8763 (PMLR, 2021).
+
+\bibitem{heer2012}
+Heer, J. \& Shneiderman, B. Interactive dynamics for visual analysis. \textit{Communications of the ACM} \textbf{55}, 45--54 (2012). \href{https://doi.org/10.1145/2133806.2133821}{doi:10.1145/2133806.2133821}.
+\end{thebibliography}
 
 \backmattersection{Methods}
 
+\subsubsection*{Artifact capture}
+
+Desktop and narrow-viewport screenshots were captured from the deployed public URL on May 7, 2026 using Playwright. The screenshots are stored in the public asset bundle as \texttt{assets/yum-wall-desktop-20260507.png} and \texttt{assets/yum-wall-mobile-20260507.png}.
+
 \subsubsection*{Static surface and media metadata}
 
-The public surface is generated from a static bundle containing the HTML shell, CSS, JavaScript wall renderer, icon assets, preview images, and paper files. Media candidates are represented as structured entries with image source, source URL, caption, category, tile shape, focus hint, and optional person or visual-group metadata.
+The public surface is generated from a static bundle containing the HTML shell, CSS, JavaScript wall renderer, icon assets, preview images, paper files, and figure assets. Media candidates are represented as structured entries with image source, source URL, caption, category, tile shape, focus hint, and optional person or visual-group metadata.
 
 \subsubsection*{Preference storage}
 
-Preference state is stored as a compact object containing hidden keys, hidden samples, kept samples, a version number, and an update timestamp. The browser keeps a local mirror for immediate interaction. The backend stores the same preference shape so that state can be restored on another device when the remote service is reachable.
+Preference state is stored as a compact object containing hidden keys, hidden samples, kept samples, a version number, and update metadata. The browser keeps a local mirror for immediate interaction. The backend stores the same preference shape so state can be restored on another device when the remote service is reachable.
 
-\subsubsection*{Candidate ranking}
+\subsubsection*{Candidate ranking and layout}
 
-Candidate ranking is static-first. Known-good seed media is available before any remote service responds. Optional curation requests can pass candidate metadata and preference samples to the configured model, after which blocked terms, source keys, category balance, and recent placement history are still applied before display.
+Candidate ranking is static-first. Known-good seed media is available before any remote service responds. Optional curation requests can pass candidate metadata and preference samples to the configured model. Blocked terms, source keys, category balance, visual groups, person groups, car groups, quality thresholds, and recent placement history are then applied before display.
 
 \subsubsection*{Verification}
 
-The manuscript PDF was generated directly from the LaTeX source using \texttt{pdflatex}. The deployed site was verified by checking that the live paper URL returned a PDF and that text extracted from the deployed PDF contained the expected four-category scope and Nature-style manuscript end matter.
+The manuscript PDF was generated from this LaTeX source using \texttt{pdflatex}. The deployed site was verified by checking that the live paper URL returned a PDF and that the live JavaScript bundle contained the current correction-conditioned curation rules.
 
 \backmattersection{Data availability}
 
-No new research dataset was generated. The media metadata required to inspect the public wall is included in the deployed public JavaScript bundle and in the Yum application source. Third-party media remains subject to the licensing and availability terms of the original sources linked from the wall.
+No new research dataset was generated. The media metadata required to inspect the public wall is included in the deployed JavaScript bundle and in the Yum application source. Third-party media remains subject to the licensing and availability terms of the original sources linked from the wall.
 
 \backmattersection{Code availability}
 
-The application code and this LaTeX source are available in the Yum application repository at \href{https://github.com/nalalalan/yum-app}{github.com/nalalalan/yum-app}. The deployed LaTeX source is also served at \href{https://yum.aolabs.io/yum-preference-shaped-media-wall.tex}{yum.aolabs.io/yum-preference-shaped-media-wall.tex}.
+The application code and this LaTeX source are available in the Yum application repository at \href{https://github.com/nalalalan/yum-app}{github.com/nalalalan/yum-app}. The deployed LaTeX source is served at \href{https://yum.aolabs.io/yum-preference-shaped-media-wall.tex}{yum.aolabs.io/yum-preference-shaped-media-wall.tex}.
 
 \backmattersection{Acknowledgements}
 
