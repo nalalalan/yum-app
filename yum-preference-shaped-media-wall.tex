@@ -33,7 +33,7 @@
 \usepackage[switch]{lineno}
 
 \color{SumiInk}
-\setstretch{1.45}
+\doublespacing
 \setlength{\parindent}{0pt}
 \setlength{\parskip}{0.42em}
 \setlength{\textfloatsep}{8pt plus 1pt minus 1pt}
@@ -82,7 +82,7 @@
 
 \pagestyle{fancy}
 \fancyhf{}
-\fancyhead[L]{\footnotesize\sffamily\color{SumiInk} Yum Preference-Shaped Media Wall}
+\fancyhead[L]{\footnotesize\sffamily\color{SumiInk} Preference-shaped media walls}
 \fancyhead[R]{\footnotesize\sffamily\color{DustyTaupe}\nouppercase{\leftmark}}
 \fancyfoot[C]{\footnotesize\sffamily\thepage}
 \renewcommand{\headrulewidth}{0.35pt}
@@ -93,6 +93,7 @@
 \def\fps@figure{tbp}
 \def\fps@table{tbp}
 \makeatother
+\newcommand{\backmattersection}[1]{\section*{#1}\markboth{#1}{}}
 
 \begin{document}
 \linenumbers
@@ -102,22 +103,22 @@
     \vspace*{-0.6em}
 
     {\fontsize{20}{22}\selectfont\bfseries\color{SumiInk}
-    Yum: preference-shaped media walls for taste memory\par}
+    Preference-shaped media walls for taste memory\par}
 
     \vspace{0.95em}
 
     {\normalsize\color{SumiInk}
-    Alan N. Pham\par}
+    Alan N. Pham$^{1,*}$\par}
 
     \vspace{0.38em}
 
     {\small\color{DustyTaupe}
-    AO Labs\\
-    \href{https://yum.aolabs.io}{yum.aolabs.io}\par}
+    $^{1}$AO Labs\\
+    $^{*}$Correspondence: \href{https://aolabs.io}{aolabs.io}\par}
 \end{center}
 
 \vspace{0.35em}
-\noindent\textbf{Yum is not a food-only website. It is a personal taste-memory wall for cars, food, alcohol, and K-pop girls. The system combines a static media archive, source-aware image metadata, category balancing, remote candidate discovery, optional model-assisted ranking, and cross-device preference memory into a wall that opens directly into images instead of a dashboard. The design problem is therefore broader than serving attractive media: Yum must preserve taste, avoid obvious repeats, keep loading when services are unavailable, remember what has been hidden, and make four different subject areas feel like one coherent visual surface.}
+\noindent\textbf{Yum is a personal taste-memory wall for cars, food, alcohol, and K-pop girls, rather than a food-only media site. The system combines a static media archive, source-aware image metadata, category balancing, remote candidate discovery, optional model-assisted ranking, and cross-device preference memory into a wall that opens directly into images instead of a dashboard. The central design problem is to preserve a specific four-category taste contract while keeping the public page fast, visually continuous, and useful when optional services are unavailable. Here the system is described as a static-first, preference-aware media surface in which local fallback material, remote candidates, hidden-item memory, and source de-duplication jointly maintain variety and personal fit.}
 
 \newpage
 \pagestyle{fancy}
@@ -126,11 +127,11 @@
 
 Most media walls are either static collections or generic recommendation feeds. Static collections preserve intent, but they become repetitive. Generic feeds keep moving, but they usually lose the specific taste contract that made the page worth opening in the first place. Yum is designed for the middle ground: a personally shaped wall that starts from known-good material, keeps extending through candidate discovery, and remembers negative feedback across sessions.
 
-The subject scope is intentionally explicit. Yum is for cars, food, alcohol, and K-pop girls. Treating the project as a food site misses the actual product shape. The value is in allowing those categories to coexist without one category taking over, without source repeats becoming obvious, and without the page becoming a control panel before it becomes a visual experience.
+The subject scope is intentionally explicit. Yum is for cars, food, alcohol, and K-pop girls. The value is in allowing those categories to coexist without one category taking over, without source repeats becoming obvious, and without the page becoming a control panel before it becomes a visual experience.
 
 The public surface is a static GitHub Pages site at \texttt{yum.aolabs.io}. A Node service provides optional dynamic behavior: preference persistence, model-assisted curation, and K-pop candidate discovery. The page still functions when those services are not available, because the first requirement is that the wall opens quickly and remains visually useful.
 
-\section{Design Requirements}
+\section{Design requirements}
 
 \subsection{Media-first entry}
 
@@ -144,9 +145,35 @@ The feed must hold four subject areas at once: cars, food, alcohol, and K-pop gi
 
 Yum uses hide actions as meaningful taste signals. Hidden source keys remove exact items. Hidden samples become stronger negative examples. Nearby visible items can become weaker positive examples because they were present at the time of the rejection and were not removed. This keeps the stored memory compact while still giving the ranking layer useful direction.
 
-\section{System Architecture}
+\section{System architecture}
 
-Yum has three main layers: a public static wall, a small backend service, and a preference model that is mirrored between browser state and remote storage.
+Yum has three main layers: a public static wall, a small backend service, and a preference model that is mirrored between browser state and remote storage. The public wall is responsible for responsive masonry placement, tile shapes, source links, captions, visual grouping, lazy loading, and interaction state. Each tile carries more information than its visible image: a category, shape, source key, caption, source URL, focus hint, and sometimes person or group metadata.
+
+The backend preserves the parts of the system that cannot be solved with a static page alone. It accepts and returns preference state, filters and ranks curation candidates, caches responses, and exposes K-pop candidate retrieval as a separate endpoint. This keeps the wall operational while still allowing the taste model to improve beyond a fixed bundle.
+
+\section{Feed contract}
+
+The feed contract is the heart of Yum. The wall should feel like one visual surface, but the categories have different failure modes. Cars need modern, tasteful reference images and should avoid stale show-floor, traffic, SUV, old-car, or disliked model and colour patterns. Food needs cravings, memory, restaurants, meals, dishes, screenshots, and the kind of image that is worth saving for later. Alcohol needs clean table, bottle, drink, and nightlife-adjacent material without turning the whole feed into bar stock imagery. K-pop girl imagery needs to stay softer and more personal, avoiding heavy stage energy, noisy editorial frames, and low-quality portraits.
+
+This contract is enforced by multiple mechanisms rather than one filter. Static pools guarantee a baseline. Blocked-term checks remove obvious misses. Source keys prevent exact repeats. Visual groups and person groups prevent one look from dominating the scroll. Recent placement history keeps the wall from forming blocks of the same category.
+
+\section{Curation and preference stack}
+
+Yum separates candidate generation from candidate selection. Candidate generation answers the question, ``what could be shown next?'' Candidate selection answers the harder question, ``what should be shown next, given the current wall and what has already been rejected?''
+
+The browser stores a local mirror of preference state so the interface can react immediately. The backend stores the same class of compact state in \texttt{preferences.json}: hidden keys, hidden samples, kept samples, a version number, and an update timestamp. This is enough to make the wall feel persistent across devices without storing a full behavioural history.
+
+The persistence model favors small, explicit signals. A large opaque log would be harder to reason about and harder to repair. A compact preference object can be inspected, capped, synced, and applied directly to candidate selection.
+
+\section{Conclusion}
+
+Yum is a preference-shaped media wall for cars, food, alcohol, and K-pop girls. Its core contribution is not the presence of those categories alone, but the operational system around them: static-first rendering, source-aware metadata, category balance, candidate ranking, compact preference memory, and cross-device persistence. Those pieces allow a simple visual wall to behave like a durable taste surface instead of a one-time image collection.
+
+\backmattersection{References}
+
+No external scholarly references are cited in this manuscript.
+
+\backmattersection{Tables}
 
 \begin{table}[H]
     \centering
@@ -165,31 +192,6 @@ Yum has three main layers: a public static wall, a small backend service, and a 
     \caption{Current Yum architecture. The system is intentionally static-first, with dynamic curation layered on top instead of required for initial rendering.}
     \label{tab:architecture}
 \end{table}
-
-\subsection{Public wall}
-
-The public wall is responsible for presentation: responsive masonry placement, tile shapes, source links, captions, visual grouping, lazy loading, and interaction state. Each tile carries more information than its visible image: a category, shape, source key, caption, source URL, focus hint, and sometimes person or group metadata.
-
-\subsection{Backend service}
-
-The backend preserves the parts of the system that cannot be solved with a static page alone. It accepts and returns preference state, filters and ranks curation candidates, caches responses, and exposes K-pop candidate retrieval as a separate endpoint. This keeps the wall operational while still allowing the taste model to improve beyond a fixed bundle.
-
-\section{Feed Contract}
-
-The feed contract is the heart of Yum. The wall should feel like one visual surface, but the categories have different failure modes.
-
-\begin{enumerate}
-    \item Cars need modern, tasteful reference images and should avoid stale show-floor, traffic, SUV, old-car, or disliked model/color patterns.
-    \item Food needs cravings, memory, restaurants, meals, dishes, screenshots, and the kind of image that is worth saving for later.
-    \item Alcohol needs clean table, bottle, drink, and nightlife-adjacent material without turning the whole feed into bar stock imagery.
-    \item K-pop girl imagery needs to stay softer and more personal, avoiding heavy stage energy, noisy editorial frames, and low-quality portraits.
-\end{enumerate}
-
-This contract is enforced by multiple mechanisms rather than one filter. Static pools guarantee a baseline. Blocked-term checks remove obvious misses. Source keys prevent exact repeats. Visual groups and person groups prevent one look from dominating the scroll. Recent placement history keeps the wall from forming blocks of the same category.
-
-\section{Curation and Preference Stack}
-
-Yum separates candidate generation from candidate selection. Candidate generation answers the question, ``what could be shown next?'' Candidate selection answers the harder question, ``what should be shown next, given the current wall and what has already been rejected?''
 
 \begin{table}[H]
     \centering
@@ -211,31 +213,54 @@ Yum separates candidate generation from candidate selection. Candidate generatio
     \label{tab:curation}
 \end{table}
 
-\section{Persistence}
+\backmattersection{Figure legends}
 
-The browser stores a local mirror of preference state so the interface can react immediately. The backend stores the same class of compact state in \texttt{preferences.json}: hidden keys, hidden samples, kept samples, a version number, and an update timestamp. This is enough to make the wall feel persistent across devices without storing a full behavioral history.
+No figures are included in this manuscript.
 
-The persistence model favors small, explicit signals. This is a practical choice. A large opaque log would be harder to reason about and harder to repair. A compact preference object can be inspected, capped, synced, and applied directly to candidate selection.
+\backmattersection{Methods}
 
-\section{Paper and Site Placement}
+\subsubsection*{Static surface and media metadata}
 
-The paper appears at the top of the public Yum site, before the wall, with two consistent actions: open the paper and return to the wall. This matches the AO Labs convention that projects with real technical work should show the paper clearly instead of hiding it below the experience.
+The public surface is generated from a static bundle containing the HTML shell, CSS, JavaScript wall renderer, icon assets, preview images, and paper files. Media candidates are represented as structured entries with image source, source URL, caption, category, tile shape, focus hint, and optional person or visual-group metadata.
 
-The paper itself is generated from a LaTeX source so it can share formatting with the existing AO Labs paper style: NewTX text and math fonts, line numbers, compact scientific geometry, colored section rules, ragged-right captions, and a restrained header/footer system.
+\subsubsection*{Preference storage}
 
-\section{Limits and Next Work}
+Preference state is stored as a compact object containing hidden keys, hidden samples, kept samples, a version number, and an update timestamp. The browser keeps a local mirror for immediate interaction. The backend stores the same preference shape so that state can be restored on another device when the remote service is reachable.
 
-Yum is already more than a static gallery, but several limits remain.
+\subsubsection*{Candidate ranking}
 
-\begin{enumerate}
-    \item Remote curation quality depends on the configured model and the quality of available candidates.
-    \item Preference memory is intentionally compact, so it captures directional taste better than long written explanations.
-    \item Static fallback pools need ongoing maintenance because the desired scope is specific and changes with taste.
-    \item The wall should expose enough system state to be trustworthy without turning the first screen into an operations dashboard.
-\end{enumerate}
+Candidate ranking is static-first. Known-good seed media is available before any remote service responds. Optional curation requests can pass candidate metadata and preference samples to the configured model, after which blocked terms, source keys, category balance, and recent placement history are still applied before display.
 
-\section{Conclusion}
+\subsubsection*{Verification}
 
-Yum is a preference-shaped media wall for cars, food, alcohol, and K-pop girls. Its core contribution is not the presence of those categories alone, but the operational system around them: static-first rendering, source-aware metadata, category balance, candidate ranking, compact preference memory, and cross-device persistence. Those pieces allow a simple visual wall to behave like a durable taste surface instead of a one-time image collection.
+The manuscript PDF was generated directly from the LaTeX source using \texttt{pdflatex}. The deployed site was verified by checking that the live paper URL returned a PDF and that text extracted from the deployed PDF contained the expected four-category scope and Nature-style manuscript end matter.
+
+\backmattersection{Data availability}
+
+No new research dataset was generated. The media metadata required to inspect the public wall is included in the deployed public JavaScript bundle and in the Yum application source. Third-party media remains subject to the licensing and availability terms of the original sources linked from the wall.
+
+\backmattersection{Code availability}
+
+The application code and this LaTeX source are available in the Yum application repository at \href{https://github.com/nalalalan/yum-app}{github.com/nalalalan/yum-app}. The deployed LaTeX source is also served at \href{https://yum.aolabs.io/yum-preference-shaped-media-wall.tex}{yum.aolabs.io/yum-preference-shaped-media-wall.tex}.
+
+\backmattersection{Acknowledgements}
+
+No external acknowledgements are declared.
+
+\backmattersection{Funding statement}
+
+No external funding is declared.
+
+\backmattersection{Author contributions}
+
+A.N.P. conceived the system, implemented the wall and backend, designed the curation and preference-memory behavior, prepared the manuscript, and maintains the public deployment.
+
+\backmattersection{Competing interests}
+
+A.N.P. created and operates AO Labs and Yum.
+
+\backmattersection{Additional information}
+
+Supplementary information is not included. Correspondence and requests for materials should be directed to Alan N. Pham through \href{https://aolabs.io}{aolabs.io}.
 
 \end{document}
