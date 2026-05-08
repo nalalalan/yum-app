@@ -101,14 +101,14 @@ noscript {
   height: 42px;
   display: inline-grid;
   place-items: center;
-  border: 1px solid rgba(255, 229, 200, 0.20);
-  border-radius: 6px;
-  background: rgba(255, 253, 248, 0.08);
+  border: 0;
+  border-radius: 0;
+  background: transparent;
 }
 
 .ao-home img {
-  width: 23px;
-  height: 23px;
+  width: 31px;
+  height: 31px;
   display: block;
 }
 
