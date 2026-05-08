@@ -1714,7 +1714,7 @@ function diversifyCameoGroup(person, items) {
 
 function buildCameoPool(list) {
   const maxCameosPerPerson = 42;
-  const clean = uniqueBySource(list.filter(isAllowedCameo).map(glamCaption));
+  const clean = uniqueBySource(list.filter(isAllowedCameo).map(glamCaption).filter((item) => glamScore(item) >= 0));
   const grouped = new Map(cameoPeople
     .map((person) => [person, diversifyCameoGroup(person, clean
       .filter((item) => item.person === person)
@@ -1986,14 +1986,119 @@ const blockedOnlineTitleTerms = [
   "ningning",
 ];
 
-const onlineSourceIndex = { food: 0, kpop: 0, car: 0 };
 const onlineSourceCooldownUntil = { food: 0, kpop: 0, car: 0 };
 const lowQualityRejectedKeySet = new Set();
 const railwayApiBase = "https://yum-app-production.up.railway.app";
 const preferenceStorageKey = "yum.preference.v1";
 const editTokenStorageKey = "yum.editToken.v1";
+const feedStartStorageKey = "yum.feedStart.v1";
 const maxStoredPreferenceSamples = 140;
 const maxPreferenceSamplesPerRequest = 12;
+const sessionFeedStart = nextFeedStartState();
+const previousStartKeySet = new Set(sessionFeedStart.previousStartKeys || []);
+const previousStartVisualGroupSet = new Set(sessionFeedStart.previousStartGroups || []);
+const onlineSourceIndex = Object.fromEntries(categories.map((category) => [
+  category,
+  feedStartOffset(onlineSources.filter((source) => source.category === category).length, `online:${category}`),
+]));
+
+function browserRandomSeed() {
+  if (typeof crypto !== "undefined" && crypto.getRandomValues) {
+    const values = new Uint32Array(1);
+    crypto.getRandomValues(values);
+    return values[0] >>> 0;
+  }
+  return Math.floor(Math.random() * 0x100000000) >>> 0;
+}
+
+function readStoredFeedStartState() {
+  if (typeof localStorage === "undefined") return {};
+  try {
+    return JSON.parse(localStorage.getItem(feedStartStorageKey) || "{}") || {};
+  } catch {
+    return {};
+  }
+}
+
+function nextFeedStartState() {
+  const previous = readStoredFeedStartState();
+  const seed = Number.isFinite(Number(previous.seed)) ? Number(previous.seed) >>> 0 : browserRandomSeed();
+  const visits = (Number(previous.visits) || 0) + 1;
+  const next = {
+    seed,
+    visits,
+    previousStartKeys: Array.isArray(previous.startKeys) ? previous.startKeys.slice(0, 90) : [],
+    previousStartGroups: Array.isArray(previous.startGroups) ? previous.startGroups.slice(0, 90) : [],
+    startKeys: [],
+    startGroups: [],
+    updatedAt: new Date().toISOString(),
+  };
+
+  if (typeof localStorage !== "undefined") {
+    try {
+      localStorage.setItem(feedStartStorageKey, JSON.stringify(next));
+    } catch {
+      // A fresh random start is still better than a fixed top-of-feed.
+    }
+  }
+
+  return next;
+}
+
+function stableHash(value) {
+  const text = String(value || "");
+  let hash = 2166136261;
+  for (let index = 0; index < text.length; index += 1) {
+    hash ^= text.charCodeAt(index);
+    hash = Math.imul(hash, 16777619);
+  }
+  return hash >>> 0;
+}
+
+function coprimeStride(length, salt) {
+  if (length <= 1) return 1;
+  let stride = (stableHash(`${salt}:stride`) % (length - 1)) + 1;
+  while (greatestCommonDivisor(stride, length) !== 1) {
+    stride = (stride % length) + 1;
+  }
+  return stride;
+}
+
+function feedStartOffset(length, salt) {
+  if (length <= 1) return 0;
+  const base = stableHash(`${sessionFeedStart.seed}:${salt}`) % length;
+  const visitOffset = ((sessionFeedStart.visits % length) * coprimeStride(length, salt)) % length;
+  return (base + visitOffset) % length;
+}
+
+function saveFeedStartKeys(items) {
+  if (typeof localStorage === "undefined" || !Array.isArray(items)) return;
+  const startKeys = items
+    .slice(0, batchSize)
+    .map(sourceKey)
+    .filter(Boolean);
+  const startGroups = items
+    .slice(0, batchSize)
+    .map(visualGroupFor)
+    .filter(Boolean);
+  if (!startKeys.length) return;
+
+  sessionFeedStart.startKeys = startKeys;
+  sessionFeedStart.startGroups = startGroups;
+  try {
+    localStorage.setItem(feedStartStorageKey, JSON.stringify({
+      seed: sessionFeedStart.seed,
+      visits: sessionFeedStart.visits,
+      previousStartKeys: sessionFeedStart.previousStartKeys || [],
+      previousStartGroups: sessionFeedStart.previousStartGroups || [],
+      startKeys,
+      startGroups,
+      updatedAt: new Date().toISOString(),
+    }));
+  } catch {
+    // Feed rotation should never block rendering.
+  }
+}
 
 function normalizedApiBase(value) {
   return String(value || "").replace(/\/+$/, "");
@@ -2550,9 +2655,16 @@ function longScrollItems(items, category, targetCount = longScrollItemsPerCatego
   if (!uniqueItems.length) return [];
   const count = Math.min(uniqueItems.length, targetCount);
   const stride = spreadStride(uniqueItems.length, category);
-  const offset = { food: 0, kpop: 3, car: 5 }[category] || 0;
+  const fixedOffset = { food: 0, kpop: 3, car: 5 }[category] || 0;
+  const queueSalt = [
+    category,
+    sourceKey(uniqueItems[0]),
+    sourceKey(uniqueItems[Math.floor(uniqueItems.length / 2)]),
+    uniqueItems.length,
+  ].join(":");
+  const offset = (fixedOffset + feedStartOffset(uniqueItems.length, queueSalt)) % uniqueItems.length;
 
-  return Array.from({ length: count }, (_, index) => {
+  const orderedItems = Array.from({ length: count }, (_, index) => {
     const sourceIndex = (index * stride + offset) % uniqueItems.length;
     const item = uniqueItems[sourceIndex];
     return {
@@ -2560,6 +2672,20 @@ function longScrollItems(items, category, targetCount = longScrollItemsPerCatego
       category,
     };
   });
+  if (!previousStartKeySet.size) return orderedItems;
+
+  const freshItems = [];
+  const repeatedStartItems = [];
+  orderedItems.forEach((item) => {
+    const key = sourceKey(item);
+    const visualGroup = visualGroupFor(item);
+    if ((key && previousStartKeySet.has(key)) || (visualGroup && previousStartVisualGroupSet.has(visualGroup))) {
+      repeatedStartItems.push(item);
+    } else {
+      freshItems.push(item);
+    }
+  });
+  return freshItems.concat(repeatedStartItems);
 }
 
 function scaledCameoTargets(targetCount) {
@@ -2632,7 +2758,7 @@ function createFeedState() {
     recentVisualGroups: [],
     carGroupCounts: {},
     recentCarGroups: [],
-    nextKpopPersonIndex: 0,
+    nextKpopPersonIndex: feedStartOffset(cameoPeople.length, "kpop:first-person"),
     patternIndex: 0,
     exhausted: false,
     prefetchingCategories: new Set(),
@@ -2686,10 +2812,19 @@ function recordDequeuedItem(state, category, item) {
   }
 }
 
+function startupSelectionPenalty(state, item, index, category) {
+  if (!state || state.seenKeys.size >= batchSize) return 0;
+  const key = sourceKey(item) || `${category}:${index}`;
+  const visualGroup = visualGroupFor(item);
+  const spread = category === "car" ? 4200 : (category === "kpop" ? 2200 : 1400);
+  const repeatPenalty = previousStartKeySet.has(key) || (visualGroup && previousStartVisualGroupSet.has(visualGroup)) ? 24000 : 0;
+  return repeatPenalty + (stableHash(`${sessionFeedStart.seed}:${sessionFeedStart.visits}:${category}:${key}`) % spread);
+}
+
 function kpopQueuePenalty(state, item, index) {
   const person = personFor(item);
   const visualGroup = visualGroupFor(item);
-  let penalty = index * 0.01;
+  let penalty = startupSelectionPenalty(state, item, index, "kpop") + (index * 0.01);
   if (person) {
     const lastPerson = state.recentPeople[state.recentPeople.length - 1];
     const recentWindowCount = state.recentPeople.slice(-5).filter((recentPerson) => recentPerson === person).length;
@@ -2709,7 +2844,7 @@ function carQueuePenalty(state, item, index) {
   const text = curationText(item, { category: "car" });
   if (carTasteRejected(item, text)) return Number.POSITIVE_INFINITY;
 
-  let penalty = index * 0.01;
+  let penalty = startupSelectionPenalty(state, item, index, "car") + (index * 0.01);
   if (visualGroup) {
     const recentWindow = state.recentCarGroups.slice(-10);
     const lastGroup = state.recentCarGroups[state.recentCarGroups.length - 1];
@@ -2796,11 +2931,17 @@ function dequeueUnique(state, category) {
         }
         if (!matchingIndexes.length) continue;
 
-        const variedIndex = matchingIndexes.find((index) => {
+        const variedIndexes = matchingIndexes.filter((index) => {
           const visualGroup = visualGroupFor(queue[index]);
           return !visualGroup || !state.recentVisualGroups.includes(visualGroup);
         });
-        const selectedIndex = variedIndex === undefined ? matchingIndexes[0] : variedIndex;
+        const candidateIndexes = variedIndexes.length ? variedIndexes : matchingIndexes;
+        const selectedIndex = candidateIndexes.reduce((bestIndex, index) => {
+          return startupSelectionPenalty(state, queue[index], index, "kpop")
+            < startupSelectionPenalty(state, queue[bestIndex], bestIndex, "kpop")
+            ? index
+            : bestIndex;
+        }, candidateIndexes[0]);
         const [item] = queue.splice(selectedIndex, 1);
         state.nextKpopPersonIndex = (personIndex + 1) % cameoPeople.length;
         recordDequeuedItem(state, category, item);
@@ -3767,6 +3908,7 @@ async function render() {
   let emptyRetryTimer = 0;
   let scheduledAppendTimer = 0;
   let appendRequestedWhileLoading = false;
+  let feedStartSaved = false;
   const renderedItems = [];
 
   const handleHide = (item, tileElement = null) => {
@@ -3891,6 +4033,10 @@ async function render() {
 
       const startIndex = renderedItems.length;
       renderedItems.push(...nextItems);
+      if (!feedStartSaved && startIndex === 0) {
+        feedStartSaved = true;
+        saveFeedStartKeys(renderedItems);
+      }
       const hasColumns = wall.querySelectorAll(".masonry-column").length > 0;
       const appended = hasColumns
         && await appendTileElementsInChunks(wall, nextItems, startIndex, handleHide, handleQualityReject);
