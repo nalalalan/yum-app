@@ -261,7 +261,7 @@ Preference state is stored as a compact object containing hidden keys, hidden sa
 
 \subsubsection*{Candidate ranking and layout}
 
-Candidate ranking is static-first. Known-good seed media is available before any remote service responds. Optional curation requests can pass candidate metadata and preference samples to the configured model. Blocked terms, source keys, category balance, visual groups, person groups, car groups, quality thresholds, and recent placement history are then applied before display.
+Candidate ranking is static-first. Known-good seed media is available before any remote service responds. Optional curation requests can pass candidate metadata and preference samples to the configured model. Blocked terms, source keys, category balance, visual groups, person groups, car groups, quality thresholds, and recent placement history are then applied before display. The renderer maintains a background buffer and a fail-open refill path: exact category balance is used when all queues are available, while queued safe media may continue rendering when one category is temporarily refilling so that the wall does not terminate into blank space.
 
 \subsubsection*{Verification}
 
