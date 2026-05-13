@@ -1403,6 +1403,14 @@ const blockedContentTerms = [
   "uncooked",
   "ingredient",
   "plain",
+  "macaroni",
+  "mac and cheese",
+  "national public service platform",
+  "standards information",
+  "information platform",
+  "sac",
+  "国家标准",
+  "强制性国家标准",
   "bento",
   "dosirak",
   "doshirak",
@@ -1454,7 +1462,18 @@ const blockedContentTerms = [
   "traffic",
   "china",
   "stage",
+  "stage lights",
+  "performing",
   "performance",
+  "microphone",
+  "fancam",
+  "festival",
+  "live",
+  "music bank",
+  "w korea",
+  "w-korea",
+  "fashion week",
+  "seoul fashion week",
   "editorial",
   "glam",
   "awards-night",
@@ -1555,7 +1574,7 @@ const curatorProfiles = {
       /glossy|char|broth|crispy|golden|platter|plate|bowl|stacked|sliced|sauce|steam|melted/i,
     ],
     reject: [
-      /vegetable|vegetables|veggies|salad|broccoli|kale|spinach|lettuce|greens|leafy|arugula|cucumber|zucchini|squash|pumpkin|tomato soup|carrot|corn|cabbage|bean|chickpea|olive|nigiri|single|isolated|white background|plain|raw|uncooked|ingredient|bento|dosirak|doshirak|lunch\s*box|boxed lunch|packed lunch|meal box|ready meal|packaged meal|prepackaged|pre-packed|convenience store|plastic (?:container|box|tray|lid)|disposable tray|takeout container|takeaway container|takeaway box|take away container/i,
+      /vegetable|vegetables|veggies|salad|broccoli|kale|spinach|lettuce|greens|leafy|arugula|cucumber|zucchini|squash|pumpkin|tomato soup|carrot|corn|cabbage|bean|chickpea|olive|nigiri|single|isolated|white background|plain|macaroni|mac and cheese|raw|uncooked|ingredient|bento|dosirak|doshirak|lunch\s*box|boxed lunch|packed lunch|meal box|ready meal|packaged meal|prepackaged|pre-packed|convenience store|plastic (?:container|box|tray|lid)|disposable tray|takeout container|takeaway container|takeaway box|take away container/i,
     ],
     minScore: 2,
   },
@@ -1758,8 +1777,8 @@ function buildCameoPool(list) {
   return result;
 }
 
-const batchSize = 126;
-const onlineBatchSize = 72;
+const batchSize = 84;
+const onlineBatchSize = 36;
 const categories = ["food", "kpop", "car"];
 const mixPattern = ["food", "kpop", "car"];
 const longScrollItemsPerCategory = 7200;
@@ -1802,9 +1821,9 @@ function sourceMaxItemsForCategory(category) {
 }
 
 function generatedSourceRefillCount(category) {
-  if (category === "kpop") return 6;
-  if (category === "car") return 18;
-  return 20;
+  if (category === "kpop") return 3;
+  if (category === "car") return 12;
+  return 12;
 }
 
 onlineSources.forEach((source) => {
@@ -1986,6 +2005,14 @@ const blockedOnlineTitleTerms = [
   "isolated",
   "white background",
   "plain",
+  "macaroni",
+  "mac and cheese",
+  "national public service platform",
+  "standards information",
+  "information platform",
+  "sac",
+  "国家标准",
+  "强制性国家标准",
   "nigiri",
   "take away",
   "bento",
@@ -2060,6 +2087,10 @@ const blockedOnlineTitleTerms = [
   "microphone",
   "music bank",
   "radio",
+  "w korea",
+  "w-korea",
+  "fashion week",
+  "seoul fashion week",
   "ningning",
 ];
 
@@ -2598,7 +2629,7 @@ const preferenceFeaturePatterns = {
   food: [
     ["vegetable_spread", /vegetable|vegetables|veggies|salad|broccoli|kale|spinach|lettuce|greens|leafy|arugula|cucumber|zucchini|squash|pumpkin|tomato soup|carrot|corn|cabbage|bean|chickpea|olive|tomato|pepper|ingredient/i],
     ["isolated_sushi", /nigiri|single|isolated|plain|white background|salmon sushi(?!.*platter)|sushi close-up|sushi close up/i],
-    ["raw_plain", /raw|uncooked|ingredient|sterile|product shot|white background/i],
+    ["raw_plain", /raw|uncooked|ingredient|sterile|product shot|white background|macaroni|mac and cheese/i],
     ["packaged_lunch", /bento|dosirak|doshirak|lunch\s*box|boxed lunch|packed lunch|meal box|ready meal|packaged meal|prepackaged|pre-packed|convenience store|plastic (?:container|box|tray|lid)|disposable tray|takeout container|takeaway container|takeaway box|take away container/i],
   ],
   kpop: [
@@ -3120,11 +3151,11 @@ function availableUniqueCount(state, category) {
 
 function prefetchOnlineItemsForCategory(state, category) {
   if (!state || !state.prefetchingCategories || state.prefetchingCategories.has(category)) return;
-  const targetQueued = category === "kpop" ? onlineBatchSize * 9 : onlineBatchSize * 7;
+  const targetQueued = category === "kpop" ? onlineBatchSize * 8 : onlineBatchSize * 6;
   if (availableUniqueCount(state, category) >= targetQueued) return;
 
   state.prefetchingCategories.add(category);
-  loadMoreOnlineItemsForCategory(state, category, onlineBatchSize * 2)
+  loadMoreOnlineItemsForCategory(state, category, onlineBatchSize)
     .catch(() => 0)
     .finally(() => {
       state.prefetchingCategories.delete(category);
@@ -3513,7 +3544,7 @@ async function loadMoreOnlineItemsForCategory(state, category, targetCount = onl
   let added = 0;
   let attempts = 0;
   let generatedFallbackAdded = false;
-  const maxAttempts = () => Math.max(36, onlineSources.filter((source) => source.category === category).length * 3);
+  const maxAttempts = () => Math.min(24, Math.max(12, onlineSources.filter((source) => source.category === category && !source.exhausted).length));
   const hasEnoughQueuedVariety = () => {
     if (category === "kpop") return availableKpopPeople(state).size >= Math.min(3, cameoPeople.length);
     if (category === "car") return availableVisualGroups(state, "car").size >= Math.min(5, carFallbackGroups.length);
@@ -3572,7 +3603,7 @@ async function loadMoreOnlineItemsForCategory(state, category, targetCount = onl
 
   if (generatedFallbackAdded) {
     attempts = 0;
-    const fallbackMaxAttempts = Math.max(36, (generatedOnlineSourceSeeds[category] || []).length * 4);
+    const fallbackMaxAttempts = Math.min(30, Math.max(12, (generatedOnlineSourceSeeds[category] || []).length * 2));
     while (needsMore() && attempts < fallbackMaxAttempts) {
       const tried = await trySource();
       if (!tried) break;
@@ -3592,7 +3623,12 @@ async function loadMoreOnlineItemsForCategory(state, category, targetCount = onl
 async function nextItemForCategory(state, category) {
   const firstPaintStillFilling = state.seenKeys.size < batchSize;
   if (!hasAvailableUnique(state, category)) {
-    await loadMoreOnlineItemsForCategory(state, category, onlineBatchSize);
+    if (firstPaintStillFilling) {
+      await loadMoreOnlineItemsForCategory(state, category, onlineBatchSize);
+    } else {
+      prefetchOnlineItemsForCategory(state, category);
+      return null;
+    }
   } else if (!firstPaintStillFilling && category === "kpop" && !hasKpopWindowBalancedChoice(state)) {
     prefetchOnlineItemsForCategory(state, category);
   }
@@ -3617,6 +3653,25 @@ function restoreDequeuedItems(state, items) {
   });
 }
 
+function nextAvailableMixedItems(state, targetCount = batchSize) {
+  const items = [];
+  let guard = 0;
+  const maxAttempts = targetCount * categories.length * 2;
+
+  while (items.length < targetCount && guard < maxAttempts) {
+    const category = categories[guard % categories.length];
+    guard += 1;
+    if (!hasAvailableUnique(state, category)) {
+      prefetchOnlineItemsForCategory(state, category);
+      continue;
+    }
+    const item = dequeueUnique(state, category);
+    if (item) items.push(item);
+  }
+
+  return items;
+}
+
 async function nextMixedItems(state, targetCount = batchSize) {
   const nextItems = [];
   const targetSetCount = Math.floor(targetCount / mixPattern.length);
@@ -3628,28 +3683,38 @@ async function nextMixedItems(state, targetCount = batchSize) {
         || (!firstPaintStillFilling && category === "kpop" && !hasKpopWindowBalancedChoice(state))
         || (!firstPaintStillFilling && category === "car" && !hasCarWindowBalancedChoice(state));
       if (!hasAvailableUnique(state, category)) {
-        await loadMoreOnlineItemsForCategory(state, category, onlineBatchSize);
+        if (nextItems.length || !firstPaintStillFilling) {
+          prefetchOnlineItemsForCategory(state, category);
+        } else {
+          await loadMoreOnlineItemsForCategory(state, category, onlineBatchSize);
+        }
       } else if (needsRefill) {
         prefetchOnlineItemsForCategory(state, category);
       }
     }
 
     if (!mixPattern.every((category) => hasAvailableUnique(state, category))) {
+      categories.forEach((category) => prefetchOnlineItemsForCategory(state, category));
       state.emptyBatches = nextItems.length ? 0 : ((state.emptyBatches || 0) + 1);
-      return nextItems;
+      return nextItems.length ? nextItems : nextAvailableMixedItems(state, targetCount);
     }
 
     const setItems = [];
     for (const category of mixPattern) {
       let item = await nextItemForCategory(state, category);
       if (!item) {
-        await loadMoreOnlineItemsForCategory(state, category, onlineBatchSize);
-        item = await nextItemForCategory(state, category);
+        if (nextItems.length || state.seenKeys.size >= batchSize) {
+          prefetchOnlineItemsForCategory(state, category);
+        } else {
+          await loadMoreOnlineItemsForCategory(state, category, onlineBatchSize);
+          item = await nextItemForCategory(state, category);
+        }
       }
       if (!item) {
         restoreDequeuedItems(state, setItems);
+        categories.forEach((category) => prefetchOnlineItemsForCategory(state, category));
         state.emptyBatches = nextItems.length ? 0 : ((state.emptyBatches || 0) + 1);
-        return nextItems;
+        return nextItems.length ? nextItems : nextAvailableMixedItems(state, targetCount);
       }
       setItems.push(item);
     }
@@ -4073,7 +4138,7 @@ async function render() {
       renderedItems.splice(insertIndex, 0, replacement);
       layoutWall(wall, renderedItems, handleHide, handleQualityReject);
     }
-    if (shouldLoadAhead()) scheduleAppend(80);
+    if (needsRenderBuffer() || shouldLoadAhead() || needsColumnFill()) scheduleAppend(80);
   };
 
   const shouldLoadAhead = () => {
@@ -4084,8 +4149,29 @@ async function render() {
       document.documentElement.scrollHeight,
       wall.scrollHeight,
     );
+    const columns = Array.from(wall.querySelectorAll(".masonry-column"));
+    const columnHeights = columns
+      .map((column) => column.scrollHeight || 0)
+      .filter((height) => height > 0);
+    const shortestColumnBottom = columnHeights.length
+      ? wall.offsetTop + Math.min(...columnHeights)
+      : scrollHeight;
+    const effectiveScrollHeight = Math.min(scrollHeight, shortestColumnBottom);
     const loadAheadDistance = Math.max(24000, viewportHeight * 18);
-    return scrollHeight - (scrollTop + viewportHeight) < loadAheadDistance;
+    return effectiveScrollHeight - (scrollTop + viewportHeight) < loadAheadDistance;
+  };
+
+  const needsRenderBuffer = () => renderedItems.length < batchSize * 3;
+
+  const needsColumnFill = () => {
+    const columns = Array.from(wall.querySelectorAll(".masonry-column"));
+    if (columns.length < 2) return false;
+    const heights = columns
+      .map((column) => column.scrollHeight || 0)
+      .filter((height) => height > 0);
+    if (heights.length < 2) return false;
+    const viewportHeight = window.innerHeight || document.documentElement.clientHeight || 0;
+    return Math.max(...heights) - Math.min(...heights) > Math.max(900, viewportHeight * 1.15);
   };
 
   const scheduleAppend = (delay = 0) => {
@@ -4136,13 +4222,13 @@ async function render() {
       }
       sentinel.dataset.remaining = String(categories.reduce((total, category) => total + feedState.queues[category].length, 0));
       prefetchOnlineItems(feedState);
-      if (shouldLoadAhead()) {
+      if (needsRenderBuffer() || shouldLoadAhead() || needsColumnFill()) {
         const refillDelay = feedState.prefetchingCategories && feedState.prefetchingCategories.size ? 320 : 80;
         scheduleAppend(refillDelay);
       }
     } finally {
       loading = false;
-      if (!exhausted && !retryScheduled && (appendRequestedWhileLoading || shouldLoadAhead())) {
+      if (!exhausted && !retryScheduled && (appendRequestedWhileLoading || needsRenderBuffer() || shouldLoadAhead() || needsColumnFill())) {
         appendRequestedWhileLoading = false;
         scheduleAppend(80);
       } else {
@@ -4166,15 +4252,19 @@ async function render() {
   }
 
   window.addEventListener("scroll", () => {
-    if (shouldLoadAhead()) scheduleAppend();
+    if (needsRenderBuffer() || shouldLoadAhead() || needsColumnFill()) scheduleAppend();
   }, { passive: true });
+
+  window.setInterval(() => {
+    if (needsRenderBuffer() || shouldLoadAhead() || needsColumnFill()) scheduleAppend();
+  }, 900);
 
   let resizeTimer = 0;
   window.addEventListener("resize", () => {
     window.clearTimeout(resizeTimer);
     resizeTimer = window.setTimeout(() => {
       layoutWall(wall, renderedItems, handleHide, handleQualityReject);
-      if (shouldLoadAhead()) scheduleAppend();
+      if (needsRenderBuffer() || shouldLoadAhead() || needsColumnFill()) scheduleAppend();
     }, 140);
   }, { passive: true });
 
