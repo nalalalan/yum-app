@@ -1403,6 +1403,28 @@ const blockedContentTerms = [
   "uncooked",
   "ingredient",
   "plain",
+  "bento",
+  "dosirak",
+  "doshirak",
+  "lunch box",
+  "lunchbox",
+  "boxed lunch",
+  "packed lunch",
+  "meal box",
+  "ready meal",
+  "packaged meal",
+  "prepackaged",
+  "pre-packed",
+  "convenience store",
+  "plastic container",
+  "plastic box",
+  "plastic tray",
+  "plastic lid",
+  "disposable tray",
+  "takeout container",
+  "takeaway container",
+  "takeaway box",
+  "take away container",
   "old car",
   "classic car",
   "vintage",
@@ -1533,7 +1555,7 @@ const curatorProfiles = {
       /glossy|char|broth|crispy|golden|platter|plate|bowl|stacked|sliced|sauce|steam|melted/i,
     ],
     reject: [
-      /vegetable|vegetables|veggies|salad|broccoli|kale|spinach|lettuce|greens|leafy|arugula|cucumber|zucchini|squash|pumpkin|tomato soup|carrot|corn|cabbage|bean|chickpea|olive|nigiri|single|isolated|white background|plain|raw|uncooked|ingredient/i,
+      /vegetable|vegetables|veggies|salad|broccoli|kale|spinach|lettuce|greens|leafy|arugula|cucumber|zucchini|squash|pumpkin|tomato soup|carrot|corn|cabbage|bean|chickpea|olive|nigiri|single|isolated|white background|plain|raw|uncooked|ingredient|bento|dosirak|doshirak|lunch\s*box|boxed lunch|packed lunch|meal box|ready meal|packaged meal|prepackaged|pre-packed|convenience store|plastic (?:container|box|tray|lid)|disposable tray|takeout container|takeaway container|takeaway box|take away container/i,
     ],
     minScore: 2,
   },
@@ -1737,10 +1759,10 @@ function buildCameoPool(list) {
 }
 
 const batchSize = 63;
-const onlineBatchSize = 24;
+const onlineBatchSize = 72;
 const categories = ["food", "kpop", "car"];
 const mixPattern = ["food", "kpop", "car"];
-const longScrollItemsPerCategory = 360;
+const longScrollItemsPerCategory = 7200;
 const foodItems = uniqueBySource(baseItems.filter((item) => !item.file || !skippedFiles.has(item.file)));
 const kpopItems = buildCameoPool(cameoItems);
 const dreamCarItems = uniqueBySource(prioritizeCarItems(carItems));
@@ -1761,10 +1783,6 @@ const onlineSources = [
   { category: "kpop", label: "Hanni archive", provider: "kpopping", person: "Hanni", query: "Hanni clean online portrait", maxItems: 180 },
   { category: "kpop", label: "Haerin archive", provider: "kpopping", person: "Haerin", query: "Haerin clean online portrait", maxItems: 180 },
   { category: "kpop", label: "Wonyoung archive", provider: "kpopping", person: "Wonyoung", query: "Wonyoung clean online portrait", maxItems: 240 },
-  { category: "kpop", label: "Hanni natural", query: "Hanni NewJeans airport natural", requireAny: ["hanni"], person: "Hanni", kind: "girl", maxItems: 54 },
-  { category: "kpop", label: "Haerin natural", query: "Haerin NewJeans airport natural", requireAny: ["haerin"], person: "Haerin", kind: "girl", maxItems: 54 },
-  { category: "kpop", label: "Wonyoung natural", query: "Wonyoung IVE airport natural", requireAny: ["wonyoung", "won-young"], person: "Wonyoung", kind: "girl", maxItems: 72 },
-  { category: "kpop", label: "Wonyoung clean portraits", query: "Jang Wonyoung IVE 2024 2025", requireAny: ["wonyoung", "won-young"], person: "Wonyoung", kind: "girl", maxItems: 72 },
   { category: "car", group: "car:bmw-m235-white", label: "White BMW M235 Gran Coupe", query: "white 2025 BMW M235 Gran Coupe sedan exterior", requireAny: ["2025", "2026", "m235", "gran coupe"], kind: "car", maxItems: 96 },
   { category: "car", group: "car:bmw-3-series", label: "BMW G20 3 Series", query: "2024 2025 BMW G20 3 Series sedan car", requireAny: ["2024", "2025", "2026", "g20", "3 series"], kind: "car", maxItems: 72 },
   { category: "car", group: "car:audi-a5-white", label: "Audi A5 sedan", query: "2025 2026 Audi A5 sedan exterior", requireAny: ["2025", "2026", "a5"], kind: "car", maxItems: 84 },
@@ -1776,8 +1794,22 @@ const onlineSources = [
   { category: "car", group: "car:audi-rs3", label: "Audi RS3 sedan", query: "2024 2025 Audi RS3 sedan car", requireAny: ["2024", "2025", "2026", "rs3"], kind: "car", maxItems: 72 },
 ];
 
+function sourceMaxItemsForCategory(category) {
+  if (category === "kpop") return 2400;
+  if (category === "car") return 1440;
+  if (category === "food") return 1440;
+  return 720;
+}
+
+function generatedSourceRefillCount(category) {
+  if (category === "kpop") return 6;
+  if (category === "car") return 18;
+  return 20;
+}
+
 onlineSources.forEach((source) => {
   source.category = source.category || (source.kind === "car" ? "car" : "food");
+  source.maxItems = Math.max(Number(source.maxItems) || 0, sourceMaxItemsForCategory(source.category));
 });
 
 const generatedOnlineSourceSeeds = {
@@ -1794,8 +1826,30 @@ const generatedOnlineSourceSeeds = {
     { label: "Pizza table", query: "pizza restaurant melted cheese food", requireAny: ["pizza"], maxItems: 72 },
     { label: "Mexican tacos", query: "tacos carnitas mexican restaurant food", requireAny: ["taco", "carnitas"], maxItems: 72 },
     { label: "Cajun gumbo", query: "cajun gumbo seafood bowl", requireAny: ["gumbo", "cajun"], maxItems: 48 },
+    { label: "Tonkatsu cutlet", query: "tonkatsu pork cutlet restaurant food", requireAny: ["tonkatsu", "cutlet"], maxItems: 96 },
+    { label: "Katsu dinner", query: "katsu pork cutlet rice restaurant", requireAny: ["katsu", "cutlet"], maxItems: 96 },
+    { label: "Korean galbi", query: "galbi ribs korean barbecue restaurant", requireAny: ["galbi", "ribs", "barbecue"], maxItems: 108 },
+    { label: "Korean samgyeopsal", query: "samgyeopsal pork belly korean barbecue", requireAny: ["samgyeopsal", "pork belly", "barbecue"], maxItems: 108 },
+    { label: "Jjajangmyeon noodles", query: "jjajangmyeon noodles restaurant food", requireAny: ["jjajangmyeon", "noodle"], maxItems: 84 },
+    { label: "Udon bowl", query: "udon noodle soup restaurant", requireAny: ["udon", "noodle"], maxItems: 84 },
+    { label: "Pho table", query: "pho restaurant beef noodle bowl", requireAny: ["pho", "noodle"], maxItems: 96 },
+    { label: "Hot pot table", query: "hot pot restaurant meat table", requireAny: ["hot pot", "meat"], maxItems: 108 },
+    { label: "Dim sum table", query: "dim sum dumplings restaurant table", requireAny: ["dim sum", "dumpling"], maxItems: 96 },
+    { label: "Pasta plate", query: "restaurant pasta plate sauce", requireAny: ["pasta"], maxItems: 96 },
+    { label: "Carbonara plate", query: "carbonara pasta restaurant plate", requireAny: ["carbonara", "pasta"], maxItems: 96 },
+    { label: "Smash burger", query: "smash burger restaurant fries", requireAny: ["burger", "fries"], maxItems: 108 },
+    { label: "Fried chicken table", query: "fried chicken restaurant table", requireAny: ["fried chicken", "chicken"], maxItems: 108 },
+    { label: "Ribs platter", query: "barbecue ribs restaurant platter", requireAny: ["ribs", "barbecue"], maxItems: 96 },
+    { label: "Sashimi platter", query: "sashimi platter restaurant food", requireAny: ["sashimi", "platter"], maxItems: 84 },
+    { label: "Sushi platter", query: "sushi platter restaurant food", requireAny: ["sushi", "platter"], maxItems: 84 },
+    { label: "Quesadilla table", query: "quesadilla tacos restaurant table", requireAny: ["quesadilla", "taco"], maxItems: 84 },
+    { label: "Seafood boil", query: "seafood boil restaurant table", requireAny: ["seafood", "boil"], maxItems: 84 },
   ],
-  kpop: [],
+  kpop: [
+    { label: "Hanni archive refill", provider: "kpopping", person: "Hanni", query: "Hanni clean online portrait", maxItems: 2400 },
+    { label: "Haerin archive refill", provider: "kpopping", person: "Haerin", query: "Haerin clean online portrait", maxItems: 2400 },
+    { label: "Wonyoung archive refill", provider: "kpopping", person: "Wonyoung", query: "Wonyoung clean online portrait", maxItems: 2400 },
+  ],
   car: [
     { group: "car:bmw-m235-white", label: "White BMW M235 Gran Coupe", query: "white 2025 BMW M235 Gran Coupe sedan exterior", requireAny: ["2025", "2026", "m235", "gran coupe"], kind: "car", maxItems: 96 },
     { group: "car:mercedes-cla-white", label: "White Mercedes CLA sedan", query: "white 2025 Mercedes CLA sedan exterior", requireAny: ["2025", "2026", "cla"], kind: "car", maxItems: 96 },
@@ -1905,6 +1959,7 @@ function addGeneratedOnlineSources(category, count = 6) {
     onlineSources.push({
       ...seed,
       category,
+      maxItems: Math.max(Number(seed.maxItems) || 0, sourceMaxItemsForCategory(category)),
       offset: page > 0 ? page * 36 : undefined,
       added: 0,
       failures: 0,
@@ -1933,6 +1988,28 @@ const blockedOnlineTitleTerms = [
   "plain",
   "nigiri",
   "take away",
+  "bento",
+  "dosirak",
+  "doshirak",
+  "lunch box",
+  "lunchbox",
+  "boxed lunch",
+  "packed lunch",
+  "meal box",
+  "ready meal",
+  "packaged meal",
+  "prepackaged",
+  "pre-packed",
+  "convenience store",
+  "plastic container",
+  "plastic box",
+  "plastic tray",
+  "plastic lid",
+  "disposable tray",
+  "takeout container",
+  "takeaway container",
+  "takeaway box",
+  "take away container",
   "onion",
   "chili",
   "chilli",
@@ -2522,6 +2599,7 @@ const preferenceFeaturePatterns = {
     ["vegetable_spread", /vegetable|vegetables|veggies|salad|broccoli|kale|spinach|lettuce|greens|leafy|arugula|cucumber|zucchini|squash|pumpkin|tomato soup|carrot|corn|cabbage|bean|chickpea|olive|tomato|pepper|ingredient/i],
     ["isolated_sushi", /nigiri|single|isolated|plain|white background|salmon sushi(?!.*platter)|sushi close-up|sushi close up/i],
     ["raw_plain", /raw|uncooked|ingredient|sterile|product shot|white background/i],
+    ["packaged_lunch", /bento|dosirak|doshirak|lunch\s*box|boxed lunch|packed lunch|meal box|ready meal|packaged meal|prepackaged|pre-packed|convenience store|plastic (?:container|box|tray|lid)|disposable tray|takeout container|takeaway container|takeaway box|take away container/i],
   ],
   kpop: [
     ["stage", /stage|performance|concert|festival|inkigayo|music bank|microphone|fancam|fan concert|k-link/i],
@@ -3042,11 +3120,11 @@ function availableUniqueCount(state, category) {
 
 function prefetchOnlineItemsForCategory(state, category) {
   if (!state || !state.prefetchingCategories || state.prefetchingCategories.has(category)) return;
-  const targetQueued = category === "kpop" ? onlineBatchSize * 4 : onlineBatchSize * 2;
+  const targetQueued = category === "kpop" ? onlineBatchSize * 9 : onlineBatchSize * 7;
   if (availableUniqueCount(state, category) >= targetQueued) return;
 
   state.prefetchingCategories.add(category);
-  loadMoreOnlineItemsForCategory(state, category, onlineBatchSize)
+  loadMoreOnlineItemsForCategory(state, category, onlineBatchSize * 2)
     .catch(() => 0)
     .finally(() => {
       state.prefetchingCategories.delete(category);
@@ -3315,7 +3393,7 @@ function nextOnlineSource(category, state = null) {
 
   let sources = onlineSources.filter((source) => source.category === category && !source.exhausted);
   if (!sources.length) {
-    addGeneratedOnlineSources(category, 8);
+    addGeneratedOnlineSources(category, generatedSourceRefillCount(category));
     sources = onlineSources.filter((source) => source.category === category && !source.exhausted);
   }
   if (!sources.length) return null;
@@ -3435,8 +3513,7 @@ async function loadMoreOnlineItemsForCategory(state, category, targetCount = onl
   let added = 0;
   let attempts = 0;
   let generatedFallbackAdded = false;
-  const categorySourceCount = onlineSources.filter((source) => source.category === category).length;
-  const maxAttempts = Math.max(16, categorySourceCount * 2);
+  const maxAttempts = () => Math.max(36, onlineSources.filter((source) => source.category === category).length * 3);
   const hasEnoughQueuedVariety = () => {
     if (category === "kpop") return availableKpopPeople(state).size >= Math.min(3, cameoPeople.length);
     if (category === "car") return availableVisualGroups(state, "car").size >= Math.min(5, carFallbackGroups.length);
@@ -3444,8 +3521,15 @@ async function loadMoreOnlineItemsForCategory(state, category, targetCount = onl
   };
   const needsMore = () => added < targetCount || !hasEnoughQueuedVariety();
 
+  if (availableUniqueCount(state, category) < targetCount) {
+    addGeneratedOnlineSources(category, generatedSourceRefillCount(category));
+  }
+
   const trySource = async () => {
-    const source = nextOnlineSource(category, state);
+    let source = nextOnlineSource(category, state);
+    if (!source && addGeneratedOnlineSources(category, generatedSourceRefillCount(category)) > 0) {
+      source = nextOnlineSource(category, state);
+    }
     if (!source) return false;
 
     attempts += 1;
@@ -3477,18 +3561,18 @@ async function loadMoreOnlineItemsForCategory(state, category, targetCount = onl
     return true;
   };
 
-  while (needsMore() && attempts < maxAttempts) {
+  while (needsMore() && attempts < maxAttempts()) {
     const tried = await trySource();
     if (!tried) break;
   }
 
-  if (!added) {
-    generatedFallbackAdded = addGeneratedOnlineSources(category, 8) > 0;
+  if (needsMore()) {
+    generatedFallbackAdded = addGeneratedOnlineSources(category, generatedSourceRefillCount(category)) > 0;
   }
 
-  if (!added && generatedFallbackAdded) {
+  if (generatedFallbackAdded) {
     attempts = 0;
-    const fallbackMaxAttempts = Math.max(12, (generatedOnlineSourceSeeds[category] || []).length * 2);
+    const fallbackMaxAttempts = Math.max(36, (generatedOnlineSourceSeeds[category] || []).length * 4);
     while (needsMore() && attempts < fallbackMaxAttempts) {
       const tried = await trySource();
       if (!tried) break;
@@ -3684,23 +3768,27 @@ function appendTileElement(wall, item, index, onHide, onQualityReject) {
   const person = personFor(item);
   const visualGroup = visualGroupFor(item);
   const globalRecentTiles = Array.from(wall.querySelectorAll(".tile")).slice(-32);
+  const columnHeights = columns.map((column) => column.scrollHeight || column.children.length * 320);
+  const shortestHeight = Math.min(...columnHeights);
   const target = columns.reduce((best, column) => {
     const lastTile = column.lastElementChild;
     const recentTiles = Array.from(column.querySelectorAll(".tile")).slice(-8);
     const visualHeight = column.scrollHeight || column.children.length * 320;
+    const balanceGap = visualHeight - shortestHeight;
     let score = visualHeight;
-    if (lastTile?.dataset.category === category) score += 180;
-    if (person && lastTile?.dataset.person === person) score += 360;
-    score += recentTiles.filter((tile) => tile.dataset.category === category).length * 90;
-    score += globalRecentTiles.filter((tile) => tile.dataset.category === category).length * 22;
+    const varietyWeight = balanceGap > 900 ? 0.18 : (balanceGap > 450 ? 0.42 : 1);
+    if (lastTile?.dataset.category === category) score += 180 * varietyWeight;
+    if (person && lastTile?.dataset.person === person) score += 360 * varietyWeight;
+    score += recentTiles.filter((tile) => tile.dataset.category === category).length * 90 * varietyWeight;
+    score += globalRecentTiles.filter((tile) => tile.dataset.category === category).length * 22 * varietyWeight;
     if (person) {
-      score += recentTiles.filter((tile) => tile.dataset.person === person).length * 620;
-      score += globalRecentTiles.filter((tile) => tile.dataset.person === person).length * 220;
+      score += recentTiles.filter((tile) => tile.dataset.person === person).length * 620 * varietyWeight;
+      score += globalRecentTiles.filter((tile) => tile.dataset.person === person).length * 220 * varietyWeight;
     }
     if (visualGroup) {
-      if (lastTile?.dataset.visualGroup === visualGroup) score += 2200;
-      score += recentTiles.filter((tile) => tile.dataset.visualGroup === visualGroup).length * 1450;
-      score += globalRecentTiles.filter((tile) => tile.dataset.visualGroup === visualGroup).length * 820;
+      if (lastTile?.dataset.visualGroup === visualGroup) score += 2200 * varietyWeight;
+      score += recentTiles.filter((tile) => tile.dataset.visualGroup === visualGroup).length * 1450 * varietyWeight;
+      score += globalRecentTiles.filter((tile) => tile.dataset.visualGroup === visualGroup).length * 820 * varietyWeight;
     }
     return score < best.score ? { column, score } : best;
   }, { column: columns[0], score: Number.POSITIVE_INFINITY }).column;
@@ -3835,17 +3923,20 @@ function layoutWall(wall, renderedItems, onHide, onQualityReject) {
     const visualGroup = visualGroupFor(item);
     const columnPeople = recentPeopleByColumn[columnIndex];
     const columnVisualGroups = recentVisualGroupsByColumn[columnIndex];
+    const shortestHeight = Math.min(...heights);
+    const balanceGap = heights[columnIndex] - shortestHeight;
+    const varietyWeight = balanceGap > 1.65 ? 0.22 : (balanceGap > 0.85 ? 0.48 : 1);
     let score = heights[columnIndex] + (lastCategoryByColumn[columnIndex] === category ? 0.55 : 0);
 
     if (person) {
-      if (lastPersonByColumn[columnIndex] === person) score += 4.5;
-      score += columnPeople.filter((recentPerson) => recentPerson === person).length * 2.2;
-      score += recentPeople.filter((recentPerson) => recentPerson === person).length * 1.1;
+      if (lastPersonByColumn[columnIndex] === person) score += 4.5 * varietyWeight;
+      score += columnPeople.filter((recentPerson) => recentPerson === person).length * 2.2 * varietyWeight;
+      score += recentPeople.filter((recentPerson) => recentPerson === person).length * 1.1 * varietyWeight;
     }
     if (visualGroup) {
-      if (lastVisualGroupByColumn[columnIndex] === visualGroup) score += 7.5;
-      score += columnVisualGroups.filter((recentGroup) => recentGroup === visualGroup).length * 3.8;
-      score += recentVisualGroups.filter((recentGroup) => recentGroup === visualGroup).length * 1.9;
+      if (lastVisualGroupByColumn[columnIndex] === visualGroup) score += 7.5 * varietyWeight;
+      score += columnVisualGroups.filter((recentGroup) => recentGroup === visualGroup).length * 3.8 * varietyWeight;
+      score += recentVisualGroups.filter((recentGroup) => recentGroup === visualGroup).length * 1.9 * varietyWeight;
     }
 
     return score;
@@ -3993,7 +4084,7 @@ async function render() {
       document.documentElement.scrollHeight,
       wall.scrollHeight,
     );
-    const loadAheadDistance = Math.max(3200, viewportHeight * 3.5);
+    const loadAheadDistance = Math.max(12000, viewportHeight * 10);
     return scrollHeight - (scrollTop + viewportHeight) < loadAheadDistance;
   };
 
@@ -4025,7 +4116,7 @@ async function render() {
       }
       if (!nextItems.length && !exhausted) {
         window.clearTimeout(emptyRetryTimer);
-        const retryDelay = feedState.emptyBatches > 2 ? 2500 : 900;
+        const retryDelay = feedState.emptyBatches > 2 ? 1600 : 450;
         emptyRetryTimer = window.setTimeout(() => scheduleAppend(), retryDelay);
         retryScheduled = true;
         return;
@@ -4070,7 +4161,7 @@ async function render() {
           if (exhausted) observer.disconnect();
         });
       }
-    }, { rootMargin: "1800px 0px" });
+    }, { rootMargin: "9000px 0px" });
     observer.observe(sentinel);
   }
 
