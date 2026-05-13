@@ -1330,6 +1330,100 @@ carItems.push(
   });
 });
 
+const audiA3BuildSourceUrl = "https://www.audiusa.com/A0J42547";
+const audiA3BuildBaseItems = [
+  ["01-front-three-quarter.jpg", "front", "cinema", "center 54%", "front three-quarter stance"],
+  ["02-front-studio-stance.jpg", "front", "wide", "center 54%", "front studio stance"],
+  ["03-front-low-wide.jpg", "front", "cinema", "center 55%", "low front stance"],
+  ["04-front-grille-headlight.jpg", "grille", "wide", "center 52%", "black optic grille and headlight"],
+  ["05-front-wheel-door-line.jpg", "front", "standard", "center 52%", "front wheel and door line"],
+  ["06-front-black-optic-nose.jpg", "grille", "standard", "center 52%", "black optic front end"],
+  ["07-front-cabin-roofline.jpg", "front", "wide", "center 48%", "cabin roofline"],
+  ["08-front-side-sculpture.jpg", "front", "wide", "center 52%", "side sculpture"],
+  ["09-front-wheel-arch.jpg", "front", "portrait", "center 54%", "front wheel arch"],
+  ["10-front-sedan-profile-crop.jpg", "front", "cinema", "center 53%", "front sedan profile"],
+  ["11-rear-three-quarter.jpg", "rear", "cinema", "center 54%", "rear three-quarter stance"],
+  ["12-rear-side-profile.jpg", "rear", "cinema", "center 52%", "rear side profile"],
+  ["13-rear-tail-light-line.jpg", "rear", "cinema", "center 52%", "tail light line"],
+  ["14-rear-black-optic-bumper.jpg", "rear", "cinema", "center 52%", "black optic rear bumper"],
+  ["15-rear-wheel-quarter.jpg", "rear", "standard", "center 52%", "rear wheel quarter"],
+  ["16-rear-door-shoulder.jpg", "rear", "wide", "center 52%", "rear door shoulder"],
+  ["17-rear-badge-deck.jpg", "rear", "wide", "center 52%", "rear badge deck"],
+  ["18-rear-full-sedan-sweep.jpg", "rear", "cinema", "center 52%", "rear sedan sweep"],
+  ["19-grille-hero-detail.jpg", "grille", "cinema", "center 50%", "grille hero detail"],
+  ["20-grille-black-optic.jpg", "grille", "wide", "center 50%", "black optic grille texture"],
+  ["21-led-headlight.jpg", "grille", "cinema", "center 50%", "LED headlight"],
+  ["22-front-wheel-and-lamp.jpg", "grille", "standard", "center 55%", "wheel and lamp detail"],
+  ["23-hood-reflection.jpg", "grille", "cinema", "center 50%", "hood reflection"],
+  ["24-grille-texture.jpg", "grille", "wide", "center 50%", "grille texture"],
+  ["25-headlight-black-paint.jpg", "grille", "cinema", "center 50%", "headlight and black paint"],
+  ["26-front-detail-angle.jpg", "grille", "wide", "center 50%", "front detail angle"],
+  ["27-beige-cabin-full.jpg", "cabin", "cinema", "center 50%", "Parchment Beige cabin"],
+  ["28-front-seat-portrait.jpg", "cabin", "portrait", "center 42%", "front seat portrait"],
+  ["29-passenger-seat-tone.jpg", "cabin", "portrait", "center 44%", "passenger seat tone"],
+  ["30-rear-seat-glimpse.jpg", "cabin", "portrait", "center 48%", "rear seat glimpse"],
+  ["31-console-seat-contrast.jpg", "cabin", "wide", "center 52%", "console and seat contrast"],
+  ["32-beige-black-interior.jpg", "cabin", "wide", "center 50%", "beige and black interior"],
+  ["33-seat-stitching-detail.jpg", "cabin", "portrait", "center 42%", "seat stitching detail"],
+  ["34-open-cabin-angle.jpg", "cabin", "wide", "center 50%", "open cabin angle"],
+  ["35-dashboard-full.jpg", "dashboard", "cinema", "center 50%", "dashboard full view"],
+  ["36-steering-wheel-cockpit.jpg", "dashboard", "standard", "center 52%", "steering wheel cockpit"],
+  ["37-center-console.jpg", "dashboard", "portrait", "center 52%", "center console"],
+  ["38-dashboard-trim-wide.jpg", "dashboard", "cinema", "center 50%", "dashboard trim"],
+  ["39-driver-door-controls.jpg", "dashboard", "wide", "center 52%", "driver door controls"],
+  ["40-virtual-cockpit.jpg", "dashboard", "wide", "center 52%", "virtual cockpit"],
+  ["41-shifter-controls.jpg", "dashboard", "standard", "center 52%", "shifter controls"],
+  ["42-dashboard-center-screen.jpg", "dashboard", "cinema", "center 50%", "center screen"],
+  ["43-cockpit-wide.jpg", "dashboard", "cinema", "center 50%", "cockpit wide view"],
+  ["44-interior-black-beige-flow.jpg", "dashboard", "wide", "center 52%", "black and beige dashboard flow"],
+  ["45-mirror-windshield-cabin.jpg", "dashboard", "cinema", "center 50%", "mirror and windshield line"],
+].map(([file, visualGroup, shape, focus, detail]) => ({
+  image: `/assets/audi-a3-a0j42547/${file}`,
+  url: audiA3BuildSourceUrl,
+  sourceId: `audi-a3-a0j42547:${file}`,
+  caption: `Audi A3 A0J42547, Manhattan Gray metallic ${detail}.`,
+  carGroup: "car:audi-a3-a0j42547",
+  visualGroup: `car:audi-a3-a0j42547:${file.replace(/\.jpg$/i, "")}`,
+  buildAngle: visualGroup,
+  kind: "car",
+  category: "car",
+  shape,
+  focus,
+}));
+
+const audiA3BuildVariantGroups = [
+  ["front", 46, 25, "front build crop"],
+  ["rear", 71, 25, "rear build crop"],
+  ["grille", 96, 20, "black optic build crop"],
+  ["cabin", 116, 20, "Parchment Beige cabin crop"],
+  ["dashboard", 136, 15, "dashboard build crop"],
+];
+
+const audiA3BuildVariantItems = audiA3BuildVariantGroups.flatMap(([angle, start, count, label]) => {
+  return Array.from({ length: count }, (_, index) => {
+    const number = start + index;
+    const file = `${String(number).padStart(3, "0")}-${angle}-build-crop-${String(index + 1).padStart(2, "0")}.jpg`;
+    return {
+      image: `/assets/audi-a3-a0j42547/${file}`,
+      url: audiA3BuildSourceUrl,
+      sourceId: `audi-a3-a0j42547:${file}`,
+      caption: `Audi A3 A0J42547, Manhattan Gray metallic ${label} ${index + 1}.`,
+      carGroup: "car:audi-a3-a0j42547",
+      visualGroup: `car:audi-a3-a0j42547:${file.replace(/\.jpg$/i, "")}`,
+      buildAngle: angle,
+      kind: "car",
+      category: "car",
+      shape: "wide",
+      focus: "center 52%",
+    };
+  });
+});
+
+const audiA3BuildItems = audiA3BuildBaseItems.concat(audiA3BuildVariantItems);
+
+carItems.length = 0;
+carItems.push(...audiA3BuildItems);
+
 function uniqueBySource(list) {
   const seen = new Set();
   return list.filter((item) => {
@@ -1433,6 +1527,7 @@ const blockedContentTerms = [
   "takeaway container",
   "takeaway box",
   "take away container",
+  "1546069901",
   "old car",
   "classic car",
   "vintage",
@@ -1506,6 +1601,7 @@ const dislikedCarGroups = new Set([
   "car:bmw-m235-gran-coupe",
 ]);
 const likedCarGroups = new Set([
+  "car:audi-a3-a0j42547",
   "car:bmw-m235-white",
   "car:mercedes-cla-white",
   "car:audi-a3",
@@ -1518,7 +1614,7 @@ const likedCarGroups = new Set([
   "car:audi-rs3-white",
 ]);
 const dislikedCarTastePattern = /(?:purple|green).{0,40}\bm5\b|\bm5\b.{0,40}(?:purple|green)|green.{0,40}\bm3\b|\bm3\b.{0,40}green|blue.{0,40}\bm235\b|\bm235\b.{0,40}(?:blue|borusan)|borusan blue|\bm3 cs\b/i;
-const likedCarTastePattern = /white|alpine white|\bm235\b|2 series gran coupe|gran coupe|\bcla\b|a3 limousine|a5 sedan|s3 limousine|rs ?3 limousine|rs ?3 sedan|\baudi\b.{0,32}\bsedan\b/i;
+const likedCarTastePattern = /a0j42547|manhattan gray|black optic|premium plus|parchment beige|white|alpine white|\bm235\b|2 series gran coupe|gran coupe|\bcla\b|a3 limousine|a5 sedan|s3 limousine|rs ?3 limousine|rs ?3 sedan|\baudi\b.{0,32}\bsedan\b/i;
 
 function isDisallowedCarText(text) {
   return disallowedCarPattern.test(text);
@@ -1534,6 +1630,7 @@ function carTasteScore(item, text = "") {
   const group = (item && item.carGroup) || carGroupFor(item, text);
   let score = 0;
   if (group && likedCarGroups.has(group)) score += 8;
+  if (/a0j42547|manhattan gray|black optic|premium plus|parchment beige/i.test(text)) score += 12;
   if (/bmw-m235-white|mercedes-cla-white|audi-a3-white|audi-a5-white|audi-s3-white|audi-rs3-white/i.test(group || "")) score += 4;
   if (likedCarTastePattern.test(text)) score += 4;
   if (/white|alpine white/i.test(text)) score += 3;
@@ -1802,15 +1899,6 @@ const onlineSources = [
   { category: "kpop", label: "Hanni archive", provider: "kpopping", person: "Hanni", query: "Hanni clean online portrait", maxItems: 180 },
   { category: "kpop", label: "Haerin archive", provider: "kpopping", person: "Haerin", query: "Haerin clean online portrait", maxItems: 180 },
   { category: "kpop", label: "Wonyoung archive", provider: "kpopping", person: "Wonyoung", query: "Wonyoung clean online portrait", maxItems: 240 },
-  { category: "car", group: "car:bmw-m235-white", label: "White BMW M235 Gran Coupe", query: "white 2025 BMW M235 Gran Coupe sedan exterior", requireAny: ["2025", "2026", "m235", "gran coupe"], kind: "car", maxItems: 96 },
-  { category: "car", group: "car:bmw-3-series", label: "BMW G20 3 Series", query: "2024 2025 BMW G20 3 Series sedan car", requireAny: ["2024", "2025", "2026", "g20", "3 series"], kind: "car", maxItems: 72 },
-  { category: "car", group: "car:audi-a5-white", label: "Audi A5 sedan", query: "2025 2026 Audi A5 sedan exterior", requireAny: ["2025", "2026", "a5"], kind: "car", maxItems: 84 },
-  { category: "car", group: "car:mercedes-cla-white", label: "White Mercedes CLA", query: "white 2025 2026 Mercedes CLA sedan exterior", requireAny: ["2025", "2026", "cla"], kind: "car", maxItems: 96 },
-  { category: "car", group: "car:mercedes-c-class", label: "Mercedes W206 C-Class", query: "2024 2025 Mercedes W206 C-Class sedan car", requireAny: ["2024", "2025", "2026", "w206", "c-class"], kind: "car", maxItems: 72 },
-  { category: "car", group: "car:audi-a3", label: "Audi A3 sedan", query: "2024 2025 Audi A3 sedan car", requireAny: ["2024", "2025", "2026", "a3"], kind: "car", maxItems: 72 },
-  { category: "car", group: "car:audi-s3-white", label: "Audi S3 sedan", query: "2024 2025 Audi S3 sedan exterior", requireAny: ["2024", "2025", "2026", "s3"], kind: "car", maxItems: 72 },
-  { category: "car", group: "car:audi-a4", label: "Audi A4 sedan", query: "2024 2025 Audi A4 sedan car", requireAny: ["2024", "2025", "2026", "a4"], kind: "car", maxItems: 72 },
-  { category: "car", group: "car:audi-rs3", label: "Audi RS3 sedan", query: "2024 2025 Audi RS3 sedan car", requireAny: ["2024", "2025", "2026", "rs3"], kind: "car", maxItems: 72 },
 ];
 
 function sourceMaxItemsForCategory(category) {
@@ -1869,92 +1957,45 @@ const generatedOnlineSourceSeeds = {
     { label: "Haerin archive refill", provider: "kpopping", person: "Haerin", query: "Haerin clean online portrait", maxItems: 2400 },
     { label: "Wonyoung archive refill", provider: "kpopping", person: "Wonyoung", query: "Wonyoung clean online portrait", maxItems: 2400 },
   ],
-  car: [
-    { group: "car:bmw-m235-white", label: "White BMW M235 Gran Coupe", query: "white 2025 BMW M235 Gran Coupe sedan exterior", requireAny: ["2025", "2026", "m235", "gran coupe"], kind: "car", maxItems: 96 },
-    { group: "car:mercedes-cla-white", label: "White Mercedes CLA sedan", query: "white 2025 Mercedes CLA sedan exterior", requireAny: ["2025", "2026", "cla"], kind: "car", maxItems: 96 },
-    { group: "car:bmw-3-series", label: "BMW G20 sedan", query: "2024 2025 BMW G20 3 Series sedan", requireAny: ["2024", "2025", "2026", "g20"], kind: "car", maxItems: 84 },
-    { group: "car:bmw-3-series", label: "BMW 330i sedan", query: "2024 2025 BMW 330i sedan car", requireAny: ["2024", "2025", "2026", "330i"], kind: "car", maxItems: 84 },
-    { group: "car:bmw-3-series", label: "BMW M340i sedan", query: "2024 2025 BMW M340i sedan car", requireAny: ["2024", "2025", "2026", "m340i"], kind: "car", maxItems: 72 },
-    { group: "car:mercedes-c-class", label: "Mercedes C-Class sedan", query: "2024 2025 Mercedes C-Class W206 sedan", requireAny: ["2024", "2025", "2026", "w206"], kind: "car", maxItems: 72 },
-    { group: "car:audi-a3", label: "Audi A3 sedan", query: "2024 2025 Audi A3 sedan exterior", requireAny: ["2024", "2025", "2026", "a3"], kind: "car", maxItems: 72 },
-    { group: "car:audi-a5-white", label: "Audi A5 sedan", query: "2025 2026 Audi A5 sedan exterior", requireAny: ["2025", "2026", "a5"], kind: "car", maxItems: 84 },
-    { group: "car:audi-s3-white", label: "Audi S3 sedan", query: "2024 2025 Audi S3 sedan exterior", requireAny: ["2024", "2025", "2026", "s3"], kind: "car", maxItems: 72 },
-    { group: "car:audi-a4", label: "Audi A4 sedan", query: "2024 2025 Audi A4 sedan exterior", requireAny: ["2024", "2025", "2026", "a4"], kind: "car", maxItems: 72 },
-    { group: "car:audi-rs3", label: "Audi RS3 sedan", query: "2024 2025 Audi RS3 sedan exterior", requireAny: ["2024", "2025", "2026", "rs3"], kind: "car", maxItems: 72 },
-  ],
+  car: [],
 };
 
 const generatedOnlineSourceIndex = { food: 0, kpop: 0, car: 0 };
 const carFallbackGroups = [
   {
-    group: "car:bmw-m235-white",
-    label: "White BMW M235 Gran Coupe",
-    terms: "2025,bmw,m235,gran-coupe,white,sedan,car",
-    query: "white 2025 BMW M235 Gran Coupe sedan exterior",
+    group: "car:audi-a3-a0j42547:front",
+    label: "Audi A3 A0J42547 front",
+    terms: "audi,a3,a0j42547,manhattan-gray,front,sedan,car",
+    query: "Audi A3 A0J42547 Manhattan Gray front",
     lockBase: 130000,
   },
   {
-    group: "car:mercedes-cla-white",
-    label: "White Mercedes CLA sedan",
-    terms: "2025,mercedes,cla,white,sedan,car",
-    query: "white 2025 Mercedes CLA sedan exterior",
+    group: "car:audi-a3-a0j42547:rear",
+    label: "Audi A3 A0J42547 rear",
+    terms: "audi,a3,a0j42547,manhattan-gray,rear,sedan,car",
+    query: "Audi A3 A0J42547 Manhattan Gray rear",
     lockBase: 130500,
   },
   {
-    group: "car:bmw-3-series",
-    label: "Modern BMW 3 Series sedan",
-    terms: "2025,bmw,3-series,sedan,car",
-    query: "2025 BMW 3 Series sedan exterior",
+    group: "car:audi-a3-a0j42547:grille",
+    label: "Audi A3 A0J42547 black optic",
+    terms: "audi,a3,a0j42547,black-optic,grille,sedan,car",
+    query: "Audi A3 A0J42547 black optic grille",
     lockBase: 131000,
   },
   {
-    group: "car:audi-a5-white",
-    label: "White Audi A5 sedan",
-    terms: "2025,audi,a5,white,sedan,car",
-    query: "2025 Audi A5 sedan exterior",
+    group: "car:audi-a3-a0j42547:cabin",
+    label: "Audi A3 A0J42547 beige cabin",
+    terms: "audi,a3,a0j42547,parchment-beige,cabin,sedan,car",
+    query: "Audi A3 A0J42547 Parchment Beige cabin",
     lockBase: 132000,
   },
   {
-    group: "car:mercedes-cla",
-    label: "Modern Mercedes CLA sedan",
-    terms: "2025,mercedes,cla,sedan,car",
-    query: "2025 Mercedes CLA sedan exterior",
+    group: "car:audi-a3-a0j42547:dashboard",
+    label: "Audi A3 A0J42547 dashboard",
+    terms: "audi,a3,a0j42547,dashboard,interior,sedan,car",
+    query: "Audi A3 A0J42547 dashboard",
     lockBase: 133000,
-  },
-  {
-    group: "car:mercedes-c-class",
-    label: "Modern Mercedes C-Class sedan",
-    terms: "2025,mercedes,c-class,w206,sedan,car",
-    query: "2025 Mercedes C-Class W206 sedan exterior",
-    lockBase: 134000,
-  },
-  {
-    group: "car:audi-a3",
-    label: "Modern Audi A3 sedan",
-    terms: "2025,audi,a3,sedan,car",
-    query: "2025 Audi A3 sedan exterior",
-    lockBase: 135000,
-  },
-  {
-    group: "car:audi-s3-white",
-    label: "White Audi S3 sedan",
-    terms: "2025,audi,s3,white,sedan,car",
-    query: "2025 Audi S3 sedan exterior",
-    lockBase: 135500,
-  },
-  {
-    group: "car:audi-a4",
-    label: "Modern Audi A4 sedan",
-    terms: "2025,audi,a4,sedan,car",
-    query: "2025 Audi A4 sedan exterior",
-    lockBase: 136000,
-  },
-  {
-    group: "car:audi-rs3",
-    label: "Modern Audi RS3 sedan",
-    terms: "2025,audi,rs3,sedan,car",
-    query: "2025 Audi RS3 sedan exterior",
-    lockBase: 137000,
   },
 ];
 
@@ -1963,7 +2004,32 @@ function ensureKpopFallbackVariety(state, targetPerPerson = 12) {
 }
 
 function ensureCarFallbackVariety(state, targetPerGroup = 8) {
-  return 0;
+  if (!state || !state.queues || !state.queues.car || !Array.isArray(audiA3BuildItems) || !audiA3BuildItems.length) return 0;
+
+  const targetQueued = Math.max(batchSize, targetPerGroup);
+  let added = 0;
+  let guard = 0;
+
+  while (availableUniqueCount(state, "car") < targetQueued && guard < 12) {
+    const cycle = state.audiA3BuildCycle || 1;
+    const offset = feedStartOffset(audiA3BuildItems.length, `audi-a3-a0j42547-cycle:${cycle}`);
+    const cycledItems = Array.from({ length: audiA3BuildItems.length }, (_, index) => {
+      const base = audiA3BuildItems[(index + offset) % audiA3BuildItems.length];
+      return {
+        ...base,
+        sourceId: `${base.sourceId}:cycle-${cycle}`,
+      };
+    });
+
+    cycledItems.forEach((item) => {
+      if (enqueueUnique(state, "car", item)) added += 1;
+    });
+
+    state.audiA3BuildCycle = cycle + 1;
+    guard += 1;
+  }
+
+  return added;
 }
 
 function addGeneratedOnlineSources(category, count = 6) {
@@ -2867,6 +2933,7 @@ function createFeedState() {
     recentVisualGroups: [],
     carGroupCounts: {},
     recentCarGroups: [],
+    audiA3BuildCycle: 1,
     nextKpopPersonIndex: feedStartOffset(cameoPeople.length, "kpop:first-person"),
     patternIndex: 0,
     exhausted: false,
@@ -3151,7 +3218,7 @@ function availableUniqueCount(state, category) {
 
 function prefetchOnlineItemsForCategory(state, category) {
   if (!state || !state.prefetchingCategories || state.prefetchingCategories.has(category)) return;
-  const targetQueued = category === "kpop" ? onlineBatchSize * 8 : onlineBatchSize * 6;
+  const targetQueued = category === "kpop" ? onlineBatchSize * 8 : (category === "car" ? 12 : onlineBatchSize * 6);
   if (availableUniqueCount(state, category) >= targetQueued) return;
 
   state.prefetchingCategories.add(category);
@@ -3541,6 +3608,10 @@ async function fetchOnlineSource(source) {
 }
 
 async function loadMoreOnlineItemsForCategory(state, category, targetCount = onlineBatchSize) {
+  if (category === "car") {
+    return ensureCarFallbackVariety(state, Math.max(targetCount, onlineBatchSize));
+  }
+
   let added = 0;
   let attempts = 0;
   let generatedFallbackAdded = false;
@@ -3655,20 +3726,21 @@ function restoreDequeuedItems(state, items) {
 
 function nextAvailableMixedItems(state, targetCount = batchSize) {
   const items = [];
-  let guard = 0;
-  const maxAttempts = targetCount * categories.length * 2;
 
-  while (items.length < targetCount && guard < maxAttempts) {
-    const category = categories[guard % categories.length];
-    guard += 1;
-    if (!hasAvailableUnique(state, category)) {
-      prefetchOnlineItemsForCategory(state, category);
-      continue;
+  while (items.length + mixPattern.length <= targetCount && mixPattern.every((category) => hasAvailableUnique(state, category))) {
+    const setItems = [];
+    for (const category of mixPattern) {
+      const item = dequeueUnique(state, category);
+      if (item) setItems.push(item);
     }
-    const item = dequeueUnique(state, category);
-    if (item) items.push(item);
+    if (setItems.length !== mixPattern.length) {
+      restoreDequeuedItems(state, setItems);
+      break;
+    }
+    items.push(...setItems);
   }
 
+  categories.forEach((category) => prefetchOnlineItemsForCategory(state, category));
   return items;
 }
 
@@ -3696,7 +3768,7 @@ async function nextMixedItems(state, targetCount = batchSize) {
     if (!mixPattern.every((category) => hasAvailableUnique(state, category))) {
       categories.forEach((category) => prefetchOnlineItemsForCategory(state, category));
       state.emptyBatches = nextItems.length ? 0 : ((state.emptyBatches || 0) + 1);
-      return nextItems.length ? nextItems : nextAvailableMixedItems(state, targetCount);
+      return nextItems;
     }
 
     const setItems = [];
@@ -3714,7 +3786,7 @@ async function nextMixedItems(state, targetCount = batchSize) {
         restoreDequeuedItems(state, setItems);
         categories.forEach((category) => prefetchOnlineItemsForCategory(state, category));
         state.emptyBatches = nextItems.length ? 0 : ((state.emptyBatches || 0) + 1);
-        return nextItems.length ? nextItems : nextAvailableMixedItems(state, targetCount);
+        return nextItems;
       }
       setItems.push(item);
     }
@@ -3774,7 +3846,7 @@ function createTile(item, index, onHide, onQualityReject) {
   img.loading = index < 18 ? "eager" : "lazy";
   img.decoding = "async";
   img.addEventListener("error", () => {
-    if (categoryFor(item) === "kpop" && typeof onQualityReject === "function") {
+    if (typeof onQualityReject === "function") {
       onQualityReject(item);
       return;
     }
@@ -3904,6 +3976,7 @@ function personFor(item) {
 
 function carGroupFor(item, text) {
   if (item && item.carGroup) return item.carGroup;
+  if (/a0j42547|manhattan gray|parchment beige|black optic/i.test(text)) return "car:audi-a3-a0j42547";
   if (/m235|2 series gran coupe|gran-coup|gran coupe|t0445698|p90572[234]/i.test(text)) return "car:bmw-m235-gran-coupe";
   if (/m340i/i.test(text)) return "car:bmw-m340i";
   if (/330i/i.test(text)) return "car:bmw-330i";
@@ -3959,6 +4032,7 @@ function visualGroupFor(item) {
   }
 
   if (category === "car") {
+    if (item.visualGroup) return item.visualGroup;
     const group = carGroupFor(item, text);
     if (group) return group;
   }
@@ -4114,10 +4188,11 @@ async function render() {
 
   const handleQualityReject = async (item) => {
     const key = sourceKey(item);
-    if (!key || lowQualityRejectedKeySet.has(key) || categoryFor(item) !== "kpop") return;
+    const category = categoryFor(item);
+    if (!key || lowQualityRejectedKeySet.has(key) || !category) return;
 
     lowQualityRejectedKeySet.add(key);
-    prefetchOnlineItemsForCategory(feedState, "kpop");
+    prefetchOnlineItemsForCategory(feedState, category);
     const itemIndex = renderedItems.findIndex((renderedItem) => sourceKey(renderedItem) === key);
     if (itemIndex < 0) return;
 
@@ -4128,7 +4203,7 @@ async function render() {
 
     let replacement = null;
     try {
-      replacement = await nextItemForCategory(feedState, "kpop");
+      replacement = await nextItemForCategory(feedState, category);
     } catch {
       replacement = null;
     }

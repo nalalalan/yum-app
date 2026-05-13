@@ -117,7 +117,7 @@
 \end{center}
 
 \vspace{0.35em}
-\noindent\textbf{Personal recommendation systems usually learn taste from ratings, clicks, watch time, purchases, or dense behavioral logs. Yum explores a different unit of personalization: the user's correction. A correction such as ``do not show this model, color, pose, ingredient, or source pattern again'' is treated as a reusable test that updates a deployed media wall through hard rejects, compact preference memory, source de-duplication, visual-group spacing, and optional model-assisted candidate ranking. The novelty is not another image feed, but a correction-conditioned control layer for personal AI alignment: free-form dissatisfaction is converted into inspectable feed constraints without requiring a large surveillance history. We describe a live static-first website, \href{https://yum.aolabs.io}{yum.aolabs.io}, that mixes food, cars, and K-pop imagery while preserving category balance and cross-device preference state. Screenshots of the deployed surface are included as artifact evidence. The system is presented as a design study for preference-aware personal media, not as a population-scale recommendation benchmark.}
+\noindent\textbf{Personal recommendation systems usually learn taste from ratings, clicks, watch time, purchases, or dense behavioral logs. Yum explores a different unit of personalization: the user's correction. A correction such as ``do not show this model, color, pose, ingredient, or source pattern again'' is treated as a reusable test that updates a deployed media wall through hard rejects, compact preference memory, source de-duplication, visual-group spacing, and optional model-assisted candidate ranking. The novelty is not another image feed, but a correction-conditioned control layer for personal AI alignment: free-form dissatisfaction is converted into inspectable feed constraints without requiring a large surveillance history. We describe a live static-first website, \href{https://yum.aolabs.io}{yum.aolabs.io}, that mixes food, a source-gated Audi A3 build lane, and K-pop imagery while preserving category balance and cross-device preference state. Screenshots of the deployed surface are included as artifact evidence. The system is presented as a design study for preference-aware personal media, not as a population-scale recommendation benchmark.}
 
 \newpage
 \pagestyle{fancy}
@@ -147,13 +147,13 @@ The proposed novelty is \textit{correction-conditioned curation}: a deployed fee
 
 \subsection{Why this is different from a dislike button}
 
-A dislike button removes an item. A correction-conditioned system must generalize without overgeneralizing. If the user rejects a blurred K-pop image, the system should prefer higher-resolution images without eliminating the subject. If the user rejects green or purple performance sedans, the system should block those model-color combinations while still allowing clean white compact sedans and adjacent Audi or Mercedes sedans. If several images from one source appear together, the system should treat the cluster as a layout and queueing failure rather than a single bad tile.
+A dislike button removes an item. A correction-conditioned system must generalize without overgeneralizing. If the user rejects a blurred K-pop image, the system should prefer higher-resolution images without eliminating the subject. If the user selects a specific configured vehicle as the desired build, the system should gate the entire car lane to that build rather than keep searching adjacent sedans. If several images from one source appear together, the system should treat the cluster as a layout and queueing failure rather than a single bad tile.
 
 This makes the central object of study a feedback-to-artifact loop. The user does not need to become a taxonomy editor. The system must convert correction into durable tests and then verify the deployed surface against those tests.
 
 \section{System design}
 
-Yum is a static-first site with optional dynamic services. The public wall is served at \href{https://yum.aolabs.io}{yum.aolabs.io}. The frontend contains known-good seed media, source metadata, category labels, captions, source URLs, shape hints, focus hints, and optional person or car-group identifiers. A small Node service provides preference persistence, model-assisted candidate ranking, and K-pop candidate retrieval. The static wall remains useful if the dynamic service is slow or unavailable.
+Yum is a static-first site with optional dynamic services. The public wall is served at \href{https://yum.aolabs.io}{yum.aolabs.io}. The frontend contains known-good seed media, source metadata, category labels, captions, source URLs, shape hints, focus hints, and optional person or car-group identifiers. In the current deployed build, the car lane is locked to Audi Code A0J42547, an A3 TFSI quattro Premium Plus S tronic in Manhattan Gray metallic with Black optic package and Parchment Beige--Steel Gray interior. A small Node service provides preference persistence, model-assisted candidate ranking, and K-pop candidate retrieval. The static wall remains useful if the dynamic service is slow or unavailable.
 
 \subsection{Taste state}
 
@@ -161,7 +161,7 @@ Preference state is intentionally compact. It contains hidden source keys, hidde
 
 \subsection{Candidate control}
 
-Candidate generation and candidate control are separated. Candidate generation finds possible images from static pools and remote sources. Candidate control decides what is allowed to reach the wall. Control includes blocked terms, source de-duplication, category balancing, recent-person spacing, visual-group spacing, car-group spacing, quality thresholds, and optional language-model ranking.
+Candidate generation and candidate control are separated. Candidate generation finds possible images from static pools and remote sources. Candidate control decides what is allowed to reach the wall. Control includes blocked terms, source de-duplication, category balancing, recent-person spacing, visual-group spacing, car-group spacing, quality thresholds, and optional language-model ranking. For the present vehicle preference, generic car search and legacy car fallbacks are disabled; the vehicle queue is replenished only from 150 high-resolution local derivatives of the selected A3 build artifact.
 
 This separation is important because visually bad outcomes often arise after a candidate has passed a relevance check. Four similar cars in one view, three portraits of the same person, or repeated low-resolution source patterns are layout-level failures. They must be handled by queue and placement logic, not only by candidate retrieval.
 
@@ -171,8 +171,8 @@ The deployed wall is shown in Fig.~\ref{fig:desktop} and Fig.~\ref{fig:mobile}. 
 
 \begin{figure}[p]
     \centering
-    \includegraphics[width=0.86\textwidth]{assets/yum-wall-desktop-20260507.png}
-    \caption{Desktop view of the deployed Yum wall. The surface opens directly into media rather than a settings dashboard. The visible mix shows the core design tension: category balance, source quality, and visual-group spacing must all hold at once.}
+    \includegraphics[width=0.86\textwidth]{assets/yum-wall-desktop-20260513-a3-build.png}
+    \caption{Desktop view of the deployed Yum wall after the vehicle lane was source-gated to Audi A3 build A0J42547. The visible mix shows the core design tension: category balance, source quality, and visual-group spacing must hold while every car tile remains inside one selected build.}
     \label{fig:desktop}
 \end{figure}
 
@@ -261,7 +261,7 @@ Preference state is stored as a compact object containing hidden keys, hidden sa
 
 \subsubsection*{Candidate ranking and layout}
 
-Candidate ranking is static-first. Known-good seed media is available before any remote service responds. Optional curation requests can pass candidate metadata and preference samples to the configured model. Blocked terms, source keys, category balance, visual groups, person groups, car groups, quality thresholds, and recent placement history are then applied before display. The renderer maintains a background buffer and a fail-open refill path: exact category balance is used when all queues are available, while queued safe media may continue rendering when one category is temporarily refilling so that the wall does not terminate into blank space.
+Candidate ranking is static-first. Known-good seed media is available before any remote service responds. Optional curation requests can pass candidate metadata and preference samples to the configured model. Blocked terms, source keys, category balance, visual groups, person groups, car groups, quality thresholds, and recent placement history are then applied before display. The renderer maintains a background buffer using complete category sets, replaces failed images from the same category, and refills the car lane from the selected A3 build pool rather than from generic vehicle search. This keeps the wall from terminating into blank space without allowing one reliable category to overrun the others.
 
 \subsubsection*{Verification}
 
@@ -269,7 +269,7 @@ The manuscript PDF was generated from this LaTeX source using \texttt{pdflatex}.
 
 \backmattersection{Data availability}
 
-No new research dataset was generated. The media metadata required to inspect the public wall is included in the deployed JavaScript bundle and in the Yum application source. Third-party media remains subject to the licensing and availability terms of the original sources linked from the wall.
+No new research dataset was generated. The media metadata required to inspect the public wall is included in the deployed JavaScript bundle and in the Yum application source. The current car lane uses local image derivatives extracted from a user-supplied Audi configuration artifact for Audi Code A0J42547. Third-party media remains subject to the licensing and availability terms of the original sources linked from the wall.
 
 \backmattersection{Code availability}
 
