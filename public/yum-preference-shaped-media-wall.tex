@@ -161,7 +161,7 @@ Preference state is intentionally compact. It contains hidden source keys, hidde
 
 \subsection{Candidate control}
 
-Candidate generation and candidate control are separated. Candidate generation finds possible images from static pools and remote sources. Candidate control decides what is allowed to reach the wall. Control includes blocked terms, source de-duplication, category balancing, recent-person spacing, visual-group spacing, car-group spacing, quality thresholds, and optional language-model ranking. For the present vehicle preference, generic car search and legacy car fallbacks are disabled; the vehicle queue is replenished only from 150 high-resolution local derivatives of the selected A3 build artifact.
+Candidate generation and candidate control are separated. Candidate generation finds possible images from static pools and remote sources. Candidate control decides what is allowed to reach the wall. Control includes blocked terms, source de-duplication, category balancing, recent-person spacing, visual-group spacing, car-group spacing, quality thresholds, and optional language-model ranking. For the present vehicle preference, generic car search and legacy car fallbacks are disabled; the vehicle queue is replenished only from 150 high-resolution local derivatives of the selected A3 build artifact. If a category stalls, local same-category cycling extends the wall without allowing one reliable category to overrun the 1:1:1 mix.
 
 This separation is important because visually bad outcomes often arise after a candidate has passed a relevance check. Four similar cars in one view, three portraits of the same person, or repeated low-resolution source patterns are layout-level failures. They must be handled by queue and placement logic, not only by candidate retrieval.
 
@@ -261,7 +261,7 @@ Preference state is stored as a compact object containing hidden keys, hidden sa
 
 \subsubsection*{Candidate ranking and layout}
 
-Candidate ranking is static-first. Known-good seed media is available before any remote service responds. Optional curation requests can pass candidate metadata and preference samples to the configured model. Blocked terms, source keys, category balance, visual groups, person groups, car groups, quality thresholds, and recent placement history are then applied before display. The renderer maintains a background buffer using complete category sets, replaces failed images from the same category, and refills the car lane from the selected A3 build pool rather than from generic vehicle search. This keeps the wall from terminating into blank space without allowing one reliable category to overrun the others.
+Candidate ranking is static-first. Known-good seed media is available before any remote service responds. Optional curation requests can pass candidate metadata and preference samples to the configured model. Blocked terms, source keys, category balance, visual groups, person groups, car groups, quality thresholds, and recent placement history are then applied before display. The renderer maintains a background buffer using complete category sets, replaces failed images from the same category, and refills stalled categories from same-category local pools. The car refill pool is restricted to the selected A3 build rather than generic vehicle search. This keeps the wall from terminating into blank space without allowing one reliable category to overrun the others.
 
 \subsubsection*{Verification}
 
