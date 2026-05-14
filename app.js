@@ -4286,6 +4286,12 @@ async function render() {
     }, delay);
   };
 
+  const ensureImmediateRefillQueues = () => {
+    ensureFoodFallbackVariety(feedState, batchSize);
+    ensureKpopFallbackVariety(feedState);
+    ensureCarFallbackVariety(feedState, batchSize);
+  };
+
   const appendBatch = async () => {
     if (exhausted) return;
     if (loading) {
@@ -4295,6 +4301,9 @@ async function render() {
     loading = true;
     let retryScheduled = false;
     try {
+      if (needsRenderBuffer() || shouldLoadAhead() || needsColumnFill()) {
+        ensureImmediateRefillQueues();
+      }
       const nextItems = await nextMixedItems(feedState, batchSize);
       if (!nextItems.length && feedState.exhausted) {
         exhausted = true;
