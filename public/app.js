@@ -1421,7 +1421,6 @@ const audiA3BuildVariantItems = audiA3BuildVariantGroups.flatMap(([angle, start,
 
 const audiA3BuildItems = audiA3BuildBaseItems.concat(audiA3BuildVariantItems);
 
-carItems.length = 0;
 carItems.push(...audiA3BuildItems);
 
 function uniqueBySource(list) {
@@ -1641,11 +1640,23 @@ function carTasteScore(item, text = "") {
 }
 
 function prioritizeCarItems(list) {
-  return list
+  const grouped = new Map();
+  list
     .filter((item) => !carTasteRejected(item, curationText(item, { category: "car" })))
     .map((item, index) => ({ item, index, score: carTasteScore(item, curationText(item, { category: "car" })) }))
     .sort((left, right) => right.score - left.score || left.index - right.index)
-    .map(({ item }) => item);
+    .forEach((entry) => {
+      const text = curationText(entry.item, { category: "car" });
+      const group = entry.item.carGroup || carGroupFor(entry.item, text) || sourceKey(entry.item) || `car:${entry.index}`;
+      if (!grouped.has(group)) grouped.set(group, []);
+      grouped.get(group).push(entry);
+    });
+
+  const groups = Array.from(grouped.values())
+    .sort((left, right) => right[0].score - left[0].score || left[0].index - right[0].index)
+    .map((group) => group.map(({ item }) => item));
+
+  return interleaveGroups(groups);
 }
 
 function isBlockedContentItem(item) {
@@ -1957,11 +1968,93 @@ const generatedOnlineSourceSeeds = {
     { label: "Haerin archive refill", provider: "kpopping", person: "Haerin", query: "Haerin clean online portrait", maxItems: 2400 },
     { label: "Wonyoung archive refill", provider: "kpopping", person: "Wonyoung", query: "Wonyoung clean online portrait", maxItems: 2400 },
   ],
-  car: [],
+  car: [
+    { group: "car:bmw-m235-white", label: "White BMW M235 Gran Coupe", query: "white 2025 BMW M235 Gran Coupe sedan exterior", requireAny: ["2025", "2026", "m235", "gran coupe"], kind: "car", maxItems: 96 },
+    { group: "car:mercedes-cla-white", label: "White Mercedes CLA sedan", query: "white 2025 Mercedes CLA sedan exterior", requireAny: ["2025", "2026", "cla"], kind: "car", maxItems: 96 },
+    { group: "car:bmw-3-series", label: "BMW G20 sedan", query: "2024 2025 BMW G20 3 Series sedan", requireAny: ["2024", "2025", "2026", "g20"], kind: "car", maxItems: 84 },
+    { group: "car:bmw-3-series", label: "BMW 330i sedan", query: "2024 2025 BMW 330i sedan car", requireAny: ["2024", "2025", "2026", "330i"], kind: "car", maxItems: 84 },
+    { group: "car:bmw-3-series", label: "BMW M340i sedan", query: "2024 2025 BMW M340i sedan car", requireAny: ["2024", "2025", "2026", "m340i"], kind: "car", maxItems: 72 },
+    { group: "car:mercedes-c-class", label: "Mercedes C-Class sedan", query: "2024 2025 Mercedes C-Class W206 sedan", requireAny: ["2024", "2025", "2026", "w206"], kind: "car", maxItems: 72 },
+    { group: "car:audi-a3", label: "Audi A3 sedan", query: "2024 2025 Audi A3 sedan exterior", requireAny: ["2024", "2025", "2026", "a3"], kind: "car", maxItems: 72 },
+    { group: "car:audi-a5-white", label: "Audi A5 sedan", query: "2025 2026 Audi A5 sedan exterior", requireAny: ["2025", "2026", "a5"], kind: "car", maxItems: 84 },
+    { group: "car:audi-s3-white", label: "Audi S3 sedan", query: "2024 2025 Audi S3 sedan exterior", requireAny: ["2024", "2025", "2026", "s3"], kind: "car", maxItems: 72 },
+    { group: "car:audi-a4", label: "Audi A4 sedan", query: "2024 2025 Audi A4 sedan exterior", requireAny: ["2024", "2025", "2026", "a4"], kind: "car", maxItems: 72 },
+    { group: "car:audi-rs3", label: "Audi RS3 sedan", query: "2024 2025 Audi RS3 sedan exterior", requireAny: ["2024", "2025", "2026", "rs3"], kind: "car", maxItems: 72 },
+  ],
 };
 
 const generatedOnlineSourceIndex = { food: 0, kpop: 0, car: 0 };
 const carFallbackGroups = [
+  {
+    group: "car:bmw-m235-white",
+    label: "White BMW M235 Gran Coupe",
+    terms: "2025,bmw,m235,gran-coupe,white,sedan,car",
+    query: "white 2025 BMW M235 Gran Coupe sedan exterior",
+    lockBase: 129000,
+  },
+  {
+    group: "car:mercedes-cla-white",
+    label: "White Mercedes CLA sedan",
+    terms: "2025,mercedes,cla,white,sedan,car",
+    query: "white 2025 Mercedes CLA sedan exterior",
+    lockBase: 129500,
+  },
+  {
+    group: "car:bmw-3-series",
+    label: "Modern BMW 3 Series sedan",
+    terms: "2025,bmw,3-series,sedan,car",
+    query: "2025 BMW 3 Series sedan exterior",
+    lockBase: 130000,
+  },
+  {
+    group: "car:audi-a5-white",
+    label: "White Audi A5 sedan",
+    terms: "2025,audi,a5,white,sedan,car",
+    query: "2025 Audi A5 sedan exterior",
+    lockBase: 130500,
+  },
+  {
+    group: "car:mercedes-cla",
+    label: "Modern Mercedes CLA sedan",
+    terms: "2025,mercedes,cla,sedan,car",
+    query: "2025 Mercedes CLA sedan exterior",
+    lockBase: 131000,
+  },
+  {
+    group: "car:mercedes-c-class",
+    label: "Modern Mercedes C-Class sedan",
+    terms: "2025,mercedes,c-class,w206,sedan,car",
+    query: "2025 Mercedes C-Class W206 sedan exterior",
+    lockBase: 131500,
+  },
+  {
+    group: "car:audi-a3",
+    label: "Modern Audi A3 sedan",
+    terms: "2025,audi,a3,sedan,car",
+    query: "2025 Audi A3 sedan exterior",
+    lockBase: 132000,
+  },
+  {
+    group: "car:audi-s3-white",
+    label: "White Audi S3 sedan",
+    terms: "2025,audi,s3,white,sedan,car",
+    query: "2025 Audi S3 sedan exterior",
+    lockBase: 132500,
+  },
+  {
+    group: "car:audi-a4",
+    label: "Modern Audi A4 sedan",
+    terms: "2025,audi,a4,sedan,car",
+    query: "2025 Audi A4 sedan exterior",
+    lockBase: 133000,
+  },
+  {
+    group: "car:audi-rs3",
+    label: "Modern Audi RS3 sedan",
+    terms: "2025,audi,rs3,sedan,car",
+    query: "2025 Audi RS3 sedan exterior",
+    lockBase: 133500,
+  },
   {
     group: "car:audi-a3-a0j42547:front",
     label: "Audi A3 A0J42547 front",
@@ -2038,8 +2131,12 @@ function ensureKpopFallbackVariety(state, targetPerPerson = 12) {
   return ensureCycledFallbackItems(state, "kpop", longScrollCameoItems(kpopItems), targetQueued, "kpopFallbackCycle", "kpop-fallback");
 }
 
-function ensureCarFallbackVariety(state, targetPerGroup = 8) {
-  return ensureCycledFallbackItems(state, "car", audiA3BuildItems, Math.max(batchSize, targetPerGroup), "audiA3BuildCycle", "audi-a3-a0j42547");
+function ensureCarFallbackVariety(state, targetPerGroup = 8, forceCycle = false) {
+  const fallbackPool = dreamCarItems.length ? dreamCarItems : audiA3BuildItems;
+  const targetQueued = forceCycle
+    ? availableUniqueCount(state, "car") + fallbackPool.length
+    : Math.max(batchSize, targetPerGroup);
+  return ensureCycledFallbackItems(state, "car", fallbackPool, targetQueued, "carFallbackCycle", "car-fallback");
 }
 
 function addGeneratedOnlineSources(category, count = 6) {
@@ -2945,6 +3042,7 @@ function createFeedState() {
     recentCarGroups: [],
     foodFallbackCycle: 1,
     kpopFallbackCycle: 1,
+    carFallbackCycle: 1,
     audiA3BuildCycle: 1,
     nextKpopPersonIndex: feedStartOffset(cameoPeople.length, "kpop:first-person"),
     patternIndex: 0,
@@ -3059,7 +3157,7 @@ function dequeueVariedCar(state, category) {
     });
   };
 
-  if (!hasBalancedChoice()) ensureCarFallbackVariety(state, 6);
+  if (!hasBalancedChoice()) ensureCarFallbackVariety(state, 6, true);
 
   let bestIndex = -1;
   let bestPenalty = Number.POSITIVE_INFINITY;
@@ -4056,9 +4154,9 @@ function visualGroupFor(item) {
   }
 
   if (category === "car") {
-    if (item.visualGroup) return item.visualGroup;
     const group = carGroupFor(item, text);
     if (group) return group;
+    if (item.visualGroup) return item.visualGroup;
   }
 
   return `${person || category}:${canonicalFileKey(item.file || item.sourceId || item.url || item.image || item.caption)}`;
