@@ -1999,37 +1999,47 @@ const carFallbackGroups = [
   },
 ];
 
-function ensureKpopFallbackVariety(state, targetPerPerson = 12) {
-  return 0;
-}
+function ensureCycledFallbackItems(state, category, items, targetQueued, cycleField, salt) {
+  if (!state || !state.queues || !state.queues[category] || !Array.isArray(items) || !items.length) return 0;
 
-function ensureCarFallbackVariety(state, targetPerGroup = 8) {
-  if (!state || !state.queues || !state.queues.car || !Array.isArray(audiA3BuildItems) || !audiA3BuildItems.length) return 0;
-
-  const targetQueued = Math.max(batchSize, targetPerGroup);
   let added = 0;
   let guard = 0;
 
-  while (availableUniqueCount(state, "car") < targetQueued && guard < 12) {
-    const cycle = state.audiA3BuildCycle || 1;
-    const offset = feedStartOffset(audiA3BuildItems.length, `audi-a3-a0j42547-cycle:${cycle}`);
-    const cycledItems = Array.from({ length: audiA3BuildItems.length }, (_, index) => {
-      const base = audiA3BuildItems[(index + offset) % audiA3BuildItems.length];
+  while (availableUniqueCount(state, category) < targetQueued && guard < 12) {
+    const cycle = state[cycleField] || 1;
+    const offset = feedStartOffset(items.length, `${salt}:cycle:${cycle}`);
+    const cycledItems = Array.from({ length: items.length }, (_, index) => {
+      const base = items[(index + offset) % items.length];
+      const baseKey = sourceKey(base) || base.sourceId || base.file || base.image || base.caption || `${salt}:${index}`;
       return {
         ...base,
-        sourceId: `${base.sourceId}:cycle-${cycle}`,
+        category: base.category || category,
+        sourceId: `${baseKey}:cycle-${cycle}`,
       };
     });
 
     cycledItems.forEach((item) => {
-      if (enqueueUnique(state, "car", item)) added += 1;
+      if (enqueueUnique(state, category, item)) added += 1;
     });
 
-    state.audiA3BuildCycle = cycle + 1;
+    state[cycleField] = cycle + 1;
     guard += 1;
   }
 
   return added;
+}
+
+function ensureFoodFallbackVariety(state, targetQueued = batchSize) {
+  return ensureCycledFallbackItems(state, "food", foodItems, Math.max(batchSize, targetQueued), "foodFallbackCycle", "food-fallback");
+}
+
+function ensureKpopFallbackVariety(state, targetPerPerson = 12) {
+  const targetQueued = Math.max(batchSize, targetPerPerson * Math.max(1, cameoPeople.length));
+  return ensureCycledFallbackItems(state, "kpop", longScrollCameoItems(kpopItems), targetQueued, "kpopFallbackCycle", "kpop-fallback");
+}
+
+function ensureCarFallbackVariety(state, targetPerGroup = 8) {
+  return ensureCycledFallbackItems(state, "car", audiA3BuildItems, Math.max(batchSize, targetPerGroup), "audiA3BuildCycle", "audi-a3-a0j42547");
 }
 
 function addGeneratedOnlineSources(category, count = 6) {
@@ -2933,6 +2943,8 @@ function createFeedState() {
     recentVisualGroups: [],
     carGroupCounts: {},
     recentCarGroups: [],
+    foodFallbackCycle: 1,
+    kpopFallbackCycle: 1,
     audiA3BuildCycle: 1,
     nextKpopPersonIndex: feedStartOffset(cameoPeople.length, "kpop:first-person"),
     patternIndex: 0,
@@ -3623,6 +3635,11 @@ async function loadMoreOnlineItemsForCategory(state, category, targetCount = onl
   };
   const needsMore = () => added < targetCount || !hasEnoughQueuedVariety();
 
+  if (availableUniqueCount(state, category) < mixPattern.length) {
+    if (category === "food") added += ensureFoodFallbackVariety(state, targetCount);
+    if (category === "kpop") added += ensureKpopFallbackVariety(state);
+  }
+
   if (availableUniqueCount(state, category) < targetCount) {
     addGeneratedOnlineSources(category, generatedSourceRefillCount(category));
   }
@@ -3684,6 +3701,9 @@ async function loadMoreOnlineItemsForCategory(state, category, targetCount = onl
   if (category === "kpop" && (!hasEnoughQueuedVariety() || !hasKpopWindowBalancedChoice(state))) {
     added += ensureKpopFallbackVariety(state);
   }
+  if (category === "food" && availableUniqueCount(state, "food") < targetCount) {
+    added += ensureFoodFallbackVariety(state, targetCount);
+  }
   if (category === "car" && (!hasEnoughQueuedVariety() || !hasCarWindowBalancedChoice(state))) {
     added += ensureCarFallbackVariety(state);
   }
@@ -3697,6 +3717,10 @@ async function nextItemForCategory(state, category) {
     if (firstPaintStillFilling) {
       await loadMoreOnlineItemsForCategory(state, category, onlineBatchSize);
     } else {
+      if (category === "food") ensureFoodFallbackVariety(state, onlineBatchSize);
+      if (category === "kpop") ensureKpopFallbackVariety(state);
+      if (category === "car") ensureCarFallbackVariety(state);
+      if (hasAvailableUnique(state, category)) return dequeueUnique(state, category);
       prefetchOnlineItemsForCategory(state, category);
       return null;
     }
