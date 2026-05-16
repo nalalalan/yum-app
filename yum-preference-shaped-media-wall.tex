@@ -5,6 +5,20 @@
 \usepackage[utf8]{inputenc}
 \usepackage[american]{babel}
 \usepackage{csquotes}
+
+\usepackage[
+    style=science,
+    backend=biber,
+    sorting=none,
+    articletitle=true,
+    url=false,
+    doi=false,
+    eprint=false,
+    isbn=false
+]{biblatex}
+\addbibresource{references.bib}
+\AtEveryBibitem{\clearlist{language}}
+
 \usepackage{newtxtext,newtxmath}
 \usepackage{microtype}
 \usepackage{amsmath}
@@ -12,8 +26,11 @@
 \usepackage{booktabs}
 \usepackage[margin=0.92in,top=0.82in,bottom=0.95in,headsep=18pt,footskip=24pt]{geometry}
 \usepackage[font=small,labelfont=bf,labelsep=period]{caption}
+\usepackage{subcaption}
 \usepackage{float}
+\usepackage{afterpage}
 \usepackage{array}
+\usepackage{multirow}
 \usepackage{setspace}
 \usepackage{titlesec}
 \usepackage{enumitem}
@@ -32,7 +49,7 @@
 \usepackage[switch]{lineno}
 
 \color{SumiInk}
-\doublespacing
+\setstretch{1.45}
 \setlength{\parindent}{0pt}
 \setlength{\parskip}{0.42em}
 \setlength{\textfloatsep}{8pt plus 1pt minus 1pt}
@@ -205,45 +222,7 @@ The next useful step is not to add more opaque intelligence. It is to measure co
 
 Yum argues for correction-conditioned curation as a practical unit of personal AI alignment. A user should not need to repeatedly reject the same failure mode. The system should convert correction into persistent, inspectable constraints and verify the live artifact against those constraints. For personal visual media, this may be a more useful target than engagement maximization: the wall becomes better when it remembers what the user meant, not merely what the user clicked.
 
-\backmattersection{References}
-
-\begin{thebibliography}{99}
-\bibitem{resnick1997}
-Resnick, P. \& Varian, H. R. Recommender systems. \textit{Communications of the ACM} \textbf{40}, 56--58 (1997). \href{https://doi.org/10.1145/245108.245121}{doi:10.1145/245108.245121}.
-
-\bibitem{adomavicius2005}
-Adomavicius, G. \& Tuzhilin, A. Toward the next generation of recommender systems: a survey of the state-of-the-art and possible extensions. \textit{IEEE Transactions on Knowledge and Data Engineering} \textbf{17}, 734--749 (2005). \href{https://doi.org/10.1109/TKDE.2005.99}{doi:10.1109/TKDE.2005.99}.
-
-\bibitem{burke2002}
-Burke, R. Hybrid recommender systems: survey and experiments. \textit{User Modeling and User-Adapted Interaction} \textbf{12}, 331--370 (2002). \href{https://doi.org/10.1023/A:1021240730564}{doi:10.1023/A:1021240730564}.
-
-\bibitem{hu2008}
-Hu, Y., Koren, Y. \& Volinsky, C. Collaborative filtering for implicit feedback datasets. In \textit{2008 Eighth IEEE International Conference on Data Mining}, 263--272 (IEEE, 2008). \href{https://doi.org/10.1109/ICDM.2008.22}{doi:10.1109/ICDM.2008.22}.
-
-\bibitem{rendle2009}
-Rendle, S., Freudenthaler, C., Gantner, Z. \& Schmidt-Thieme, L. BPR: Bayesian personalized ranking from implicit feedback. In \textit{Proceedings of the Twenty-Fifth Conference on Uncertainty in Artificial Intelligence}, 452--461 (AUAI Press, 2009).
-
-\bibitem{he2016}
-He, R. \& McAuley, J. VBPR: visual Bayesian personalized ranking from implicit feedback. In \textit{Proceedings of the Thirtieth AAAI Conference on Artificial Intelligence}, 144--150 (AAAI Press, 2016).
-
-\bibitem{knijnenburg2012}
-Knijnenburg, B. P., Willemsen, M. C., Gantner, Z., Soncu, H. \& Newell, C. Explaining the user experience of recommender systems. \textit{User Modeling and User-Adapted Interaction} \textbf{22}, 441--504 (2012). \href{https://doi.org/10.1007/s11257-011-9118-4}{doi:10.1007/s11257-011-9118-4}.
-
-\bibitem{christiano2017}
-Christiano, P. F. et al. Deep reinforcement learning from human preferences. \textit{Advances in Neural Information Processing Systems} \textbf{30} (2017).
-
-\bibitem{ouyang2022}
-Ouyang, L. et al. Training language models to follow instructions with human feedback. \textit{Advances in Neural Information Processing Systems} \textbf{35}, 27730--27744 (2022).
-
-\bibitem{amershi2019}
-Amershi, S. et al. Guidelines for human-AI interaction. In \textit{Proceedings of the 2019 CHI Conference on Human Factors in Computing Systems}, 1--13 (ACM, 2019). \href{https://doi.org/10.1145/3290605.3300233}{doi:10.1145/3290605.3300233}.
-
-\bibitem{radford2021}
-Radford, A. et al. Learning transferable visual models from natural language supervision. In \textit{Proceedings of the 38th International Conference on Machine Learning}, 8748--8763 (PMLR, 2021).
-
-\bibitem{heer2012}
-Heer, J. \& Shneiderman, B. Interactive dynamics for visual analysis. \textit{Communications of the ACM} \textbf{55}, 45--54 (2012). \href{https://doi.org/10.1145/2133806.2133821}{doi:10.1145/2133806.2133821}.
-\end{thebibliography}
+\printbibliography
 
 \backmattersection{Methods}
 
