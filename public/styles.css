@@ -267,6 +267,17 @@ noscript {
   transition: transform 420ms ease, filter 420ms ease;
 }
 
+.tile[data-category="car"] {
+  background:
+    radial-gradient(circle at 50% 50%, rgba(255, 235, 205, 0.08), transparent 54%),
+    linear-gradient(145deg, #1a0f09, #2a160c);
+}
+
+.tile[data-category="car"] img {
+  object-fit: contain;
+  padding: clamp(5px, 0.8vw, 12px);
+}
+
 .tile:hover img,
 .tile:focus-within img {
   filter:
@@ -275,6 +286,11 @@ noscript {
     contrast(calc(var(--contrast, 1.035) + 0.025))
     brightness(calc(var(--brightness, 1.015) + 0.015));
   transform: scale(1.045);
+}
+
+.tile[data-category="car"]:hover img,
+.tile[data-category="car"]:focus-within img {
+  transform: scale(1.018);
 }
 
 .caption {

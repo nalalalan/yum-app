@@ -1614,27 +1614,61 @@ const likedCarGroups = new Set([
 ]);
 const dislikedCarTastePattern = /(?:purple|green).{0,40}\bm5\b|\bm5\b.{0,40}(?:purple|green)|green.{0,40}\bm3\b|\bm3\b.{0,40}green|blue.{0,40}\bm235\b|\bm235\b.{0,40}(?:blue|borusan)|borusan blue|\bm3 cs\b/i;
 const likedCarTastePattern = /a0j42547|manhattan gray|black optic|premium plus|parchment beige|white|alpine white|\bm235\b|2 series gran coupe|gran coupe|\bcla\b|a3 limousine|a5 sedan|s3 limousine|rs ?3 limousine|rs ?3 sedan|\baudi\b.{0,32}\bsedan\b/i;
+const blockedCarCompositionSourcePattern = /A241157|A241355|A241359|A241360|A241362|A241363|A241364|A241365|A244441|A244450|A244458|P90549619|P90549623|audi-a3-a0j42547:(?:11-rear-three-quarter|18-rear-full-sedan-sweep)/i;
+const carCompositionImageRejectPattern = /aspectcrop|system\/production\/cars\/|web_1440_[^?\s]+limousine/i;
+const carCompositionRejectPattern = /side\s*(?:view|profile)|\bprofile\b|crop|cropped|close-up|close up|detail|grille|headlight|tail\s*light|taillight|wheel|arch|badge|bumper|shoulder|interior|cabin|dashboard|cockpit|console|seat|shifter|door controls|trim|roofline|sculpture|texture|vent|mirror|windshield|hood reflection/i;
+const carCompositionPreferPattern = /front[-\s]?three[-\s]?quarter|rear[-\s]?three[-\s]?quarter|full[-\s]?car|whole car|road|motion|driving|exterior|stance|architecture|low clean frame|hero frame/i;
 
 function isDisallowedCarText(text) {
   return disallowedCarPattern.test(text);
 }
 
+function carCompositionDescriptor(item, fallbackText = "") {
+  const descriptor = [
+    item && item.file,
+    item && item.sourceId,
+    item && item.caption,
+    item && item.visualGroup,
+    item && item.buildAngle,
+  ].map((value) => normalizeSourceText(value || "").toLowerCase()).join(" ");
+  return descriptor.trim() || fallbackText;
+}
+
+function carCompositionImageText(item) {
+  return [
+    item && item.image,
+    item && item.original,
+  ].map((value) => normalizeSourceText(value || "").toLowerCase()).join(" ");
+}
+
+function carCompositionRejected(item, text = "") {
+  const shape = String(item && item.shape || "");
+  if (shape && !/^(wide|cinema)$/i.test(shape)) return true;
+  const imageText = carCompositionImageText(item);
+  if (blockedCarCompositionSourcePattern.test(imageText)) return true;
+  if (carCompositionImageRejectPattern.test(imageText)) return true;
+  if (blockedCarCompositionSourcePattern.test(carCompositionDescriptor(item, text))) return true;
+  return carCompositionRejectPattern.test(carCompositionDescriptor(item, text));
+}
+
 function carTasteRejected(item, text = "") {
   const group = (item && item.carGroup) || carGroupFor(item, text);
   if (group && dislikedCarGroups.has(group)) return true;
-  return dislikedCarTastePattern.test(text);
+  return dislikedCarTastePattern.test(text) || carCompositionRejected(item, text);
 }
 
 function carTasteScore(item, text = "") {
   const group = (item && item.carGroup) || carGroupFor(item, text);
+  const compositionText = carCompositionDescriptor(item, text);
   let score = 0;
   if (group && likedCarGroups.has(group)) score += 8;
   if (/a0j42547|manhattan gray|black optic|premium plus|parchment beige/i.test(text)) score += 12;
   if (/bmw-m235-white|mercedes-cla-white|audi-a3-white|audi-a5-white|audi-s3-white|audi-rs3-white/i.test(group || "")) score += 4;
   if (likedCarTastePattern.test(text)) score += 4;
+  if (carCompositionPreferPattern.test(compositionText)) score += 6;
   if (/white|alpine white/i.test(text)) score += 3;
   if (/audi|a3|a4|a5|s3|rs3|rs 3/i.test(text)) score += 3;
-  if (/interior|cupholder|gear|dashboard|seat|vent|console|badge|emblem|detail/i.test(text)) score -= 4;
+  if (/side\s*(?:view|profile)|\bprofile\b|crop|cropped|interior|cupholder|gear|dashboard|seat|vent|console|badge|emblem|detail|grille|wheel|headlight/i.test(compositionText)) score -= 12;
   if (carTasteRejected(item, text)) score -= 40;
   return score;
 }

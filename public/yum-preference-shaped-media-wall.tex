@@ -170,7 +170,7 @@ This makes the central object of study a feedback-to-artifact loop. The user doe
 
 \section{System design}
 
-Yum is a static-first site with optional dynamic services. The public wall is served at \href{https://yum.aolabs.io}{yum.aolabs.io}. The frontend contains known-good seed media, source metadata, category labels, captions, source URLs, shape hints, focus hints, and optional person or car-group identifiers. In the current deployed build, the car lane restores the prior modern-sedan pool while keeping Audi Code A0J42547, an A3 TFSI quattro Premium Plus S tronic in Manhattan Gray metallic with Black optic package and Parchment Beige--Steel Gray interior, as a high-confidence local anchor. A small Node service provides preference persistence, model-assisted candidate ranking, and K-pop candidate retrieval. The static wall remains useful if the dynamic service is slow or unavailable.
+Yum is a static-first site with optional dynamic services. The public wall is served at \href{https://yum.aolabs.io}{yum.aolabs.io}. The frontend contains known-good seed media, source metadata, category labels, captions, source URLs, shape hints, focus hints, and optional person or car-group identifiers. In the current deployed build, the car lane restores the prior modern-sedan pool while keeping Audi Code A0J42547, an A3 TFSI quattro Premium Plus S tronic in Manhattan Gray metallic with Black optic package and Parchment Beige--Steel Gray interior, as a high-confidence local anchor. Vehicle candidates now pass a composition gate that rejects side-only profiles, cabin and detail crops, wheel or trim fragments, missing local derivatives, and known source identifiers whose actual image contradicts its exterior caption. A small Node service provides preference persistence, model-assisted candidate ranking, and K-pop candidate retrieval. The static wall remains useful if the dynamic service is slow or unavailable.
 
 \subsection{Taste state}
 
@@ -178,7 +178,7 @@ Preference state is intentionally compact. It contains hidden source keys, hidde
 
 \subsection{Candidate control}
 
-Candidate generation and candidate control are separated. Candidate generation finds possible images from static pools and remote sources. Candidate control decides what is allowed to reach the wall. Control includes blocked terms, source de-duplication, category balancing, recent-person spacing, visual-group spacing, car-group spacing, quality thresholds, and optional language-model ranking. For the present vehicle preference, the car lane allows modern compact and executive sedans such as the Audi A3/A4/A5/S3/RS3, BMW 2-series Gran Coupe and 3-series, and Mercedes CLA/C-Class while rejecting SUVs, fire trucks, old cars, disliked color/model clusters, and adjacent non-sedan body styles. If a category stalls, local same-category cycling extends the wall without allowing one reliable category to overrun the 1:1:1 mix.
+Candidate generation and candidate control are separated. Candidate generation finds possible images from static pools and remote sources. Candidate control decides what is allowed to reach the wall. Control includes blocked terms, source de-duplication, category balancing, recent-person spacing, visual-group spacing, car-group spacing, quality thresholds, composition gates, and optional language-model ranking. For the present vehicle preference, the car lane allows modern compact and executive sedans such as the Audi A3/A4/A5/S3/RS3, BMW 2-series Gran Coupe and 3-series, and Mercedes CLA/C-Class while rejecting SUVs, fire trucks, old cars, disliked color/model clusters, adjacent non-sedan body styles, boring side-profile product renders, and crop-heavy fragments where the full car is not visible. If a category stalls, local same-category cycling extends the wall without allowing one reliable category to overrun the 1:1:1 mix.
 
 This separation is important because visually bad outcomes often arise after a candidate has passed a relevance check. Four similar cars in one view, three portraits of the same person, or repeated low-resolution source patterns are layout-level failures. They must be handled by queue and placement logic, not only by candidate retrieval.
 
@@ -188,8 +188,8 @@ The deployed wall is shown in Fig.~\ref{fig:desktop} and Fig.~\ref{fig:mobile}. 
 
 \begin{figure}[p]
     \centering
-    \includegraphics[width=0.86\textwidth]{assets/yum-wall-desktop-20260514-car-variety.png}
-    \caption{Desktop view of the deployed Yum wall after the vehicle lane restored modern-sedan variety while retaining Audi A3 build A0J42547 as a local anchor. The visible mix shows the core design tension: category balance, source quality, and visual-group spacing must hold while the car lane avoids repeated adjacent vehicles.}
+    \includegraphics[width=0.86\textwidth]{assets/yum-wall-desktop-20260517-car-composition.png}
+    \caption{Desktop view of the Yum wall after the vehicle lane added composition-aware control. Car tiles are rendered with containment and selected from whole-car or three-quarter exterior frames rather than side-only profiles, interior crops, or detail fragments, while the wall preserves the food/car/K-pop category cadence.}
     \label{fig:desktop}
 \end{figure}
 
