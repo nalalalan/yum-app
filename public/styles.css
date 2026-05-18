@@ -274,8 +274,8 @@ noscript {
 }
 
 .tile[data-category="car"] img {
-  object-fit: contain;
-  padding: clamp(5px, 0.8vw, 12px);
+  object-fit: cover;
+  padding: 0;
 }
 
 .tile:hover img,
