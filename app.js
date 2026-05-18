@@ -618,6 +618,20 @@ function addExternalCameos(target, person, sourceUrl, entries) {
   })));
 }
 
+function addExternalCameoItems(target, person, entries) {
+  target.push(...entries.map(([image, url, caption, shape = "portrait", focus = "center 38%"]) => ({
+    person,
+    image,
+    url,
+    caption,
+    shape,
+    focus,
+    width: 1800,
+    sourceId: image,
+    external: true,
+  })));
+}
+
 addCameos(hanniItems, "Hanni", [
   ["2023 MMA NewJeans Hanni.jpg", "Hanni cameo, soft awards-night sparkle."],
   ["20230921 Newjeans Hanni \ud2f0\ube44\ud150 01.jpg", "Hanni cameo, tall polished press-day frame.", "tall"],
@@ -702,37 +716,13 @@ addCameos(wonyoungItems, "Wonyoung", [
   ["Jang Won-young at IVE 4th Fan Concert DIVE into IVE March 22, 2026 (6).jpg", "Wonyoung cameo, polished stage portrait.", "tall"],
 ]);
 
-addExternalCameos(haerinItems, "Haerin", "https://kpopping.com/kpics/240526-NewJeans-Haerin-How-Sweet-Bubble-Gum-at-Inkigayo", [
-  ["https://legacy.kpopping.com/9f/1/240526-NewJeans-Haerin-How-Sweet-at-Inkigayo-documents-1.jpeg", "Haerin cameo, adult-era bright stage portrait.", "portrait", "center 36%"],
-]);
-
-addExternalCameos(haerinItems, "Haerin", "https://kpopping.com/kpics/240616-NewJeans-Haerin-How-Sweet-at-Inkigayo", [
-  ["https://legacy.kpopping.com/71/2/240616-NewJeans-Haerin-How-Sweet-at-Inkigayo-documents-1.jpeg", "Haerin cameo, adult-era close stage glow.", "portrait", "center 34%"],
-]);
-
 addExternalCameos(hanniItems, "Hanni", "https://kpopping.com/kpics/240201-New-Jeans-Hanni-2024-F-W-Seoul-Fashion-Week", [
-  ["https://pub-dc9a9c6ac2a64ba48bce426ced0ac56a.r2.dev/kpics/2026/02/1770824189997-ozopbe-0.webp", "Hanni cameo, shoulder-visible pigtail table-card glow.", "wide", "center 40%"],
   ["https://pub-dc9a9c6ac2a64ba48bce426ced0ac56a.r2.dev/kpics/2026/02/1770773474221-kdd70c-0.webp", "Hanni cameo, black-sleeveless headband glow.", "portrait", "center 38%"],
-]);
-
-addExternalCameos(wonyoungItems, "Wonyoung", "https://kpopping.com/kpics/WONYOUNG-x-Tommy-Jeans-for-Marie-Claire-Korea-Special-Edition", [
-  ["https://pub-dc9a9c6ac2a64ba48bce426ced0ac56a.r2.dev/kpics/2026/05/1777792889590-ow8qtv-0.jpg", "Wonyoung cameo, red off-shoulder editorial spark.", "portrait", "center 36%"],
-  ["https://pub-dc9a9c6ac2a64ba48bce426ced0ac56a.r2.dev/kpics/2026/05/1777675586432-v6o3ir-0.jpg", "Wonyoung cameo, glossy shoulder-pose magazine glow.", "portrait", "center 38%"],
-  ["https://pub-dc9a9c6ac2a64ba48bce426ced0ac56a.r2.dev/kpics/2026/05/1777628047807-iz6r3x-0.jpg", "Wonyoung cameo, shoulder-visible soft curl frame.", "portrait", "center 38%"],
 ]);
 
 addExternalCameos(hanniItems, "Hanni", "https://kpopping.com/kpics/240102-NEW-JEANS-INSTAGRAM-UPDATE-HANNI", [
   ["https://legacy.kpopping.com/96/5/240102-NEW-JEANS-INSTAGRAM-UPDATE-HANNI-documents-3.jpeg", "Hanni cameo, shoulder-visible green dress lounge frame.", "portrait", "center 42%"],
   ["https://legacy.kpopping.com/d4/4/240102-NEW-JEANS-INSTAGRAM-UPDATE-HANNI-documents-6.jpeg", "Hanni cameo, bare-shoulder backless white knit frame.", "portrait", "center 40%"],
-]);
-
-addExternalCameos(hanniItems, "Hanni", "https://kpopping.com/kpics/NewJeans-Hanni-for-W-Korea-Vol-2-February-2024-Issue", [
-  ["https://legacy.kpopping.com/12/3/NewJeans-Hanni-for-W-Korea-Vol-2-February-2024-Issue-documents-3.jpeg", "Hanni cameo, midriff-visible clean crop-top frame.", "portrait", "center 38%"],
-  ["https://legacy.kpopping.com/59/3/NewJeans-Hanni-for-W-Korea-Vol-2-February-2024-Issue-documents-4.jpeg", "Hanni cameo, navel-visible crop-top jacket frame.", "portrait", "center 38%"],
-]);
-
-addExternalCameos(haerinItems, "Haerin", "https://kpopping.com/kpics/240622-NewJeans-Instagram-Update-with-HAERIN", [
-  ["https://pub-dc9a9c6ac2a64ba48bce426ced0ac56a.r2.dev/kpics/2026/05/1778791524577-jhpduh-0.jpg", "Haerin cameo, shoulder-visible black beach-day frame.", "portrait", "center 40%"],
 ]);
 
 addExternalCameos(haerinItems, "Haerin", "https://kpopping.com/kpics/240525-NewJeans-Instagram-Update-Haerin", [
@@ -746,6 +736,73 @@ addExternalCameos(wonyoungItems, "Wonyoung", "https://kpopping.com/kpics/221014-
   ["https://legacy.kpopping.com/f5/4/221014-IVE-Wonyoung-documents-6.jpeg", "Wonyoung cameo, white sleeveless city-view frame.", "portrait", "center 38%"],
   ["https://legacy.kpopping.com/f1/0/221014-IVE-Wonyoung-documents-8.jpeg", "Wonyoung cameo, off-shoulder soft clean frame.", "portrait", "center 38%"],
   ["https://legacy.kpopping.com/53/1/221014-IVE-Wonyoung-documents-11.jpeg", "Wonyoung cameo, white sleeveless gentle smile frame.", "portrait", "center 38%"],
+]);
+
+addExternalCameoItems(hanniItems, "Hanni", [
+  ["https://legacy.kpopping.com/df/2/220802-NewJeans-Instagram-Update-Hanni-documents-1.jpeg", "https://kpopping.com/kpics/220802-NewJeans-Instagram-Update-Hanni", "Hanni cameo, midriff-and-shoulder-visible.", "portrait", "center 38%"],
+  ["https://legacy.kpopping.com/6e/0/220802-NewJeans-Instagram-Update-Hanni-documents-2.jpeg", "https://kpopping.com/kpics/220802-NewJeans-Instagram-Update-Hanni", "Hanni cameo, midriff-and-shoulder-visible.", "portrait", "center 38%"],
+  ["https://legacy.kpopping.com/fe/3/240201-New-Jeans-Hanni-2024-F-W-Seoul-Fashion-Week-documents-1.jpeg", "https://kpopping.com/kpics/240201-New-Jeans-Hanni-2024-F-W-Seoul-Fashion-Week", "Hanni cameo, midriff-and-shoulder-visible.", "portrait", "center 38%"],
+  ["https://legacy.kpopping.com/a4/0/240201-New-Jeans-Hanni-2024-F-W-Seoul-Fashion-Week-documents-2.jpeg", "https://kpopping.com/kpics/240201-New-Jeans-Hanni-2024-F-W-Seoul-Fashion-Week", "Hanni cameo, midriff-and-shoulder-visible.", "portrait", "center 38%"],
+  ["https://legacy.kpopping.com/93/0/240201-New-Jeans-Hanni-2024-F-W-Seoul-Fashion-Week-documents-4.jpeg", "https://kpopping.com/kpics/240201-New-Jeans-Hanni-2024-F-W-Seoul-Fashion-Week", "Hanni cameo, midriff-and-shoulder-visible.", "portrait", "center 38%"],
+  ["https://legacy.kpopping.com/8c/1/240201-New-Jeans-Hanni-2024-F-W-Seoul-Fashion-Week-documents-5.jpeg", "https://kpopping.com/kpics/240201-New-Jeans-Hanni-2024-F-W-Seoul-Fashion-Week", "Hanni cameo, midriff-and-shoulder-visible.", "portrait", "center 38%"],
+  ["https://legacy.kpopping.com/c8/1/240201-New-Jeans-Hanni-2024-F-W-Seoul-Fashion-Week-documents-6.jpeg", "https://kpopping.com/kpics/240201-New-Jeans-Hanni-2024-F-W-Seoul-Fashion-Week", "Hanni cameo, midriff-and-shoulder-visible.", "portrait", "center 38%"],
+  ["https://legacy.kpopping.com/d9/2/240201-New-Jeans-Hanni-2024-F-W-Seoul-Fashion-Week-documents-7.jpeg", "https://kpopping.com/kpics/240201-New-Jeans-Hanni-2024-F-W-Seoul-Fashion-Week", "Hanni cameo, midriff-and-shoulder-visible.", "portrait", "center 38%"],
+  ["https://legacy.kpopping.com/6d/1/240201-New-Jeans-Hanni-2024-F-W-Seoul-Fashion-Week-documents-1(1).jpeg", "https://kpopping.com/kpics/240201-New-Jeans-Hanni-2024-F-W-Seoul-Fashion-Week", "Hanni cameo, midriff-and-shoulder-visible.", "portrait", "center 38%"],
+  ["https://legacy.kpopping.com/7a/5/240201-New-Jeans-Hanni-2024-F-W-Seoul-Fashion-Week-documents-2(1).jpeg", "https://kpopping.com/kpics/240201-New-Jeans-Hanni-2024-F-W-Seoul-Fashion-Week", "Hanni cameo, midriff-and-shoulder-visible.", "portrait", "center 38%"],
+  ["https://legacy.kpopping.com/53/4/240201-New-Jeans-Hanni-2024-F-W-Seoul-Fashion-Week-documents-3(1).jpeg", "https://kpopping.com/kpics/240201-New-Jeans-Hanni-2024-F-W-Seoul-Fashion-Week", "Hanni cameo, midriff-and-shoulder-visible.", "portrait", "center 38%"],
+  ["https://legacy.kpopping.com/d8/1/240201-New-Jeans-Hanni-2024-F-W-Seoul-Fashion-Week-documents-1(3).jpeg", "https://kpopping.com/kpics/240201-New-Jeans-Hanni-2024-F-W-Seoul-Fashion-Week", "Hanni cameo, midriff-and-shoulder-visible.", "portrait", "center 38%"],
+  ["https://legacy.kpopping.com/7e/1/240201-New-Jeans-Hanni-2024-F-W-Seoul-Fashion-Week-documents-2(2).jpeg", "https://kpopping.com/kpics/240201-New-Jeans-Hanni-2024-F-W-Seoul-Fashion-Week", "Hanni cameo, midriff-and-shoulder-visible.", "portrait", "center 38%"],
+]);
+
+addExternalCameoItems(haerinItems, "Haerin", [
+  ["https://legacy.kpopping.com/d9/1/240622-NewJeans-Instagram-Update-with-HAERIN-documents-1.jpeg", "https://kpopping.com/kpics/240622-NewJeans-Instagram-Update-with-HAERIN", "Haerin cameo, shoulder-visible.", "portrait", "center 38%"],
+  ["https://legacy.kpopping.com/6c/1/240622-NewJeans-Instagram-Update-with-HAERIN-documents-9.jpeg", "https://kpopping.com/kpics/240622-NewJeans-Instagram-Update-with-HAERIN", "Haerin cameo, shoulder-visible.", "portrait", "center 38%"],
+  ["https://legacy.kpopping.com/25/5/241029-New-Jeans-Instagram-Update-Haerin-documents-5.jpeg", "https://kpopping.com/kpics/241029-New-Jeans-Instagram-Update-Haerin", "Haerin cameo, shoulder-visible.", "portrait", "center 38%"],
+  ["https://legacy.kpopping.com/44/4/241029-New-Jeans-Instagram-Update-Haerin-documents-6.jpeg", "https://kpopping.com/kpics/241029-New-Jeans-Instagram-Update-Haerin", "Haerin cameo, shoulder-visible.", "portrait", "center 38%"],
+  ["https://legacy.kpopping.com/70/1/241029-New-Jeans-Instagram-Update-Haerin-documents-7.jpeg", "https://kpopping.com/kpics/241029-New-Jeans-Instagram-Update-Haerin", "Haerin cameo, shoulder-visible.", "portrait", "center 38%"],
+  ["https://legacy.kpopping.com/09/5/241029-New-Jeans-Instagram-Update-Haerin-documents-11.jpeg", "https://kpopping.com/kpics/241029-New-Jeans-Instagram-Update-Haerin", "Haerin cameo, shoulder-visible.", "portrait", "center 38%"],
+  ["https://legacy.kpopping.com/c1/0/241029-New-Jeans-Instagram-Update-Haerin-documents-12.jpeg", "https://kpopping.com/kpics/241029-New-Jeans-Instagram-Update-Haerin", "Haerin cameo, shoulder-visible.", "portrait", "center 38%"],
+  ["https://legacy.kpopping.com/b8/4/241029-New-Jeans-Instagram-Update-Haerin-documents-13.jpeg", "https://kpopping.com/kpics/241029-New-Jeans-Instagram-Update-Haerin", "Haerin cameo, shoulder-visible.", "portrait", "center 38%"],
+  ["https://legacy.kpopping.com/09/0/240201-New-Jeans-Haerin-2024-F-W-Seoul-Fashion-Week-documents-1.jpeg", "https://kpopping.com/kpics/240201-New-Jeans-Haerin-2024-F-W-Seoul-Fashion-Week", "Haerin cameo, midriff-visible.", "portrait", "center 38%"],
+  ["https://legacy.kpopping.com/ff/2/240201-New-Jeans-Haerin-2024-F-W-Seoul-Fashion-Week-documents-2.jpeg", "https://kpopping.com/kpics/240201-New-Jeans-Haerin-2024-F-W-Seoul-Fashion-Week", "Haerin cameo, midriff-visible.", "portrait", "center 38%"],
+  ["https://legacy.kpopping.com/19/1/240201-New-Jeans-Haerin-2024-F-W-Seoul-Fashion-Week-documents-3.jpeg", "https://kpopping.com/kpics/240201-New-Jeans-Haerin-2024-F-W-Seoul-Fashion-Week", "Haerin cameo, midriff-visible.", "portrait", "center 38%"],
+  ["https://legacy.kpopping.com/10/5/240201-New-Jeans-Haerin-2024-F-W-Seoul-Fashion-Week-documents-6.jpeg", "https://kpopping.com/kpics/240201-New-Jeans-Haerin-2024-F-W-Seoul-Fashion-Week", "Haerin cameo, midriff-visible.", "portrait", "center 38%"],
+  ["https://legacy.kpopping.com/23/1/240201-New-Jeans-Haerin-2024-F-W-Seoul-Fashion-Week-documents-7.jpeg", "https://kpopping.com/kpics/240201-New-Jeans-Haerin-2024-F-W-Seoul-Fashion-Week", "Haerin cameo, midriff-visible.", "portrait", "center 38%"],
+  ["https://legacy.kpopping.com/1b/3/240201-New-Jeans-Haerin-2024-F-W-Seoul-Fashion-Week-documents-1(1).jpeg", "https://kpopping.com/kpics/240201-New-Jeans-Haerin-2024-F-W-Seoul-Fashion-Week", "Haerin cameo, midriff-visible.", "portrait", "center 38%"],
+  ["https://legacy.kpopping.com/b0/3/240201-New-Jeans-Haerin-2024-F-W-Seoul-Fashion-Week-documents-2(1).jpeg", "https://kpopping.com/kpics/240201-New-Jeans-Haerin-2024-F-W-Seoul-Fashion-Week", "Haerin cameo, midriff-visible.", "portrait", "center 38%"],
+  ["https://legacy.kpopping.com/8d/5/240201-New-Jeans-Haerin-2024-F-W-Seoul-Fashion-Week-documents-1(2).jpeg", "https://kpopping.com/kpics/240201-New-Jeans-Haerin-2024-F-W-Seoul-Fashion-Week", "Haerin cameo, midriff-visible.", "portrait", "center 38%"],
+  ["https://legacy.kpopping.com/71/5/240201-New-Jeans-Haerin-2024-F-W-Seoul-Fashion-Week-documents-2(2).jpeg", "https://kpopping.com/kpics/240201-New-Jeans-Haerin-2024-F-W-Seoul-Fashion-Week", "Haerin cameo, midriff-visible.", "portrait", "center 38%"],
+  ["https://legacy.kpopping.com/f5/5/240201-New-Jeans-Haerin-2024-F-W-Seoul-Fashion-Week-documents-6(1).jpeg", "https://kpopping.com/kpics/240201-New-Jeans-Haerin-2024-F-W-Seoul-Fashion-Week", "Haerin cameo, midriff-visible.", "portrait", "center 38%"],
+  ["https://legacy.kpopping.com/83/0/240201-New-Jeans-Haerin-2024-F-W-Seoul-Fashion-Week-documents-11.jpeg", "https://kpopping.com/kpics/240201-New-Jeans-Haerin-2024-F-W-Seoul-Fashion-Week", "Haerin cameo, midriff-visible.", "portrait", "center 38%"],
+  ["https://legacy.kpopping.com/d8/4/240201-New-Jeans-Haerin-2024-F-W-Seoul-Fashion-Week-documents-12.jpeg", "https://kpopping.com/kpics/240201-New-Jeans-Haerin-2024-F-W-Seoul-Fashion-Week", "Haerin cameo, midriff-visible.", "portrait", "center 38%"],
+]);
+
+addExternalCameoItems(wonyoungItems, "Wonyoung", [
+  ["https://legacy.kpopping.com/43/1/250329-WONYOUNG-Instagram-Update-documents-1.jpeg", "https://kpopping.com/kpics/250329-WONYOUNG-Instagram-Update", "Wonyoung cameo, bare-shoulder frame.", "portrait", "center 38%"],
+  ["https://legacy.kpopping.com/f5/0/250329-WONYOUNG-Instagram-Update-documents-2.jpeg", "https://kpopping.com/kpics/250329-WONYOUNG-Instagram-Update", "Wonyoung cameo, bare-shoulder frame.", "portrait", "center 38%"],
+  ["https://legacy.kpopping.com/ed/1/250329-WONYOUNG-Instagram-Update-documents-3.jpeg", "https://kpopping.com/kpics/250329-WONYOUNG-Instagram-Update", "Wonyoung cameo, bare-shoulder frame.", "portrait", "center 38%"],
+  ["https://legacy.kpopping.com/b8/3/250329-WONYOUNG-Instagram-Update-documents-4.jpeg", "https://kpopping.com/kpics/250329-WONYOUNG-Instagram-Update", "Wonyoung cameo, bare-shoulder frame.", "portrait", "center 38%"],
+  ["https://legacy.kpopping.com/13/1/250329-WONYOUNG-Instagram-Update-documents-5.jpeg", "https://kpopping.com/kpics/250329-WONYOUNG-Instagram-Update", "Wonyoung cameo, bare-shoulder frame.", "portrait", "center 38%"],
+  ["https://legacy.kpopping.com/c2/1/250329-WONYOUNG-Instagram-Update-documents-7.jpeg", "https://kpopping.com/kpics/250329-WONYOUNG-Instagram-Update", "Wonyoung cameo, bare-shoulder frame.", "portrait", "center 38%"],
+  ["https://legacy.kpopping.com/4a/2/250329-WONYOUNG-Instagram-Update-documents-8.jpeg", "https://kpopping.com/kpics/250329-WONYOUNG-Instagram-Update", "Wonyoung cameo, bare-shoulder frame.", "portrait", "center 38%"],
+  ["https://legacy.kpopping.com/03/0/250329-WONYOUNG-Instagram-Update-documents-9.jpeg", "https://kpopping.com/kpics/250329-WONYOUNG-Instagram-Update", "Wonyoung cameo, bare-shoulder frame.", "portrait", "center 38%"],
+  ["https://legacy.kpopping.com/21/2/250329-WONYOUNG-Instagram-Update-documents-10.jpeg", "https://kpopping.com/kpics/250329-WONYOUNG-Instagram-Update", "Wonyoung cameo, bare-shoulder frame.", "portrait", "center 38%"],
+  ["https://legacy.kpopping.com/c6/1/250329-WONYOUNG-Instagram-Update-documents-11.jpeg", "https://kpopping.com/kpics/250329-WONYOUNG-Instagram-Update", "Wonyoung cameo, bare-shoulder frame.", "portrait", "center 38%"],
+  ["https://legacy.kpopping.com/b5/2/250329-WONYOUNG-Instagram-Update-documents-12.jpeg", "https://kpopping.com/kpics/250329-WONYOUNG-Instagram-Update", "Wonyoung cameo, bare-shoulder frame.", "portrait", "center 38%"],
+  ["https://legacy.kpopping.com/89/4/250329-WONYOUNG-Instagram-Update-documents-13.jpeg", "https://kpopping.com/kpics/250329-WONYOUNG-Instagram-Update", "Wonyoung cameo, bare-shoulder frame.", "portrait", "center 38%"],
+  ["https://legacy.kpopping.com/fe/5/250329-WONYOUNG-Instagram-Update-documents-14.jpeg", "https://kpopping.com/kpics/250329-WONYOUNG-Instagram-Update", "Wonyoung cameo, bare-shoulder frame.", "portrait", "center 38%"],
+  ["https://legacy.kpopping.com/be/1/250329-WONYOUNG-Instagram-Update-documents-15.jpeg", "https://kpopping.com/kpics/250329-WONYOUNG-Instagram-Update", "Wonyoung cameo, bare-shoulder frame.", "portrait", "center 38%"],
+  ["https://legacy.kpopping.com/04/5/250329-WONYOUNG-Instagram-Update-documents-16.jpeg", "https://kpopping.com/kpics/250329-WONYOUNG-Instagram-Update", "Wonyoung cameo, bare-shoulder frame.", "portrait", "center 38%"],
+  ["https://legacy.kpopping.com/1a/1/230615-IVE-Wonyoung-Instagram-Update-documents-1.jpeg", "https://kpopping.com/kpics/230615-IVE-Wonyoung-Instagram-Update", "Wonyoung cameo, bare-shoulder frame.", "portrait", "center 38%"],
+  ["https://legacy.kpopping.com/9c/1/230615-IVE-Wonyoung-Instagram-Update-documents-2.jpeg", "https://kpopping.com/kpics/230615-IVE-Wonyoung-Instagram-Update", "Wonyoung cameo, bare-shoulder frame.", "portrait", "center 38%"],
+  ["https://legacy.kpopping.com/23/1/230615-IVE-Wonyoung-Instagram-Update-documents-3.jpeg", "https://kpopping.com/kpics/230615-IVE-Wonyoung-Instagram-Update", "Wonyoung cameo, bare-shoulder frame.", "portrait", "center 38%"],
+  ["https://legacy.kpopping.com/8a/4/230615-IVE-Wonyoung-Instagram-Update-documents-4.jpeg", "https://kpopping.com/kpics/230615-IVE-Wonyoung-Instagram-Update", "Wonyoung cameo, bare-shoulder frame.", "portrait", "center 38%"],
+  ["https://legacy.kpopping.com/c6/4/230615-IVE-Wonyoung-Instagram-Update-documents-5.jpeg", "https://kpopping.com/kpics/230615-IVE-Wonyoung-Instagram-Update", "Wonyoung cameo, bare-shoulder frame.", "portrait", "center 38%"],
+  ["https://legacy.kpopping.com/75/4/230615-IVE-Wonyoung-Instagram-Update-documents-6.jpeg", "https://kpopping.com/kpics/230615-IVE-Wonyoung-Instagram-Update", "Wonyoung cameo, bare-shoulder frame.", "portrait", "center 38%"],
+  ["https://legacy.kpopping.com/98/0/230615-IVE-Wonyoung-Instagram-Update-documents-7.jpeg", "https://kpopping.com/kpics/230615-IVE-Wonyoung-Instagram-Update", "Wonyoung cameo, bare-shoulder frame.", "portrait", "center 38%"],
+  ["https://legacy.kpopping.com/43/4/230615-IVE-Wonyoung-Instagram-Update-documents-8.jpeg", "https://kpopping.com/kpics/230615-IVE-Wonyoung-Instagram-Update", "Wonyoung cameo, bare-shoulder frame.", "portrait", "center 38%"],
+  ["https://legacy.kpopping.com/60/1/230615-IVE-Wonyoung-Instagram-Update-documents-9.jpeg", "https://kpopping.com/kpics/230615-IVE-Wonyoung-Instagram-Update", "Wonyoung cameo, bare-shoulder frame.", "portrait", "center 38%"],
+  ["https://legacy.kpopping.com/6d/2/230615-IVE-Wonyoung-Instagram-Update-documents-10.jpeg", "https://kpopping.com/kpics/230615-IVE-Wonyoung-Instagram-Update", "Wonyoung cameo, bare-shoulder frame.", "portrait", "center 38%"],
 ]);
 
 const cameoItems = interleaveGroups([haerinItems, wonyoungItems, hanniItems]);
@@ -817,7 +874,7 @@ const carItems = [
     focus: "center 52%",
   },
   {
-    image: "https://group.mercedes-benz.com/bilder/produkte/pkw/mercedes-benz/cla-2025/mercedes-benz-cla-2025-01-w1680xh945-cutout.jpg?im=AspectCrop%3D%289%2C4%29%2CxPosition%3D0%2CyPosition%3D0.5&impolicy=acrop",
+    image: "https://group.mercedes-benz.com/bilder/produkte/pkw/mercedes-benz/cla-2025/mercedes-benz-cla-2025-01-w1680xh945-cutout.jpg",
     url: "https://group.mercedes-benz.com/company/news/cla-car-of-the-year-2026.html",
     caption: "White Mercedes-Benz CLA, sunset paint and compact luxury future.",
     carGroup: "car:mercedes-cla-white",
@@ -1643,7 +1700,7 @@ const blockedContentTerms = [
   "beauty event",
 ];
 
-const disallowedCarPattern = /firefighter|fire truck|firetruck|fire engine|fire department|feuerwehr|werkfeuerwehr|p905430|suv|crossover|countryman|hatchback|sportback|bmw x[1-7]|bmw ix[1-7]|audi q[2-8]|cayenne|macan|classic|vintage|oldtimer|youngtimer|old car|museum|exhibition|motor show|auto show|show floor|auto zuerich|sauerland|tuning show|moscow|iaa|frankfurt|parade|traffic|china|lwb|e class|w212|v212|e30|e34|e36|e39|e46|e60|e90|e92|e93|f30|w124|w201|w202|w203|w204|199[0-9]|200[0-9]|201[0-9]/i;
+const disallowedCarPattern = /firefighter|fire truck|firetruck|fire engine|fire department|feuerwehr|werkfeuerwehr|p905430|suv|crossover|countryman|hatchback|sportback|bmw x[1-7]|bmw ix[1-7]|audi q[2-8]|cayenne|macan|classic|vintage|oldtimer|youngtimer|old car|museum|exhibition|motor show|auto show|show floor|auto zuerich|sauerland|tuning show|moscow|iaa|frankfurt|parade|traffic|china|lwb|e class|w212|v212|e30|e34|e36|e39|e46|e60|e90|e92|e93|f30|w124|w201|w202|w203|w204|\b(?:199[0-9]|200[0-9]|201[0-9])\b/i;
 const carIdentityPattern = /bmw|mercedes|benz|audi|mini|sedan|gran coupe|\bm235\b|\bm3\b|3 series|\bcla\b|\bc-class\b|\b(?:a3|a4|a5|s3|rs3)\b|mediapool|uploads\.audi|mercedes-benz/i;
 const dislikedCarGroups = new Set([
   "car:bmw-m5-green",
@@ -1991,7 +2048,7 @@ const onlineBatchSize = 36;
 const categories = ["food", "kpop", "car"];
 const mixPattern = ["food", "kpop", "car"];
 const longScrollItemsPerCategory = 7200;
-const foodItems = uniqueBySource(baseItems.filter((item) => !item.file || !skippedFiles.has(item.file)));
+const foodItems = uniqueBySource(baseItems.filter((item) => (!item.file || !skippedFiles.has(item.file)) && passesCurator(item, { category: "food" })));
 const kpopItems = buildCameoPool(cameoItems);
 const dreamCarItems = uniqueBySource(prioritizeCarItems(carItems));
 
@@ -3156,6 +3213,7 @@ function enqueueUnique(state, category, item) {
   if (!item) return false;
   const nextItem = { ...item, category: item.category || category };
   if (isBlockedContentItem(nextItem)) return false;
+  if (!passesCurator(nextItem, { category })) return false;
   if (preferenceRejectsItem(nextItem, category)) return false;
   const key = sourceKey(nextItem);
   if (!key || hiddenKeySet.has(key) || isLowQualityRejectedItem(nextItem) || state.seenKeys.has(key) || state.queuedKeys.has(key)) return false;
@@ -3170,6 +3228,7 @@ function validQueuedItem(state, category, item) {
     && !hiddenKeySet.has(key)
     && !isBlockedContentItem(item)
     && !isLowQualityRejectedItem(item)
+    && passesCurator(item, { category })
     && !preferenceRejectsItem(item, category)
     && !state.seenKeys.has(key);
 }
@@ -4153,6 +4212,11 @@ function createTile(item, index, onHide, onQualityReject) {
     };
     img.addEventListener("load", finalizeCarFrame, { once: true });
   }
+  const markLoaded = () => {
+    if (!tile.isConnected || !img.naturalWidth || !img.naturalHeight) return;
+    tile.classList.add("is-loaded");
+  };
+  img.addEventListener("load", markLoaded, { once: true });
   img.src = imageFor(item);
   if (typeof finalizeCarFrame === "function") {
     finalizeCarFrame();
@@ -4164,6 +4228,8 @@ function createTile(item, index, onHide, onQualityReject) {
     setTimeout(finalizeKpopQuality, 2500);
     setTimeout(finalizeKpopQuality, 7000);
   }
+  markLoaded();
+  setTimeout(markLoaded, 2500);
 
   const caption = document.createElement("span");
   caption.className = "caption";
