@@ -735,6 +735,29 @@ const blockedCameoFiles = new Set([
   "Newjeans Hanni 2023 09.png",
   "Newjeans Hanni 2023 10.jpg",
   "Hanni at Music Bank on August 4, 2022.jpg",
+  "20250310 Jang Wonyoung 01.jpg",
+  "20250310 Jang Wonyoung 02.jpg",
+  "20250310 Jang Wonyoung 03.jpg",
+  "20250310 Jang Wonyoung 04.jpg",
+  "20250310 Jang Wonyoung 05.jpg",
+  "20250310 Jang Wonyoung 06.jpg",
+  "Jang Wonyoung 240513.jpg",
+  "Jang Wonyoung 장원영 240513 01.png",
+  "Jang Wonyoung 장원영 240513 02.png",
+  "Jang Wonyoung 장원영 240513 03.png",
+  "Jang Won Young 2025.jpg",
+  "Jang Wonyoung portrait 2025.jpg",
+  "Wonyoung in 2025.png",
+  "Wonyoung in January 2026.png",
+  "Hanni OLENS 1.jpg",
+  "Hanni OLENS 2.jpg",
+  "Hanni OLENSglobal.jpg",
+  "NewJeans Hanni OLENS 3 (cropped).jpg",
+  "NewJeans Hanni OLENS 3.jpg",
+  "NewJeans Haerin Incheon Airport 1.jpg",
+  "NewJeans OLensglobal Haerin.jpg",
+  "Kang Haerin for OLENS 2.jpg",
+  "Kang Haerin for OLENS 3.jpg",
 ]);
 
 const casualCameoFiles = new Set([
@@ -1448,6 +1471,8 @@ function interleaveGroups(groups) {
 const blockedContentTerms = [
   "loremflickr",
   "ningning",
+  "kérastase",
+  "kerastase",
   "suv",
   "crossover",
   "countryman",
@@ -1614,7 +1639,7 @@ const likedCarGroups = new Set([
 ]);
 const dislikedCarTastePattern = /(?:purple|green).{0,40}\bm5\b|\bm5\b.{0,40}(?:purple|green)|green.{0,40}\bm3\b|\bm3\b.{0,40}green|blue.{0,40}\bm235\b|\bm235\b.{0,40}(?:blue|borusan)|borusan blue|\bm3 cs\b/i;
 const likedCarTastePattern = /a0j42547|manhattan gray|black optic|premium plus|parchment beige|white|alpine white|\bm235\b|2 series gran coupe|gran coupe|\bcla\b|a3 limousine|a5 sedan|s3 limousine|rs ?3 limousine|rs ?3 sedan|\baudi\b.{0,32}\bsedan\b/i;
-const blockedCarCompositionSourcePattern = /A241157|A241355|A241359|A241360|A241362|A241363|A241364|A241365|A244441|A244450|A244458|P90549619|P90549623|audi-a3-a0j42547:(?:11-rear-three-quarter|18-rear-full-sedan-sweep)/i;
+const blockedCarCompositionSourcePattern = /A241157|A241355|A241358|A241359|A241360|A241362|A241363|A241364|A241365|A244441|A244450|A244458|P90549619|P90549623|audi-a3-a0j42547:(?:11-rear-three-quarter|18-rear-full-sedan-sweep)/i;
 const carCompositionImageRejectPattern = /aspectcrop|system\/production\/cars\/|web_1440_[^?\s]+limousine/i;
 const carCompositionRejectPattern = /side\s*(?:view|profile)|\bprofile\b|crop|cropped|close-up|close up|detail|grille|headlight|tail\s*light|taillight|wheel|arch|badge|bumper|shoulder|interior|cabin|dashboard|cockpit|console|seat|shifter|door controls|trim|roofline|sculpture|texture|vent|mirror|windshield|hood reflection/i;
 const carCompositionPreferPattern = /front[-\s]?three[-\s]?quarter|rear[-\s]?three[-\s]?quarter|full[-\s]?car|whole car|road|motion|driving|exterior|stance|architecture|low clean frame|hero frame/i;
@@ -4014,21 +4039,35 @@ function createTile(item, index, onHide, onQualityReject) {
 
   const img = document.createElement("img");
   img.alt = "";
-  img.loading = index < 18 ? "eager" : "lazy";
+  img.loading = index < 60 ? "eager" : "lazy";
   img.decoding = "async";
+  if (index < 36) img.fetchPriority = "high";
   img.addEventListener("error", () => {
     if (typeof onQualityReject === "function") {
-      onQualityReject(item);
+      onQualityReject(item, tile);
       return;
     }
     tile.remove();
   }, { once: true });
+  window.setTimeout(() => {
+    if (img.naturalWidth || img.naturalHeight || !tile.isConnected) return;
+    if (typeof onQualityReject === "function") {
+      onQualityReject(item, tile);
+      return;
+    }
+    tile.remove();
+  }, 9000);
+  let finalizeKpopQuality = null;
   if (category === "kpop") {
-    img.addEventListener("load", () => {
+    let kpopQualityFinalized = false;
+    finalizeKpopQuality = () => {
+      if (kpopQualityFinalized || !img.naturalWidth || !img.naturalHeight) return;
+      kpopQualityFinalized = true;
       if (typeof onQualityReject === "function" && !isHighQualityKpopImage(img)) {
-        onQualityReject(item);
+        onQualityReject(item, tile);
       }
-    }, { once: true });
+    };
+    img.addEventListener("load", finalizeKpopQuality, { once: true });
   }
   let finalizeCarFrame = null;
   if (category === "car") {
@@ -4037,7 +4076,7 @@ function createTile(item, index, onHide, onQualityReject) {
       if (carFrameFinalized || !img.naturalWidth || !img.naturalHeight) return;
       carFrameFinalized = true;
       if (typeof onQualityReject === "function" && !isUsableCarFrame(img)) {
-        onQualityReject(item);
+        onQualityReject(item, tile);
         return;
       }
       fitCarTileToImage(tile, img);
@@ -4049,6 +4088,11 @@ function createTile(item, index, onHide, onQualityReject) {
     finalizeCarFrame();
     setTimeout(finalizeCarFrame, 2500);
     setTimeout(finalizeCarFrame, 7000);
+  }
+  if (typeof finalizeKpopQuality === "function") {
+    finalizeKpopQuality();
+    setTimeout(finalizeKpopQuality, 2500);
+    setTimeout(finalizeKpopQuality, 7000);
   }
 
   const caption = document.createElement("span");
@@ -4377,18 +4421,21 @@ async function render() {
     }, 0);
   };
 
-  const handleQualityReject = async (item) => {
+  const handleQualityReject = async (item, tileElement = null) => {
     const key = sourceKey(item);
     const category = categoryFor(item);
-    if (!key || lowQualityRejectedKeySet.has(key) || !category) return;
+    if (!key || !category) return;
 
     lowQualityRejectedKeySet.add(key);
     prefetchOnlineItemsForCategory(feedState, category);
     const itemIndex = renderedItems.findIndex((renderedItem) => sourceKey(renderedItem) === key);
-    if (itemIndex < 0) return;
+    if (itemIndex < 0) {
+      if (tileElement && tileElement.isConnected) tileElement.remove();
+      return;
+    }
 
     renderedItems.splice(itemIndex, 1);
-    if (!removeTileElement(wall, key)) {
+    if (!removeTileElement(wall, key, tileElement)) {
       layoutWall(wall, renderedItems, handleHide, handleQualityReject);
     }
 
