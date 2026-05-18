@@ -535,7 +535,7 @@ const wonyoungItems = [
   {
     person: "Wonyoung",
     file: "Wonyoung at Bvlgari event.png",
-    caption: "Wonyoung cameo, glossy event smile.",
+    caption: "Wonyoung cameo, bare-shoulder Bvlgari event frame.",
     shape: "portrait",
     focus: "center 36%",
     width: 1500,
@@ -711,14 +711,41 @@ addExternalCameos(haerinItems, "Haerin", "https://kpopping.com/kpics/240616-NewJ
 ]);
 
 addExternalCameos(hanniItems, "Hanni", "https://kpopping.com/kpics/240201-New-Jeans-Hanni-2024-F-W-Seoul-Fashion-Week", [
-  ["https://pub-dc9a9c6ac2a64ba48bce426ced0ac56a.r2.dev/kpics/2026/02/1770824189997-ozopbe-0.webp", "Hanni cameo, soft pigtail table-card glow.", "wide", "center 40%"],
+  ["https://pub-dc9a9c6ac2a64ba48bce426ced0ac56a.r2.dev/kpics/2026/02/1770824189997-ozopbe-0.webp", "Hanni cameo, shoulder-visible pigtail table-card glow.", "wide", "center 40%"],
   ["https://pub-dc9a9c6ac2a64ba48bce426ced0ac56a.r2.dev/kpics/2026/02/1770773474221-kdd70c-0.webp", "Hanni cameo, black-sleeveless headband glow.", "portrait", "center 38%"],
 ]);
 
 addExternalCameos(wonyoungItems, "Wonyoung", "https://kpopping.com/kpics/WONYOUNG-x-Tommy-Jeans-for-Marie-Claire-Korea-Special-Edition", [
   ["https://pub-dc9a9c6ac2a64ba48bce426ced0ac56a.r2.dev/kpics/2026/05/1777792889590-ow8qtv-0.jpg", "Wonyoung cameo, red off-shoulder editorial spark.", "portrait", "center 36%"],
   ["https://pub-dc9a9c6ac2a64ba48bce426ced0ac56a.r2.dev/kpics/2026/05/1777675586432-v6o3ir-0.jpg", "Wonyoung cameo, glossy shoulder-pose magazine glow.", "portrait", "center 38%"],
-  ["https://pub-dc9a9c6ac2a64ba48bce426ced0ac56a.r2.dev/kpics/2026/05/1777628047807-iz6r3x-0.jpg", "Wonyoung cameo, soft curl beauty-card glow.", "portrait", "center 38%"],
+  ["https://pub-dc9a9c6ac2a64ba48bce426ced0ac56a.r2.dev/kpics/2026/05/1777628047807-iz6r3x-0.jpg", "Wonyoung cameo, shoulder-visible soft curl frame.", "portrait", "center 38%"],
+]);
+
+addExternalCameos(hanniItems, "Hanni", "https://kpopping.com/kpics/240102-NEW-JEANS-INSTAGRAM-UPDATE-HANNI", [
+  ["https://legacy.kpopping.com/96/5/240102-NEW-JEANS-INSTAGRAM-UPDATE-HANNI-documents-3.jpeg", "Hanni cameo, shoulder-visible green dress lounge frame.", "portrait", "center 42%"],
+  ["https://legacy.kpopping.com/d4/4/240102-NEW-JEANS-INSTAGRAM-UPDATE-HANNI-documents-6.jpeg", "Hanni cameo, bare-shoulder backless white knit frame.", "portrait", "center 40%"],
+]);
+
+addExternalCameos(hanniItems, "Hanni", "https://kpopping.com/kpics/NewJeans-Hanni-for-W-Korea-Vol-2-February-2024-Issue", [
+  ["https://legacy.kpopping.com/12/3/NewJeans-Hanni-for-W-Korea-Vol-2-February-2024-Issue-documents-3.jpeg", "Hanni cameo, midriff-visible clean crop-top frame.", "portrait", "center 38%"],
+  ["https://legacy.kpopping.com/59/3/NewJeans-Hanni-for-W-Korea-Vol-2-February-2024-Issue-documents-4.jpeg", "Hanni cameo, navel-visible crop-top jacket frame.", "portrait", "center 38%"],
+]);
+
+addExternalCameos(haerinItems, "Haerin", "https://kpopping.com/kpics/240622-NewJeans-Instagram-Update-with-HAERIN", [
+  ["https://pub-dc9a9c6ac2a64ba48bce426ced0ac56a.r2.dev/kpics/2026/05/1778791524577-jhpduh-0.jpg", "Haerin cameo, shoulder-visible black beach-day frame.", "portrait", "center 40%"],
+]);
+
+addExternalCameos(haerinItems, "Haerin", "https://kpopping.com/kpics/240525-NewJeans-Instagram-Update-Haerin", [
+  ["https://legacy.kpopping.com/c8/1/240525-NewJeans-Instagram-Update-Haerin-documents-7.jpeg", "Haerin cameo, sleeveless soft clean close frame.", "portrait", "center 38%"],
+]);
+
+addExternalCameos(wonyoungItems, "Wonyoung", "https://kpopping.com/kpics/221014-IVE-Wonyoung-at-Incheon-International-Airport", [
+  ["https://legacy.kpopping.com/5c/4/221014-WONYOUNG-IVE-documents-1.jpeg", "Wonyoung cameo, red off-shoulder airport close frame.", "portrait", "center 36%"],
+  ["https://pub-dc9a9c6ac2a64ba48bce426ced0ac56a.r2.dev/kpics/2026/05/1778660616393-jzen46-0.jpg", "Wonyoung cameo, black strapless shoulder-visible frame.", "portrait", "center 38%"],
+  ["https://legacy.kpopping.com/f3/1/221014-IVE-Wonyoung-documents-5.jpeg", "Wonyoung cameo, sleeveless balcony selfie frame.", "portrait", "center 40%"],
+  ["https://legacy.kpopping.com/f5/4/221014-IVE-Wonyoung-documents-6.jpeg", "Wonyoung cameo, white sleeveless city-view frame.", "portrait", "center 38%"],
+  ["https://legacy.kpopping.com/f1/0/221014-IVE-Wonyoung-documents-8.jpeg", "Wonyoung cameo, off-shoulder soft clean frame.", "portrait", "center 38%"],
+  ["https://legacy.kpopping.com/53/1/221014-IVE-Wonyoung-documents-11.jpeg", "Wonyoung cameo, white sleeveless gentle smile frame.", "portrait", "center 38%"],
 ]);
 
 const cameoItems = interleaveGroups([haerinItems, wonyoungItems, hanniItems]);
@@ -1617,7 +1644,7 @@ const blockedContentTerms = [
 ];
 
 const disallowedCarPattern = /firefighter|fire truck|firetruck|fire engine|fire department|feuerwehr|werkfeuerwehr|p905430|suv|crossover|countryman|hatchback|sportback|bmw x[1-7]|bmw ix[1-7]|audi q[2-8]|cayenne|macan|classic|vintage|oldtimer|youngtimer|old car|museum|exhibition|motor show|auto show|show floor|auto zuerich|sauerland|tuning show|moscow|iaa|frankfurt|parade|traffic|china|lwb|e class|w212|v212|e30|e34|e36|e39|e46|e60|e90|e92|e93|f30|w124|w201|w202|w203|w204|199[0-9]|200[0-9]|201[0-9]/i;
-const carIdentityPattern = /bmw|mercedes|benz|audi|mini|sedan|gran coupe|m235|m3|3 series|cla|c-class|a3|a4|a5|s3|rs3|mediapool|uploads\.audi|mercedes-benz/i;
+const carIdentityPattern = /bmw|mercedes|benz|audi|mini|sedan|gran coupe|\bm235\b|\bm3\b|3 series|\bcla\b|\bc-class\b|\b(?:a3|a4|a5|s3|rs3)\b|mediapool|uploads\.audi|mercedes-benz/i;
 const dislikedCarGroups = new Set([
   "car:bmw-m5-green",
   "car:bmw-m5-purple",
@@ -1719,6 +1746,7 @@ function prioritizeCarItems(list) {
 }
 
 function isBlockedContentItem(item) {
+  const category = categoryFor(item);
   const text = [
     item && item.person,
     item && item.file,
@@ -1731,6 +1759,9 @@ function isBlockedContentItem(item) {
 
   if (carIdentityPattern.test(text) && isDisallowedCarText(text)) return true;
   if (carIdentityPattern.test(text) && carTasteRejected(item, text)) return true;
+  if (category === "kpop") {
+    return /ningning|microphone|fancam|concert|performance|music bank|inkigayo|mma|mama|golden disc/i.test(text);
+  }
   return blockedContentTerms.some((term) => text.includes(term));
 }
 
@@ -1747,11 +1778,11 @@ const curatorProfiles = {
   },
   kpop: {
     prefer: [
-      /soft|natural|clean|gentle|bright|smile|calm|airport|public relations|olens|hanni|haerin|wonyoung|newjeans|ive/i,
+      /shoulder|off-shoulder|off shoulder|sleeveless|strapless|spaghetti strap|tank top|crop top|midriff|belly|navel|hanni|haerin|wonyoung|newjeans|ive/i,
       /2024|2025|2026|241|250|260/i,
     ],
     reject: [
-      /stage|performance|concert|festival|inkigayo|music bank|microphone|fancam|fan concert|awards?|mma|mama|golden disc|photocall|launch event|beauty event|editorial|glam|heavy makeup|red carpet/i,
+      /stage|performance|concert|festival|inkigayo|music bank|microphone|fancam|fan concert|awards?|mma|mama|golden disc|photocall|launch event|beauty event|glam|heavy makeup|red carpet|face[-\s]?only|headshot|close[-\s]?up|covered shoulder|fully covered|sweater|cardigan|hoodie|coat|blazer|long[-\s]?sleeve|turtleneck/i,
     ],
     minScore: 3,
   },
@@ -1768,6 +1799,8 @@ const curatorProfiles = {
   },
 };
 
+const kpopExposurePattern = /(?:bare|exposed|visible|showing|open)?[-\s]*(?:shoulder|shoulders)|off[-\s]?shoulder|one[-\s]?shoulder|shoulder[-\s]?pose|sleeveless|strapless|spaghetti[-\s]?strap|thin[-\s]?strap|halter|tube[-\s]?top|tank[-\s]?top|camisole|bralette|crop[-\s]?top|cropped[-\s]?top|midriff|belly(?:\s*button)?|navel|bare[-\s]?waist|waistline/i;
+
 function curationText(item, source = {}) {
   return [
     item && item.person,
@@ -1782,6 +1815,11 @@ function curationText(item, source = {}) {
   ].map((value) => normalizeSourceText(value || "").toLowerCase()).join(" ");
 }
 
+function hasKpopExposureSignal(item, source = {}) {
+  if (source && source.aiExposureApproved) return true;
+  return kpopExposurePattern.test(curationText(item));
+}
+
 function curationCategory(item, source = {}) {
   return source.category || (item && item.category) || categoryFor(item || {});
 }
@@ -1792,6 +1830,7 @@ function curatorScore(item, source = {}) {
   if (!profile) return 0;
 
   const text = curationText(item, source);
+  if (category === "kpop" && !hasKpopExposureSignal(item, source)) return -100;
   if (profile.reject.some((pattern) => pattern.test(text))) return -100;
   if (category === "car" && carTasteRejected(item, text)) return -100;
 
@@ -1801,7 +1840,7 @@ function curatorScore(item, source = {}) {
   });
 
   if (/thumb|official|press|studio|restaurant|platter|road|exterior|airport/i.test(text)) score += 1;
-  if (category === "kpop" && source.provider === "kpopping" && /natural|clean|portrait/i.test(text)) score += 1;
+  if (category === "kpop" && hasKpopExposureSignal(item, source)) score += 6;
   if (category === "car") score += carTasteScore(item, text);
   if (/cropped|lowres|logo|diagram|map|menu|drawing|illustration/i.test(text)) score -= 3;
   if (item && ["wide", "cinema", "hero", "portrait", "tall"].includes(item.shape || "")) score += 1;
@@ -1813,6 +1852,7 @@ function passesCurator(item, source = {}) {
   const category = curationCategory(item, source);
   const profile = curatorProfiles[category];
   if (!profile) return true;
+  if (category === "kpop" && !hasKpopExposureSignal(item, source)) return false;
   return curatorScore(item, source) >= profile.minScore;
 }
 
@@ -1878,6 +1918,7 @@ const allowedCameoPeople = new Set(cameoPeople);
 
 function isAllowedCameo(item) {
   if (!allowedCameoPeople.has(item.person)) return false;
+  if (!hasKpopExposureSignal(item)) return false;
   if (item.external) return true;
   if (blockedCameoFiles.has(item.file)) return false;
   if (casualCameoFiles.has(item.file)) return false;
@@ -1887,6 +1928,7 @@ function isAllowedCameo(item) {
 function glamCaption(item) {
   if (!item.person) return item;
   const source = `${item.file || ""} ${item.caption || ""}`.toLowerCase();
+  if (kpopExposurePattern.test(source)) return item;
   let mood = "soft clean portrait";
   if (/hanni|241022/.test(source)) {
     mood = "natural clean smile";
@@ -1966,9 +2008,9 @@ const onlineSources = [
   { category: "food", label: "Tacos", query: "tacos carnitas quesadilla mexican food", requireAny: ["taco", "carnitas", "quesadilla"], maxItems: 84 },
   { category: "food", label: "Cajun", query: "gumbo cajun seafood food", requireAny: ["gumbo", "cajun"], maxItems: 48 },
   { category: "food", label: "Fried chicken", query: "fried chicken food", requireAny: ["fried chicken", "chicken"], maxItems: 72 },
-  { category: "kpop", label: "Hanni archive", provider: "kpopping", person: "Hanni", query: "Hanni clean online portrait", maxItems: 180 },
-  { category: "kpop", label: "Haerin archive", provider: "kpopping", person: "Haerin", query: "Haerin clean online portrait", maxItems: 180 },
-  { category: "kpop", label: "Wonyoung archive", provider: "kpopping", person: "Wonyoung", query: "Wonyoung clean online portrait", maxItems: 240 },
+  { category: "kpop", label: "Hanni shoulder or navel archive", provider: "kpopping", person: "Hanni", query: "Hanni exposed shoulder sleeveless crop top midriff", maxItems: 180 },
+  { category: "kpop", label: "Haerin shoulder or navel archive", provider: "kpopping", person: "Haerin", query: "Haerin exposed shoulder sleeveless crop top midriff", maxItems: 180 },
+  { category: "kpop", label: "Wonyoung shoulder or navel archive", provider: "kpopping", person: "Wonyoung", query: "Wonyoung exposed shoulder sleeveless crop top midriff", maxItems: 240 },
 ];
 
 function sourceMaxItemsForCategory(category) {
@@ -2023,9 +2065,9 @@ const generatedOnlineSourceSeeds = {
     { label: "Seafood boil", query: "seafood boil restaurant table", requireAny: ["seafood", "boil"], maxItems: 84 },
   ],
   kpop: [
-    { label: "Hanni archive refill", provider: "kpopping", person: "Hanni", query: "Hanni clean online portrait", maxItems: 2400 },
-    { label: "Haerin archive refill", provider: "kpopping", person: "Haerin", query: "Haerin clean online portrait", maxItems: 2400 },
-    { label: "Wonyoung archive refill", provider: "kpopping", person: "Wonyoung", query: "Wonyoung clean online portrait", maxItems: 2400 },
+    { label: "Hanni shoulder or navel refill", provider: "kpopping", person: "Hanni", query: "Hanni exposed shoulder sleeveless crop top midriff", maxItems: 2400 },
+    { label: "Haerin shoulder or navel refill", provider: "kpopping", person: "Haerin", query: "Haerin exposed shoulder sleeveless crop top midriff", maxItems: 2400 },
+    { label: "Wonyoung shoulder or navel refill", provider: "kpopping", person: "Wonyoung", query: "Wonyoung exposed shoulder sleeveless crop top midriff", maxItems: 2400 },
   ],
   car: [
     { group: "car:bmw-m235-white", label: "White BMW M235 Gran Coupe", query: "white 2025 BMW M235 Gran Coupe sedan exterior", requireAny: ["2025", "2026", "m235", "gran coupe"], kind: "car", maxItems: 96 },
@@ -3537,6 +3579,9 @@ function itemFromCommonsPage(source, page) {
   if (source.category === "kpop" && /2020|2021|2022|220|fan|fancam|stage|performance|concert|festival|music bank|inkigayo|microphone|ningning/i.test(lowerTitle)) {
     return null;
   }
+  if (source.category === "kpop" && !kpopExposurePattern.test(`${lowerTitle} ${source.label || ""} ${source.query || ""}`)) {
+    return null;
+  }
 
   const fileName = String(page.title || "").replace(/^File:/i, "");
   return {
@@ -3580,9 +3625,24 @@ function aiCandidatePayload(item) {
 function itemFromAiResponse(source, candidates, item) {
   const key = sourceKey(item);
   const matched = candidates.find((candidate) => sourceKey(candidate) === key);
-  const nextItem = matched || item;
-  if (!nextItem || preferenceRejectsItem(nextItem, source.category) || !passesCurator(nextItem, source)) return null;
-  return { ...nextItem, category: nextItem.category || source.category };
+  const nextItem = matched
+    ? {
+        ...matched,
+        ...item,
+        image: matched.image || item.image,
+        original: matched.original || item.original,
+        url: matched.url || item.url,
+        sourceId: matched.sourceId || item.sourceId,
+      }
+    : item;
+  const category = nextItem.category || source.category;
+  if (!nextItem || preferenceRejectsItem(nextItem, category) || isBlockedContentItem(nextItem)) return null;
+  if (category === "kpop") {
+    if (!passesCurator(nextItem, { ...source, aiExposureApproved: true })) return null;
+    return { ...nextItem, category, aiExposureApproved: true };
+  }
+  if (!passesCurator(nextItem, source)) return null;
+  return { ...nextItem, category };
 }
 
 async function fetchWithTimeout(url, options = {}, timeoutMs = 6500) {
@@ -3605,6 +3665,7 @@ async function curateCandidatesWithAi(source, candidates, limit = onlineBatchSiz
   }
 
   const requestCandidates = candidates.slice(0, 12);
+  const requestTimeout = source.category === "kpop" ? 18000 : 6500;
 
   try {
     const response = await fetchWithTimeout(aiCurateEndpoint, {
@@ -3623,14 +3684,17 @@ async function curateCandidatesWithAi(source, candidates, limit = onlineBatchSiz
         limit: Math.min(limit, requestCandidates.length),
         candidates: requestCandidates.map(aiCandidatePayload),
       }),
-    }, 4500);
+    }, requestTimeout);
 
-    if ([404, 405, 501, 503].includes(response.status)) {
+    if ([402, 404, 405, 429, 500, 501, 502, 503].includes(response.status)) {
       aiCuratorUnavailable = true;
       return [];
     }
 
-    if (!response.ok) return [];
+    if (!response.ok) {
+      aiCuratorUnavailable = true;
+      return [];
+    }
 
     const data = await response.json();
     if (!data || !Array.isArray(data.items)) return [];
@@ -3647,9 +3711,15 @@ async function curateCandidatesWithAi(source, candidates, limit = onlineBatchSiz
 }
 
 async function rankOnlineCandidates(source, candidates) {
+  if (source.provider === "kpopping") {
+    const uniqueCandidates = uniqueBySource(candidates).filter((item) => !preferenceRejectsItem(item, source.category));
+    const aiRanked = await curateCandidatesWithAi(source, uniqueCandidates, onlineBatchSize);
+    if (aiRanked.length) return aiRanked;
+    return [];
+  }
+
   const locallyRanked = uniqueBySource(localRankCandidates(source, candidates));
   if (!locallyRanked.length) return [];
-  if (source.provider === "kpopping") return locallyRanked;
 
   const aiRanked = await curateCandidatesWithAi(source, locallyRanked, onlineBatchSize);
   return aiRanked.length ? aiRanked : locallyRanked;

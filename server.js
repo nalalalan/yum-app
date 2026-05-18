@@ -579,6 +579,29 @@ function uniqueSelectedIndexes(selected, maxIndex, limit) {
   return result.slice(0, limit);
 }
 
+function uniqueSelectedEntries(selected, maxIndex, limit, category) {
+  const seen = new Set();
+  const result = [];
+
+  (selected || []).forEach((entry) => {
+    const index = Number(entry && entry.index);
+    if (!Number.isInteger(index) || index < 0 || index > maxIndex || seen.has(index)) return;
+    const exposure = cleanText(entry && entry.exposure ? entry.exposure : "", 40).toLowerCase();
+    if (category === "kpop" && !["shoulder", "navel", "both"].includes(exposure)) return;
+    seen.add(index);
+    result.push({ index, exposure });
+  });
+
+  return result.slice(0, limit);
+}
+
+function kpopExposureCaption(item, exposure) {
+  const person = cleanText(item && item.person ? item.person : "K-pop", 80);
+  if (exposure === "both") return `${person} cameo, shoulder-and-navel-visible clean frame.`;
+  if (exposure === "navel") return `${person} cameo, navel-visible clean frame.`;
+  return `${person} cameo, shoulder-visible clean frame.`;
+}
+
 function curatorInstructions(category) {
   const shared = [
     "You curate an endless image wall for one person with strict taste rules.",
@@ -587,6 +610,7 @@ function curatorInstructions(category) {
     "Use the user's hide history as taste memory. Hidden examples are stronger than the general rules.",
     "Infer unlabeled patterns from hidden examples, including pose, styling, clothing, lighting, color, crop, car type, food composition, and overall vibe. Do not overgeneralize from one example, but repeated patterns should strongly affect ranking.",
     "Return only indexes for candidates that are genuinely good fits. If the batch is weak, select fewer items.",
+    "For food and car selections, return exposure as exactly not_applicable.",
   ];
 
   const categoryRules = {
@@ -596,6 +620,8 @@ function curatorInstructions(category) {
     ],
     kpop: [
       "Girls: prefer Hanni, Haerin, or Wonyoung photos that feel natural, soft, clean, pretty, current, and low-makeup.",
+      "Mandatory body-visibility gate: select a K-pop image only when the image itself clearly shows bare shoulder/shoulders, exposed midriff, belly button, navel, or both. Reject face-only crops, headshots, closeups, and any photo where clothing fully covers the shoulders and no belly button or midriff is visible.",
+      "For every selected K-pop candidate, return exposure as exactly shoulder, navel, or both. If the visible image does not clearly justify one of those labels, do not select it.",
       "Reject heavy makeup, stage/performance/concert photos, red carpet glam, editorial beauty-event looks, awkward press-line photos, and any Ningning images.",
     ],
     car: [
@@ -687,10 +713,32 @@ async function curateWithOpenAi({ category, source, candidates, limit, preferenc
       content.push({
         type: "input_image",
         image_url: candidate.image,
-        detail: "low",
+        detail: category === "kpop" ? "high" : "low",
       });
     }
   });
+
+  const selectedItemSchema = category === "kpop"
+    ? {
+        type: "object",
+        additionalProperties: false,
+        required: ["index", "score", "exposure"],
+        properties: {
+          index: { type: "integer" },
+          score: { type: "number" },
+          exposure: { type: "string", enum: ["shoulder", "navel", "both"] },
+        },
+      }
+    : {
+        type: "object",
+        additionalProperties: false,
+        required: ["index", "score", "exposure"],
+        properties: {
+          index: { type: "integer" },
+          score: { type: "number" },
+          exposure: { type: "string", enum: ["not_applicable"] },
+        },
+      };
 
   const response = await fetch("https://api.openai.com/v1/responses", {
     method: "POST",
@@ -715,15 +763,7 @@ async function curateWithOpenAi({ category, source, candidates, limit, preferenc
               selected: {
                 type: "array",
                 maxItems: selectedLimit,
-                items: {
-                  type: "object",
-                  additionalProperties: false,
-                  required: ["index", "score"],
-                  properties: {
-                    index: { type: "integer" },
-                    score: { type: "number" },
-                  },
-                },
+                items: selectedItemSchema,
               },
             },
           },
@@ -740,8 +780,17 @@ async function curateWithOpenAi({ category, source, candidates, limit, preferenc
 
   const text = extractResponseText(data);
   const parsed = JSON.parse(text);
-  const selectedIndexes = uniqueSelectedIndexes(parsed.selected, clippedCandidates.length - 1, selectedLimit);
-  return selectedIndexes.map((index) => clippedCandidates[index]);
+  const selectedEntries = uniqueSelectedEntries(parsed.selected, clippedCandidates.length - 1, selectedLimit, category);
+  return selectedEntries.map(({ index, exposure }) => {
+    const item = clippedCandidates[index];
+    if (category !== "kpop") return item;
+    return {
+      ...item,
+      aiExposureApproved: true,
+      exposure,
+      caption: kpopExposureCaption(item, exposure),
+    };
+  });
 }
 
 async function handleCurate(req, res) {
