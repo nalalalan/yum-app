@@ -76,7 +76,7 @@ noscript {
 .paper-copy strong {
   display: block;
   color: #fffdf8;
-  font-size: clamp(22px, 3vw, 34px);
+  font-size: 28px;
   line-height: 1;
   overflow-wrap: anywhere;
 }
@@ -274,8 +274,8 @@ noscript {
 }
 
 .tile[data-category="car"] img {
-  object-fit: contain;
-  padding: clamp(5px, 0.8vw, 12px);
+  object-fit: cover;
+  padding: 0;
 }
 
 .tile:hover img,
@@ -411,7 +411,7 @@ noscript {
   }
 
   .paper-copy strong {
-    font-size: 20px;
+    font-size: 22px;
     line-height: 1.06;
     overflow-wrap: anywhere;
   }

@@ -3973,12 +3973,28 @@ function isHighQualityKpopImage(img) {
   return width * height >= 1600000 && shortEdge >= 900 && longEdge >= 1550;
 }
 
+function isUsableCarFrame(img) {
+  const width = Number(img.naturalWidth) || 0;
+  const height = Number(img.naturalHeight) || 0;
+  if (!width || !height) return false;
+  const ratio = width / height;
+  return width * height >= 700000 && ratio >= 1.18 && ratio <= 2.55;
+}
+
+function fitCarTileToImage(tile, img) {
+  const width = Number(img.naturalWidth) || 0;
+  const height = Number(img.naturalHeight) || 0;
+  if (!width || !height) return;
+  tile.style.aspectRatio = `${width} / ${height}`;
+}
+
 function createTile(item, index, onHide, onQualityReject) {
   const tile = document.createElement("article");
+  const category = categoryFor(item);
   const key = sourceKey(item);
   const visualGroup = visualGroupFor(item);
   tile.className = `tile tile--${item.shape || "standard"}`;
-  tile.dataset.category = categoryFor(item);
+  tile.dataset.category = category;
   if (key) tile.dataset.sourceKey = key;
   if (visualGroup) tile.dataset.visualGroup = visualGroup;
   if (item.person) tile.dataset.person = item.person;
@@ -3997,7 +4013,6 @@ function createTile(item, index, onHide, onQualityReject) {
   link.setAttribute("aria-label", item.caption);
 
   const img = document.createElement("img");
-  img.src = imageFor(item);
   img.alt = "";
   img.loading = index < 18 ? "eager" : "lazy";
   img.decoding = "async";
@@ -4008,12 +4023,32 @@ function createTile(item, index, onHide, onQualityReject) {
     }
     tile.remove();
   }, { once: true });
-  if (categoryFor(item) === "kpop") {
+  if (category === "kpop") {
     img.addEventListener("load", () => {
       if (typeof onQualityReject === "function" && !isHighQualityKpopImage(img)) {
         onQualityReject(item);
       }
     }, { once: true });
+  }
+  let finalizeCarFrame = null;
+  if (category === "car") {
+    let carFrameFinalized = false;
+    finalizeCarFrame = () => {
+      if (carFrameFinalized || !img.naturalWidth || !img.naturalHeight) return;
+      carFrameFinalized = true;
+      if (typeof onQualityReject === "function" && !isUsableCarFrame(img)) {
+        onQualityReject(item);
+        return;
+      }
+      fitCarTileToImage(tile, img);
+    };
+    img.addEventListener("load", finalizeCarFrame, { once: true });
+  }
+  img.src = imageFor(item);
+  if (typeof finalizeCarFrame === "function") {
+    finalizeCarFrame();
+    setTimeout(finalizeCarFrame, 2500);
+    setTimeout(finalizeCarFrame, 7000);
   }
 
   const caption = document.createElement("span");
