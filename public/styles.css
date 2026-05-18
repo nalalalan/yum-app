@@ -189,6 +189,10 @@ noscript {
   transform: translateZ(0);
 }
 
+.tile:not(.is-loaded) {
+  display: none;
+}
+
 .tile-link {
   position: relative;
   display: block;
