@@ -132,6 +132,17 @@ const skippedFiles = new Set([
   "Soft shell crab (3196520484).jpg",
   "Spider hand roll.jpg",
   "Roasted Salmon Skin sushi roll, Soft Shell Crab sushi roll, Salmon and Avocado sushi roll, Miso Soup - Kenzan GPO (2673449759).jpg",
+  "Dalian Liaoning China Homemade-Jiaotze-01.jpg",
+  "Mushroom pork dumplings for lunch.jpg",
+  "Mandoo - Han Guuk Guan Korean.jpg",
+  "Beef Bulgogi Bento.JPG",
+  "Budae jjigae 2014-12-14 (1).jpg",
+  "Pulled pork with mac and cheese at the office.jpg",
+  "Food-restaurant-dinner-lunch (24300637966).jpg",
+  "My old mother fried chicken wings at home.jpg",
+  "Mac and cheese (home cooking) August 2024.JPG",
+  "Tonkatsu lunch box of Japanese National Diet Library.jpg",
+  "Tonkatsu lunch box of Japanese National Diet Library 2022.jpg",
   "Carbonara 2025.jpg",
   "Pasta carbonara.jpg",
   "Fettuccine Alfredo.jpg",
@@ -716,10 +727,6 @@ addCameos(wonyoungItems, "Wonyoung", [
   ["Jang Won-young at IVE 4th Fan Concert DIVE into IVE March 22, 2026 (6).jpg", "Wonyoung cameo, polished stage portrait.", "tall"],
 ]);
 
-addExternalCameos(hanniItems, "Hanni", "https://kpopping.com/kpics/240201-New-Jeans-Hanni-2024-F-W-Seoul-Fashion-Week", [
-  ["https://pub-dc9a9c6ac2a64ba48bce426ced0ac56a.r2.dev/kpics/2026/02/1770773474221-kdd70c-0.webp", "Hanni cameo, black-sleeveless headband glow.", "portrait", "center 38%"],
-]);
-
 addExternalCameos(hanniItems, "Hanni", "https://kpopping.com/kpics/240102-NEW-JEANS-INSTAGRAM-UPDATE-HANNI", [
   ["https://legacy.kpopping.com/96/5/240102-NEW-JEANS-INSTAGRAM-UPDATE-HANNI-documents-3.jpeg", "Hanni cameo, shoulder-visible green dress lounge frame.", "portrait", "center 42%"],
   ["https://legacy.kpopping.com/d4/4/240102-NEW-JEANS-INSTAGRAM-UPDATE-HANNI-documents-6.jpeg", "Hanni cameo, bare-shoulder backless white knit frame.", "portrait", "center 40%"],
@@ -738,22 +745,6 @@ addExternalCameos(wonyoungItems, "Wonyoung", "https://kpopping.com/kpics/221014-
   ["https://legacy.kpopping.com/53/1/221014-IVE-Wonyoung-documents-11.jpeg", "Wonyoung cameo, white sleeveless gentle smile frame.", "portrait", "center 38%"],
 ]);
 
-addExternalCameoItems(hanniItems, "Hanni", [
-  ["https://legacy.kpopping.com/df/2/220802-NewJeans-Instagram-Update-Hanni-documents-1.jpeg", "https://kpopping.com/kpics/220802-NewJeans-Instagram-Update-Hanni", "Hanni cameo, midriff-and-shoulder-visible.", "portrait", "center 38%"],
-  ["https://legacy.kpopping.com/6e/0/220802-NewJeans-Instagram-Update-Hanni-documents-2.jpeg", "https://kpopping.com/kpics/220802-NewJeans-Instagram-Update-Hanni", "Hanni cameo, midriff-and-shoulder-visible.", "portrait", "center 38%"],
-  ["https://legacy.kpopping.com/fe/3/240201-New-Jeans-Hanni-2024-F-W-Seoul-Fashion-Week-documents-1.jpeg", "https://kpopping.com/kpics/240201-New-Jeans-Hanni-2024-F-W-Seoul-Fashion-Week", "Hanni cameo, midriff-and-shoulder-visible.", "portrait", "center 38%"],
-  ["https://legacy.kpopping.com/a4/0/240201-New-Jeans-Hanni-2024-F-W-Seoul-Fashion-Week-documents-2.jpeg", "https://kpopping.com/kpics/240201-New-Jeans-Hanni-2024-F-W-Seoul-Fashion-Week", "Hanni cameo, midriff-and-shoulder-visible.", "portrait", "center 38%"],
-  ["https://legacy.kpopping.com/93/0/240201-New-Jeans-Hanni-2024-F-W-Seoul-Fashion-Week-documents-4.jpeg", "https://kpopping.com/kpics/240201-New-Jeans-Hanni-2024-F-W-Seoul-Fashion-Week", "Hanni cameo, midriff-and-shoulder-visible.", "portrait", "center 38%"],
-  ["https://legacy.kpopping.com/8c/1/240201-New-Jeans-Hanni-2024-F-W-Seoul-Fashion-Week-documents-5.jpeg", "https://kpopping.com/kpics/240201-New-Jeans-Hanni-2024-F-W-Seoul-Fashion-Week", "Hanni cameo, midriff-and-shoulder-visible.", "portrait", "center 38%"],
-  ["https://legacy.kpopping.com/c8/1/240201-New-Jeans-Hanni-2024-F-W-Seoul-Fashion-Week-documents-6.jpeg", "https://kpopping.com/kpics/240201-New-Jeans-Hanni-2024-F-W-Seoul-Fashion-Week", "Hanni cameo, midriff-and-shoulder-visible.", "portrait", "center 38%"],
-  ["https://legacy.kpopping.com/d9/2/240201-New-Jeans-Hanni-2024-F-W-Seoul-Fashion-Week-documents-7.jpeg", "https://kpopping.com/kpics/240201-New-Jeans-Hanni-2024-F-W-Seoul-Fashion-Week", "Hanni cameo, midriff-and-shoulder-visible.", "portrait", "center 38%"],
-  ["https://legacy.kpopping.com/6d/1/240201-New-Jeans-Hanni-2024-F-W-Seoul-Fashion-Week-documents-1(1).jpeg", "https://kpopping.com/kpics/240201-New-Jeans-Hanni-2024-F-W-Seoul-Fashion-Week", "Hanni cameo, midriff-and-shoulder-visible.", "portrait", "center 38%"],
-  ["https://legacy.kpopping.com/7a/5/240201-New-Jeans-Hanni-2024-F-W-Seoul-Fashion-Week-documents-2(1).jpeg", "https://kpopping.com/kpics/240201-New-Jeans-Hanni-2024-F-W-Seoul-Fashion-Week", "Hanni cameo, midriff-and-shoulder-visible.", "portrait", "center 38%"],
-  ["https://legacy.kpopping.com/53/4/240201-New-Jeans-Hanni-2024-F-W-Seoul-Fashion-Week-documents-3(1).jpeg", "https://kpopping.com/kpics/240201-New-Jeans-Hanni-2024-F-W-Seoul-Fashion-Week", "Hanni cameo, midriff-and-shoulder-visible.", "portrait", "center 38%"],
-  ["https://legacy.kpopping.com/d8/1/240201-New-Jeans-Hanni-2024-F-W-Seoul-Fashion-Week-documents-1(3).jpeg", "https://kpopping.com/kpics/240201-New-Jeans-Hanni-2024-F-W-Seoul-Fashion-Week", "Hanni cameo, midriff-and-shoulder-visible.", "portrait", "center 38%"],
-  ["https://legacy.kpopping.com/7e/1/240201-New-Jeans-Hanni-2024-F-W-Seoul-Fashion-Week-documents-2(2).jpeg", "https://kpopping.com/kpics/240201-New-Jeans-Hanni-2024-F-W-Seoul-Fashion-Week", "Hanni cameo, midriff-and-shoulder-visible.", "portrait", "center 38%"],
-]);
-
 addExternalCameoItems(haerinItems, "Haerin", [
   ["https://legacy.kpopping.com/d9/1/240622-NewJeans-Instagram-Update-with-HAERIN-documents-1.jpeg", "https://kpopping.com/kpics/240622-NewJeans-Instagram-Update-with-HAERIN", "Haerin cameo, shoulder-visible.", "portrait", "center 38%"],
   ["https://legacy.kpopping.com/6c/1/240622-NewJeans-Instagram-Update-with-HAERIN-documents-9.jpeg", "https://kpopping.com/kpics/240622-NewJeans-Instagram-Update-with-HAERIN", "Haerin cameo, shoulder-visible.", "portrait", "center 38%"],
@@ -763,18 +754,6 @@ addExternalCameoItems(haerinItems, "Haerin", [
   ["https://legacy.kpopping.com/09/5/241029-New-Jeans-Instagram-Update-Haerin-documents-11.jpeg", "https://kpopping.com/kpics/241029-New-Jeans-Instagram-Update-Haerin", "Haerin cameo, shoulder-visible.", "portrait", "center 38%"],
   ["https://legacy.kpopping.com/c1/0/241029-New-Jeans-Instagram-Update-Haerin-documents-12.jpeg", "https://kpopping.com/kpics/241029-New-Jeans-Instagram-Update-Haerin", "Haerin cameo, shoulder-visible.", "portrait", "center 38%"],
   ["https://legacy.kpopping.com/b8/4/241029-New-Jeans-Instagram-Update-Haerin-documents-13.jpeg", "https://kpopping.com/kpics/241029-New-Jeans-Instagram-Update-Haerin", "Haerin cameo, shoulder-visible.", "portrait", "center 38%"],
-  ["https://legacy.kpopping.com/09/0/240201-New-Jeans-Haerin-2024-F-W-Seoul-Fashion-Week-documents-1.jpeg", "https://kpopping.com/kpics/240201-New-Jeans-Haerin-2024-F-W-Seoul-Fashion-Week", "Haerin cameo, midriff-visible.", "portrait", "center 38%"],
-  ["https://legacy.kpopping.com/ff/2/240201-New-Jeans-Haerin-2024-F-W-Seoul-Fashion-Week-documents-2.jpeg", "https://kpopping.com/kpics/240201-New-Jeans-Haerin-2024-F-W-Seoul-Fashion-Week", "Haerin cameo, midriff-visible.", "portrait", "center 38%"],
-  ["https://legacy.kpopping.com/19/1/240201-New-Jeans-Haerin-2024-F-W-Seoul-Fashion-Week-documents-3.jpeg", "https://kpopping.com/kpics/240201-New-Jeans-Haerin-2024-F-W-Seoul-Fashion-Week", "Haerin cameo, midriff-visible.", "portrait", "center 38%"],
-  ["https://legacy.kpopping.com/10/5/240201-New-Jeans-Haerin-2024-F-W-Seoul-Fashion-Week-documents-6.jpeg", "https://kpopping.com/kpics/240201-New-Jeans-Haerin-2024-F-W-Seoul-Fashion-Week", "Haerin cameo, midriff-visible.", "portrait", "center 38%"],
-  ["https://legacy.kpopping.com/23/1/240201-New-Jeans-Haerin-2024-F-W-Seoul-Fashion-Week-documents-7.jpeg", "https://kpopping.com/kpics/240201-New-Jeans-Haerin-2024-F-W-Seoul-Fashion-Week", "Haerin cameo, midriff-visible.", "portrait", "center 38%"],
-  ["https://legacy.kpopping.com/1b/3/240201-New-Jeans-Haerin-2024-F-W-Seoul-Fashion-Week-documents-1(1).jpeg", "https://kpopping.com/kpics/240201-New-Jeans-Haerin-2024-F-W-Seoul-Fashion-Week", "Haerin cameo, midriff-visible.", "portrait", "center 38%"],
-  ["https://legacy.kpopping.com/b0/3/240201-New-Jeans-Haerin-2024-F-W-Seoul-Fashion-Week-documents-2(1).jpeg", "https://kpopping.com/kpics/240201-New-Jeans-Haerin-2024-F-W-Seoul-Fashion-Week", "Haerin cameo, midriff-visible.", "portrait", "center 38%"],
-  ["https://legacy.kpopping.com/8d/5/240201-New-Jeans-Haerin-2024-F-W-Seoul-Fashion-Week-documents-1(2).jpeg", "https://kpopping.com/kpics/240201-New-Jeans-Haerin-2024-F-W-Seoul-Fashion-Week", "Haerin cameo, midriff-visible.", "portrait", "center 38%"],
-  ["https://legacy.kpopping.com/71/5/240201-New-Jeans-Haerin-2024-F-W-Seoul-Fashion-Week-documents-2(2).jpeg", "https://kpopping.com/kpics/240201-New-Jeans-Haerin-2024-F-W-Seoul-Fashion-Week", "Haerin cameo, midriff-visible.", "portrait", "center 38%"],
-  ["https://legacy.kpopping.com/f5/5/240201-New-Jeans-Haerin-2024-F-W-Seoul-Fashion-Week-documents-6(1).jpeg", "https://kpopping.com/kpics/240201-New-Jeans-Haerin-2024-F-W-Seoul-Fashion-Week", "Haerin cameo, midriff-visible.", "portrait", "center 38%"],
-  ["https://legacy.kpopping.com/83/0/240201-New-Jeans-Haerin-2024-F-W-Seoul-Fashion-Week-documents-11.jpeg", "https://kpopping.com/kpics/240201-New-Jeans-Haerin-2024-F-W-Seoul-Fashion-Week", "Haerin cameo, midriff-visible.", "portrait", "center 38%"],
-  ["https://legacy.kpopping.com/d8/4/240201-New-Jeans-Haerin-2024-F-W-Seoul-Fashion-Week-documents-12.jpeg", "https://kpopping.com/kpics/240201-New-Jeans-Haerin-2024-F-W-Seoul-Fashion-Week", "Haerin cameo, midriff-visible.", "portrait", "center 38%"],
 ]);
 
 addExternalCameoItems(wonyoungItems, "Wonyoung", [
@@ -1635,6 +1614,24 @@ const blockedContentTerms = [
   "takeaway container",
   "takeaway box",
   "take away container",
+  "shared table",
+  "restaurant table",
+  "food table",
+  "table spread",
+  "table frame",
+  "full-table",
+  "dining room",
+  "family meal",
+  "family table",
+  "children",
+  "child",
+  "homemade",
+  "home cooking",
+  "at home",
+  "old mother",
+  "office",
+  "library",
+  "national diet library",
   "1546069901",
   "old car",
   "classic car",
@@ -1817,29 +1814,38 @@ function isBlockedContentItem(item) {
   if (carIdentityPattern.test(text) && isDisallowedCarText(text)) return true;
   if (carIdentityPattern.test(text) && carTasteRejected(item, text)) return true;
   if (category === "kpop") {
-    return /ningning|microphone|fancam|concert|performance|music bank|inkigayo|mma|mama|golden disc/i.test(text);
+    return kpopHardRejectPattern.test(text);
   }
   return blockedContentTerms.some((term) => text.includes(term));
 }
 
+const weakFoodScenePattern = /shared table|restaurant table|food table|table spread|table frame|full-table|dining room|family(?: meal| table)?|children|child|people eating|home(?:made| cooking)?|at home|old mother|office|library|national diet library|cafeteria|school lunch|community meal/i;
+const kpopHardRejectPattern = /ningning|microphone|fancam|concert|performance|music bank|inkigayo|mma|mama|golden disc|stage|festival|fan concert|red carpet|photocall|launch event|beauty event|fashion week|seoul fashion week|coat|jacket|blazer|cardigan|hoodie|sweater|long[-\s]?sleeve|long[-\s]?sleeved|turtleneck|overcoat|trench|puffer|parka|scarf|fully covered|covered shoulder/i;
+const kpopAdultEraPattern = /2024|2025|2026|24\d{4}|25\d{4}|26\d{4}|adult-era/i;
+const kpopPosePositivePattern = /cute|fun|playful|wink|pout|pose|confident|smile|selfie|lounge|beach|backless|strapless|sleeveless|midriff|belly|navel|shoulder/i;
+const kpopMinorEraPeoplePattern = /hanni|haerin/i;
+const kpopMinorEraArchivePattern = /2022|22\d{4}|220802|220813/i;
+
 const curatorProfiles = {
   food: {
     prefer: [
-      /barbecue|galbi|bulgogi|ramen|noodle|sushi platter|sashimi platter|dumpling|jiaozi|pho|carbonara|pasta|burger|steak|ribs|taco|quesadilla|gumbo|fried chicken|pizza|shared table|restaurant table|grill/i,
+      /barbecue|galbi|bulgogi|ramen|noodle|sushi platter|sashimi platter|dumpling|jiaozi|pho|carbonara|pasta|burger|steak|ribs|taco|quesadilla|gumbo|fried chicken|pizza|restaurant plate|grill/i,
       /glossy|char|broth|crispy|golden|platter|plate|bowl|stacked|sliced|sauce|steam|melted/i,
     ],
     reject: [
       /vegetable|vegetables|veggies|salad|broccoli|kale|spinach|lettuce|greens|leafy|arugula|cucumber|zucchini|squash|pumpkin|tomato soup|carrot|corn|cabbage|bean|chickpea|olive|nigiri|single|isolated|white background|plain|macaroni|mac and cheese|raw|uncooked|ingredient|bento|dosirak|doshirak|lunch\s*box|boxed lunch|packed lunch|meal box|ready meal|packaged meal|prepackaged|pre-packed|convenience store|plastic (?:container|box|tray|lid)|disposable tray|takeout container|takeaway container|takeaway box|take away container/i,
+      weakFoodScenePattern,
     ],
     minScore: 2,
   },
   kpop: {
     prefer: [
-      /shoulder|off-shoulder|off shoulder|sleeveless|strapless|spaghetti strap|tank top|crop top|midriff|belly|navel|hanni|haerin|wonyoung|newjeans|ive/i,
+      /shoulder|off-shoulder|off shoulder|sleeveless|strapless|spaghetti strap|tank top|crop top|midriff|belly|navel|cute|fun|playful|wink|pout|pose|confident|selfie|hanni|haerin|wonyoung|newjeans|ive/i,
       /2024|2025|2026|241|250|260/i,
     ],
     reject: [
-      /stage|performance|concert|festival|inkigayo|music bank|microphone|fancam|fan concert|awards?|mma|mama|golden disc|photocall|launch event|beauty event|glam|heavy makeup|red carpet|face[-\s]?only|headshot|close[-\s]?up|covered shoulder|fully covered|sweater|cardigan|hoodie|coat|blazer|long[-\s]?sleeve|turtleneck/i,
+      kpopHardRejectPattern,
+      /awards?|glam|heavy makeup|face[-\s]?only|headshot|close[-\s]?up/i,
     ],
     minScore: 3,
   },
@@ -1872,9 +1878,24 @@ function curationText(item, source = {}) {
   ].map((value) => normalizeSourceText(value || "").toLowerCase()).join(" ");
 }
 
+function isMinorEraKpopItem(item, source = {}) {
+  const text = curationText(item, source);
+  const person = `${item && item.person || ""} ${source.person || ""}`;
+  return kpopMinorEraPeoplePattern.test(person) && kpopMinorEraArchivePattern.test(text);
+}
+
+function hasKpopPoseSignal(item, source = {}) {
+  const itemText = curationText(item);
+  const combinedText = curationText(item, source);
+  if (kpopHardRejectPattern.test(combinedText) || isMinorEraKpopItem(item, source)) return false;
+  return kpopAdultEraPattern.test(combinedText) && kpopPosePositivePattern.test(itemText);
+}
+
 function hasKpopExposureSignal(item, source = {}) {
+  const text = curationText(item, source);
+  if (kpopHardRejectPattern.test(text) || isMinorEraKpopItem(item, source)) return false;
   if (source && source.aiExposureApproved) return true;
-  return kpopExposurePattern.test(curationText(item));
+  return kpopExposurePattern.test(text) || hasKpopPoseSignal(item, source);
 }
 
 function curationCategory(item, source = {}) {
@@ -1975,6 +1996,8 @@ const allowedCameoPeople = new Set(cameoPeople);
 
 function isAllowedCameo(item) {
   if (!allowedCameoPeople.has(item.person)) return false;
+  if (kpopHardRejectPattern.test(curationText(item, { category: "kpop" }))) return false;
+  if (isMinorEraKpopItem(item, { category: "kpop" })) return false;
   if (!hasKpopExposureSignal(item)) return false;
   if (item.external) return true;
   if (blockedCameoFiles.has(item.file)) return false;
@@ -2368,6 +2391,24 @@ const blockedOnlineTitleTerms = [
   "takeaway container",
   "takeaway box",
   "take away container",
+  "shared table",
+  "restaurant table",
+  "food table",
+  "table spread",
+  "table frame",
+  "full-table",
+  "dining room",
+  "family meal",
+  "family table",
+  "children",
+  "child",
+  "homemade",
+  "home cooking",
+  "at home",
+  "old mother",
+  "office",
+  "library",
+  "national diet library",
   "onion",
   "chili",
   "chilli",
@@ -2962,12 +3003,14 @@ const preferenceFeaturePatterns = {
     ["isolated_sushi", /nigiri|single|isolated|plain|white background|salmon sushi(?!.*platter)|sushi close-up|sushi close up/i],
     ["raw_plain", /raw|uncooked|ingredient|sterile|product shot|white background|macaroni|mac and cheese/i],
     ["packaged_lunch", /bento|dosirak|doshirak|lunch\s*box|boxed lunch|packed lunch|meal box|ready meal|packaged meal|prepackaged|pre-packed|convenience store|plastic (?:container|box|tray|lid)|disposable tray|takeout container|takeaway container|takeaway box|take away container/i],
+    ["weak_table_scene", weakFoodScenePattern],
   ],
   kpop: [
     ["stage", /stage|performance|concert|festival|inkigayo|music bank|microphone|fancam|fan concert|k-link/i],
     ["awards", /awards?|awards-night|awards-event|mma|mama|melon|golden disc|red carpet/i],
     ["fashion_event", /fashion-event|fashion week|dior|bvlgari|tommy|rimowa|miu miu|photocall|launch event/i],
     ["beauty_editorial", /beauty|editorial|glam|heavy makeup|marie claire|kerastase|mise-en-scene|olens|magazine|shoulder-pose|off-shoulder/i],
+    ["covered_outerwear", /coat|jacket|blazer|cardigan|hoodie|sweater|long[-\s]?sleeve|long[-\s]?sleeved|turtleneck|overcoat|trench|puffer|parka|scarf|fully covered|covered shoulder/i],
     ["too_polished", /press-day|event frame|glossy|sparkle|polished awards|polished press/i],
   ],
   car: [
@@ -2984,10 +3027,12 @@ const strongNegativeFeatures = new Set([
   "vegetable_spread",
   "isolated_sushi",
   "raw_plain",
+  "weak_table_scene",
   "stage",
   "awards",
   "fashion_event",
   "beauty_editorial",
+  "covered_outerwear",
   "too_polished",
   "old_car",
   "show_floor",
@@ -3365,11 +3410,20 @@ function dequeueUnique(state, category) {
     const nextPerson = cameoPeople[state.nextKpopPersonIndex % cameoPeople.length];
     const hasNextPerson = queue.some((item) => personFor(item) === nextPerson && validQueuedItem(state, category, item));
     if (!hasNextPerson) ensureKpopFallbackVariety(state, 8);
+    const orderedAvailablePeople = () => {
+      return cameoPeople
+        .map((person, index) => {
+          const rotationDistance = (index - state.nextKpopPersonIndex + cameoPeople.length) % cameoPeople.length;
+          const available = queue.some((item) => personFor(item) === person && validQueuedItem(state, category, item));
+          return { person, index, rotationDistance, count: state.personCounts[person] || 0, available };
+        })
+        .filter((entry) => entry.available)
+        .sort((left, right) => left.count - right.count || left.rotationDistance - right.rotationDistance);
+    };
 
     for (let fillAttempt = 0; fillAttempt < 2; fillAttempt += 1) {
-      for (let offset = 0; offset < cameoPeople.length; offset += 1) {
-        const personIndex = (state.nextKpopPersonIndex + offset) % cameoPeople.length;
-        const person = cameoPeople[personIndex];
+      const people = orderedAvailablePeople();
+      for (const { person, index: personIndex } of people) {
         const matchingIndexes = [];
         for (let index = 0; index < queue.length; index += 1) {
           const item = queue[index];
@@ -3635,10 +3689,13 @@ function itemFromCommonsPage(source, page) {
     return null;
   }
 
-  if (source.category === "kpop" && /2020|2021|2022|220|fan|fancam|stage|performance|concert|festival|music bank|inkigayo|microphone|ningning/i.test(lowerTitle)) {
+  if (source.category === "kpop" && /2020|2021|fan|fancam|stage|performance|concert|festival|music bank|inkigayo|microphone|ningning/i.test(lowerTitle)) {
     return null;
   }
-  if (source.category === "kpop" && !kpopExposurePattern.test(`${lowerTitle} ${source.label || ""} ${source.query || ""}`)) {
+  if (source.category === "kpop" && (kpopHardRejectPattern.test(`${lowerTitle} ${source.label || ""} ${source.query || ""}`) || isMinorEraKpopItem({ person: source.person || "", sourceId: lowerTitle }, source))) {
+    return null;
+  }
+  if (source.category === "kpop" && !hasKpopExposureSignal({ person: source.person || "", sourceId: lowerTitle, caption: source.label || "" }, source)) {
     return null;
   }
 
@@ -4254,13 +4311,16 @@ function appendTileElement(wall, item, index, onHide, onQualityReject) {
   const category = categoryFor(item);
   const person = personFor(item);
   const visualGroup = visualGroupFor(item);
+  const itemShapeScore = shapeScore(item) + 0.03;
   const globalRecentTiles = Array.from(wall.querySelectorAll(".tile")).slice(-32);
+  const placedTiles = Array.from(wall.querySelectorAll(".tile"));
   const columnScores = columns.map((column) => Number(column.dataset.heightScore) || column.children.length * 1.08);
   const shortestScore = Math.min(...columnScores);
   const target = columns.reduce((best, column) => {
     const lastTile = column.lastElementChild;
     const recentTiles = Array.from(column.querySelectorAll(".tile")).slice(-8);
     const columnScore = Number(column.dataset.heightScore) || column.children.length * 1.08;
+    const candidateMidScore = columnScore + (itemShapeScore / 2);
     const balanceGap = columnScore - shortestScore;
     let score = columnScore * 320;
     const varietyWeight = balanceGap > 1.65 ? 0.18 : (balanceGap > 0.85 ? 0.42 : 1);
@@ -4277,12 +4337,25 @@ function appendTileElement(wall, item, index, onHide, onQualityReject) {
       score += recentTiles.filter((tile) => tile.dataset.visualGroup === visualGroup).length * 1450 * varietyWeight;
       score += globalRecentTiles.filter((tile) => tile.dataset.visualGroup === visualGroup).length * 820 * varietyWeight;
     }
+    placedTiles.forEach((tile) => {
+      const tileMidScore = Number(tile.dataset.stackMidScore);
+      if (!Number.isFinite(tileMidScore)) return;
+      const bandDistance = Math.abs(tileMidScore - candidateMidScore);
+      if (person && tile.dataset.person === person && bandDistance < 5.2) {
+        score += (5.2 - bandDistance) * 980;
+      }
+      if (visualGroup && tile.dataset.visualGroup === visualGroup && bandDistance < 6.4) {
+        score += (6.4 - bandDistance) * 1850;
+      }
+    });
     return score < best.score ? { column, score } : best;
   }, { column: columns[0], score: Number.POSITIVE_INFINITY }).column;
 
   const targetHeightScore = Number(target.dataset.heightScore) || 0;
-  target.append(createTile(item, index, onHide, onQualityReject));
-  target.dataset.heightScore = String(targetHeightScore + shapeScore(item) + 0.03);
+  const tile = createTile(item, index, onHide, onQualityReject);
+  tile.dataset.stackMidScore = String(targetHeightScore + (itemShapeScore / 2));
+  target.append(tile);
+  target.dataset.heightScore = String(targetHeightScore + itemShapeScore);
   return true;
 }
 
@@ -4408,6 +4481,7 @@ function layoutWall(wall, renderedItems, onHide, onQualityReject) {
   const recentPeople = [];
   const recentVisualGroupsByColumn = Array.from({ length: count }, () => []);
   const recentVisualGroups = [];
+  const placedBands = [];
 
   function placementScore(item, columnIndex) {
     const category = categoryFor(item);
@@ -4417,6 +4491,7 @@ function layoutWall(wall, renderedItems, onHide, onQualityReject) {
     const columnVisualGroups = recentVisualGroupsByColumn[columnIndex];
     const shortestHeight = Math.min(...heights);
     const balanceGap = heights[columnIndex] - shortestHeight;
+    const candidateMidScore = heights[columnIndex] + ((shapeScore(item) + 0.03) / 2);
     const varietyWeight = balanceGap > 1.65 ? 0.22 : (balanceGap > 0.85 ? 0.48 : 1);
     let score = heights[columnIndex] + (lastCategoryByColumn[columnIndex] === category ? 0.55 : 0);
 
@@ -4430,6 +4505,15 @@ function layoutWall(wall, renderedItems, onHide, onQualityReject) {
       score += columnVisualGroups.filter((recentGroup) => recentGroup === visualGroup).length * 3.8 * varietyWeight;
       score += recentVisualGroups.filter((recentGroup) => recentGroup === visualGroup).length * 1.9 * varietyWeight;
     }
+    placedBands.forEach((band) => {
+      const bandDistance = Math.abs(band.midScore - candidateMidScore);
+      if (person && band.person === person && bandDistance < 5.2) {
+        score += (5.2 - bandDistance) * 3.8 * varietyWeight;
+      }
+      if (visualGroup && band.visualGroup === visualGroup && bandDistance < 6.4) {
+        score += (6.4 - bandDistance) * 7.2 * varietyWeight;
+      }
+    });
 
     return score;
   }
@@ -4444,7 +4528,11 @@ function layoutWall(wall, renderedItems, onHide, onQualityReject) {
       const targetScore = placementScore(item, target);
       if (score < targetScore) target = i;
     }
-    columns[target].append(createTile(item, index, onHide, onQualityReject));
+    const tileShapeScore = shapeScore(item) + 0.03;
+    const tileMidScore = heights[target] + (tileShapeScore / 2);
+    const tile = createTile(item, index, onHide, onQualityReject);
+    tile.dataset.stackMidScore = String(tileMidScore);
+    columns[target].append(tile);
     lastCategoryByColumn[target] = category;
     if (visualGroup) {
       lastVisualGroupByColumn[target] = visualGroup;
@@ -4460,7 +4548,9 @@ function layoutWall(wall, renderedItems, onHide, onQualityReject) {
       recentPeople.push(person);
       if (recentPeople.length > 12) recentPeople.shift();
     }
-    heights[target] += shapeScore(item) + 0.03;
+    placedBands.push({ person, visualGroup, midScore: tileMidScore });
+    if (placedBands.length > 180) placedBands.shift();
+    heights[target] += tileShapeScore;
     columns[target].dataset.heightScore = String(heights[target]);
   });
 
@@ -4598,6 +4688,49 @@ async function render() {
 
   const liveTileCount = () => wall.querySelectorAll(".tile.is-loaded").length;
   const pendingTileCount = () => wall.querySelectorAll(".tile:not(.is-loaded)").length;
+  const renderedCategoryCounts = () => {
+    const counts = Object.fromEntries(categories.map((category) => [category, 0]));
+    wall.querySelectorAll(".tile").forEach((tile) => {
+      const category = tile.dataset.category;
+      if (category && Object.prototype.hasOwnProperty.call(counts, category)) counts[category] += 1;
+    });
+    return counts;
+  };
+  const nextBalanceItems = async () => {
+    const counts = renderedCategoryCounts();
+    const items = [];
+    let maxCount = Math.max(...categories.map((category) => counts[category] || 0));
+    let guard = categories.length * 4;
+
+    while (guard > 0) {
+      guard -= 1;
+      const deficitCategory = categories
+        .slice()
+        .sort((left, right) => (counts[left] || 0) - (counts[right] || 0))
+        .find((category) => (counts[category] || 0) < maxCount);
+      if (!deficitCategory) break;
+      const item = await nextItemForCategory(feedState, deficitCategory);
+      if (!item) break;
+      items.push(item);
+      counts[deficitCategory] = (counts[deficitCategory] || 0) + 1;
+      maxCount = Math.max(...categories.map((category) => counts[category] || 0));
+    }
+
+    return items;
+  };
+  const needsViewportCoverage = () => {
+    const liveTiles = Array.from(wall.querySelectorAll(".tile.is-loaded"));
+    if (!liveTiles.length) return true;
+    const viewportHeight = window.innerHeight || document.documentElement.clientHeight || 0;
+    let visibleCount = 0;
+    let lowestTileBottom = Number.NEGATIVE_INFINITY;
+    for (const tile of liveTiles) {
+      const rect = tile.getBoundingClientRect();
+      if (rect.bottom >= 0 && rect.top <= viewportHeight) visibleCount += 1;
+      if (rect.bottom > lowestTileBottom) lowestTileBottom = rect.bottom;
+    }
+    return visibleCount < 2 && lowestTileBottom < viewportHeight + Math.max(900, viewportHeight * 0.9);
+  };
   const needsRenderBuffer = () => {
     const live = liveTileCount();
     const pending = pendingTileCount();
@@ -4639,11 +4772,13 @@ async function render() {
         category,
         feedState.queues[category].length,
       ])),
+      counts: renderedCategoryCounts(),
       seen: feedState.seenKeys.size,
       exhausted,
       loading,
       appendRequestedWhileLoading,
       shouldLoadAhead: shouldLoadAhead(),
+      needsViewportCoverage: needsViewportCoverage(),
       needsRenderBuffer: needsRenderBuffer(),
       needsColumnFill: needsColumnFill(),
     });
@@ -4668,7 +4803,9 @@ async function render() {
       if (needsRenderBuffer() || shouldLoadAhead()) {
         ensureImmediateRefillQueues();
       }
-      const nextItems = await nextMixedItems(feedState, batchSize);
+      const balanceItems = await nextBalanceItems();
+      const mixedTarget = Math.max(0, batchSize - balanceItems.length);
+      const nextItems = balanceItems.concat(await nextMixedItems(feedState, mixedTarget));
       if (!nextItems.length && feedState.exhausted) {
         exhausted = true;
       }
@@ -4696,7 +4833,10 @@ async function render() {
       prefetchOnlineItems(feedState);
     } finally {
       loading = false;
-      if (!exhausted && !retryScheduled && appendRequestedWhileLoading) {
+      const needsAnotherAppend = !exhausted
+        && !retryScheduled
+        && (appendRequestedWhileLoading || needsRenderBuffer() || shouldLoadAhead() || needsViewportCoverage());
+      if (needsAnotherAppend) {
         appendRequestedWhileLoading = false;
         scheduleAppend(80);
       } else {
@@ -4720,15 +4860,23 @@ async function render() {
   }
 
   window.addEventListener("scroll", () => {
-    if (needsRenderBuffer() || shouldLoadAhead()) scheduleAppend();
+    if (needsRenderBuffer() || shouldLoadAhead() || needsViewportCoverage()) scheduleAppend();
   }, { passive: true });
+
+  const refillHeartbeat = window.setInterval(() => {
+    if (exhausted) {
+      window.clearInterval(refillHeartbeat);
+      return;
+    }
+    if (needsRenderBuffer() || shouldLoadAhead() || needsViewportCoverage()) scheduleAppend();
+  }, 900);
 
   let resizeTimer = 0;
   window.addEventListener("resize", () => {
     window.clearTimeout(resizeTimer);
     resizeTimer = window.setTimeout(() => {
       layoutWall(wall, renderedItems, handleHide, handleQualityReject);
-      if (needsRenderBuffer() || shouldLoadAhead()) scheduleAppend();
+      if (needsRenderBuffer() || shouldLoadAhead() || needsViewportCoverage()) scheduleAppend();
     }, 140);
   }, { passive: true });
 
