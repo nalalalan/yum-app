@@ -2043,7 +2043,7 @@ function buildCameoPool(list) {
   return result;
 }
 
-const batchSize = 84;
+const batchSize = 45;
 const onlineBatchSize = 36;
 const categories = ["food", "kpop", "car"];
 const mixPattern = ["food", "kpop", "car"];
@@ -4168,9 +4168,9 @@ function createTile(item, index, onHide, onQualityReject) {
 
   const img = document.createElement("img");
   img.alt = "";
-  img.loading = index < 60 ? "eager" : "lazy";
+  img.loading = "eager";
   img.decoding = "async";
-  if (index < 36) img.fetchPriority = "high";
+  img.fetchPriority = index < batchSize ? "high" : "low";
   img.addEventListener("error", () => {
     if (typeof onQualityReject === "function") {
       onQualityReject(item, tile);
@@ -4185,29 +4185,13 @@ function createTile(item, index, onHide, onQualityReject) {
       return;
     }
     tile.remove();
-  }, 9000);
-  let finalizeKpopQuality = null;
-  if (category === "kpop") {
-    let kpopQualityFinalized = false;
-    finalizeKpopQuality = () => {
-      if (kpopQualityFinalized || !img.naturalWidth || !img.naturalHeight) return;
-      kpopQualityFinalized = true;
-      if (typeof onQualityReject === "function" && !isHighQualityKpopImage(img)) {
-        onQualityReject(item, tile);
-      }
-    };
-    img.addEventListener("load", finalizeKpopQuality, { once: true });
-  }
+  }, 20000);
   let finalizeCarFrame = null;
   if (category === "car") {
     let carFrameFinalized = false;
     finalizeCarFrame = () => {
       if (carFrameFinalized || !img.naturalWidth || !img.naturalHeight) return;
       carFrameFinalized = true;
-      if (typeof onQualityReject === "function" && !isUsableCarFrame(img)) {
-        onQualityReject(item, tile);
-        return;
-      }
       fitCarTileToImage(tile, img);
     };
     img.addEventListener("load", finalizeCarFrame, { once: true });
@@ -4222,11 +4206,6 @@ function createTile(item, index, onHide, onQualityReject) {
     finalizeCarFrame();
     setTimeout(finalizeCarFrame, 2500);
     setTimeout(finalizeCarFrame, 7000);
-  }
-  if (typeof finalizeKpopQuality === "function") {
-    finalizeKpopQuality();
-    setTimeout(finalizeKpopQuality, 2500);
-    setTimeout(finalizeKpopQuality, 7000);
   }
   markLoaded();
   setTimeout(markLoaded, 2500);
@@ -4567,6 +4546,7 @@ async function render() {
     const itemIndex = renderedItems.findIndex((renderedItem) => sourceKey(renderedItem) === key);
     if (itemIndex < 0) {
       if (tileElement && tileElement.isConnected) tileElement.remove();
+      scheduleAppend(80);
       return;
     }
 
@@ -4583,14 +4563,16 @@ async function render() {
     }
 
     if (replacement) {
-      const insertIndex = Math.min(itemIndex, renderedItems.length);
-      renderedItems.splice(insertIndex, 0, replacement);
-      layoutWall(wall, renderedItems, handleHide, handleQualityReject);
+      renderedItems.push(replacement);
+      if (!appendTileElement(wall, replacement, renderedItems.length - 1, handleHide, handleQualityReject)) {
+        layoutWall(wall, renderedItems, handleHide, handleQualityReject);
+      }
     }
-    if (needsRenderBuffer() || shouldLoadAhead() || needsColumnFill()) scheduleAppend(80);
+    if (needsRenderBuffer() || shouldLoadAhead()) scheduleAppend(80);
   };
 
   const shouldLoadAhead = () => {
+    if (pendingTileCount() >= batchSize) return false;
     const scrollTop = window.scrollY || document.documentElement.scrollTop || 0;
     const viewportHeight = window.innerHeight || document.documentElement.clientHeight || 0;
     const scrollHeight = Math.max(
@@ -4606,11 +4588,19 @@ async function render() {
       ? wall.offsetTop + Math.min(...columnHeights)
       : scrollHeight;
     const effectiveScrollHeight = Math.min(scrollHeight, shortestColumnBottom);
-    const loadAheadDistance = Math.max(24000, viewportHeight * 18);
+    const loadAheadDistance = Math.max(2400, viewportHeight * 3);
     return effectiveScrollHeight - (scrollTop + viewportHeight) < loadAheadDistance;
   };
 
-  const needsRenderBuffer = () => renderedItems.length < batchSize * 3;
+  const liveTileCount = () => wall.querySelectorAll(".tile.is-loaded").length;
+  const pendingTileCount = () => wall.querySelectorAll(".tile:not(.is-loaded)").length;
+  const needsRenderBuffer = () => {
+    const live = liveTileCount();
+    const pending = pendingTileCount();
+    const active = live + pending;
+    const targetBuffer = batchSize * 2;
+    return live < targetBuffer && active < targetBuffer;
+  };
 
   const needsColumnFill = () => {
     const columns = Array.from(wall.querySelectorAll(".masonry-column"));
@@ -4636,6 +4626,26 @@ async function render() {
     }, delay);
   };
 
+  if (typeof window !== "undefined") {
+    window.__yumFeedDebug = () => ({
+      rendered: renderedItems.length,
+      liveTiles: liveTileCount(),
+      pendingTiles: pendingTileCount(),
+      queues: Object.fromEntries(categories.map((category) => [
+        category,
+        feedState.queues[category].length,
+      ])),
+      seen: feedState.seenKeys.size,
+      exhausted,
+      loading,
+      appendRequestedWhileLoading,
+      shouldLoadAhead: shouldLoadAhead(),
+      needsRenderBuffer: needsRenderBuffer(),
+      needsColumnFill: needsColumnFill(),
+    });
+    window.__yumAppendNow = () => scheduleAppend();
+  }
+
   const ensureImmediateRefillQueues = () => {
     ensureFoodFallbackVariety(feedState, batchSize);
     ensureKpopFallbackVariety(feedState);
@@ -4651,7 +4661,7 @@ async function render() {
     loading = true;
     let retryScheduled = false;
     try {
-      if (needsRenderBuffer() || shouldLoadAhead() || needsColumnFill()) {
+      if (needsRenderBuffer() || shouldLoadAhead()) {
         ensureImmediateRefillQueues();
       }
       const nextItems = await nextMixedItems(feedState, batchSize);
@@ -4680,13 +4690,9 @@ async function render() {
       }
       sentinel.dataset.remaining = String(categories.reduce((total, category) => total + feedState.queues[category].length, 0));
       prefetchOnlineItems(feedState);
-      if (needsRenderBuffer() || shouldLoadAhead() || needsColumnFill()) {
-        const refillDelay = feedState.prefetchingCategories && feedState.prefetchingCategories.size ? 320 : 80;
-        scheduleAppend(refillDelay);
-      }
     } finally {
       loading = false;
-      if (!exhausted && !retryScheduled && (appendRequestedWhileLoading || needsRenderBuffer() || shouldLoadAhead() || needsColumnFill())) {
+      if (!exhausted && !retryScheduled && appendRequestedWhileLoading) {
         appendRequestedWhileLoading = false;
         scheduleAppend(80);
       } else {
@@ -4699,30 +4705,26 @@ async function render() {
 
   if ("IntersectionObserver" in window) {
     const observer = new IntersectionObserver((entries) => {
-      if (entries.some((entry) => entry.isIntersecting)) {
+      if (pendingTileCount() === 0 && shouldLoadAhead() && entries.some((entry) => entry.isIntersecting)) {
         scheduleAppend();
         Promise.resolve().then(() => {
           if (exhausted) observer.disconnect();
         });
       }
-    }, { rootMargin: "18000px 0px" });
+    }, { rootMargin: "2400px 0px" });
     observer.observe(sentinel);
   }
 
   window.addEventListener("scroll", () => {
-    if (needsRenderBuffer() || shouldLoadAhead() || needsColumnFill()) scheduleAppend();
+    if (needsRenderBuffer() || shouldLoadAhead()) scheduleAppend();
   }, { passive: true });
-
-  window.setInterval(() => {
-    if (needsRenderBuffer() || shouldLoadAhead() || needsColumnFill()) scheduleAppend();
-  }, 900);
 
   let resizeTimer = 0;
   window.addEventListener("resize", () => {
     window.clearTimeout(resizeTimer);
     resizeTimer = window.setTimeout(() => {
       layoutWall(wall, renderedItems, handleHide, handleQualityReject);
-      if (needsRenderBuffer() || shouldLoadAhead() || needsColumnFill()) scheduleAppend();
+      if (needsRenderBuffer() || shouldLoadAhead()) scheduleAppend();
     }, 140);
   }, { passive: true });
 
