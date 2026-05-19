@@ -2043,7 +2043,7 @@ function buildCameoPool(list) {
   return result;
 }
 
-const batchSize = 45;
+const batchSize = 30;
 const onlineBatchSize = 36;
 const categories = ["food", "kpop", "car"];
 const mixPattern = ["food", "kpop", "car"];
@@ -4255,15 +4255,15 @@ function appendTileElement(wall, item, index, onHide, onQualityReject) {
   const person = personFor(item);
   const visualGroup = visualGroupFor(item);
   const globalRecentTiles = Array.from(wall.querySelectorAll(".tile")).slice(-32);
-  const columnHeights = columns.map((column) => column.scrollHeight || column.children.length * 320);
-  const shortestHeight = Math.min(...columnHeights);
+  const columnScores = columns.map((column) => Number(column.dataset.heightScore) || column.children.length * 1.08);
+  const shortestScore = Math.min(...columnScores);
   const target = columns.reduce((best, column) => {
     const lastTile = column.lastElementChild;
     const recentTiles = Array.from(column.querySelectorAll(".tile")).slice(-8);
-    const visualHeight = column.scrollHeight || column.children.length * 320;
-    const balanceGap = visualHeight - shortestHeight;
-    let score = visualHeight;
-    const varietyWeight = balanceGap > 900 ? 0.18 : (balanceGap > 450 ? 0.42 : 1);
+    const columnScore = Number(column.dataset.heightScore) || column.children.length * 1.08;
+    const balanceGap = columnScore - shortestScore;
+    let score = columnScore * 320;
+    const varietyWeight = balanceGap > 1.65 ? 0.18 : (balanceGap > 0.85 ? 0.42 : 1);
     if (lastTile?.dataset.category === category) score += 180 * varietyWeight;
     if (person && lastTile?.dataset.person === person) score += 360 * varietyWeight;
     score += recentTiles.filter((tile) => tile.dataset.category === category).length * 90 * varietyWeight;
@@ -4280,7 +4280,9 @@ function appendTileElement(wall, item, index, onHide, onQualityReject) {
     return score < best.score ? { column, score } : best;
   }, { column: columns[0], score: Number.POSITIVE_INFINITY }).column;
 
+  const targetHeightScore = Number(target.dataset.heightScore) || 0;
   target.append(createTile(item, index, onHide, onQualityReject));
+  target.dataset.heightScore = String(targetHeightScore + shapeScore(item) + 0.03);
   return true;
 }
 
@@ -4395,6 +4397,7 @@ function layoutWall(wall, renderedItems, onHide, onQualityReject) {
   const columns = Array.from({ length: count }, () => {
     const column = document.createElement("div");
     column.className = "masonry-column";
+    column.dataset.heightScore = "0";
     return column;
   });
   const heights = Array.from({ length: count }, () => 0);
@@ -4458,6 +4461,7 @@ function layoutWall(wall, renderedItems, onHide, onQualityReject) {
       if (recentPeople.length > 12) recentPeople.shift();
     }
     heights[target] += shapeScore(item) + 0.03;
+    columns[target].dataset.heightScore = String(heights[target]);
   });
 
   wall.style.setProperty("--columns", count);
