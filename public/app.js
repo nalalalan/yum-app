@@ -1623,8 +1623,35 @@ const blockedContentTerms = [
   "dining room",
   "family meal",
   "family table",
-  "children",
-  "child",
+  "family eating",
+  "family drinking",
+  "families eating",
+  "family style meal",
+  "family style meal service",
+  "people eating",
+  "people eating lunch",
+  "people eating dinner",
+  "people at table",
+  "people at tables",
+  "people with food",
+  "food and drink people",
+  "food and drink with people",
+  "dinner table",
+  "dining table",
+  "dining tables",
+  "eating at table",
+  "eating lunch",
+  "eating dinner",
+  "meal with people",
+  "at the table",
+  "supper",
+  "child care",
+  "childcare",
+  "preschool",
+  "cacfp",
+  "teamnutrition",
+  "usdagov",
+  "adult people",
   "homemade",
   "home cooking",
   "at home",
@@ -1807,6 +1834,7 @@ function isBlockedContentItem(item) {
     item && item.caption,
     item && item.carGroup,
     item && item.sourceId,
+    item && item.metadataText,
     item && item.image,
     item && item.url,
   ].map((value) => normalizeSourceText(value || "").toLowerCase()).join(" ");
@@ -1816,10 +1844,11 @@ function isBlockedContentItem(item) {
   if (category === "kpop") {
     return kpopHardRejectPattern.test(text);
   }
+  if (category === "food" && weakFoodScenePattern.test(text)) return true;
   return blockedContentTerms.some((term) => text.includes(term));
 }
 
-const weakFoodScenePattern = /shared table|restaurant table|food table|table spread|table frame|full-table|dining room|family(?: meal| table)?|children|child|people eating|home(?:made| cooking)?|at home|old mother|office|library|national diet library|cafeteria|school lunch|community meal/i;
+const weakFoodScenePattern = /shared table|restaurant table|food table|table spread|table frame|full-table|dining room|family(?: meal| table| eating| drinking| style meal(?: service)?)?|families eating|people (?:eating|at tables?|with food)|food and drink (?:with )?people|dinn?er table|dining tables?|eating (?:at table|lunch|dinner)|meal with people|at the table|supper|\b(?:children|child|kids?|baby|toddler)\b|adult people|child ?care|preschool|cacfp|teamnutrition|usdagov|home(?:made| cooking)?|at home|old mother|office|library|national diet library|cafeteria|school lunch|community meal/i;
 const kpopHardRejectPattern = /ningning|microphone|fancam|concert|performance|music bank|inkigayo|mma|mama|golden disc|stage|festival|fan concert|red carpet|photocall|launch event|beauty event|fashion week|seoul fashion week|coat|jacket|blazer|cardigan|hoodie|sweater|long[-\s]?sleeve|long[-\s]?sleeved|turtleneck|overcoat|trench|puffer|parka|scarf|fully covered|covered shoulder/i;
 const kpopAdultEraPattern = /2024|2025|2026|24\d{4}|25\d{4}|26\d{4}|adult-era/i;
 const kpopPosePositivePattern = /cute|fun|playful|wink|pout|pose|confident|smile|selfie|lounge|beach|backless|strapless|sleeveless|midriff|belly|navel|shoulder/i;
@@ -1871,6 +1900,7 @@ function curationText(item, source = {}) {
     item && item.caption,
     item && item.carGroup,
     item && item.sourceId,
+    item && item.metadataText,
     item && item.image,
     item && item.url,
     source.label,
@@ -2400,8 +2430,35 @@ const blockedOnlineTitleTerms = [
   "dining room",
   "family meal",
   "family table",
-  "children",
-  "child",
+  "family eating",
+  "family drinking",
+  "families eating",
+  "family style meal",
+  "family style meal service",
+  "people eating",
+  "people eating lunch",
+  "people eating dinner",
+  "people at table",
+  "people at tables",
+  "people with food",
+  "food and drink people",
+  "food and drink with people",
+  "dinner table",
+  "dining table",
+  "dining tables",
+  "eating at table",
+  "eating lunch",
+  "eating dinner",
+  "meal with people",
+  "at the table",
+  "supper",
+  "child care",
+  "childcare",
+  "preschool",
+  "cacfp",
+  "teamnutrition",
+  "usdagov",
+  "adult people",
   "homemade",
   "home cooking",
   "at home",
@@ -3633,6 +3690,34 @@ function isBlockedOnlineTitle(title) {
   return blockedOnlineTitleTerms.some((term) => lower.includes(term));
 }
 
+function commonsMetadataValue(value) {
+  if (!value) return "";
+  if (typeof value === "string") return value;
+  if (typeof value === "number") return String(value);
+  if (Array.isArray(value)) return value.map(commonsMetadataValue).join(" ");
+  if (typeof value === "object") {
+    if (typeof value.value === "string") return value.value;
+    return Object.values(value).map(commonsMetadataValue).join(" ");
+  }
+  return "";
+}
+
+function commonsPageSearchText(page, info = {}) {
+  const categories = Array.isArray(page && page.categories)
+    ? page.categories.map((category) => category.title || "").join(" ")
+    : "";
+  const metadata = commonsMetadataValue(info && info.extmetadata);
+  return normalizeSourceText([
+    page && page.title,
+    categories,
+    metadata,
+  ].join(" ")).toLowerCase();
+}
+
+function isBlockedFoodOnlineText(text) {
+  return weakFoodScenePattern.test(text) || blockedOnlineTitleTerms.some((term) => text.includes(term));
+}
+
 function shapeFromDimensions(width, height, fallback = "portrait") {
   const ratio = width / Math.max(height, 1);
   if (ratio >= 1.75) return "cinema";
@@ -3654,9 +3739,10 @@ function commonsSearchUrl(source) {
     gsrnamespace: "6",
     gsrsearch: source.query,
     gsrlimit: "36",
-    prop: "imageinfo",
-    iiprop: "url|mime|size",
+    prop: "imageinfo|categories",
+    iiprop: "url|mime|size|extmetadata",
     iiurlwidth: "2200",
+    cllimit: "50",
     format: "json",
     origin: "*",
   });
@@ -3674,6 +3760,7 @@ function itemFromCommonsPage(source, page) {
 
   const title = cleanOnlineTitle(page.title);
   const lowerTitle = title.toLowerCase();
+  const pageSearchText = commonsPageSearchText(page, info);
   const width = Number(info.width) || 0;
   const height = Number(info.height) || 0;
   const mime = String(info.mime || "").toLowerCase();
@@ -3684,6 +3771,7 @@ function itemFromCommonsPage(source, page) {
   if (ratio < 0.42 || ratio > 2.7) return null;
   if (!hasRequiredOnlineTerms(lowerTitle, source)) return null;
   if (isBlockedOnlineTitle(lowerTitle)) return null;
+  if (source.category === "food" && isBlockedFoodOnlineText(pageSearchText)) return null;
 
   if (source.kind === "car" && (/dealer|dealership|auction|sale|crash|wreck|damaged|police|taxi/i.test(lowerTitle) || isDisallowedCarText(lowerTitle) || carTasteRejected({ carGroup: source.group }, `${lowerTitle} ${source.label || ""} ${source.query || ""}`))) {
     return null;
@@ -3704,6 +3792,7 @@ function itemFromCommonsPage(source, page) {
     image: info.thumburl || info.url,
     original: info.url,
     sourceId: fileName,
+    metadataText: pageSearchText,
     url: commonsSource(fileName),
     caption: onlineCaption(source, page.title),
     carGroup: source.group || "",
@@ -3838,6 +3927,7 @@ async function rankOnlineCandidates(source, candidates) {
   if (!locallyRanked.length) return [];
 
   const aiRanked = await curateCandidatesWithAi(source, locallyRanked, onlineBatchSize);
+  if (source.category === "food") return aiRanked;
   return aiRanked.length ? aiRanked : locallyRanked;
 }
 

@@ -613,7 +613,7 @@ function curatorInstructions(category) {
   const categoryRules = {
     food: [
       "Food: prefer cooked, glossy, appetizing restaurant food with strong texture, sauce, char, broth, melted cheese, or generous tight plating.",
-      "Reject vegetable spreads, salads, plain ingredients, raw vegetables, isolated single sushi/nigiri pieces, white background product shots, boring sterile food photos, lunch boxes, packaged meals, people-at-table shots, home cooking snapshots, office food, and family/table-documentation photos.",
+      "Reject vegetable spreads, salads, plain ingredients, raw vegetables, isolated single sushi/nigiri pieces, white background product shots, boring sterile food photos, lunch boxes, packaged meals, any visible people, family meals, children, babies, dining-room scenes, people-at-table shots, home cooking snapshots, office food, and family/table-documentation photos.",
     ],
     kpop: [
       "Girls: prefer Hanni, Haerin, or Wonyoung photos that feel natural, soft, clean, pretty, current, and low-makeup.",
