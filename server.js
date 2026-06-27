@@ -21,8 +21,8 @@ const curationCache = new Map();
 const kpopAlbumCache = new Map();
 
 const kpopAlbums = [
+  { person: "Wonyoung", label: "Wonyoung crop-top midriff Instagram", url: "https://kpopping.com/kpics/240304-WONYOUNG-INSTAGRAM-UPDATE" },
   { person: "Wonyoung", label: "Wonyoung crop-top Instagram", url: "https://kpopping.com/kpics/260626-wonyoung-instagram-update" },
-  { person: "Wonyoung", label: "Wonyoung crop-top Instagram", url: "https://kpopping.com/kpics/260625-wonyoung-instagram-update" },
 ];
 
 const mimeTypes = {
@@ -594,7 +594,7 @@ function curatorInstructions(category) {
   const categoryRules = {
     food: [
       "Food: prefer cooked, glossy, appetizing restaurant food with strong texture, sauce, char, broth, melted cheese, or generous tight plating.",
-      "Reject vegetable spreads, salads, plain ingredients, raw vegetables, tomato soup, pumpkin soup, vegetable soup, plain soup, ingredient-garnish bowls, isolated single sushi/nigiri pieces, white background product shots, boring sterile food photos, dim flash snapshots, bad-framed table documentation, lunch boxes, packaged meals, any visible people, family meals, children, babies, dining-room scenes, people-at-table shots, home cooking snapshots, office food, and family/table-documentation photos.",
+      "Reject vegetable spreads, salads, plain ingredients, raw vegetables, tomato soup, pumpkin soup, vegetable soup, plain soup, ingredient-garnish bowls, empty-plate shots, restaurant-exterior or restaurant-sign photos, isolated single sushi/nigiri pieces, white background product shots, boring sterile food photos, dim flash snapshots, bad-framed table documentation, lunch boxes, packaged meals, any visible people, family meals, children, babies, dining-room scenes, people-at-table shots, home cooking snapshots, office food, and family/table-documentation photos.",
     ],
     kpop: [
       "Girls: prefer adult-era Wonyoung crop-top or midriff photos that feel natural, confident, pretty, current, low-makeup, and non-explicit.",
