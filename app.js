@@ -158,9 +158,7 @@ baseItems.push(
   { image: unsplashImage("1504674900247-0877df9cc836"), url: unsplashSource("salmon dinner"), caption: "Salmon dinner, crisp color and clean plate light.", shape: "cinema", focus: "center 50%" },
   { image: unsplashImage("1529042410759-befb1204b468"), url: unsplashSource("burger fries"), caption: "Burger and fries, big diner comfort with a polished crop.", shape: "wide", focus: "center 52%" },
   { image: unsplashImage("1546069901-ba9599a7e63c"), url: unsplashSource("fried chicken"), caption: "Fried chicken, golden crunch and hot-table energy.", shape: "portrait", focus: "center 52%" },
-  { image: unsplashImage("1512621776951-a57141f2eefd"), url: unsplashSource("grain bowl"), caption: "Bright bowl, clean vegetables and sharp color contrast.", shape: "square", focus: "center 50%" },
   { image: unsplashImage("1484723091739-30a097e8f929"), url: unsplashSource("steak plate"), caption: "Steak plate, browned crust and moody restaurant finish.", shape: "wide", focus: "center 50%" },
-  { image: unsplashImage("1498837167922-ddd27525d352"), url: unsplashSource("pancake breakfast"), caption: "Breakfast plate, soft syrup shine and clean morning color.", shape: "portrait", focus: "center 48%" },
   { image: unsplashImage("1467003909585-2f8a72700288"), url: unsplashSource("food table"), caption: "Shared table spread, bright plates and easy dinner chaos.", shape: "wide", focus: "center 50%" },
   { image: unsplashImage("1565958011703-44f9829ba187"), url: unsplashSource("pizza close up"), caption: "Pizza close-up, melted cheese and crisp edge detail.", shape: "cinema", focus: "center 52%" },
   { image: unsplashImage("1555939594-58d7cb561ad1"), url: unsplashSource("noodle bowl"), caption: "Noodle bowl, deep broth and glossy toppings.", shape: "portrait", focus: "center 48%" },
@@ -727,64 +725,24 @@ addCameos(wonyoungItems, "Wonyoung", [
   ["Jang Won-young at IVE 4th Fan Concert DIVE into IVE March 22, 2026 (6).jpg", "Wonyoung cameo, polished stage portrait.", "tall"],
 ]);
 
-addExternalCameos(hanniItems, "Hanni", "https://kpopping.com/kpics/240102-NEW-JEANS-INSTAGRAM-UPDATE-HANNI", [
-  ["https://legacy.kpopping.com/96/5/240102-NEW-JEANS-INSTAGRAM-UPDATE-HANNI-documents-3.jpeg", "Hanni cameo, shoulder-visible green dress lounge frame.", "portrait", "center 42%"],
-  ["https://legacy.kpopping.com/d4/4/240102-NEW-JEANS-INSTAGRAM-UPDATE-HANNI-documents-6.jpeg", "Hanni cameo, bare-shoulder backless white knit frame.", "portrait", "center 40%"],
-]);
-
-addExternalCameos(haerinItems, "Haerin", "https://kpopping.com/kpics/240525-NewJeans-Instagram-Update-Haerin", [
-  ["https://legacy.kpopping.com/c8/1/240525-NewJeans-Instagram-Update-Haerin-documents-7.jpeg", "Haerin cameo, sleeveless soft clean close frame.", "portrait", "center 38%"],
-]);
-
-addExternalCameos(wonyoungItems, "Wonyoung", "https://kpopping.com/kpics/221014-IVE-Wonyoung-at-Incheon-International-Airport", [
-  ["https://legacy.kpopping.com/5c/4/221014-WONYOUNG-IVE-documents-1.jpeg", "Wonyoung cameo, red off-shoulder airport close frame.", "portrait", "center 36%"],
-  ["https://pub-dc9a9c6ac2a64ba48bce426ced0ac56a.r2.dev/kpics/2026/05/1778660616393-jzen46-0.jpg", "Wonyoung cameo, black strapless shoulder-visible frame.", "portrait", "center 38%"],
-  ["https://legacy.kpopping.com/f3/1/221014-IVE-Wonyoung-documents-5.jpeg", "Wonyoung cameo, sleeveless balcony selfie frame.", "portrait", "center 40%"],
-  ["https://legacy.kpopping.com/f5/4/221014-IVE-Wonyoung-documents-6.jpeg", "Wonyoung cameo, white sleeveless city-view frame.", "portrait", "center 38%"],
-  ["https://legacy.kpopping.com/f1/0/221014-IVE-Wonyoung-documents-8.jpeg", "Wonyoung cameo, off-shoulder soft clean frame.", "portrait", "center 38%"],
-  ["https://legacy.kpopping.com/53/1/221014-IVE-Wonyoung-documents-11.jpeg", "Wonyoung cameo, white sleeveless gentle smile frame.", "portrait", "center 38%"],
-]);
-
-addExternalCameoItems(haerinItems, "Haerin", [
-  ["https://legacy.kpopping.com/d9/1/240622-NewJeans-Instagram-Update-with-HAERIN-documents-1.jpeg", "https://kpopping.com/kpics/240622-NewJeans-Instagram-Update-with-HAERIN", "Haerin cameo, shoulder-visible.", "portrait", "center 38%"],
-  ["https://legacy.kpopping.com/6c/1/240622-NewJeans-Instagram-Update-with-HAERIN-documents-9.jpeg", "https://kpopping.com/kpics/240622-NewJeans-Instagram-Update-with-HAERIN", "Haerin cameo, shoulder-visible.", "portrait", "center 38%"],
-  ["https://legacy.kpopping.com/25/5/241029-New-Jeans-Instagram-Update-Haerin-documents-5.jpeg", "https://kpopping.com/kpics/241029-New-Jeans-Instagram-Update-Haerin", "Haerin cameo, shoulder-visible.", "portrait", "center 38%"],
-  ["https://legacy.kpopping.com/44/4/241029-New-Jeans-Instagram-Update-Haerin-documents-6.jpeg", "https://kpopping.com/kpics/241029-New-Jeans-Instagram-Update-Haerin", "Haerin cameo, shoulder-visible.", "portrait", "center 38%"],
-  ["https://legacy.kpopping.com/70/1/241029-New-Jeans-Instagram-Update-Haerin-documents-7.jpeg", "https://kpopping.com/kpics/241029-New-Jeans-Instagram-Update-Haerin", "Haerin cameo, shoulder-visible.", "portrait", "center 38%"],
-  ["https://legacy.kpopping.com/09/5/241029-New-Jeans-Instagram-Update-Haerin-documents-11.jpeg", "https://kpopping.com/kpics/241029-New-Jeans-Instagram-Update-Haerin", "Haerin cameo, shoulder-visible.", "portrait", "center 38%"],
-  ["https://legacy.kpopping.com/c1/0/241029-New-Jeans-Instagram-Update-Haerin-documents-12.jpeg", "https://kpopping.com/kpics/241029-New-Jeans-Instagram-Update-Haerin", "Haerin cameo, shoulder-visible.", "portrait", "center 38%"],
-  ["https://legacy.kpopping.com/b8/4/241029-New-Jeans-Instagram-Update-Haerin-documents-13.jpeg", "https://kpopping.com/kpics/241029-New-Jeans-Instagram-Update-Haerin", "Haerin cameo, shoulder-visible.", "portrait", "center 38%"],
-]);
-
 addExternalCameoItems(wonyoungItems, "Wonyoung", [
-  ["https://legacy.kpopping.com/43/1/250329-WONYOUNG-Instagram-Update-documents-1.jpeg", "https://kpopping.com/kpics/250329-WONYOUNG-Instagram-Update", "Wonyoung cameo, bare-shoulder frame.", "portrait", "center 38%"],
-  ["https://legacy.kpopping.com/f5/0/250329-WONYOUNG-Instagram-Update-documents-2.jpeg", "https://kpopping.com/kpics/250329-WONYOUNG-Instagram-Update", "Wonyoung cameo, bare-shoulder frame.", "portrait", "center 38%"],
-  ["https://legacy.kpopping.com/ed/1/250329-WONYOUNG-Instagram-Update-documents-3.jpeg", "https://kpopping.com/kpics/250329-WONYOUNG-Instagram-Update", "Wonyoung cameo, bare-shoulder frame.", "portrait", "center 38%"],
-  ["https://legacy.kpopping.com/b8/3/250329-WONYOUNG-Instagram-Update-documents-4.jpeg", "https://kpopping.com/kpics/250329-WONYOUNG-Instagram-Update", "Wonyoung cameo, bare-shoulder frame.", "portrait", "center 38%"],
-  ["https://legacy.kpopping.com/13/1/250329-WONYOUNG-Instagram-Update-documents-5.jpeg", "https://kpopping.com/kpics/250329-WONYOUNG-Instagram-Update", "Wonyoung cameo, bare-shoulder frame.", "portrait", "center 38%"],
-  ["https://legacy.kpopping.com/c2/1/250329-WONYOUNG-Instagram-Update-documents-7.jpeg", "https://kpopping.com/kpics/250329-WONYOUNG-Instagram-Update", "Wonyoung cameo, bare-shoulder frame.", "portrait", "center 38%"],
-  ["https://legacy.kpopping.com/4a/2/250329-WONYOUNG-Instagram-Update-documents-8.jpeg", "https://kpopping.com/kpics/250329-WONYOUNG-Instagram-Update", "Wonyoung cameo, bare-shoulder frame.", "portrait", "center 38%"],
-  ["https://legacy.kpopping.com/03/0/250329-WONYOUNG-Instagram-Update-documents-9.jpeg", "https://kpopping.com/kpics/250329-WONYOUNG-Instagram-Update", "Wonyoung cameo, bare-shoulder frame.", "portrait", "center 38%"],
-  ["https://legacy.kpopping.com/21/2/250329-WONYOUNG-Instagram-Update-documents-10.jpeg", "https://kpopping.com/kpics/250329-WONYOUNG-Instagram-Update", "Wonyoung cameo, bare-shoulder frame.", "portrait", "center 38%"],
-  ["https://legacy.kpopping.com/c6/1/250329-WONYOUNG-Instagram-Update-documents-11.jpeg", "https://kpopping.com/kpics/250329-WONYOUNG-Instagram-Update", "Wonyoung cameo, bare-shoulder frame.", "portrait", "center 38%"],
-  ["https://legacy.kpopping.com/b5/2/250329-WONYOUNG-Instagram-Update-documents-12.jpeg", "https://kpopping.com/kpics/250329-WONYOUNG-Instagram-Update", "Wonyoung cameo, bare-shoulder frame.", "portrait", "center 38%"],
-  ["https://legacy.kpopping.com/89/4/250329-WONYOUNG-Instagram-Update-documents-13.jpeg", "https://kpopping.com/kpics/250329-WONYOUNG-Instagram-Update", "Wonyoung cameo, bare-shoulder frame.", "portrait", "center 38%"],
-  ["https://legacy.kpopping.com/fe/5/250329-WONYOUNG-Instagram-Update-documents-14.jpeg", "https://kpopping.com/kpics/250329-WONYOUNG-Instagram-Update", "Wonyoung cameo, bare-shoulder frame.", "portrait", "center 38%"],
-  ["https://legacy.kpopping.com/be/1/250329-WONYOUNG-Instagram-Update-documents-15.jpeg", "https://kpopping.com/kpics/250329-WONYOUNG-Instagram-Update", "Wonyoung cameo, bare-shoulder frame.", "portrait", "center 38%"],
-  ["https://legacy.kpopping.com/04/5/250329-WONYOUNG-Instagram-Update-documents-16.jpeg", "https://kpopping.com/kpics/250329-WONYOUNG-Instagram-Update", "Wonyoung cameo, bare-shoulder frame.", "portrait", "center 38%"],
-  ["https://legacy.kpopping.com/1a/1/230615-IVE-Wonyoung-Instagram-Update-documents-1.jpeg", "https://kpopping.com/kpics/230615-IVE-Wonyoung-Instagram-Update", "Wonyoung cameo, bare-shoulder frame.", "portrait", "center 38%"],
-  ["https://legacy.kpopping.com/9c/1/230615-IVE-Wonyoung-Instagram-Update-documents-2.jpeg", "https://kpopping.com/kpics/230615-IVE-Wonyoung-Instagram-Update", "Wonyoung cameo, bare-shoulder frame.", "portrait", "center 38%"],
-  ["https://legacy.kpopping.com/23/1/230615-IVE-Wonyoung-Instagram-Update-documents-3.jpeg", "https://kpopping.com/kpics/230615-IVE-Wonyoung-Instagram-Update", "Wonyoung cameo, bare-shoulder frame.", "portrait", "center 38%"],
-  ["https://legacy.kpopping.com/8a/4/230615-IVE-Wonyoung-Instagram-Update-documents-4.jpeg", "https://kpopping.com/kpics/230615-IVE-Wonyoung-Instagram-Update", "Wonyoung cameo, bare-shoulder frame.", "portrait", "center 38%"],
-  ["https://legacy.kpopping.com/c6/4/230615-IVE-Wonyoung-Instagram-Update-documents-5.jpeg", "https://kpopping.com/kpics/230615-IVE-Wonyoung-Instagram-Update", "Wonyoung cameo, bare-shoulder frame.", "portrait", "center 38%"],
-  ["https://legacy.kpopping.com/75/4/230615-IVE-Wonyoung-Instagram-Update-documents-6.jpeg", "https://kpopping.com/kpics/230615-IVE-Wonyoung-Instagram-Update", "Wonyoung cameo, bare-shoulder frame.", "portrait", "center 38%"],
-  ["https://legacy.kpopping.com/98/0/230615-IVE-Wonyoung-Instagram-Update-documents-7.jpeg", "https://kpopping.com/kpics/230615-IVE-Wonyoung-Instagram-Update", "Wonyoung cameo, bare-shoulder frame.", "portrait", "center 38%"],
-  ["https://legacy.kpopping.com/43/4/230615-IVE-Wonyoung-Instagram-Update-documents-8.jpeg", "https://kpopping.com/kpics/230615-IVE-Wonyoung-Instagram-Update", "Wonyoung cameo, bare-shoulder frame.", "portrait", "center 38%"],
-  ["https://legacy.kpopping.com/60/1/230615-IVE-Wonyoung-Instagram-Update-documents-9.jpeg", "https://kpopping.com/kpics/230615-IVE-Wonyoung-Instagram-Update", "Wonyoung cameo, bare-shoulder frame.", "portrait", "center 38%"],
-  ["https://legacy.kpopping.com/6d/2/230615-IVE-Wonyoung-Instagram-Update-documents-10.jpeg", "https://kpopping.com/kpics/230615-IVE-Wonyoung-Instagram-Update", "Wonyoung cameo, bare-shoulder frame.", "portrait", "center 38%"],
+  ["https://pub-dc9a9c6ac2a64ba48bce426ced0ac56a.r2.dev/kpics/2026/06/1782481985247-wnnpex-2.jpg", "https://kpopping.com/kpics/260626-wonyoung-instagram-update", "Wonyoung cameo, black crop top with visible midriff.", "portrait", "center 40%"],
+  ["https://pub-dc9a9c6ac2a64ba48bce426ced0ac56a.r2.dev/kpics/2026/06/1782481985247-i2k9er-3.jpg", "https://kpopping.com/kpics/260626-wonyoung-instagram-update", "Wonyoung cameo, black crop top and belly-visible pose.", "portrait", "center 40%"],
+  ["https://pub-dc9a9c6ac2a64ba48bce426ced0ac56a.r2.dev/kpics/2026/06/1782481985247-xhcrec-8.jpg", "https://kpopping.com/kpics/260626-wonyoung-instagram-update", "Wonyoung cameo, full-body crop-top midriff frame.", "portrait", "center 43%"],
+  ["https://pub-dc9a9c6ac2a64ba48bce426ced0ac56a.r2.dev/kpics/2026/06/1782481985247-4wjo0u-10.jpg", "https://kpopping.com/kpics/260626-wonyoung-instagram-update", "Wonyoung cameo, paired crop-top waist pose.", "portrait", "center 42%"],
+  ["https://pub-dc9a9c6ac2a64ba48bce426ced0ac56a.r2.dev/kpics/2026/06/1782481985247-9j3st2-13.jpg", "https://kpopping.com/kpics/260626-wonyoung-instagram-update", "Wonyoung cameo, black crop top with waist visible.", "portrait", "center 40%"],
+  ["https://pub-dc9a9c6ac2a64ba48bce426ced0ac56a.r2.dev/kpics/2026/06/1782481985247-g8ux3u-14.jpg", "https://kpopping.com/kpics/260626-wonyoung-instagram-update", "Wonyoung cameo, crop-top midriff pose.", "portrait", "center 40%"],
+  ["https://pub-dc9a9c6ac2a64ba48bce426ced0ac56a.r2.dev/kpics/2026/06/1782481985247-gkfrjz-15.jpg", "https://kpopping.com/kpics/260626-wonyoung-instagram-update", "Wonyoung cameo, black top and exposed waist.", "portrait", "center 41%"],
+  ["https://pub-dc9a9c6ac2a64ba48bce426ced0ac56a.r2.dev/kpics/2026/06/1782481985247-qy97e3-16.jpg", "https://kpopping.com/kpics/260626-wonyoung-instagram-update", "Wonyoung cameo, crop-top waist frame.", "portrait", "center 41%"],
+  ["https://pub-dc9a9c6ac2a64ba48bce426ced0ac56a.r2.dev/kpics/2026/06/1782377791015-8loxjs-1.jpg", "https://kpopping.com/kpics/260625-wonyoung-instagram-update", "Wonyoung cameo, red crop top and exposed waist.", "portrait", "center 42%"],
+  ["https://pub-dc9a9c6ac2a64ba48bce426ced0ac56a.r2.dev/kpics/2026/06/1782377791015-wkvwni-7.jpg", "https://kpopping.com/kpics/260625-wonyoung-instagram-update", "Wonyoung cameo, black strap top and midriff pose.", "portrait", "center 42%"],
+  ["https://pub-dc9a9c6ac2a64ba48bce426ced0ac56a.r2.dev/kpics/2026/06/1782377791015-dy2o7s-14.jpg", "https://kpopping.com/kpics/260625-wonyoung-instagram-update", "Wonyoung cameo, red crop top full-body pose.", "portrait", "center 42%"],
+  ["https://pub-dc9a9c6ac2a64ba48bce426ced0ac56a.r2.dev/kpics/2026/06/1782377791015-9gg4na-16.jpg", "https://kpopping.com/kpics/260625-wonyoung-instagram-update", "Wonyoung cameo, red crop top pose.", "portrait", "center 42%"],
+  ["https://pub-dc9a9c6ac2a64ba48bce426ced0ac56a.r2.dev/kpics/2026/06/1782377791015-fdxyhu-18.jpg", "https://kpopping.com/kpics/260625-wonyoung-instagram-update", "Wonyoung cameo, red crop top leg pose.", "portrait", "center 43%"],
+  ["https://pub-dc9a9c6ac2a64ba48bce426ced0ac56a.r2.dev/kpics/2026/06/1782377791015-psq47q-20.jpg", "https://kpopping.com/kpics/260625-wonyoung-instagram-update", "Wonyoung cameo, red crop top hands-on-waist pose.", "portrait", "center 42%"],
 ]);
 
-const cameoItems = interleaveGroups([haerinItems, wonyoungItems, hanniItems]);
+const cameoItems = interleaveGroups([wonyoungItems]);
 
 const blockedCameoFiles = new Set([
   "Newjeans Hanni 2023 01.jpg",
@@ -830,29 +788,6 @@ const casualCameoFiles = new Set([
 
 const carItems = [
   {
-    image: "https://mediapool.bmwgroup.com/cache/P9/202410/P90572660/P90572660-the-new-bmw-m235-xdrive-gran-coup-10-2024-2100px.jpg",
-    url: "https://www.press.bmwgroup.com/usa/article/detail/T0445698EN_US/the-new-2025-bmw-2-series-gran-coupe?language=en_US",
-    caption: "White 2025 BMW M235 xDrive Gran Coupe, official press light and compact-sedan ambition.",
-    carGroup: "car:bmw-m235-white",
-    shape: "cinema",
-    focus: "center 54%",
-  },
-  {
-    image: "https://mediapool.bmwgroup.com/download/edown/pressclub/publicq?dokNo=P90572400&attachment=1&actEvent=image",
-    url: "https://www.press.bmwgroup.com/usa/photo/compilation/T0445698EN_US/the-new-2025-bmw-2-series-gran-coupe?language=en_US",
-    caption: "White BMW 2 Series Gran Coupe, crisp studio stance instead of parking-lot energy.",
-    carGroup: "car:bmw-m235-white",
-    shape: "wide",
-    focus: "center 52%",
-  },
-  {
-    image: "https://mediapool.bmwgroup.com/cache/P9/202309/P90525202/P90525202-the-first-ever-bmw-ix2-xdrive30-driving-10-2023-2250px.jpg",
-    url: "https://www.press.bmwgroup.com/usa/article/detail/T0437576EN_US/the-all-new-2024-bmw-x2?language=en_US",
-    caption: "2024 BMW X2 and iX2, compact SUV coupe in clean official motion.",
-    shape: "wide",
-    focus: "center 52%",
-  },
-  {
     image: "https://group.mercedes-benz.com/bilder/produkte/pkw/mercedes-benz/cla-2025/mercedes-benz-cla-2025-01-w1680xh945-cutout.jpg",
     url: "https://group.mercedes-benz.com/company/news/cla-car-of-the-year-2026.html",
     caption: "White Mercedes-Benz CLA, sunset paint and compact luxury future.",
@@ -860,420 +795,22 @@ const carItems = [
     shape: "cinema",
     focus: "center 53%",
   },
-  {
-    image: "https://uploads.audi-mediacenter.com/system/production/media/128049/images/b7b9b3a54ec0babd478998a6d901a5fd61f1e39b/A250945_web_2880.jpg?1749650205",
-    url: "https://www.audi-mediacenter.com/en/photos/detail/audi-q3-suv-128049",
-    caption: "Audi Q3, compact SUV with glossy official-photo confidence.",
-    shape: "cinema",
-    focus: "center 52%",
-  },
-  {
-    image: "https://uploads.audi-mediacenter.com/system/production/media/128050/images/07272f424b9a5bcff8f74a7f6c2f5a20e883460e/A250946_web_2880.jpg?1749803344",
-    url: "https://www.audi-mediacenter.com/en/photos/detail/audi-q3-suv-128050",
-    caption: "Audi Q3, sharp compact-SUV proportions in clean press-gallery light.",
-    shape: "wide",
-    focus: "center 51%",
-  },
-  {
-    image: "https://uploads.audi-mediacenter.com/system/production/media/127853/images/290cc5628d8019a9a35b4d1ed10a5104596dff6c/A250749_web_2880.jpg?1747923257",
-    url: "https://www.audi-mediacenter.com/en/photos/detail/audi-a3-sportback-tfsi-e-127853",
-    caption: "Audi A3 Sportback TFSI e, compact hatchback in a proper wallpaper-grade action shot.",
-    shape: "wide",
-    focus: "center 52%",
-  },
-  {
-    image: "https://uploads.audi-mediacenter.com/system/production/media/127850/images/c814e0d2986df5d36ffcc7bb2e900c81dfd81ad8/A250746_web_2880.jpg?1747923255",
-    url: "https://www.audi-mediacenter.com/en/photos/detail/audi-a3-sportback-tfsi-e-127850",
-    caption: "Audi A3 Sportback, clean white compact with future-garage taste.",
-    shape: "cinema",
-    focus: "center 53%",
-  },
-  {
-    image: "https://mediapool.bmwgroup.com/download/edown/pressclub/publicq?dokNo=P90543018&attachment=1&actEvent=image",
-    url: "https://www.press.bmwgroup.com/usa/photo/detail/P90543018/MINI-John-Cooper-Works-Countryman-03-2024",
-    caption: "MINI John Cooper Works Countryman, compact crossover with punchy official-photo drama.",
-    shape: "cinema",
-    focus: "center 52%",
-  },
-  {
-    image: "https://mediapool.bmwgroup.com/cache/P9/202403/P90542996/P90542996-mini-john-cooper-works-countryman-03-2024-2250px.jpg",
-    url: "https://www.press.bmwgroup.com/usa/photo/detail/P90542996/MINI-John-Cooper-Works-Countryman-03-2024",
-    caption: "MINI Countryman, compact premium SUV mood without giant-car bulk.",
-    shape: "wide",
-    focus: "center 52%",
-  },
 ];
 
-carItems.push(
-  {
-    image: "https://mediapool.bmwgroup.com/download/edown/pressclub/publicq?dokNo=P90572398&attachment=1&actEvent=image",
-    url: "https://www.press.bmwgroup.com/usa/photo/compilation/T0445698EN_US/the-new-2025-bmw-2-series-gran-coupe?language=en_US",
-    caption: "BMW 2 Series Gran Coupe, another official angle with compact luxury polish.",
-    shape: "wide",
-    focus: "center 52%",
-  },
-  {
-    image: "https://mediapool.bmwgroup.com/download/edown/pressclub/publicq?dokNo=P90572399&attachment=1&actEvent=image",
-    url: "https://www.press.bmwgroup.com/usa/photo/compilation/T0445698EN_US/the-new-2025-bmw-2-series-gran-coupe?language=en_US",
-    caption: "BMW M235 Gran Coupe, sharp official side profile.",
-    shape: "cinema",
-    focus: "center 52%",
-  },
-  {
-    image: "https://mediapool.bmwgroup.com/download/edown/pressclub/publicq?dokNo=P90572401&attachment=1&actEvent=image",
-    url: "https://www.press.bmwgroup.com/usa/photo/compilation/T0445698EN_US/the-new-2025-bmw-2-series-gran-coupe?language=en_US",
-    caption: "BMW 2 Series Gran Coupe, compact sedan in clean studio light.",
-    shape: "wide",
-    focus: "center 52%",
-  },
-  {
-    image: "https://mediapool.bmwgroup.com/download/edown/pressclub/publicq?dokNo=P90572403&attachment=1&actEvent=image",
-    url: "https://www.press.bmwgroup.com/usa/photo/compilation/T0445698EN_US/the-new-2025-bmw-2-series-gran-coupe?language=en_US",
-    caption: "BMW M235 Gran Coupe, glossy official-gallery stance.",
-    shape: "wide",
-    focus: "center 52%",
-  },
-  {
-    image: "https://mediapool.bmwgroup.com/download/edown/pressclub/publicq?dokNo=P90525103&attachment=1&actEvent=image",
-    url: "https://www.press.bmwgroup.com/usa/article/detail/T0437576EN_US/the-all-new-2024-bmw-x2?language=en_US",
-    caption: "BMW X2 M35i, compact SUV motion shot in official light.",
-    shape: "wide",
-    focus: "center 52%",
-  },
-  {
-    image: "https://mediapool.bmwgroup.com/download/edown/pressclub/publicq?dokNo=P90526444&attachment=1&actEvent=image",
-    url: "https://www.press.bmwgroup.com/usa/article/detail/T0437576EN_US/the-all-new-2024-bmw-x2?language=en_US",
-    caption: "BMW X2 M35i, small crossover coupe with studio polish.",
-    shape: "wide",
-    focus: "center 52%",
-  },
-  {
-    image: "https://uploads.audi-mediacenter.com/system/production/media/127895/images/957c20c3791cbf52ae3475f678271487efdd3f95/A250791_web_2880.jpg?1748436325",
-    url: "https://www.audi-mediacenter.com/en/photos/detail/audi-q3-suv-127895",
-    caption: "Audi Q3, compact SUV in a wide official hero frame.",
-    shape: "wide",
-    focus: "center 52%",
-  },
-  {
-    image: "https://uploads.audi-mediacenter.com/system/production/media/128051/images/28b864175b6f35876edb5af8a3fc54dfa7e61d51/A250947_web_2880.jpg?1749650114",
-    url: "https://www.audi-mediacenter.com/en/photos/detail/audi-q3-suv-128051",
-    caption: "Audi Q3, glossy official compact-SUV angle.",
-    shape: "cinema",
-    focus: "center 52%",
-  },
-  {
-    image: "https://uploads.audi-mediacenter.com/system/production/media/126504/images/9f28633676145742c2d7b4c8dfe655055ccd9c72/A244352_web_2880.jpg?1728460591",
-    url: "https://www.audi-mediacenter.com/en/press-releases/more-powerful-and-efficient-than-ever-the-new-a3-sportback-tfsi-e-16301",
-    caption: "Audi A3 Sportback TFSI e, compact hatchback with clean electric polish.",
-    shape: "wide",
-    focus: "center 52%",
-  },
-  {
-    image: "https://uploads.audi-mediacenter.com/system/production/media/127844/images/6053422634b8200365c67ff7b046cbdf1452d50c/A250740_web_2880.jpg?1747923248",
-    url: "https://www.audi-mediacenter.com/en/press-releases/more-powerful-and-efficient-than-ever-the-new-a3-sportback-tfsi-e-16301",
-    caption: "Audi A3, compact future-garage inspiration in official light.",
-    shape: "cinema",
-    focus: "center 52%",
-  },
-  {
-    image: "https://uploads.audi-mediacenter.com/system/production/media/127845/images/eb7b0616ae1f2e800a60199af6ae9557d92bceef/A250741_web_2880.jpg?1747923247",
-    url: "https://www.audi-mediacenter.com/en/press-releases/more-powerful-and-efficient-than-ever-the-new-a3-sportback-tfsi-e-16301",
-    caption: "Audi A3 Sportback, clean compact hatchback dream.",
-    shape: "wide",
-    focus: "center 52%",
-  },
-  {
-    image: "https://mediapool.bmwgroup.com/download/edown/pressclub/publicq?dokNo=P90542997&attachment=1&actEvent=image",
-    url: "https://www.press.bmwgroup.com/usa/photo/detail/P90542997/MINI-John-Cooper-Works-Countryman-03-2024",
-    caption: "MINI Countryman JCW, compact crossover in official motion.",
-    shape: "cinema",
-    focus: "center 52%",
-  },
-  {
-    image: "https://mediapool.bmwgroup.com/download/edown/pressclub/publicq?dokNo=P90543008&attachment=1&actEvent=image",
-    url: "https://www.press.bmwgroup.com/usa/photo/detail/P90543008/MINI-John-Cooper-Works-Countryman-03-2024",
-    caption: "MINI Countryman, punchy little SUV with clean press energy.",
-    shape: "wide",
-    focus: "center 52%",
-  },
-  {
-    image: "https://mediapool.bmwgroup.com/download/edown/pressclub/publicq?dokNo=P90543009&attachment=1&actEvent=image",
-    url: "https://www.press.bmwgroup.com/usa/photo/detail/P90543009/MINI-John-Cooper-Works-Countryman-03-2024",
-    caption: "MINI Countryman, compact premium crossover in official framing.",
-    shape: "wide",
-    focus: "center 52%",
-  },
-  {
-    image: "https://mediapool.bmwgroup.com/download/edown/pressclub/publicq?dokNo=P90543011&attachment=1&actEvent=image",
-    url: "https://www.press.bmwgroup.com/usa/photo/detail/P90543011/MINI-John-Cooper-Works-Countryman-03-2024",
-    caption: "MINI JCW Countryman, small SUV dopamine in a gallery shot.",
-    shape: "cinema",
-    focus: "center 52%",
-  },
-  {
-    image: "https://mediapool.bmwgroup.com/download/edown/pressclub/publicq?dokNo=P90543025&attachment=1&actEvent=image",
-    url: "https://www.press.bmwgroup.com/usa/photo/detail/P90543025/MINI-John-Cooper-Works-Countryman-03-2024",
-    caption: "MINI Countryman JCW, playful compact crossover polish.",
-    shape: "wide",
-    focus: "center 52%",
-  },
-  {
-    image: "https://mediapool.bmwgroup.com/download/edown/pressclub/publicq?dokNo=P90543026&attachment=1&actEvent=image",
-    url: "https://www.press.bmwgroup.com/usa/photo/detail/P90543026/MINI-John-Cooper-Works-Countryman-03-2024",
-    caption: "MINI Countryman, official compact-SUV inspiration frame.",
-    shape: "wide",
-    focus: "center 52%",
-  }
-);
-
-carItems.push(
-  {
-    image: bmwPressImage("P90572282"),
-    url: "https://www.press.bmwgroup.com/usa/photo/compilation/T0445698EN_US/the-new-2025-bmw-2-series-gran-coupe?language=en_US",
-    caption: "BMW M235 Gran Coupe, clean official exterior frame with real wallpaper energy.",
-    shape: "wide",
-    focus: "center 52%",
-  },
-  {
-    image: bmwPressImage("P90572283"),
-    url: "https://www.press.bmwgroup.com/usa/photo/compilation/T0445698EN_US/the-new-2025-bmw-2-series-gran-coupe?language=en_US",
-    caption: "BMW M235 Gran Coupe, compact sedan stance in crisp press light.",
-    shape: "cinema",
-    focus: "center 52%",
-  },
-  {
-    image: bmwPressImage("P90572286"),
-    url: "https://www.press.bmwgroup.com/usa/photo/compilation/T0445698EN_US/the-new-2025-bmw-2-series-gran-coupe?language=en_US",
-    caption: "BMW M235 Gran Coupe, low clean frame and serious daily-driver energy.",
-    shape: "cinema",
-    focus: "center 52%",
-  },
-  {
-    image: bmwPressImage("P90572287"),
-    url: "https://www.press.bmwgroup.com/usa/photo/compilation/T0445698EN_US/the-new-2025-bmw-2-series-gran-coupe?language=en_US",
-    caption: "BMW compact sedan, glossy official angle with no filler.",
-    shape: "wide",
-    focus: "center 52%",
-  },
-  {
-    image: bmwPressImage("P90572288"),
-    url: "https://www.press.bmwgroup.com/usa/photo/compilation/T0445698EN_US/the-new-2025-bmw-2-series-gran-coupe?language=en_US",
-    caption: "BMW 2 Series Gran Coupe, clean side profile and tight proportions.",
-    shape: "wide",
-    focus: "center 52%",
-  },
-  {
-    image: bmwPressImage("P90572289"),
-    url: "https://www.press.bmwgroup.com/usa/photo/compilation/T0445698EN_US/the-new-2025-bmw-2-series-gran-coupe?language=en_US",
-    caption: "BMW M235, compact official motion frame with polished paint.",
-    shape: "cinema",
-    focus: "center 52%",
-  },
-  {
-    image: bmwPressImage("P90572290"),
-    url: "https://www.press.bmwgroup.com/usa/photo/compilation/T0445698EN_US/the-new-2025-bmw-2-series-gran-coupe?language=en_US",
-    caption: "BMW M235 Gran Coupe, official exterior shot built for the wall.",
-    shape: "wide",
-    focus: "center 52%",
-  },
-  {
-    image: bmwPressImage("P90572292"),
-    url: "https://www.press.bmwgroup.com/usa/photo/compilation/T0445698EN_US/the-new-2025-bmw-2-series-gran-coupe?language=en_US",
-    caption: "BMW 2 Series Gran Coupe, clean press-gallery compact car shot.",
-    shape: "wide",
-    focus: "center 52%",
-  },
-  {
-    image: bmwPressImage("P90572293"),
-    url: "https://www.press.bmwgroup.com/usa/photo/compilation/T0445698EN_US/the-new-2025-bmw-2-series-gran-coupe?language=en_US",
-    caption: "BMW compact sedan, balanced official composition and sharp stance.",
-    shape: "cinema",
-    focus: "center 52%",
-  },
-  {
-    image: bmwPressImage("P90572295"),
-    url: "https://www.press.bmwgroup.com/usa/photo/compilation/T0445698EN_US/the-new-2025-bmw-2-series-gran-coupe?language=en_US",
-    caption: "BMW M235 Gran Coupe, clean front-three-quarter press shot.",
-    shape: "wide",
-    focus: "center 52%",
-  },
-  {
-    image: bmwPressImage("P90572306"),
-    url: "https://www.press.bmwgroup.com/usa/photo/compilation/T0445698EN_US/the-new-2025-bmw-2-series-gran-coupe?language=en_US",
-    caption: "BMW M235 Gran Coupe, full road shot with clean compact-sedan movement.",
-    shape: "wide",
-    focus: "center 52%",
-  },
-  {
-    image: bmwPressImage("P90572307"),
-    url: "https://www.press.bmwgroup.com/usa/photo/compilation/T0445698EN_US/the-new-2025-bmw-2-series-gran-coupe?language=en_US",
-    caption: "BMW 2 Series Gran Coupe, full exterior frame under sharp architecture.",
-    shape: "wide",
-    focus: "center 52%",
-  },
-  {
-    image: bmwPressImage("P90572308"),
-    url: "https://www.press.bmwgroup.com/usa/photo/compilation/T0445698EN_US/the-new-2025-bmw-2-series-gran-coupe?language=en_US",
-    caption: "BMW M235 Gran Coupe, clean road frame with the whole car visible.",
-    shape: "cinema",
-    focus: "center 52%",
-  },
-  {
-    image: bmwPressImage("P90543017"),
-    url: "https://www.press.bmwgroup.com/usa/photo/detail/P90543017/MINI-John-Cooper-Works-Countryman-03-2024",
-    caption: "MINI Countryman JCW, punchy compact crossover with clean official polish.",
-    shape: "wide",
-    focus: "center 52%",
-  }
-);
-
 [
-  "P90572309",
-  "P90572310",
-  "P90572311",
-  "P90572312",
-  "P90572313",
-  "P90572314",
-  "P90572315",
-  "P90572316",
-  "P90572317",
-  "P90572318",
-  "P90572319",
-  "P90572320",
-  "P90572332",
-  "P90572333",
-  "P90572337",
-  "P90572340",
-  "P90572342",
-  "P90572343",
-  "P90572344",
-  "P90572345",
-  "P90572346",
-  "P90572347",
-  "P90572348",
-].forEach((id, index) => {
+  ["P90630318", "wide", "MINI John Cooper Works 2 Door hardtop, clean full-car road frame."],
+  ["P90630322", "cinema", "MINI John Cooper Works 2 Door hardtop, lake-side front three-quarter stance."],
+  ["P90630323", "cinema", "MINI John Cooper Works 2 Door hardtop, compact full-car exterior."],
+  ["P90630324", "wide", "MINI John Cooper Works 2 Door hardtop, small-car front three-quarter hit."],
+].forEach(([id, shape, caption], index) => {
   carItems.push({
     image: bmwPressImage(id),
-    url: "https://www.press.bmwgroup.com/usa/photo/compilation/T0445698EN_US/the-new-2025-bmw-2-series-gran-coupe?language=en_US",
-    caption: `BMW M235 Gran Coupe, curated official full-car exterior ${index + 1}.`,
-    carGroup: "car:bmw-m235-gran-coupe",
-    shape: index % 5 === 0 ? "cinema" : "wide",
-    focus: "center 52%",
-  });
-});
-
-[
-  "P90550995",
-  "P90550998",
-  "P90551001",
-  "P90551003",
-  "P90551005",
-  "P90551006",
-  "P90551007",
-  "P90551008",
-  "P90551009",
-  "P90551010",
-  "P90551013",
-  "P90551015",
-].forEach((id, index) => {
-  carItems.push({
-    image: bmwPressImage(id),
-    url: "https://www.press.bmwgroup.com/usa/article/detail/T0433849EN_US/the-new-bmw-m3-cs?language=en_US",
-    caption: `BMW M3 sedan, curated official full-car exterior ${index + 1}.`,
-    carGroup: "car:bmw-m3",
-    shape: index % 4 === 1 ? "cinema" : "wide",
-    focus: "center 52%",
-  });
-});
-
-[
-  "P90557405",
-  "P90557502",
-  "P90557503",
-  "P90557504",
-  "P90557505",
-  "P90557511",
-  "P90557512",
-  "P90557513",
-  "P90557514",
-].forEach((id, index) => {
-  carItems.push({
-    image: bmwPressImage(id),
-    url: "https://www.press.bmwgroup.com/usa/photo/compilation/T0442513EN_US/the-new-bmw-m5-sedan?language=en_US",
-    caption: `BMW M5 sedan, curated official green full-car exterior ${index + 1}.`,
-    carGroup: "car:bmw-m5-green",
-    shape: index % 4 === 2 ? "cinema" : "wide",
-    focus: "center 52%",
-  });
-});
-
-[
-  "P90575570",
-  "P90575571",
-  "P90575572",
-  "P90575573",
-  "P90575574",
-  "P90575575",
-  "P90575576",
-  "P90575577",
-  "P90575578",
-  "P90575579",
-  "P90575580",
-  "P90575581",
-  "P90575582",
-  "P90575583",
-  "P90575584",
-  "P90575585",
-  "P90575586",
-  "P90575587",
-  "P90575588",
-  "P90575589",
-  "P90575590",
-  "P90575591",
-  "P90575592",
-  "P90575593",
-  "P90575594",
-  "P90575595",
-  "P90575596",
-  "P90575597",
-  "P90575598",
-  "P90575599",
-  "P90575600",
-  "P90575601",
-  "P90575602",
-  "P90575603",
-  "P90575604",
-  "P90575605",
-  "P90575606",
-  "P90575607",
-  "P90575608",
-  "P90575609",
-  "P90575610",
-  "P90575611",
-  "P90575612",
-  "P90575613",
-  "P90575614",
-  "P90575615",
-  "P90575616",
-  "P90575617",
-  "P90575618",
-  "P90575619",
-  "P90575620",
-  "P90575621",
-  "P90575622",
-  "P90575623",
-  "P90575624",
-  "P90575625",
-  "P90575626",
-  "P90575627",
-].forEach((id, index) => {
-  carItems.push({
-    image: bmwPressImage(id),
-    url: "https://www.press.bmwgroup.com/usa/photo/compilation/T0442513EN_US/the-new-bmw-m5-sedan?language=en_US",
-    caption: `BMW M5 sedan, curated official purple full-car exterior ${index + 1}.`,
-    carGroup: "car:bmw-m5-purple",
-    shape: index % 5 === 3 ? "cinema" : "wide",
-    focus: "center 52%",
+    url: "https://www.miniusa.com/model/hardtop/2-door/john-cooper-works.html",
+    caption,
+    carGroup: "car:mini-cooper-2-door",
+    visualGroup: `car:mini-cooper-2-door:${id}`,
+    shape,
+    focus: index === 0 ? "center 55%" : "center 52%",
   });
 });
 
@@ -1342,31 +879,6 @@ carItems.push(
   },
 ].forEach((item) => {
   carItems.push(item);
-});
-
-[
-  "P90549616",
-  "P90549617",
-  "P90549618",
-  "P90549619",
-  "P90549620",
-  "P90549621",
-  "P90549622",
-  "P90549623",
-  "P90549625",
-  "P90549626",
-  "P90549627",
-  "P90549629",
-].forEach((id, index) => {
-  const groups = ["car:bmw-330i", "car:bmw-m340i", "car:bmw-3-series"];
-  carItems.push({
-    image: bmwPressImage(id),
-    url: "https://www.press.bmwgroup.com/usa/photo/compilation/T0442407EN_US/the-new-2025-bmw-3-series?language=en_US",
-    caption: `Modern BMW 3 Series sedan, clean official exterior ${index + 1}.`,
-    carGroup: groups[index % groups.length],
-    shape: index % 4 === 0 ? "cinema" : "wide",
-    focus: "center 52%",
-  });
 });
 
 [
@@ -1543,6 +1055,11 @@ const blockedContentTerms = [
   "sportback",
   "bmw x2",
   "bmw ix2",
+  "bmw m235",
+  "bmw 2 series",
+  "bmw 3 series",
+  "bmw m3",
+  "bmw m5",
   "audi q3",
   "firefighter",
   "fire truck",
@@ -1567,7 +1084,11 @@ const blockedContentTerms = [
   "zucchini",
   "squash",
   "pumpkin",
+  "pumpkin soup",
   "tomato soup",
+  "vegetable soup",
+  "veggie soup",
+  "plain soup",
   "carrot",
   "corn",
   "cabbage",
@@ -1583,6 +1104,12 @@ const blockedContentTerms = [
   "raw",
   "uncooked",
   "ingredient",
+  "ingredient garnish",
+  "plain garnish",
+  "grain bowl",
+  "breakfast plate",
+  "1498837167922",
+  "1512621776951",
   "plain",
   "macaroni",
   "mac and cheese",
@@ -1722,19 +1249,32 @@ const blockedContentTerms = [
   "photocall",
   "launch event",
   "beauty event",
+  "face-only",
+  "headshot",
+  "forehead",
+  "close frame",
+  "241029-new-jeans-instagram-update-haerin",
+  "haerin-documents-6",
 ];
 
 const disallowedCarPattern = /firefighter|fire truck|firetruck|fire engine|fire department|feuerwehr|werkfeuerwehr|p905430|suv|crossover|countryman|hatchback|sportback|bmw x[1-7]|bmw ix[1-7]|audi q[2-8]|cayenne|macan|classic|vintage|oldtimer|youngtimer|old car|museum|exhibition|motor show|auto show|show floor|auto zuerich|sauerland|tuning show|moscow|iaa|frankfurt|parade|traffic|china|lwb|e class|w212|v212|e30|e34|e36|e39|e46|e60|e90|e92|e93|f30|w124|w201|w202|w203|w204|\b(?:199[0-9]|200[0-9]|201[0-9])\b/i;
 const carIdentityPattern = /bmw|mercedes|benz|audi|mini|sedan|gran coupe|\bm235\b|\bm3\b|3 series|\bcla\b|\bc-class\b|\b(?:a3|a4|a5|s3|rs3)\b|mediapool|uploads\.audi|mercedes-benz/i;
+const miniTwoDoorPattern = /\bmini\b.{0,60}(?:john cooper works|jcw|cooper(?:\s+s|\s+d)?).{0,60}(?:2[-\s]?door|two[-\s]?door|3[-\s]?door|three[-\s]?door|hardtop)|(?:2[-\s]?door|two[-\s]?door|3[-\s]?door|three[-\s]?door|hardtop).{0,60}\bmini\b.{0,60}(?:john cooper works|jcw|cooper)/i;
+const bmwBrandVehiclePattern = /\b(?:bmw|m235|m240i|330i|m340i|m3|m5|2 series|3 series|5 series)\b|car:bmw-|the-new-bmw/i;
 const dislikedCarGroups = new Set([
+  "car:bmw-m235-white",
   "car:bmw-m5-green",
   "car:bmw-m5-purple",
   "car:bmw-m3",
   "car:bmw-m235-gran-coupe",
+  "car:bmw-330i",
+  "car:bmw-m340i",
+  "car:bmw-3-series",
+  "car:bmw-sedan",
 ]);
 const likedCarGroups = new Set([
   "car:audi-a3-a0j42547",
-  "car:bmw-m235-white",
+  "car:mini-cooper-2-door",
   "car:mercedes-cla-white",
   "car:audi-a3",
   "car:audi-a3-white",
@@ -1745,14 +1285,24 @@ const likedCarGroups = new Set([
   "car:audi-s3-white",
   "car:audi-rs3-white",
 ]);
-const dislikedCarTastePattern = /(?:purple|green).{0,40}\bm5\b|\bm5\b.{0,40}(?:purple|green)|green.{0,40}\bm3\b|\bm3\b.{0,40}green|blue.{0,40}\bm235\b|\bm235\b.{0,40}(?:blue|borusan)|borusan blue|\bm3 cs\b/i;
-const likedCarTastePattern = /a0j42547|manhattan gray|black optic|premium plus|parchment beige|white|alpine white|\bm235\b|2 series gran coupe|gran coupe|\bcla\b|a3 limousine|a5 sedan|s3 limousine|rs ?3 limousine|rs ?3 sedan|\baudi\b.{0,32}\bsedan\b/i;
+const dislikedCarTastePattern = /(?:purple|green).{0,40}\bm5\b|\bm5\b.{0,40}(?:purple|green)|green.{0,40}\bm3\b|\bm3\b.{0,40}green|blue.{0,40}\bm235\b|\bm235\b.{0,40}(?:blue|borusan)|borusan blue|\bm3 cs\b|\bbmw\b|m235|m240i|330i|m340i|\bm3\b|\bm5\b/i;
+const likedCarTastePattern = /a0j42547|manhattan gray|black optic|premium plus|parchment beige|mini.{0,24}(?:cooper|john cooper works|jcw).{0,24}(?:2[-\s]?door|hardtop)|white|alpine white|gran coupe|\bcla\b|a3 limousine|a5 sedan|s3 limousine|rs ?3 limousine|rs ?3 sedan|\baudi\b.{0,32}\bsedan\b/i;
 const blockedCarCompositionSourcePattern = /A241157|A241355|A241358|A241359|A241360|A241362|A241363|A241364|A241365|A244441|A244450|A244458|P90549619|P90549623|audi-a3-a0j42547:(?:11-rear-three-quarter|18-rear-full-sedan-sweep)/i;
 const carCompositionImageRejectPattern = /aspectcrop|system\/production\/cars\/|web_1440_[^?\s]+limousine/i;
 const carCompositionRejectPattern = /side\s*(?:view|profile)|\bprofile\b|crop|cropped|close-up|close up|detail|grille|headlight|tail\s*light|taillight|wheel|arch|badge|bumper|shoulder|interior|cabin|dashboard|cockpit|console|seat|shifter|door controls|trim|roofline|sculpture|texture|vent|mirror|windshield|hood reflection/i;
 const carCompositionPreferPattern = /front[-\s]?three[-\s]?quarter|rear[-\s]?three[-\s]?quarter|full[-\s]?car|whole car|road|motion|driving|exterior|stance|architecture|low clean frame|hero frame/i;
 
+function isMiniTwoDoorText(text) {
+  return miniTwoDoorPattern.test(text) && !/countryman|aceman|clubman|crossover|suv/i.test(text);
+}
+
+function isBmwBrandVehicleText(text) {
+  return bmwBrandVehiclePattern.test(text) && !isMiniTwoDoorText(text);
+}
+
 function isDisallowedCarText(text) {
+  if (isBmwBrandVehicleText(text)) return true;
+  if (isMiniTwoDoorText(text)) return false;
   return disallowedCarPattern.test(text);
 }
 
@@ -1796,10 +1346,11 @@ function carTasteScore(item, text = "") {
   let score = 0;
   if (group && likedCarGroups.has(group)) score += 8;
   if (/a0j42547|manhattan gray|black optic|premium plus|parchment beige/i.test(text)) score += 12;
-  if (/bmw-m235-white|mercedes-cla-white|audi-a3-white|audi-a5-white|audi-s3-white|audi-rs3-white/i.test(group || "")) score += 4;
+  if (/mini-cooper-2-door|mercedes-cla-white|audi-a3-white|audi-a5-white|audi-s3-white|audi-rs3-white/i.test(group || "")) score += 4;
   if (likedCarTastePattern.test(text)) score += 4;
   if (carCompositionPreferPattern.test(compositionText)) score += 6;
   if (/white|alpine white/i.test(text)) score += 3;
+  if (/mini|cooper|john cooper works|jcw|2[-\s]?door|hardtop/i.test(text)) score += 5;
   if (/audi|a3|a4|a5|s3|rs3|rs 3/i.test(text)) score += 3;
   if (/side\s*(?:view|profile)|\bprofile\b|crop|cropped|interior|cupholder|gear|dashboard|seat|vent|console|badge|emblem|detail|grille|wheel|headlight/i.test(compositionText)) score -= 12;
   if (carTasteRejected(item, text)) score -= 40;
@@ -1845,13 +1396,17 @@ function isBlockedContentItem(item) {
     return kpopHardRejectPattern.test(text);
   }
   if (category === "food" && weakFoodScenePattern.test(text)) return true;
+  if (category === "car" && isMiniTwoDoorText(text)) {
+    return blockedContentTerms.some((term) => term !== "hatchback" && text.includes(term));
+  }
   return blockedContentTerms.some((term) => text.includes(term));
 }
 
 const weakFoodScenePattern = /shared table|restaurant table|food table|table spread|table frame|full-table|dining room|family(?: meal| table| eating| drinking| style meal(?: service)?)?|families eating|people (?:eating|at tables?|with food)|food and drink (?:with )?people|dinn?er table|dining tables?|eating (?:at table|lunch|dinner)|meal with people|at the table|supper|\b(?:children|child|kids?|baby|toddler)\b|adult people|child ?care|preschool|cacfp|teamnutrition|usdagov|home(?:made| cooking)?|at home|old mother|office|library|national diet library|cafeteria|school lunch|community meal/i;
-const kpopHardRejectPattern = /ningning|microphone|fancam|concert|performance|music bank|inkigayo|mma|mama|golden disc|stage|festival|fan concert|red carpet|photocall|launch event|beauty event|fashion week|seoul fashion week|coat|jacket|blazer|cardigan|hoodie|sweater|long[-\s]?sleeve|long[-\s]?sleeved|turtleneck|overcoat|trench|puffer|parka|scarf|fully covered|covered shoulder/i;
+const kpopHardRejectPattern = /ningning|microphone|fancam|concert|performance|music bank|inkigayo|mma|mama|golden disc|stage|festival|fan concert|red carpet|photocall|launch event|beauty event|fashion week|seoul fashion week|olens|face[-\s]?only|headshot|forehead|close[-\s]?(?:up|frame)|coat|jacket|blazer|cardigan|hoodie|sweater|long[-\s]?sleeve|long[-\s]?sleeved|turtleneck|overcoat|trench|puffer|parka|scarf|fully covered|covered shoulder/i;
 const kpopAdultEraPattern = /2024|2025|2026|24\d{4}|25\d{4}|26\d{4}|adult-era/i;
-const kpopPosePositivePattern = /cute|fun|playful|wink|pout|pose|confident|smile|selfie|lounge|beach|backless|strapless|sleeveless|midriff|belly|navel|shoulder/i;
+const kpopPosePositivePattern = /confident|pose|lounge|beach|midriff|belly|navel|waist|crop[-\s]?top|body[-\s]?visible|full[-\s]?body|leg pose|hands[-\s]?on[-\s]?waist/i;
+const kpopBodyPosePattern = /midriff|belly|navel|waist|crop[-\s]?top|body[-\s]?visible|full[-\s]?body|leg pose|hands[-\s]?on[-\s]?waist/i;
 const kpopMinorEraPeoplePattern = /hanni|haerin/i;
 const kpopMinorEraArchivePattern = /2022|22\d{4}|220802|220813/i;
 
@@ -1862,14 +1417,14 @@ const curatorProfiles = {
       /glossy|char|broth|crispy|golden|platter|plate|bowl|stacked|sliced|sauce|steam|melted/i,
     ],
     reject: [
-      /vegetable|vegetables|veggies|salad|broccoli|kale|spinach|lettuce|greens|leafy|arugula|cucumber|zucchini|squash|pumpkin|tomato soup|carrot|corn|cabbage|bean|chickpea|olive|nigiri|single|isolated|white background|plain|macaroni|mac and cheese|raw|uncooked|ingredient|bento|dosirak|doshirak|lunch\s*box|boxed lunch|packed lunch|meal box|ready meal|packaged meal|prepackaged|pre-packed|convenience store|plastic (?:container|box|tray|lid)|disposable tray|takeout container|takeaway container|takeaway box|take away container/i,
+      /vegetable|vegetables|veggies|salad|broccoli|kale|spinach|lettuce|greens|leafy|arugula|cucumber|zucchini|squash|pumpkin|pumpkin soup|tomato soup|vegetable soup|veggie soup|plain soup|carrot|corn|cabbage|bean|chickpea|olive|nigiri|single|isolated|white background|plain|macaroni|mac and cheese|raw|uncooked|ingredient|ingredient garnish|plain garnish|bento|dosirak|doshirak|lunch\s*box|boxed lunch|packed lunch|meal box|ready meal|packaged meal|prepackaged|pre-packed|convenience store|plastic (?:container|box|tray|lid)|disposable tray|takeout container|takeaway container|takeaway box|take away container/i,
       weakFoodScenePattern,
     ],
     minScore: 2,
   },
   kpop: {
     prefer: [
-      /shoulder|off-shoulder|off shoulder|sleeveless|strapless|spaghetti strap|tank top|crop top|midriff|belly|navel|cute|fun|playful|wink|pout|pose|confident|selfie|hanni|haerin|wonyoung|newjeans|ive/i,
+      /crop top|crop[-\s]?top|midriff|belly|navel|bare waist|exposed waist|visible waist|body-visible|full-body|pose|confident|wonyoung|ive/i,
       /2024|2025|2026|241|250|260/i,
     ],
     reject: [
@@ -1880,7 +1435,7 @@ const curatorProfiles = {
   },
   car: {
     prefer: [
-      /sedan|gran coupe|m235|3 series|cla|c-class|a3|a4|a5|s3|rs3|modern|official|press|studio|road|motion|exterior|white/i,
+      /mini|cooper|john cooper works|jcw|2[-\s]?door|hardtop|sedan|gran coupe|cla|c-class|a3|a4|a5|s3|rs3|modern|official|press|studio|road|motion|exterior|white/i,
       /2024|2025|2026|g20|g87|compact|limousine/i,
     ],
     reject: [
@@ -1891,7 +1446,7 @@ const curatorProfiles = {
   },
 };
 
-const kpopExposurePattern = /(?:bare|exposed|visible|showing|open)?[-\s]*(?:shoulder|shoulders)|off[-\s]?shoulder|one[-\s]?shoulder|shoulder[-\s]?pose|sleeveless|strapless|spaghetti[-\s]?strap|thin[-\s]?strap|halter|tube[-\s]?top|tank[-\s]?top|camisole|bralette|crop[-\s]?top|cropped[-\s]?top|midriff|belly(?:\s*button)?|navel|bare[-\s]?waist|waistline/i;
+const kpopExposurePattern = /crop[-\s]?top|cropped[-\s]?top|midriff|belly(?:\s*button)?|navel|bare[-\s]?waist|exposed[-\s]?waist|visible[-\s]?waist|waistline|body[-\s]?visible|full[-\s]?body|leg pose|hands[-\s]?on[-\s]?waist/i;
 
 function curationText(item, source = {}) {
   return [
@@ -1918,14 +1473,15 @@ function hasKpopPoseSignal(item, source = {}) {
   const itemText = curationText(item);
   const combinedText = curationText(item, source);
   if (kpopHardRejectPattern.test(combinedText) || isMinorEraKpopItem(item, source)) return false;
-  return kpopAdultEraPattern.test(combinedText) && kpopPosePositivePattern.test(itemText);
+  return kpopAdultEraPattern.test(combinedText) && kpopPosePositivePattern.test(itemText) && kpopBodyPosePattern.test(itemText);
 }
 
 function hasKpopExposureSignal(item, source = {}) {
+  const itemText = curationText(item);
   const text = curationText(item, source);
   if (kpopHardRejectPattern.test(text) || isMinorEraKpopItem(item, source)) return false;
   if (source && source.aiExposureApproved) return true;
-  return kpopExposurePattern.test(text) || hasKpopPoseSignal(item, source);
+  return kpopExposurePattern.test(itemText) || hasKpopPoseSignal(item, source);
 }
 
 function curationCategory(item, source = {}) {
@@ -2017,9 +1573,7 @@ const featuredHanniFiles = new Set([
 ]);
 
 const cameoPersonTargets = {
-  Haerin: 96,
   Wonyoung: 96,
-  Hanni: 96,
 };
 const cameoPeople = Object.keys(cameoPersonTargets);
 const allowedCameoPeople = new Set(cameoPeople);
@@ -2029,9 +1583,7 @@ function isAllowedCameo(item) {
   if (kpopHardRejectPattern.test(curationText(item, { category: "kpop" }))) return false;
   if (isMinorEraKpopItem(item, { category: "kpop" })) return false;
   if (!hasKpopExposureSignal(item)) return false;
-  if (item.external) return true;
-  if (blockedCameoFiles.has(item.file)) return false;
-  if (casualCameoFiles.has(item.file)) return false;
+  if (!item.external) return false;
   return true;
 }
 
@@ -2058,6 +1610,8 @@ function glamCaption(item) {
 function glamScore(item) {
   const source = `${item.file || ""} ${item.caption || ""}`.toLowerCase();
   if (/stage|concert|fan concert|dive into ive|k-link|mma|mama|melon|golden|disc|dior|bvlgari|tommy|dyson|rimowa|photocall|launch|event|marie claire/.test(source)) return -4;
+  if (/belly|navel|midriff|crop[-\s]?top|cropped[-\s]?top|bare[-\s]?waist|waistline|tube[-\s]?top/.test(source)) return 9;
+  if (/strapless|sleeveless|bare[-\s]?shoulder|shoulder[-\s]?visible|off[-\s]?shoulder/.test(source)) return 7;
   if (/airport|olens|hanni|haerin|wonyoung|241022|soft|clean|natural|smile/.test(source)) return 4;
   if (/kerastase|mise-en-scene/.test(source)) return 1;
   return 2;
@@ -2103,7 +1657,9 @@ const mixPattern = ["food", "kpop", "car"];
 const longScrollItemsPerCategory = 7200;
 const foodItems = uniqueBySource(baseItems.filter((item) => (!item.file || !skippedFiles.has(item.file)) && passesCurator(item, { category: "food" })));
 const kpopItems = buildCameoPool(cameoItems);
-const dreamCarItems = uniqueBySource(prioritizeCarItems(carItems));
+const dreamCarItems = uniqueBySource(prioritizeCarItems(
+  carItems.filter((item) => !isBlockedContentItem({ ...item, category: "car" }))
+));
 
 const onlineSources = [
   { category: "food", label: "Korean barbecue", query: "korean barbecue galbi food", requireAny: ["galbi", "barbecue"], maxItems: 90 },
@@ -2118,9 +1674,7 @@ const onlineSources = [
   { category: "food", label: "Tacos", query: "tacos carnitas quesadilla mexican food", requireAny: ["taco", "carnitas", "quesadilla"], maxItems: 84 },
   { category: "food", label: "Cajun", query: "gumbo cajun seafood food", requireAny: ["gumbo", "cajun"], maxItems: 48 },
   { category: "food", label: "Fried chicken", query: "fried chicken food", requireAny: ["fried chicken", "chicken"], maxItems: 72 },
-  { category: "kpop", label: "Hanni shoulder or navel archive", provider: "kpopping", person: "Hanni", query: "Hanni exposed shoulder sleeveless crop top midriff", maxItems: 180 },
-  { category: "kpop", label: "Haerin shoulder or navel archive", provider: "kpopping", person: "Haerin", query: "Haerin exposed shoulder sleeveless crop top midriff", maxItems: 180 },
-  { category: "kpop", label: "Wonyoung shoulder or navel archive", provider: "kpopping", person: "Wonyoung", query: "Wonyoung exposed shoulder sleeveless crop top midriff", maxItems: 240 },
+  { category: "kpop", label: "Wonyoung crop-top midriff archive", provider: "kpopping", person: "Wonyoung", query: "Wonyoung crop top exposed waist midriff belly", maxItems: 240 },
 ];
 
 function sourceMaxItemsForCategory(category) {
@@ -2175,16 +1729,11 @@ const generatedOnlineSourceSeeds = {
     { label: "Seafood boil", query: "seafood boil restaurant table", requireAny: ["seafood", "boil"], maxItems: 84 },
   ],
   kpop: [
-    { label: "Hanni shoulder or navel refill", provider: "kpopping", person: "Hanni", query: "Hanni exposed shoulder sleeveless crop top midriff", maxItems: 2400 },
-    { label: "Haerin shoulder or navel refill", provider: "kpopping", person: "Haerin", query: "Haerin exposed shoulder sleeveless crop top midriff", maxItems: 2400 },
-    { label: "Wonyoung shoulder or navel refill", provider: "kpopping", person: "Wonyoung", query: "Wonyoung exposed shoulder sleeveless crop top midriff", maxItems: 2400 },
+    { label: "Wonyoung crop-top midriff refill", provider: "kpopping", person: "Wonyoung", query: "Wonyoung crop top exposed waist midriff belly", maxItems: 2400 },
   ],
   car: [
-    { group: "car:bmw-m235-white", label: "White BMW M235 Gran Coupe", query: "white 2025 BMW M235 Gran Coupe sedan exterior", requireAny: ["2025", "2026", "m235", "gran coupe"], kind: "car", maxItems: 96 },
+    { group: "car:mini-cooper-2-door", label: "MINI Cooper 2 Door hardtop", query: "2025 2026 MINI Cooper 2 Door hardtop exterior", requireAny: ["2025", "2026", "mini", "cooper"], kind: "car", maxItems: 120 },
     { group: "car:mercedes-cla-white", label: "White Mercedes CLA sedan", query: "white 2025 Mercedes CLA sedan exterior", requireAny: ["2025", "2026", "cla"], kind: "car", maxItems: 96 },
-    { group: "car:bmw-3-series", label: "BMW G20 sedan", query: "2024 2025 BMW G20 3 Series sedan", requireAny: ["2024", "2025", "2026", "g20"], kind: "car", maxItems: 84 },
-    { group: "car:bmw-3-series", label: "BMW 330i sedan", query: "2024 2025 BMW 330i sedan car", requireAny: ["2024", "2025", "2026", "330i"], kind: "car", maxItems: 84 },
-    { group: "car:bmw-3-series", label: "BMW M340i sedan", query: "2024 2025 BMW M340i sedan car", requireAny: ["2024", "2025", "2026", "m340i"], kind: "car", maxItems: 72 },
     { group: "car:mercedes-c-class", label: "Mercedes C-Class sedan", query: "2024 2025 Mercedes C-Class W206 sedan", requireAny: ["2024", "2025", "2026", "w206"], kind: "car", maxItems: 72 },
     { group: "car:audi-a3", label: "Audi A3 sedan", query: "2024 2025 Audi A3 sedan exterior", requireAny: ["2024", "2025", "2026", "a3"], kind: "car", maxItems: 72 },
     { group: "car:audi-a5-white", label: "Audi A5 sedan", query: "2025 2026 Audi A5 sedan exterior", requireAny: ["2025", "2026", "a5"], kind: "car", maxItems: 84 },
@@ -2197,10 +1746,10 @@ const generatedOnlineSourceSeeds = {
 const generatedOnlineSourceIndex = { food: 0, kpop: 0, car: 0 };
 const carFallbackGroups = [
   {
-    group: "car:bmw-m235-white",
-    label: "White BMW M235 Gran Coupe",
-    terms: "2025,bmw,m235,gran-coupe,white,sedan,car",
-    query: "white 2025 BMW M235 Gran Coupe sedan exterior",
+    group: "car:mini-cooper-2-door",
+    label: "MINI Cooper 2 Door hardtop",
+    terms: "2025,2026,mini,cooper,2-door,hardtop,car",
+    query: "2025 2026 MINI Cooper 2 Door hardtop exterior",
     lockBase: 129000,
   },
   {
@@ -2209,13 +1758,6 @@ const carFallbackGroups = [
     terms: "2025,mercedes,cla,white,sedan,car",
     query: "white 2025 Mercedes CLA sedan exterior",
     lockBase: 129500,
-  },
-  {
-    group: "car:bmw-3-series",
-    label: "Modern BMW 3 Series sedan",
-    terms: "2025,bmw,3-series,sedan,car",
-    query: "2025 BMW 3 Series sedan exterior",
-    lockBase: 130000,
   },
   {
     group: "car:audi-a5-white",
@@ -2499,7 +2041,11 @@ const blockedOnlineTitleTerms = [
   "zucchini",
   "squash",
   "pumpkin",
+  "pumpkin soup",
   "tomato soup",
+  "vegetable soup",
+  "veggie soup",
+  "plain soup",
   "carrot",
   "corn",
   "cabbage",
@@ -2510,6 +2056,8 @@ const blockedOnlineTitleTerms = [
   "curry",
   "indian",
   "mediterranean",
+  "ingredient garnish",
+  "plain garnish",
   "concert",
   "festival",
   "live",
@@ -2521,6 +2069,15 @@ const blockedOnlineTitleTerms = [
   "fashion week",
   "seoul fashion week",
   "ningning",
+  "face-only",
+  "headshot",
+  "forehead",
+  "olens",
+  "bmw m235",
+  "bmw 2 series",
+  "bmw 3 series",
+  "bmw m3",
+  "bmw m5",
 ];
 
 const onlineSourceCooldownUntil = { food: 0, kpop: 0, car: 0 };
@@ -3023,7 +2580,7 @@ function nearbyVisibleItems(renderedItems, itemIndex, category, hiddenKey, limit
 }
 
 const preferenceTokenStopWords = new Set([
-  "2023", "2024", "2025", "2026", "audi", "benz", "bmw", "cameo", "car", "clean",
+  "2023", "2024", "2025", "2026", "audi", "benz", "cameo", "car", "clean",
   "archive", "documents", "find", "food", "frame", "glow", "gran", "haerin", "hanni",
   "https", "image", "instagram", "ive", "jang", "jpeg", "jpg", "kpics", "kpopping",
   "legacy", "mercedes", "natural", "newjeans", "official", "online", "photo",
@@ -3056,17 +2613,19 @@ function preferenceSampleText(sample) {
 
 const preferenceFeaturePatterns = {
   food: [
-    ["vegetable_spread", /vegetable|vegetables|veggies|salad|broccoli|kale|spinach|lettuce|greens|leafy|arugula|cucumber|zucchini|squash|pumpkin|tomato soup|carrot|corn|cabbage|bean|chickpea|olive|tomato|pepper|ingredient/i],
+    ["vegetable_spread", /vegetable|vegetables|veggies|salad|broccoli|kale|spinach|lettuce|greens|leafy|arugula|cucumber|zucchini|squash|pumpkin|pumpkin soup|tomato soup|vegetable soup|veggie soup|plain soup|carrot|corn|cabbage|bean|chickpea|olive|tomato|pepper|ingredient|ingredient garnish|plain garnish/i],
     ["isolated_sushi", /nigiri|single|isolated|plain|white background|salmon sushi(?!.*platter)|sushi close-up|sushi close up/i],
     ["raw_plain", /raw|uncooked|ingredient|sterile|product shot|white background|macaroni|mac and cheese/i],
     ["packaged_lunch", /bento|dosirak|doshirak|lunch\s*box|boxed lunch|packed lunch|meal box|ready meal|packaged meal|prepackaged|pre-packed|convenience store|plastic (?:container|box|tray|lid)|disposable tray|takeout container|takeaway container|takeaway box|take away container/i],
     ["weak_table_scene", weakFoodScenePattern],
+    ["dim_bad_frame", /dim|flash|snapshot|bad[-\s]?framed|boring|sterile|documentation|old[-\s]?school/i],
   ],
   kpop: [
     ["stage", /stage|performance|concert|festival|inkigayo|music bank|microphone|fancam|fan concert|k-link/i],
     ["awards", /awards?|awards-night|awards-event|mma|mama|melon|golden disc|red carpet/i],
     ["fashion_event", /fashion-event|fashion week|dior|bvlgari|tommy|rimowa|miu miu|photocall|launch event/i],
-    ["beauty_editorial", /beauty|editorial|glam|heavy makeup|marie claire|kerastase|mise-en-scene|olens|magazine|shoulder-pose|off-shoulder/i],
+    ["beauty_editorial", /beauty|editorial|glam|heavy makeup|marie claire|kerastase|mise-en-scene|olens|magazine/i],
+    ["face_close_crop", /face[-\s]?only|headshot|forehead|close[-\s]?(?:up|frame)/i],
     ["covered_outerwear", /coat|jacket|blazer|cardigan|hoodie|sweater|long[-\s]?sleeve|long[-\s]?sleeved|turtleneck|overcoat|trench|puffer|parka|scarf|fully covered|covered shoulder/i],
     ["too_polished", /press-day|event frame|glossy|sparkle|polished awards|polished press/i],
   ],
@@ -3075,6 +2634,7 @@ const preferenceFeaturePatterns = {
     ["show_floor", /museum|exhibition|motor show|auto show|show floor|auto zuerich|iaa|frankfurt|parade/i],
     ["traffic_doc", /traffic|china|lwb|e class|w212|v212|taxi|police|surveillance|license plate/i],
     ["suv_hatch", /suv|crossover|countryman|hatchback|sportback|bmw x[1-7]|audi q[2-8]|cayenne|macan/i],
+    ["bmw_brand_vehicle", /\bbmw\b|m235|m240i|330i|m340i|\bm3\b|\bm5\b|car:bmw-/i],
     ["service_vehicle", /firefighter|fire truck|firetruck|fire engine|fire department|feuerwehr|werkfeuerwehr|p905430/i],
     ["dealer_bad", /dealer|dealership|auction|sale|used car|damaged|wreck|crash/i],
   ],
@@ -3085,16 +2645,19 @@ const strongNegativeFeatures = new Set([
   "isolated_sushi",
   "raw_plain",
   "weak_table_scene",
+  "dim_bad_frame",
   "stage",
   "awards",
   "fashion_event",
   "beauty_editorial",
+  "face_close_crop",
   "covered_outerwear",
   "too_polished",
   "old_car",
   "show_floor",
   "traffic_doc",
   "suv_hatch",
+  "bmw_brand_vehicle",
   "service_vehicle",
   "dealer_bad",
 ]);
@@ -4492,6 +4055,7 @@ function personFor(item) {
 function carGroupFor(item, text) {
   if (item && item.carGroup) return item.carGroup;
   if (/a0j42547|manhattan gray|parchment beige|black optic/i.test(text)) return "car:audi-a3-a0j42547";
+  if (isMiniTwoDoorText(text)) return "car:mini-cooper-2-door";
   if (/m235|2 series gran coupe|gran-coup|gran coupe|t0445698|p90572[234]/i.test(text)) return "car:bmw-m235-gran-coupe";
   if (/m340i/i.test(text)) return "car:bmw-m340i";
   if (/330i/i.test(text)) return "car:bmw-330i";
