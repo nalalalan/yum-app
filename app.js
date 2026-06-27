@@ -3113,6 +3113,10 @@ function availableUniqueCount(state, category) {
   }, 0);
 }
 
+function isInitialFeedStillFilling(state) {
+  return state.seenKeys.size < Math.min(9, batchSize);
+}
+
 function prefetchOnlineItemsForCategory(state, category) {
   if (!state || !state.prefetchingCategories || state.prefetchingCategories.has(category)) return;
   const targetQueued = category === "kpop" ? onlineBatchSize * 8 : (category === "car" ? 12 : onlineBatchSize * 6);
@@ -3664,7 +3668,7 @@ async function loadMoreOnlineItemsForCategory(state, category, targetCount = onl
 }
 
 async function nextItemForCategory(state, category) {
-  const firstPaintStillFilling = state.seenKeys.size < batchSize;
+  const firstPaintStillFilling = isInitialFeedStillFilling(state);
   if (!hasAvailableUnique(state, category)) {
     if (firstPaintStillFilling) {
       await loadMoreOnlineItemsForCategory(state, category, onlineBatchSize);
@@ -3728,7 +3732,7 @@ async function nextMixedItems(state, targetCount = batchSize) {
 
   for (let setIndex = 0; setIndex < targetSetCount; setIndex += 1) {
     for (const category of mixPattern) {
-      const firstPaintStillFilling = state.seenKeys.size < batchSize;
+      const firstPaintStillFilling = isInitialFeedStillFilling(state);
       const needsRefill = !hasAvailableUnique(state, category)
         || (!firstPaintStillFilling && category === "kpop" && !hasKpopWindowBalancedChoice(state))
         || (!firstPaintStillFilling && category === "car" && !hasCarWindowBalancedChoice(state));
