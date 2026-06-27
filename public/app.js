@@ -1628,7 +1628,7 @@ function buildCameoPool(list) {
 
 const batchSize = 24;
 const onlineBatchSize = 36;
-const tileImageLoadTimeoutMs = 8500;
+const tileImageLoadTimeoutMs = 4200;
 const tilePreloadConcurrency = 6;
 const immediateFetchPriorityCount = 12;
 const categories = ["food", "kpop", "car"];
@@ -3933,11 +3933,13 @@ function createTile(item, index, onHide, onQualityReject, loadedImage = null) {
     if (!tile.isConnected || !img.naturalWidth || !img.naturalHeight) return;
     tile.classList.add("is-loaded");
   };
-  if (!loaded) img.addEventListener("load", markLoaded, { once: true });
+  img.addEventListener("load", markLoaded, { once: true });
   img.src = imageFor(item);
   if (loaded && loaded.naturalWidth && loaded.naturalHeight) {
-    tile.classList.add("is-loaded");
     if (category === "car") fitCarTileToImage(tile, loaded);
+    markLoaded();
+    setTimeout(markLoaded, 500);
+    setTimeout(markLoaded, 1800);
   } else {
     if (typeof finalizeCarFrame === "function") {
       finalizeCarFrame();
