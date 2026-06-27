@@ -29,7 +29,6 @@ const baseItems = [
   { image: unsplashImage("1553621042-f6e147245754"), url: unsplashSource("sushi platter"), caption: "Sushi tray, precise rows and polished restaurant light.", shape: "wide", focus: "center 50%" },
   { image: unsplashImage("1617196034796-73dfa7b1fd56"), url: unsplashSource("salmon sushi"), caption: "Salmon sushi on a black plate, clean color and quiet luxury.", shape: "cinema", focus: "center 45%" },
   { image: unsplashImage("1551183053-bf91a1d81141"), url: unsplashSource("pasta carbonara"), caption: "Glossy pasta in a dark pan, noodles folded like fabric.", shape: "wide", focus: "center 50%" },
-  { image: unsplashImage("1621996346565-e3dbc646d9a9"), url: unsplashSource("italian pasta"), caption: "Italian pasta, red sauce, parmesan, and clean plate contrast.", shape: "portrait", focus: "center 50%" },
   { image: unsplashImage("1473093295043-cdd812d0e601"), url: unsplashSource("pasta close up"), caption: "Pasta close-up, creamy shine and a bright table finish.", shape: "square", focus: "center 46%" },
   { image: unsplashImage("1604908176997-125f25cc6f3d"), url: unsplashSource("fried chicken"), caption: "Golden fried chicken, crisp crust and deep comfort.", shape: "wide", focus: "center 52%" },
   { file: "Korean BBQ-LA Galbi-01.jpg", caption: "LA galbi with glossy char and thick short-rib energy.", shape: "hero", focus: "center 55%" },
@@ -154,12 +153,9 @@ const skippedFiles = new Set([
 
 baseItems.push(
   { image: unsplashImage("1568901346375-23c9450c58cd"), url: unsplashSource("burger close up"), caption: "Stacked burger, glossy bun, clean melted-cheese pull.", shape: "portrait", focus: "center 50%" },
-  { image: unsplashImage("1540189549336-e6e99c3679fe"), url: unsplashSource("restaurant food table"), caption: "Restaurant table spread, warm plates and rich dinner color.", shape: "wide", focus: "center 50%" },
-  { image: unsplashImage("1504674900247-0877df9cc836"), url: unsplashSource("salmon dinner"), caption: "Salmon dinner, crisp color and clean plate light.", shape: "cinema", focus: "center 50%" },
   { image: unsplashImage("1529042410759-befb1204b468"), url: unsplashSource("burger fries"), caption: "Burger and fries, big diner comfort with a polished crop.", shape: "wide", focus: "center 52%" },
   { image: unsplashImage("1546069901-ba9599a7e63c"), url: unsplashSource("fried chicken"), caption: "Fried chicken, golden crunch and hot-table energy.", shape: "portrait", focus: "center 52%" },
   { image: unsplashImage("1484723091739-30a097e8f929"), url: unsplashSource("steak plate"), caption: "Steak plate, browned crust and moody restaurant finish.", shape: "wide", focus: "center 50%" },
-  { image: unsplashImage("1467003909585-2f8a72700288"), url: unsplashSource("food table"), caption: "Shared table spread, bright plates and easy dinner chaos.", shape: "wide", focus: "center 50%" },
   { image: unsplashImage("1565958011703-44f9829ba187"), url: unsplashSource("pizza close up"), caption: "Pizza close-up, melted cheese and crisp edge detail.", shape: "cinema", focus: "center 52%" },
   { image: unsplashImage("1555939594-58d7cb561ad1"), url: unsplashSource("noodle bowl"), caption: "Noodle bowl, deep broth and glossy toppings.", shape: "portrait", focus: "center 48%" },
   { image: unsplashImage("1559847844-5315695dadae"), url: unsplashSource("sushi close up"), caption: "Sushi close-up, clean fish color and tight plating.", shape: "square", focus: "center 50%" },
@@ -196,7 +192,6 @@ baseItems.push(
   { file: "Tonkatsu (1795368622).jpg", caption: "Tonkatsu close frame, golden crust and soft rice.", shape: "wide", focus: "center 50%" },
   { file: "Tonkatsu (3103951877).jpg", caption: "Tonkatsu plate, crunchy cutlet and rich sauce.", shape: "wide", focus: "center 50%" },
   { file: "Tonkatsu (3224306289).jpg", caption: "Tonkatsu dinner, clean cutlet slices and warm light.", shape: "wide", focus: "center 50%" },
-  { file: "Tonkatsu Ganko Shinsaibashi.jpg", caption: "Tonkatsu set, crisp pork and calm restaurant light.", shape: "portrait", focus: "center 50%" },
   { file: "Korean cuisine-Kimchi bokkeumbap-01.jpg", caption: "Kimchi fried rice, deep red gloss and hot-pan comfort.", shape: "wide", focus: "center 50%" },
   { file: "A bowl of Kimchi Fried Rice.jpg", caption: "Kimchi fried rice bowl, rich color and compact comfort.", shape: "wide", focus: "center 50%" },
   { file: "Korean stew-Budae jjigae-01.jpg", caption: "Budae jjigae, bubbling broth and cozy heat.", shape: "wide", focus: "center 50%" },
@@ -242,8 +237,6 @@ baseItems.push(
   { file: "Eating Pancakes (Unsplash).jpg", caption: "Pancakes, soft stack and syrup gloss.", shape: "wide", focus: "center 50%" },
   { file: "Pancake Breakfast (Unsplash).jpg", caption: "Pancake breakfast, warm stack and clean morning light.", shape: "wide", focus: "center 50%" },
   { file: "Pancakes with Walnuts.png", caption: "Pancakes with walnuts, soft stack and warm syrup.", shape: "square", focus: "center 50%" },
-  { file: "NY breakfast 01.jpg", caption: "New York breakfast plate, rich diner comfort.", shape: "wide", focus: "center 50%" },
-  { file: "NY breakfast 02.jpg", caption: "New York breakfast, warm plate and clean table light.", shape: "wide", focus: "center 50%" },
   { file: "Chicken wings at Hesburger.jpg", caption: "Chicken wings and fries, crisp and snackable.", shape: "wide", focus: "center 50%" },
   { file: "My old mother fried chicken wings at home.jpg", caption: "Homestyle fried chicken wings, golden and hot.", shape: "cinema", focus: "center 50%" },
   { file: "LOW CARB KETO FRIED CHICKEN by Keto Diet Delish Medium.jpg", caption: "Fried chicken close frame, crunchy crust and warm color.", shape: "wide", focus: "center 50%" },
@@ -726,20 +719,17 @@ addCameos(wonyoungItems, "Wonyoung", [
 ]);
 
 addExternalCameoItems(wonyoungItems, "Wonyoung", [
-  ["https://pub-dc9a9c6ac2a64ba48bce426ced0ac56a.r2.dev/kpics/2026/06/1782481985247-wnnpex-2.jpg", "https://kpopping.com/kpics/260626-wonyoung-instagram-update", "Wonyoung cameo, black crop top with visible midriff.", "portrait", "center 40%"],
-  ["https://pub-dc9a9c6ac2a64ba48bce426ced0ac56a.r2.dev/kpics/2026/06/1782481985247-i2k9er-3.jpg", "https://kpopping.com/kpics/260626-wonyoung-instagram-update", "Wonyoung cameo, black crop top and belly-visible pose.", "portrait", "center 40%"],
-  ["https://pub-dc9a9c6ac2a64ba48bce426ced0ac56a.r2.dev/kpics/2026/06/1782481985247-xhcrec-8.jpg", "https://kpopping.com/kpics/260626-wonyoung-instagram-update", "Wonyoung cameo, full-body crop-top midriff frame.", "portrait", "center 43%"],
-  ["https://pub-dc9a9c6ac2a64ba48bce426ced0ac56a.r2.dev/kpics/2026/06/1782481985247-4wjo0u-10.jpg", "https://kpopping.com/kpics/260626-wonyoung-instagram-update", "Wonyoung cameo, paired crop-top waist pose.", "portrait", "center 42%"],
-  ["https://pub-dc9a9c6ac2a64ba48bce426ced0ac56a.r2.dev/kpics/2026/06/1782481985247-9j3st2-13.jpg", "https://kpopping.com/kpics/260626-wonyoung-instagram-update", "Wonyoung cameo, black crop top with waist visible.", "portrait", "center 40%"],
-  ["https://pub-dc9a9c6ac2a64ba48bce426ced0ac56a.r2.dev/kpics/2026/06/1782481985247-g8ux3u-14.jpg", "https://kpopping.com/kpics/260626-wonyoung-instagram-update", "Wonyoung cameo, crop-top midriff pose.", "portrait", "center 40%"],
-  ["https://pub-dc9a9c6ac2a64ba48bce426ced0ac56a.r2.dev/kpics/2026/06/1782481985247-gkfrjz-15.jpg", "https://kpopping.com/kpics/260626-wonyoung-instagram-update", "Wonyoung cameo, black top and exposed waist.", "portrait", "center 41%"],
-  ["https://pub-dc9a9c6ac2a64ba48bce426ced0ac56a.r2.dev/kpics/2026/06/1782481985247-qy97e3-16.jpg", "https://kpopping.com/kpics/260626-wonyoung-instagram-update", "Wonyoung cameo, crop-top waist frame.", "portrait", "center 41%"],
-  ["https://pub-dc9a9c6ac2a64ba48bce426ced0ac56a.r2.dev/kpics/2026/06/1782377791015-8loxjs-1.jpg", "https://kpopping.com/kpics/260625-wonyoung-instagram-update", "Wonyoung cameo, red crop top and exposed waist.", "portrait", "center 42%"],
-  ["https://pub-dc9a9c6ac2a64ba48bce426ced0ac56a.r2.dev/kpics/2026/06/1782377791015-wkvwni-7.jpg", "https://kpopping.com/kpics/260625-wonyoung-instagram-update", "Wonyoung cameo, black strap top and midriff pose.", "portrait", "center 42%"],
-  ["https://pub-dc9a9c6ac2a64ba48bce426ced0ac56a.r2.dev/kpics/2026/06/1782377791015-dy2o7s-14.jpg", "https://kpopping.com/kpics/260625-wonyoung-instagram-update", "Wonyoung cameo, red crop top full-body pose.", "portrait", "center 42%"],
-  ["https://pub-dc9a9c6ac2a64ba48bce426ced0ac56a.r2.dev/kpics/2026/06/1782377791015-9gg4na-16.jpg", "https://kpopping.com/kpics/260625-wonyoung-instagram-update", "Wonyoung cameo, red crop top pose.", "portrait", "center 42%"],
-  ["https://pub-dc9a9c6ac2a64ba48bce426ced0ac56a.r2.dev/kpics/2026/06/1782377791015-fdxyhu-18.jpg", "https://kpopping.com/kpics/260625-wonyoung-instagram-update", "Wonyoung cameo, red crop top leg pose.", "portrait", "center 43%"],
-  ["https://pub-dc9a9c6ac2a64ba48bce426ced0ac56a.r2.dev/kpics/2026/06/1782377791015-psq47q-20.jpg", "https://kpopping.com/kpics/260625-wonyoung-instagram-update", "Wonyoung cameo, red crop top hands-on-waist pose.", "portrait", "center 42%"],
+  ["https://kpopping.com/documents/14/3/240304-WONYOUNG-INSTAGRAM-UPDATE-documents-2.jpeg", "https://kpopping.com/kpics/240304-WONYOUNG-INSTAGRAM-UPDATE", "Wonyoung cameo, black crop top and exposed belly stance.", "tall", "center 54%"],
+  ["https://kpopping.com/documents/24/5/240304-WONYOUNG-INSTAGRAM-UPDATE-documents-1.jpeg", "https://kpopping.com/kpics/240304-WONYOUNG-INSTAGRAM-UPDATE", "Wonyoung cameo, crop-top midriff pose with waist visible.", "tall", "center 54%"],
+  ["https://kpopping.com/documents/49/1/240304-WONYOUNG-INSTAGRAM-UPDATE-documents-7.jpeg", "https://kpopping.com/kpics/240304-WONYOUNG-INSTAGRAM-UPDATE", "Wonyoung cameo, crouched crop-top pose and visible waist.", "tall", "center 54%"],
+  ["https://kpopping.com/documents/87/1/240304-WONYOUNG-INSTAGRAM-UPDATE-documents-8.jpeg", "https://kpopping.com/kpics/240304-WONYOUNG-INSTAGRAM-UPDATE", "Wonyoung cameo, black crop top with exposed belly.", "tall", "center 54%"],
+  ["https://kpopping.com/documents/9b/0/240304-WONYOUNG-INSTAGRAM-UPDATE-documents-3.jpeg", "https://kpopping.com/kpics/240304-WONYOUNG-INSTAGRAM-UPDATE", "Wonyoung cameo, full-body crop-top midriff frame.", "tall", "center 55%"],
+  ["https://kpopping.com/documents/c0/3/240304-WONYOUNG-INSTAGRAM-UPDATE-documents-4.jpeg", "https://kpopping.com/kpics/240304-WONYOUNG-INSTAGRAM-UPDATE", "Wonyoung cameo, full-body side pose with exposed waist.", "tall", "center 55%"],
+  ["https://kpopping.com/documents/e1/2/240304-WONYOUNG-INSTAGRAM-UPDATE-documents-5.jpeg", "https://kpopping.com/kpics/240304-WONYOUNG-INSTAGRAM-UPDATE", "Wonyoung cameo, crouched crop-top pose with bare waist.", "tall", "center 55%"],
+  ["https://pub-dc9a9c6ac2a64ba48bce426ced0ac56a.r2.dev/kpics/2026/06/1782481985247-wnnpex-2.jpg", "https://kpopping.com/kpics/260626-wonyoung-instagram-update", "Wonyoung cameo, black crop top with visible midriff.", "tall", "center 52%"],
+  ["https://pub-dc9a9c6ac2a64ba48bce426ced0ac56a.r2.dev/kpics/2026/06/1782481985247-i2k9er-3.jpg", "https://kpopping.com/kpics/260626-wonyoung-instagram-update", "Wonyoung cameo, black crop top and belly-visible pose.", "tall", "center 52%"],
+  ["https://pub-dc9a9c6ac2a64ba48bce426ced0ac56a.r2.dev/kpics/2026/06/1782481985247-xhcrec-8.jpg", "https://kpopping.com/kpics/260626-wonyoung-instagram-update", "Wonyoung cameo, full-body crop-top midriff frame.", "tall", "center 52%"],
+  ["https://pub-dc9a9c6ac2a64ba48bce426ced0ac56a.r2.dev/kpics/2026/06/1782481985247-4wjo0u-10.jpg", "https://kpopping.com/kpics/260626-wonyoung-instagram-update", "Wonyoung cameo, paired crop-top waist pose.", "tall", "center 52%"],
 ]);
 
 const cameoItems = interleaveGroups([wonyoungItems]);
@@ -1106,8 +1096,19 @@ const blockedContentTerms = [
   "ingredient",
   "ingredient garnish",
   "plain garnish",
+  "dry pasta",
+  "uncooked pasta",
+  "pasta sheets",
+  "lasagna sheets",
+  "lasagne sheets",
   "grain bowl",
   "breakfast plate",
+  "new york breakfast",
+  "ny breakfast",
+  "empty plate",
+  "restaurant exterior",
+  "restaurant sign",
+  "restaurant facade",
   "1498837167922",
   "1512621776951",
   "plain",
@@ -1350,7 +1351,7 @@ function carTasteScore(item, text = "") {
   if (likedCarTastePattern.test(text)) score += 4;
   if (carCompositionPreferPattern.test(compositionText)) score += 6;
   if (/white|alpine white/i.test(text)) score += 3;
-  if (/mini|cooper|john cooper works|jcw|2[-\s]?door|hardtop/i.test(text)) score += 5;
+  if (/mini|cooper|john cooper works|jcw|2[-\s]?door|hardtop/i.test(text)) score += 14;
   if (/audi|a3|a4|a5|s3|rs3|rs 3/i.test(text)) score += 3;
   if (/side\s*(?:view|profile)|\bprofile\b|crop|cropped|interior|cupholder|gear|dashboard|seat|vent|console|badge|emblem|detail|grille|wheel|headlight/i.test(compositionText)) score -= 12;
   if (carTasteRejected(item, text)) score -= 40;
@@ -1417,7 +1418,7 @@ const curatorProfiles = {
       /glossy|char|broth|crispy|golden|platter|plate|bowl|stacked|sliced|sauce|steam|melted/i,
     ],
     reject: [
-      /vegetable|vegetables|veggies|salad|broccoli|kale|spinach|lettuce|greens|leafy|arugula|cucumber|zucchini|squash|pumpkin|pumpkin soup|tomato soup|vegetable soup|veggie soup|plain soup|carrot|corn|cabbage|bean|chickpea|olive|nigiri|single|isolated|white background|plain|macaroni|mac and cheese|raw|uncooked|ingredient|ingredient garnish|plain garnish|bento|dosirak|doshirak|lunch\s*box|boxed lunch|packed lunch|meal box|ready meal|packaged meal|prepackaged|pre-packed|convenience store|plastic (?:container|box|tray|lid)|disposable tray|takeout container|takeaway container|takeaway box|take away container/i,
+      /vegetable|vegetables|veggies|salad|broccoli|kale|spinach|lettuce|greens|leafy|arugula|cucumber|zucchini|squash|pumpkin|pumpkin soup|tomato soup|vegetable soup|veggie soup|plain soup|carrot|corn|cabbage|bean|chickpea|olive|nigiri|single|isolated|white background|plain|macaroni|mac and cheese|raw|uncooked|ingredient|ingredient garnish|plain garnish|dry pasta|uncooked pasta|pasta sheets|lasagna sheets|lasagne sheets|bento|dosirak|doshirak|lunch\s*box|boxed lunch|packed lunch|meal box|ready meal|packaged meal|prepackaged|pre-packed|convenience store|plastic (?:container|box|tray|lid)|disposable tray|takeout container|takeaway container|takeaway box|take away container/i,
       weakFoodScenePattern,
     ],
     minScore: 2,
@@ -1662,18 +1663,6 @@ const dreamCarItems = uniqueBySource(prioritizeCarItems(
 ));
 
 const onlineSources = [
-  { category: "food", label: "Korean barbecue", query: "korean barbecue galbi food", requireAny: ["galbi", "barbecue"], maxItems: 90 },
-  { category: "food", label: "Bulgogi", query: "bulgogi korean food", requireAny: ["bulgogi"], maxItems: 72 },
-  { category: "food", label: "Ramen", query: "ramen noodles bowl food", requireAny: ["ramen", "noodle"], maxItems: 90 },
-  { category: "food", label: "Sushi", query: "sushi salmon sashimi food", requireAny: ["sushi", "sashimi"], maxItems: 90 },
-  { category: "food", label: "Dumplings", query: "dumplings jiaozi gyoza food", requireAny: ["dumpling", "jiaozi", "gyoza"], maxItems: 84 },
-  { category: "food", label: "Pho", query: "pho vietnamese noodle soup food", requireAny: ["pho"], maxItems: 60 },
-  { category: "food", label: "Carbonara", query: "carbonara pasta food", requireAny: ["carbonara", "pasta"], maxItems: 72 },
-  { category: "food", label: "Burgers", query: "cheeseburger hamburger fries food", requireAny: ["burger", "hamburger", "cheeseburger"], maxItems: 90 },
-  { category: "food", label: "Steak", query: "steak dinner restaurant food", requireAny: ["steak"], maxItems: 90 },
-  { category: "food", label: "Tacos", query: "tacos carnitas quesadilla mexican food", requireAny: ["taco", "carnitas", "quesadilla"], maxItems: 84 },
-  { category: "food", label: "Cajun", query: "gumbo cajun seafood food", requireAny: ["gumbo", "cajun"], maxItems: 48 },
-  { category: "food", label: "Fried chicken", query: "fried chicken food", requireAny: ["fried chicken", "chicken"], maxItems: 72 },
   { category: "kpop", label: "Wonyoung crop-top midriff archive", provider: "kpopping", person: "Wonyoung", query: "Wonyoung crop top exposed waist midriff belly", maxItems: 240 },
 ];
 
@@ -1687,6 +1676,7 @@ function sourceMaxItemsForCategory(category) {
 function generatedSourceRefillCount(category) {
   if (category === "kpop") return 3;
   if (category === "car") return 12;
+  if (category === "food") return 0;
   return 12;
 }
 
@@ -1696,38 +1686,7 @@ onlineSources.forEach((source) => {
 });
 
 const generatedOnlineSourceSeeds = {
-  food: [
-    { label: "Tonkotsu ramen", query: "tonkotsu ramen bowl food", requireAny: ["ramen", "tonkotsu"], maxItems: 72 },
-    { label: "Japanese ramen", query: "japanese ramen noodles restaurant", requireAny: ["ramen", "noodle"], maxItems: 72 },
-    { label: "Korean stew", query: "korean jjigae stew food", requireAny: ["jjigae", "stew"], maxItems: 60 },
-    { label: "Korean fried chicken", query: "korean fried chicken food", requireAny: ["fried chicken", "chicken"], maxItems: 72 },
-    { label: "Korean barbecue table", query: "korean barbecue meat grill restaurant", requireAny: ["barbecue", "grill", "galbi"], maxItems: 90 },
-    { label: "Vietnamese pho", query: "vietnamese pho noodle soup", requireAny: ["pho", "noodle"], maxItems: 60 },
-    { label: "Dumpling table", query: "jiaozi gyoza dumplings restaurant", requireAny: ["dumpling", "jiaozi", "gyoza"], maxItems: 72 },
-    { label: "Burger close-up", query: "restaurant cheeseburger fries", requireAny: ["burger", "cheeseburger", "hamburger"], maxItems: 84 },
-    { label: "Steak plate", query: "restaurant steak dinner plate", requireAny: ["steak"], maxItems: 84 },
-    { label: "Pizza table", query: "pizza restaurant melted cheese food", requireAny: ["pizza"], maxItems: 72 },
-    { label: "Mexican tacos", query: "tacos carnitas mexican restaurant food", requireAny: ["taco", "carnitas"], maxItems: 72 },
-    { label: "Cajun gumbo", query: "cajun gumbo seafood bowl", requireAny: ["gumbo", "cajun"], maxItems: 48 },
-    { label: "Tonkatsu cutlet", query: "tonkatsu pork cutlet restaurant food", requireAny: ["tonkatsu", "cutlet"], maxItems: 96 },
-    { label: "Katsu dinner", query: "katsu pork cutlet rice restaurant", requireAny: ["katsu", "cutlet"], maxItems: 96 },
-    { label: "Korean galbi", query: "galbi ribs korean barbecue restaurant", requireAny: ["galbi", "ribs", "barbecue"], maxItems: 108 },
-    { label: "Korean samgyeopsal", query: "samgyeopsal pork belly korean barbecue", requireAny: ["samgyeopsal", "pork belly", "barbecue"], maxItems: 108 },
-    { label: "Jjajangmyeon noodles", query: "jjajangmyeon noodles restaurant food", requireAny: ["jjajangmyeon", "noodle"], maxItems: 84 },
-    { label: "Udon bowl", query: "udon noodle soup restaurant", requireAny: ["udon", "noodle"], maxItems: 84 },
-    { label: "Pho table", query: "pho restaurant beef noodle bowl", requireAny: ["pho", "noodle"], maxItems: 96 },
-    { label: "Hot pot table", query: "hot pot restaurant meat table", requireAny: ["hot pot", "meat"], maxItems: 108 },
-    { label: "Dim sum table", query: "dim sum dumplings restaurant table", requireAny: ["dim sum", "dumpling"], maxItems: 96 },
-    { label: "Pasta plate", query: "restaurant pasta plate sauce", requireAny: ["pasta"], maxItems: 96 },
-    { label: "Carbonara plate", query: "carbonara pasta restaurant plate", requireAny: ["carbonara", "pasta"], maxItems: 96 },
-    { label: "Smash burger", query: "smash burger restaurant fries", requireAny: ["burger", "fries"], maxItems: 108 },
-    { label: "Fried chicken table", query: "fried chicken restaurant table", requireAny: ["fried chicken", "chicken"], maxItems: 108 },
-    { label: "Ribs platter", query: "barbecue ribs restaurant platter", requireAny: ["ribs", "barbecue"], maxItems: 96 },
-    { label: "Sashimi platter", query: "sashimi platter restaurant food", requireAny: ["sashimi", "platter"], maxItems: 84 },
-    { label: "Sushi platter", query: "sushi platter restaurant food", requireAny: ["sushi", "platter"], maxItems: 84 },
-    { label: "Quesadilla table", query: "quesadilla tacos restaurant table", requireAny: ["quesadilla", "taco"], maxItems: 84 },
-    { label: "Seafood boil", query: "seafood boil restaurant table", requireAny: ["seafood", "boil"], maxItems: 84 },
-  ],
+  food: [],
   kpop: [
     { label: "Wonyoung crop-top midriff refill", provider: "kpopping", person: "Wonyoung", query: "Wonyoung crop top exposed waist midriff belly", maxItems: 2400 },
   ],
@@ -1927,6 +1886,11 @@ const blockedOnlineTitleTerms = [
   "menu",
   "raw meat",
   "uncooked",
+  "dry pasta",
+  "uncooked pasta",
+  "pasta sheets",
+  "lasagna sheets",
+  "lasagne sheets",
   "single",
   "isolated",
   "white background",
@@ -2058,6 +2022,10 @@ const blockedOnlineTitleTerms = [
   "mediterranean",
   "ingredient garnish",
   "plain garnish",
+  "empty plate",
+  "restaurant exterior",
+  "restaurant sign",
+  "restaurant facade",
   "concert",
   "festival",
   "live",
@@ -2613,9 +2581,9 @@ function preferenceSampleText(sample) {
 
 const preferenceFeaturePatterns = {
   food: [
-    ["vegetable_spread", /vegetable|vegetables|veggies|salad|broccoli|kale|spinach|lettuce|greens|leafy|arugula|cucumber|zucchini|squash|pumpkin|pumpkin soup|tomato soup|vegetable soup|veggie soup|plain soup|carrot|corn|cabbage|bean|chickpea|olive|tomato|pepper|ingredient|ingredient garnish|plain garnish/i],
+    ["vegetable_spread", /vegetable|vegetables|veggies|salad|broccoli|kale|spinach|lettuce|greens|leafy|arugula|cucumber|zucchini|squash|pumpkin|pumpkin soup|tomato soup|vegetable soup|veggie soup|plain soup|carrot|corn|cabbage|bean|chickpea|olive|tomato|pepper|ingredient|ingredient garnish|plain garnish|empty plate|restaurant exterior|restaurant sign|restaurant facade/i],
     ["isolated_sushi", /nigiri|single|isolated|plain|white background|salmon sushi(?!.*platter)|sushi close-up|sushi close up/i],
-    ["raw_plain", /raw|uncooked|ingredient|sterile|product shot|white background|macaroni|mac and cheese/i],
+    ["raw_plain", /raw|uncooked|ingredient|sterile|product shot|white background|macaroni|mac and cheese|dry pasta|uncooked pasta|pasta sheets|lasagna sheets|lasagne sheets/i],
     ["packaged_lunch", /bento|dosirak|doshirak|lunch\s*box|boxed lunch|packed lunch|meal box|ready meal|packaged meal|prepackaged|pre-packed|convenience store|plastic (?:container|box|tray|lid)|disposable tray|takeout container|takeaway container|takeaway box|take away container/i],
     ["weak_table_scene", weakFoodScenePattern],
     ["dim_bad_frame", /dim|flash|snapshot|bad[-\s]?framed|boring|sterile|documentation|old[-\s]?school/i],
