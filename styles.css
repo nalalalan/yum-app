@@ -149,11 +149,7 @@ noscript {
 
 .image-app {
   min-height: 100vh;
-  background:
-    radial-gradient(circle at 18% 8%, rgba(255, 181, 107, 0.16), transparent 35%),
-    radial-gradient(circle at 84% 18%, rgba(206, 91, 48, 0.11), transparent 34%),
-    linear-gradient(180deg, rgba(255, 226, 187, 0.1), transparent 32%),
-    linear-gradient(135deg, #18110c 0%, #21150d 42%, #100b08 100%);
+  background: linear-gradient(135deg, #18110c 0%, #21150d 46%, #100b08 100%);
 }
 
 .wall {
@@ -185,8 +181,8 @@ noscript {
   background: #160d08;
   outline: none;
   isolation: isolate;
-  box-shadow: 0 18px 52px rgba(17, 8, 3, 0.38);
-  transform: translateZ(0);
+  box-shadow: 0 8px 22px rgba(17, 8, 3, 0.26);
+  contain: paint;
 }
 
 .tile:not(.is-loaded) {
@@ -212,11 +208,8 @@ noscript {
   inset: 0;
   z-index: 1;
   pointer-events: none;
-  background:
-    linear-gradient(180deg, rgba(255, 220, 166, 0.09), rgba(255, 137, 70, 0.07)),
-    radial-gradient(circle at 50% 16%, rgba(255, 236, 202, 0.07), transparent 48%);
-  mix-blend-mode: soft-light;
-  opacity: var(--wash, 0.72);
+  background: linear-gradient(180deg, rgba(255, 220, 166, 0.05), rgba(255, 137, 70, 0.04));
+  opacity: calc(var(--wash, 0.72) * 0.35);
 }
 
 .tile::after {
@@ -261,12 +254,8 @@ noscript {
   object-fit: cover;
   object-position: var(--focus, center);
   background: #1f120b;
-  filter:
-    sepia(var(--warmth, 0.055))
-    saturate(var(--saturation, 1.12))
-    contrast(var(--contrast, 1.035))
-    brightness(var(--brightness, 1.015));
-  transition: transform 420ms ease, filter 420ms ease;
+  filter: none;
+  transition: transform 180ms ease;
 }
 
 .tile[data-category="car"] {
@@ -282,11 +271,6 @@ noscript {
 
 .tile:hover img,
 .tile:focus-within img {
-  filter:
-    sepia(calc(var(--warmth, 0.055) + 0.018))
-    saturate(calc(var(--saturation, 1.12) + 0.08))
-    contrast(calc(var(--contrast, 1.035) + 0.025))
-    brightness(calc(var(--brightness, 1.015) + 0.015));
   transform: scale(1.045);
 }
 
@@ -378,7 +362,7 @@ noscript {
 
   .tile {
     border-radius: 5px;
-    box-shadow: 0 14px 34px rgba(0, 0, 0, 0.24);
+    box-shadow: 0 5px 14px rgba(0, 0, 0, 0.20);
   }
 
   .caption {
