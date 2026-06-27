@@ -21,26 +21,8 @@ const curationCache = new Map();
 const kpopAlbumCache = new Map();
 
 const kpopAlbums = [
-  { person: "Hanni", label: "Hanni Instagram", url: "https://kpopping.com/kpics/240715-NewJeans-Hanni-Instagram-Update" },
-  { person: "Hanni", label: "Hanni Instagram", url: "https://kpopping.com/kpics/240102-NEW-JEANS-INSTAGRAM-UPDATE-HANNI" },
-  { person: "Hanni", label: "Hanni SNS", url: "https://kpopping.com/kpics/250319-NJZ-Instagram-Update-with-HANNI" },
-  { person: "Hanni", label: "Hanni SNS", url: "https://kpopping.com/kpics/241023-New-Jeans-Instagram-Update-Hanni" },
-  { person: "Hanni", label: "Hanni SNS", url: "https://kpopping.com/kpics/250820-Update-HANNI-With-bunnie" },
-  { person: "Hanni", label: "Hanni clean portrait", url: "https://kpopping.com/kpics/NewJeans-Hanni-for-W-Korea-Vol-2-February-2024-Issue" },
-  { person: "Haerin", label: "Haerin Instagram", url: "https://kpopping.com/kpics/240622-NewJeans-Instagram-Update-with-HAERIN" },
-  { person: "Haerin", label: "Haerin Instagram", url: "https://kpopping.com/kpics/240525-NewJeans-Instagram-Update-Haerin" },
-  { person: "Haerin", label: "Haerin Instagram", url: "https://kpopping.com/kpics/241029-New-Jeans-Instagram-Update-Haerin" },
-  { person: "Haerin", label: "Haerin friends update", url: "https://kpopping.com/kpics/250515-mhdhh-friends-Instagram-Update-with-HYEIN-n-HAERIN" },
-  { person: "Haerin", label: "Haerin friends update", url: "https://kpopping.com/kpics/250515-mhdhh-friends-Instagram-Update-with-HAERIN-n-MINJI" },
-  { person: "Haerin", label: "Haerin SNS", url: "https://kpopping.com/kpics/250118-NewJeans-Haerin-SNS-Update" },
-  { person: "Haerin", label: "Haerin friends update", url: "https://kpopping.com/kpics/250515-mhdhh-friends-Instagram-Update-with-HAERIN" },
-  { person: "Wonyoung", label: "Wonyoung airport", url: "https://kpopping.com/kpics/221014-IVE-Wonyoung-at-Incheon-International-Airport" },
-  { person: "Wonyoung", label: "Wonyoung airport", url: "https://kpopping.com/kpics/240921-IVE-Wonyoung-at-Gimpo-International-Airport" },
-  { person: "Wonyoung", label: "Wonyoung Instagram", url: "https://kpopping.com/kpics/260425-wonyoung-instagram-update" },
-  { person: "Wonyoung", label: "Wonyoung Instagram", url: "https://kpopping.com/kpics/250329-WONYOUNG-Instagram-Update" },
-  { person: "Wonyoung", label: "Wonyoung Instagram", url: "https://kpopping.com/kpics/230615-IVE-Wonyoung-Instagram-Update" },
-  { person: "Wonyoung", label: "Wonyoung fansign", url: "https://kpopping.com/kpics/260503-wonyoung-at-makestar-fansign" },
-  { person: "Wonyoung", label: "Wonyoung clean public frame", url: "https://kpopping.com/kpics/250730-IVE-WONYOUNG-at-2025-Coupang-Play-Series" },
+  { person: "Wonyoung", label: "Wonyoung crop-top Instagram", url: "https://kpopping.com/kpics/260626-wonyoung-instagram-update" },
+  { person: "Wonyoung", label: "Wonyoung crop-top Instagram", url: "https://kpopping.com/kpics/260625-wonyoung-instagram-update" },
 ];
 
 const mimeTypes = {
@@ -583,7 +565,7 @@ function uniqueSelectedEntries(selected, maxIndex, limit, category) {
     const index = Number(entry && entry.index);
     if (!Number.isInteger(index) || index < 0 || index > maxIndex || seen.has(index)) return;
     const exposure = cleanText(entry && entry.exposure ? entry.exposure : "", 40).toLowerCase();
-    if (category === "kpop" && !["shoulder", "navel", "both", "pose"].includes(exposure)) return;
+    if (category === "kpop" && !["navel", "both", "pose"].includes(exposure)) return;
     seen.add(index);
     result.push({ index, exposure });
   });
@@ -593,10 +575,9 @@ function uniqueSelectedEntries(selected, maxIndex, limit, category) {
 
 function kpopExposureCaption(item, exposure) {
   const person = cleanText(item && item.person ? item.person : "K-pop", 80);
-  if (exposure === "both") return `${person} cameo, shoulder-and-navel-visible clean frame.`;
-  if (exposure === "navel") return `${person} cameo, navel-visible clean frame.`;
-  if (exposure === "pose") return `${person} cameo, playful confident clean frame.`;
-  return `${person} cameo, shoulder-visible clean frame.`;
+  if (exposure === "both") return `${person} cameo, midriff and navel visible.`;
+  if (exposure === "navel") return `${person} cameo, navel-visible crop-top frame.`;
+  return `${person} cameo, body-visible confident pose.`;
 }
 
 function curatorInstructions(category) {
@@ -613,18 +594,18 @@ function curatorInstructions(category) {
   const categoryRules = {
     food: [
       "Food: prefer cooked, glossy, appetizing restaurant food with strong texture, sauce, char, broth, melted cheese, or generous tight plating.",
-      "Reject vegetable spreads, salads, plain ingredients, raw vegetables, isolated single sushi/nigiri pieces, white background product shots, boring sterile food photos, lunch boxes, packaged meals, any visible people, family meals, children, babies, dining-room scenes, people-at-table shots, home cooking snapshots, office food, and family/table-documentation photos.",
+      "Reject vegetable spreads, salads, plain ingredients, raw vegetables, tomato soup, pumpkin soup, vegetable soup, plain soup, ingredient-garnish bowls, isolated single sushi/nigiri pieces, white background product shots, boring sterile food photos, dim flash snapshots, bad-framed table documentation, lunch boxes, packaged meals, any visible people, family meals, children, babies, dining-room scenes, people-at-table shots, home cooking snapshots, office food, and family/table-documentation photos.",
     ],
     kpop: [
-      "Girls: prefer Hanni, Haerin, or Wonyoung photos that feel natural, soft, clean, pretty, current, and low-makeup.",
-      "Mandatory gate: select a K-pop image only when the image itself clearly shows bare shoulder/shoulders, exposed midriff, belly button, navel, or an adult-era playful/confident/cute pose. Reject face-only crops, headshots, closeups, and any photo where clothing fully covers the shoulders and there is no belly button, midriff, or strong adult-era pose signal.",
+      "Girls: prefer adult-era Wonyoung crop-top or midriff photos that feel natural, confident, pretty, current, low-makeup, and non-explicit.",
+      "Mandatory gate: select a K-pop image only when the image itself clearly shows exposed midriff, bare waist, crop top, belly button, navel, or a body-visible adult-era pose. Bare shoulders alone are not enough. Reject face-only crops, headshots, forehead-heavy closeups, and any photo where clothing fully covers the waist/midriff.",
       "Hard reject any K-pop candidate with a coat, jacket, blazer, cardigan, hoodie, sweater, long sleeves, turtleneck, parka, puffer, trench coat, scarf, fully covered shoulders, or other outerwear-heavy styling.",
-      "For every selected K-pop candidate, return exposure as exactly shoulder, navel, both, or pose. If the visible image does not clearly justify one of those labels, do not select it.",
+      "For every selected K-pop candidate, return exposure as exactly navel, both, or pose. If the visible image does not clearly justify one of those labels, do not select it.",
       "Reject heavy makeup, stage/performance/concert photos, red carpet glam, editorial beauty-event looks, awkward press-line photos, underage-era archives, and any Ningning images.",
     ],
     car: [
-      "Cars: prefer modern compact European sedans or sedan-like gran coupes, especially BMW/Mercedes/Audi, in clean exterior road, studio, official press, or motion photos.",
-      "Reject SUVs, crossovers, hatchbacks, old/classic/vintage cars, show-floor/exhibition photos, traffic surveillance/documentation photos, and ugly used-car/dealer shots.",
+      "Cars: prefer 2025/2026 MINI Cooper 2 Door/Hardtop official exterior photos, plus modern compact Mercedes and Audi sedans in clean exterior road, studio, official press, or motion photos.",
+      "Reject all BMW-branded cars. MINI is allowed only when it is a Cooper 2 Door/Hardtop, not Countryman/Aceman/Clubman/crossover. Reject SUVs, crossovers, generic hatchbacks, old/classic/vintage cars, show-floor/exhibition photos, traffic surveillance/documentation photos, and ugly used-car/dealer shots.",
     ],
   };
 
@@ -724,7 +705,7 @@ async function curateWithOpenAi({ category, source, candidates, limit, preferenc
         properties: {
           index: { type: "integer" },
           score: { type: "number" },
-          exposure: { type: "string", enum: ["shoulder", "navel", "both", "pose"] },
+          exposure: { type: "string", enum: ["navel", "both", "pose"] },
         },
       }
     : {

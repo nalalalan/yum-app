@@ -6,7 +6,7 @@ Tiles are intentionally image-only. Hovering reveals a short caption; clicking o
 
 The collection is intentionally built around Korean, Chinese, Mexican, American, Japanese, Italian, Vietnamese, and Cajun food, with no Indian or Mediterranean tiles.
 
-Cars, food, alcohol, and softer Haerin/Hanni/Wonyoung K-pop girl tiles are woven into a strict taste-balanced feed without intentional source repeats. The wall filters out heavy stage/editorial makeup, low-resolution K-pop images, plain vegetable or single-piece food shots, and old/show-floor/traffic car photos.
+Cars, food, alcohol, and adult-era Wonyoung crop-top/midriff K-pop tiles are woven into a strict taste-balanced feed without intentional source repeats. The wall filters out forehead-heavy idol closeups, face-only/headshot crops, shoulder-only legacy idol batches, heavy stage/editorial makeup, low-resolution K-pop images, plain vegetable or single-piece food shots, tomato/pumpkin/vegetable/plain soup shots, plain garnish/ingredient bowls, dim/bad-framed food documentation, BMW-branded cars, MINI Countryman/crossover substitutions, and old/show-floor/traffic car photos. The car lane now includes 2025/2026 MINI Cooper 2 Door/Hardtop imagery alongside the Audi/Mercedes mix.
 
 When the Node server is deployed with OpenAI configured, `/api/curate` uses ChatGPT image understanding to rank new online image candidates before they enter the wall. The backend also supplies deeper K-pop archive candidates so the strict 1:1:1 feed does not stop after the small static set. If the endpoint is unavailable, the browser falls back to the local taste filters so the static GitHub Pages version still works.
 
