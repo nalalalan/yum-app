@@ -36,6 +36,8 @@ const mimeTypes = {
   ".webp": "image/webp",
   ".png": "image/png",
   ".ico": "image/x-icon",
+  ".pdf": "application/pdf",
+  ".tex": "text/x-tex; charset=utf-8",
 };
 
 function cacheSet(key, value) {

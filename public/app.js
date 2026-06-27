@@ -1,6 +1,6 @@
 const app = document.getElementById("app");
 
-function commonsImage(file, width = 1800) {
+function commonsImage(file, width = 1400) {
   return `https://commons.wikimedia.org/wiki/Special:FilePath/${encodeURIComponent(file)}?width=${width}`;
 }
 
@@ -8,8 +8,8 @@ function commonsSource(file) {
   return `https://commons.wikimedia.org/wiki/File:${encodeURIComponent(file)}`;
 }
 
-function unsplashImage(id, width = 2200) {
-  return `https://images.unsplash.com/photo-${id}?auto=format&fit=crop&w=${width}&q=88`;
+function unsplashImage(id, width = 1500) {
+  return `https://images.unsplash.com/photo-${id}?auto=format&fit=crop&w=${width}&q=82`;
 }
 
 function unsplashSource(query) {
@@ -1652,8 +1652,11 @@ function buildCameoPool(list) {
   return result;
 }
 
-const batchSize = 30;
+const batchSize = 24;
 const onlineBatchSize = 36;
+const tileImageLoadTimeoutMs = 8500;
+const tilePreloadConcurrency = 6;
+const immediateFetchPriorityCount = 12;
 const categories = ["food", "kpop", "car"];
 const mixPattern = ["food", "kpop", "car"];
 const longScrollItemsPerCategory = 7200;
@@ -2203,9 +2206,9 @@ const kpopCandidateEndpoint = apiEndpoint("/api/kpop-candidates");
 let aiCuratorUnavailable = false;
 
 function requestedImageWidth(item) {
-  if (item && (item.category === "kpop" || item.person)) return 2600;
+  if (item && (item.category === "kpop" || item.person)) return 1200;
   if (item && item.width) return item.width;
-  return 1800;
+  return 1400;
 }
 
 function imageFor(item) {
@@ -3131,6 +3134,18 @@ function dequeueUnique(state, category) {
   return null;
 }
 
+function dequeueAnyUnique(state, category) {
+  const queue = state.queues[category] || [];
+  for (let index = 0; index < queue.length; index += 1) {
+    const item = queue[index];
+    if (!validQueuedItem(state, category, item)) continue;
+    queue.splice(index, 1);
+    recordDequeuedItem(state, category, item);
+    return item;
+  }
+  return null;
+}
+
 function hasAvailableUnique(state, category) {
   return (state.queues[category] || []).some((item) => {
     return validQueuedItem(state, category, item);
@@ -3287,7 +3302,7 @@ function commonsSearchUrl(source) {
     gsrlimit: "36",
     prop: "imageinfo|categories",
     iiprop: "url|mime|size|extmetadata",
-    iiurlwidth: "2200",
+    iiurlwidth: "1400",
     cllimit: "50",
     format: "json",
     origin: "*",
@@ -3817,7 +3832,7 @@ function isHighQualityKpopImage(img) {
   const height = Number(img.naturalHeight) || 0;
   const shortEdge = Math.min(width, height);
   const longEdge = Math.max(width, height);
-  return width * height >= 1600000 && shortEdge >= 900 && longEdge >= 1550;
+  return width * height >= 320000 && shortEdge >= 420 && longEdge >= 700;
 }
 
 function isUsableCarFrame(img) {
@@ -3835,11 +3850,80 @@ function fitCarTileToImage(tile, img) {
   tile.style.aspectRatio = `${width} / ${height}`;
 }
 
-function createTile(item, index, onHide, onQualityReject) {
+function loadedImageDimensions(img) {
+  return {
+    naturalWidth: Number(img && (img.naturalWidth || img.width)) || 0,
+    naturalHeight: Number(img && (img.naturalHeight || img.height)) || 0,
+    src: String((img && (img.currentSrc || img.src)) || ""),
+  };
+}
+
+function isLoadedImageUsable(item, img) {
+  const category = categoryFor(item);
+  if (!img || !img.naturalWidth || !img.naturalHeight) return false;
+  if (category === "kpop") return isHighQualityKpopImage(img);
+  if (category === "car") return isUsableCarFrame(img);
+  return true;
+}
+
+function loadTileImage(item, index, timeoutMs = tileImageLoadTimeoutMs) {
+  return new Promise((resolve, reject) => {
+    if (typeof Image === "undefined") {
+      reject(new Error("Image loading is unavailable."));
+      return;
+    }
+
+    const img = new Image();
+    let settled = false;
+    const timeout = window.setTimeout(() => {
+      if (settled) return;
+      settled = true;
+      reject(new Error("Image load timed out."));
+    }, timeoutMs);
+
+    const finish = async () => {
+      if (settled) return;
+      settled = true;
+      window.clearTimeout(timeout);
+
+      if (!isLoadedImageUsable(item, img)) {
+        reject(new Error("Image failed quality gate."));
+        return;
+      }
+
+      if (typeof img.decode === "function") {
+        try {
+          await img.decode();
+        } catch {
+          // A loaded image is still usable if decode() has no extra work to do.
+        }
+      }
+
+      resolve(loadedImageDimensions(img));
+    };
+
+    img.addEventListener("load", finish, { once: true });
+    img.addEventListener("error", () => {
+      if (settled) return;
+      settled = true;
+      window.clearTimeout(timeout);
+      reject(new Error("Image failed to load."));
+    }, { once: true });
+    img.decoding = "async";
+    img.fetchPriority = index < immediateFetchPriorityCount ? "high" : "low";
+    img.src = imageFor(item);
+    if (img.complete && (img.naturalWidth || img.naturalHeight)) {
+      finish();
+    }
+  });
+}
+
+function createTile(item, index, onHide, onQualityReject, loadedImage = null) {
   const tile = document.createElement("article");
   const category = categoryFor(item);
   const key = sourceKey(item);
   const visualGroup = visualGroupFor(item);
+  const loaded = loadedImage || item.loadedImage || null;
   tile.className = `tile tile--${item.shape || "standard"}`;
   tile.dataset.category = category;
   if (key) tile.dataset.sourceKey = key;
@@ -3871,14 +3955,6 @@ function createTile(item, index, onHide, onQualityReject) {
     }
     tile.remove();
   }, { once: true });
-  window.setTimeout(() => {
-    if (img.naturalWidth || img.naturalHeight || !tile.isConnected) return;
-    if (typeof onQualityReject === "function") {
-      onQualityReject(item, tile);
-      return;
-    }
-    tile.remove();
-  }, 20000);
   let finalizeCarFrame = null;
   if (category === "car") {
     let carFrameFinalized = false;
@@ -3887,21 +3963,26 @@ function createTile(item, index, onHide, onQualityReject) {
       carFrameFinalized = true;
       fitCarTileToImage(tile, img);
     };
-    img.addEventListener("load", finalizeCarFrame, { once: true });
+    if (!loaded) img.addEventListener("load", finalizeCarFrame, { once: true });
   }
   const markLoaded = () => {
     if (!tile.isConnected || !img.naturalWidth || !img.naturalHeight) return;
     tile.classList.add("is-loaded");
   };
-  img.addEventListener("load", markLoaded, { once: true });
+  if (!loaded) img.addEventListener("load", markLoaded, { once: true });
   img.src = imageFor(item);
-  if (typeof finalizeCarFrame === "function") {
-    finalizeCarFrame();
-    setTimeout(finalizeCarFrame, 2500);
-    setTimeout(finalizeCarFrame, 7000);
+  if (loaded && loaded.naturalWidth && loaded.naturalHeight) {
+    tile.classList.add("is-loaded");
+    if (category === "car") fitCarTileToImage(tile, loaded);
+  } else {
+    if (typeof finalizeCarFrame === "function") {
+      finalizeCarFrame();
+      setTimeout(finalizeCarFrame, 2500);
+      setTimeout(finalizeCarFrame, 7000);
+    }
+    markLoaded();
+    setTimeout(markLoaded, 2500);
   }
-  markLoaded();
-  setTimeout(markLoaded, 2500);
 
   const caption = document.createElement("span");
   caption.className = "caption";
@@ -3940,67 +4021,137 @@ function yieldToBrowser(delay = 0) {
   });
 }
 
-function appendTileElement(wall, item, index, onHide, onQualityReject) {
+function createMasonryColumn() {
+  const column = document.createElement("div");
+  column.className = "masonry-column";
+  column.dataset.heightScore = "0";
+  column.__yumRecentTiles = [];
+  return column;
+}
+
+function ensureWallColumns(wall) {
+  const count = columnCount();
+  const columns = Array.from(wall.querySelectorAll(".masonry-column"));
+  if (columns.length === count) return true;
+  if (columns.length > 0) return false;
+
+  const nextColumns = Array.from({ length: count }, createMasonryColumn);
+  wall.style.setProperty("--columns", count);
+  wall.__yumRecentTiles = [];
+  wall.__yumPlacedBands = [];
+  wall.replaceChildren(...nextColumns);
+  return true;
+}
+
+function estimatedTileHeightScore(item, column, loadedImage = null) {
+  const columnWidth = Math.max(
+    220,
+    Number(column && (column.clientWidth || column.getBoundingClientRect().width)) || 320
+  );
+  if (categoryFor(item) === "car") {
+    const width = Number(loadedImage && loadedImage.naturalWidth) || 0;
+    const height = Number(loadedImage && loadedImage.naturalHeight) || 0;
+    if (width && height) return columnWidth * (height / width);
+  }
+  return columnWidth * shapeScore(item);
+}
+
+function appendTileElement(wall, item, index, onHide, onQualityReject, loadedImage = null) {
+  if (!ensureWallColumns(wall)) return false;
   const columns = Array.from(wall.querySelectorAll(".masonry-column"));
   if (!columns.length) return false;
 
   const category = categoryFor(item);
   const person = personFor(item);
   const visualGroup = visualGroupFor(item);
-  const itemShapeScore = shapeScore(item) + 0.03;
-  const globalRecentTiles = Array.from(wall.querySelectorAll(".tile")).slice(-32);
-  const placedTiles = Array.from(wall.querySelectorAll(".tile"));
-  const columnScores = columns.map((column) => Number(column.dataset.heightScore) || column.children.length * 1.08);
+  const shouldSpacePerson = cameoPeople.length > 1;
+  const globalRecentTiles = wall.__yumRecentTiles || [];
+  const columnScores = columns.map((column) => column.scrollHeight || Number(column.dataset.heightScore) || 0);
   const shortestScore = Math.min(...columnScores);
   const target = columns.reduce((best, column) => {
     const lastTile = column.lastElementChild;
-    const recentTiles = Array.from(column.querySelectorAll(".tile")).slice(-8);
-    const columnScore = Number(column.dataset.heightScore) || column.children.length * 1.08;
-    const candidateMidScore = columnScore + (itemShapeScore / 2);
+    const recentTiles = column.__yumRecentTiles || [];
+    const columnScore = column.scrollHeight || Number(column.dataset.heightScore) || 0;
     const balanceGap = columnScore - shortestScore;
-    let score = columnScore * 320;
-    const varietyWeight = balanceGap > 1.65 ? 0.18 : (balanceGap > 0.85 ? 0.42 : 1);
-    if (lastTile?.dataset.category === category) score += 180 * varietyWeight;
-    if (person && lastTile?.dataset.person === person) score += 360 * varietyWeight;
-    score += recentTiles.filter((tile) => tile.dataset.category === category).length * 90 * varietyWeight;
-    score += globalRecentTiles.filter((tile) => tile.dataset.category === category).length * 22 * varietyWeight;
-    if (person) {
-      score += recentTiles.filter((tile) => tile.dataset.person === person).length * 620 * varietyWeight;
-      score += globalRecentTiles.filter((tile) => tile.dataset.person === person).length * 220 * varietyWeight;
+    let score = columnScore;
+    const varietyWeight = balanceGap > 720 ? 0.18 : (balanceGap > 360 ? 0.42 : 1);
+    if (lastTile?.dataset.category === category) score += 120 * varietyWeight;
+    if (shouldSpacePerson && person && lastTile?.dataset.person === person) score += 180 * varietyWeight;
+    score += recentTiles.filter((tile) => tile.dataset.category === category).length * 45 * varietyWeight;
+    score += globalRecentTiles.filter((tile) => tile.dataset.category === category).length * 8 * varietyWeight;
+    if (shouldSpacePerson && person) {
+      score += recentTiles.filter((tile) => tile.dataset.person === person).length * 160 * varietyWeight;
+      score += globalRecentTiles.filter((tile) => tile.dataset.person === person).length * 35 * varietyWeight;
     }
     if (visualGroup) {
-      if (lastTile?.dataset.visualGroup === visualGroup) score += 2200 * varietyWeight;
-      score += recentTiles.filter((tile) => tile.dataset.visualGroup === visualGroup).length * 1450 * varietyWeight;
-      score += globalRecentTiles.filter((tile) => tile.dataset.visualGroup === visualGroup).length * 820 * varietyWeight;
+      if (lastTile?.dataset.visualGroup === visualGroup) score += 260 * varietyWeight;
+      score += recentTiles.filter((tile) => tile.dataset.visualGroup === visualGroup).length * 150 * varietyWeight;
+      score += globalRecentTiles.filter((tile) => tile.dataset.visualGroup === visualGroup).length * 22 * varietyWeight;
     }
-    placedTiles.forEach((tile) => {
-      const tileMidScore = Number(tile.dataset.stackMidScore);
-      if (!Number.isFinite(tileMidScore)) return;
-      const bandDistance = Math.abs(tileMidScore - candidateMidScore);
-      if (person && tile.dataset.person === person && bandDistance < 5.2) {
-        score += (5.2 - bandDistance) * 980;
-      }
-      if (visualGroup && tile.dataset.visualGroup === visualGroup && bandDistance < 6.4) {
-        score += (6.4 - bandDistance) * 1850;
-      }
-    });
     return score < best.score ? { column, score } : best;
   }, { column: columns[0], score: Number.POSITIVE_INFINITY }).column;
 
-  const targetHeightScore = Number(target.dataset.heightScore) || 0;
-  const tile = createTile(item, index, onHide, onQualityReject);
+  const targetHeightScore = target.scrollHeight || Number(target.dataset.heightScore) || 0;
+  const itemShapeScore = estimatedTileHeightScore(item, target, loadedImage) + 9;
+  const tile = createTile(item, index, onHide, onQualityReject, loadedImage);
   tile.dataset.stackMidScore = String(targetHeightScore + (itemShapeScore / 2));
   target.append(tile);
   target.dataset.heightScore = String(targetHeightScore + itemShapeScore);
+  target.__yumRecentTiles = (target.__yumRecentTiles || []).concat(tile).slice(-8);
+  wall.__yumRecentTiles = (wall.__yumRecentTiles || []).concat(tile).slice(-32);
+  wall.__yumPlacedBands = (wall.__yumPlacedBands || []).concat({
+    person,
+    visualGroup,
+    midScore: Number(tile.dataset.stackMidScore) || 0,
+  }).slice(-180);
   return true;
 }
 
-async function appendTileElementsInChunks(wall, items, startIndex, onHide, onQualityReject, chunkSize = 10) {
-  for (let offset = 0; offset < items.length; offset += 1) {
-    if (!appendTileElement(wall, items[offset], startIndex + offset, onHide, onQualityReject)) return false;
-    if ((offset + 1) % chunkSize === 0) await yieldToBrowser();
+async function appendTileElementsInChunks(wall, items, startIndex, onHide, onQualityReject, options = {}) {
+  if (!items.length) return { ok: true, appended: 0, rejected: 0 };
+  if (!ensureWallColumns(wall)) return { ok: false, appended: 0, rejected: 0 };
+
+  const concurrency = Math.max(1, Math.min(options.concurrency || tilePreloadConcurrency, items.length));
+  let nextOffset = 0;
+  let appended = 0;
+  let rejected = 0;
+
+  const worker = async () => {
+    while (nextOffset < items.length) {
+      const offset = nextOffset;
+      nextOffset += 1;
+      const item = items[offset];
+      const index = startIndex + offset;
+      if (typeof options.onPendingChange === "function") options.onPendingChange(1);
+
+      try {
+        const loadedImage = await loadTileImage(item, index);
+        const loadedItem = { ...item, loadedImage };
+        const appendIndex = typeof options.nextIndex === "function" ? options.nextIndex() : index;
+        if (!appendTileElement(wall, loadedItem, appendIndex, onHide, onQualityReject, loadedImage)) {
+          rejected += 1;
+          if (typeof onQualityReject === "function") await onQualityReject(item, null);
+          continue;
+        }
+        appended += 1;
+        if (typeof options.onAppended === "function") options.onAppended(loadedItem);
+      } catch {
+        rejected += 1;
+        if (typeof onQualityReject === "function") await onQualityReject(item, null);
+      } finally {
+        if (typeof options.onPendingChange === "function") options.onPendingChange(-1);
+        await yieldToBrowser();
+      }
+    }
+  };
+
+  const workers = [];
+  for (let index = 0; index < concurrency; index += 1) {
+    // Start workers without appending hidden tiles to the visible wall.
+    workers.push(worker());
   }
-  return true;
+  await Promise.all(workers);
+  return { ok: true, appended, rejected };
 }
 
 function columnCount() {
@@ -4104,12 +4255,7 @@ function visualGroupFor(item) {
 
 function layoutWall(wall, renderedItems, onHide, onQualityReject) {
   const count = columnCount();
-  const columns = Array.from({ length: count }, () => {
-    const column = document.createElement("div");
-    column.className = "masonry-column";
-    column.dataset.heightScore = "0";
-    return column;
-  });
+  const columns = Array.from({ length: count }, createMasonryColumn);
   const heights = Array.from({ length: count }, () => 0);
   const lastCategoryByColumn = Array.from({ length: count }, () => "");
   const lastPersonByColumn = Array.from({ length: count }, () => "");
@@ -4124,6 +4270,7 @@ function layoutWall(wall, renderedItems, onHide, onQualityReject) {
     const category = categoryFor(item);
     const person = personFor(item);
     const visualGroup = visualGroupFor(item);
+    const shouldSpacePerson = cameoPeople.length > 1;
     const columnPeople = recentPeopleByColumn[columnIndex];
     const columnVisualGroups = recentVisualGroupsByColumn[columnIndex];
     const shortestHeight = Math.min(...heights);
@@ -4132,7 +4279,7 @@ function layoutWall(wall, renderedItems, onHide, onQualityReject) {
     const varietyWeight = balanceGap > 1.65 ? 0.22 : (balanceGap > 0.85 ? 0.48 : 1);
     let score = heights[columnIndex] + (lastCategoryByColumn[columnIndex] === category ? 0.55 : 0);
 
-    if (person) {
+    if (shouldSpacePerson && person) {
       if (lastPersonByColumn[columnIndex] === person) score += 4.5 * varietyWeight;
       score += columnPeople.filter((recentPerson) => recentPerson === person).length * 2.2 * varietyWeight;
       score += recentPeople.filter((recentPerson) => recentPerson === person).length * 1.1 * varietyWeight;
@@ -4144,11 +4291,8 @@ function layoutWall(wall, renderedItems, onHide, onQualityReject) {
     }
     placedBands.forEach((band) => {
       const bandDistance = Math.abs(band.midScore - candidateMidScore);
-      if (person && band.person === person && bandDistance < 5.2) {
-        score += (5.2 - bandDistance) * 3.8 * varietyWeight;
-      }
       if (visualGroup && band.visualGroup === visualGroup && bandDistance < 6.4) {
-        score += (6.4 - bandDistance) * 7.2 * varietyWeight;
+        score += (6.4 - bandDistance) * 0.75 * varietyWeight;
       }
     });
 
@@ -4167,9 +4311,10 @@ function layoutWall(wall, renderedItems, onHide, onQualityReject) {
     }
     const tileShapeScore = shapeScore(item) + 0.03;
     const tileMidScore = heights[target] + (tileShapeScore / 2);
-    const tile = createTile(item, index, onHide, onQualityReject);
+    const tile = createTile(item, index, onHide, onQualityReject, item.loadedImage || null);
     tile.dataset.stackMidScore = String(tileMidScore);
     columns[target].append(tile);
+    columns[target].__yumRecentTiles = (columns[target].__yumRecentTiles || []).concat(tile).slice(-8);
     lastCategoryByColumn[target] = category;
     if (visualGroup) {
       lastVisualGroupByColumn[target] = visualGroup;
@@ -4192,6 +4337,8 @@ function layoutWall(wall, renderedItems, onHide, onQualityReject) {
   });
 
   wall.style.setProperty("--columns", count);
+  wall.__yumRecentTiles = columns.flatMap((column) => Array.from(column.children)).slice(-32);
+  wall.__yumPlacedBands = placedBands.slice(-180);
   wall.replaceChildren(...columns);
 }
 
@@ -4220,6 +4367,7 @@ async function render() {
   let scheduledAppendTimer = 0;
   let appendRequestedWhileLoading = false;
   let feedStartSaved = false;
+  let pendingTileLoads = 0;
   const renderedItems = [];
 
   const handleHide = (item, tileElement = null) => {
@@ -4257,10 +4405,17 @@ async function render() {
         }
 
         if (replacement) {
-          renderedItems.push(replacement);
-          if (!appendTileElement(wall, replacement, renderedItems.length - 1, handleHide, handleQualityReject)) {
-            layoutWall(wall, renderedItems, handleHide, handleQualityReject);
-          }
+          const result = await appendTileElementsInChunks(wall, [replacement], renderedItems.length, handleHide, handleQualityReject, {
+            concurrency: 1,
+            onPendingChange: (delta) => {
+              pendingTileLoads = Math.max(0, pendingTileLoads + delta);
+            },
+            nextIndex: () => renderedItems.length,
+            onAppended: (loadedItem) => {
+              renderedItems.push(loadedItem);
+            },
+          });
+          if (!result.ok) layoutWall(wall, renderedItems, handleHide, handleQualityReject);
           if (shouldLoadAhead()) scheduleAppend();
         }
       }, 20);
@@ -4294,10 +4449,17 @@ async function render() {
     }
 
     if (replacement) {
-      renderedItems.push(replacement);
-      if (!appendTileElement(wall, replacement, renderedItems.length - 1, handleHide, handleQualityReject)) {
-        layoutWall(wall, renderedItems, handleHide, handleQualityReject);
-      }
+      const result = await appendTileElementsInChunks(wall, [replacement], renderedItems.length, handleHide, handleQualityReject, {
+        concurrency: 1,
+        onPendingChange: (delta) => {
+          pendingTileLoads = Math.max(0, pendingTileLoads + delta);
+        },
+        nextIndex: () => renderedItems.length,
+        onAppended: (loadedItem) => {
+          renderedItems.push(loadedItem);
+        },
+      });
+      if (!result.ok) layoutWall(wall, renderedItems, handleHide, handleQualityReject);
     }
     if (needsRenderBuffer() || shouldLoadAhead()) scheduleAppend(80);
   };
@@ -4319,16 +4481,16 @@ async function render() {
       ? wall.offsetTop + Math.min(...columnHeights)
       : scrollHeight;
     const effectiveScrollHeight = Math.min(scrollHeight, shortestColumnBottom);
-    const loadAheadDistance = Math.max(2400, viewportHeight * 3);
+    const loadAheadDistance = Math.max(1200, viewportHeight * 1.8);
     return effectiveScrollHeight - (scrollTop + viewportHeight) < loadAheadDistance;
   };
 
-  const liveTileCount = () => wall.querySelectorAll(".tile.is-loaded").length;
-  const pendingTileCount = () => wall.querySelectorAll(".tile:not(.is-loaded)").length;
+  const liveTileCount = () => renderedItems.length;
+  const pendingTileCount = () => pendingTileLoads;
   const renderedCategoryCounts = () => {
     const counts = Object.fromEntries(categories.map((category) => [category, 0]));
-    wall.querySelectorAll(".tile").forEach((tile) => {
-      const category = tile.dataset.category;
+    renderedItems.forEach((item) => {
+      const category = categoryFor(item);
       if (category && Object.prototype.hasOwnProperty.call(counts, category)) counts[category] += 1;
     });
     return counts;
@@ -4355,6 +4517,42 @@ async function render() {
 
     return items;
   };
+
+  const nextLooseItems = async (targetCount = batchSize) => {
+    const counts = renderedCategoryCounts();
+    const items = [];
+    let guard = targetCount * categories.length * 2;
+
+    while (items.length < targetCount && guard > 0) {
+      guard -= 1;
+      const orderedCategories = categories
+        .slice()
+        .sort((left, right) => (counts[left] || 0) - (counts[right] || 0));
+      let added = false;
+
+      for (const category of orderedCategories) {
+        if (items.length >= targetCount) break;
+        if (!hasAvailableUnique(feedState, category)) {
+          if (category === "food") ensureFoodFallbackVariety(feedState, onlineBatchSize);
+          if (category === "kpop") ensureKpopFallbackVariety(feedState);
+          if (category === "car") ensureCarFallbackVariety(feedState, onlineBatchSize, true);
+        }
+
+        let item = await nextItemForCategory(feedState, category);
+        if (!item) item = dequeueAnyUnique(feedState, category);
+        if (!item) continue;
+
+        items.push(item);
+        counts[category] = (counts[category] || 0) + 1;
+        added = true;
+      }
+
+      if (!added) break;
+    }
+
+    return items;
+  };
+
   const needsViewportCoverage = () => {
     const liveTiles = Array.from(wall.querySelectorAll(".tile.is-loaded"));
     if (!liveTiles.length) return true;
@@ -4372,7 +4570,7 @@ async function render() {
     const live = liveTileCount();
     const pending = pendingTileCount();
     const active = live + pending;
-    const targetBuffer = batchSize * 2;
+    const targetBuffer = Math.max(batchSize, columnCount() * 10);
     return live < targetBuffer && active < targetBuffer;
   };
 
@@ -4442,7 +4640,10 @@ async function render() {
       }
       const balanceItems = await nextBalanceItems();
       const mixedTarget = Math.max(0, batchSize - balanceItems.length);
-      const nextItems = balanceItems.concat(await nextMixedItems(feedState, mixedTarget));
+      let nextItems = balanceItems.concat(await nextMixedItems(feedState, mixedTarget));
+      if (!nextItems.length) {
+        nextItems = await nextLooseItems(batchSize);
+      }
       if (!nextItems.length && feedState.exhausted) {
         exhausted = true;
       }
@@ -4455,15 +4656,20 @@ async function render() {
       }
 
       const startIndex = renderedItems.length;
-      renderedItems.push(...nextItems);
-      if (!feedStartSaved && startIndex === 0) {
+      const result = await appendTileElementsInChunks(wall, nextItems, startIndex, handleHide, handleQualityReject, {
+        onPendingChange: (delta) => {
+          pendingTileLoads = Math.max(0, pendingTileLoads + delta);
+        },
+        nextIndex: () => renderedItems.length,
+        onAppended: (loadedItem) => {
+          renderedItems.push(loadedItem);
+        },
+      });
+      if (!feedStartSaved && renderedItems.length) {
         feedStartSaved = true;
         saveFeedStartKeys(renderedItems);
       }
-      const hasColumns = wall.querySelectorAll(".masonry-column").length > 0;
-      const appended = hasColumns
-        && await appendTileElementsInChunks(wall, nextItems, startIndex, handleHide, handleQualityReject);
-      if (!appended) {
+      if (!result.ok) {
         layoutWall(wall, renderedItems, handleHide, handleQualityReject);
       }
       sentinel.dataset.remaining = String(categories.reduce((total, category) => total + feedState.queues[category].length, 0));
@@ -4492,12 +4698,18 @@ async function render() {
           if (exhausted) observer.disconnect();
         });
       }
-    }, { rootMargin: "2400px 0px" });
+    }, { rootMargin: "1600px 0px" });
     observer.observe(sentinel);
   }
 
+  let scrollCheckScheduled = false;
   window.addEventListener("scroll", () => {
-    if (needsRenderBuffer() || shouldLoadAhead() || needsViewportCoverage()) scheduleAppend();
+    if (scrollCheckScheduled) return;
+    scrollCheckScheduled = true;
+    window.requestAnimationFrame(() => {
+      scrollCheckScheduled = false;
+      if (needsRenderBuffer() || shouldLoadAhead()) scheduleAppend();
+    });
   }, { passive: true });
 
   const refillHeartbeat = window.setInterval(() => {
