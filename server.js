@@ -23,6 +23,12 @@ const kpopAlbumCache = new Map();
 const kpopAlbums = [
   { person: "Wonyoung", label: "Wonyoung crop-top midriff Instagram", url: "https://kpopping.com/kpics/240304-WONYOUNG-INSTAGRAM-UPDATE" },
   { person: "Wonyoung", label: "Wonyoung crop-top Instagram", url: "https://kpopping.com/kpics/260626-wonyoung-instagram-update" },
+  { person: "Karina", label: "Karina crop-top Instagram", url: "https://kpopping.com/kpics/260403-karina-instagram-update" },
+  { person: "Karina", label: "Karina crop-top Instagram 2", url: "https://kpopping.com/kpics/260503-karina-instagram-update" },
+  { person: "Karina", label: "Karina crop-top Instagram 3", url: "https://kpopping.com/kpics/260411-karina-instagram-update2" },
+  { person: "Yujin", label: "Yujin crop-top Instagram", url: "https://kpopping.com/kpics/260212-an-yujin-instagram-update" },
+  { person: "Yujin", label: "Yujin crop-top Instagram 2", url: "https://kpopping.com/kpics/260423-yujin-instagram-update" },
+  { person: "Kazuha", label: "Kazuha crop-top Instagram", url: "https://kpopping.com/kpics/260620-kazuha-instagram-update" },
 ];
 
 const mimeTypes = {
@@ -584,7 +590,7 @@ function kpopExposureCaption(item, exposure) {
 
 function curatorInstructions(category) {
   const shared = [
-    "You curate an endless image wall for one person with strict taste rules.",
+    "You curate an endless image wall for adult idols, food, and cars with strict taste rules.",
     "Reject repeated-looking, low-effort, ugly, boring, awkward, watermarked, diagram, menu, logo, or low quality images.",
     "Never select Ningning.",
     "Use the user's hide history as taste memory. Hidden examples are stronger than the general rules.",
@@ -599,15 +605,16 @@ function curatorInstructions(category) {
       "Reject vegetable spreads, salads, plain ingredients, raw vegetables, tomato soup, pumpkin soup, vegetable soup, plain soup, ingredient-garnish bowls, empty-plate shots, restaurant-exterior or restaurant-sign photos, isolated single sushi/nigiri pieces, burger-and-fries or steak-fries table snapshots, paella/lemon-pan food shots, generic pasta-plate or restaurant-place-setting crops, white background product shots, boring sterile food photos, dim flash snapshots, bad-framed table documentation, lunch boxes, packaged meals, any visible people, family meals, children, babies, dining-room scenes, people-at-table shots, home cooking snapshots, office food, and family/table-documentation photos.",
     ],
     kpop: [
-      "Girls: prefer adult-era Wonyoung crop-top or midriff photos that feel natural, confident, pretty, current, low-makeup, and non-explicit.",
+      "K-pop: prefer adult-era Wonyoung, Karina, Yujin, or Kazuha crop-top or midriff photos that feel natural, confident, pretty, current, low-makeup, and non-explicit.",
       "Mandatory gate: select a K-pop image only when the image itself clearly shows exposed midriff, bare waist, crop top, belly button, navel, or a body-visible adult-era pose. Bare shoulders alone are not enough. Reject face-only crops, headshots, forehead-heavy closeups, and any photo where clothing fully covers the waist/midriff.",
       "Hard reject any K-pop candidate with a coat, jacket, blazer, cardigan, hoodie, sweater, long sleeves, turtleneck, parka, puffer, trench coat, scarf, fully covered shoulders, or other outerwear-heavy styling.",
+      "Avoid near-duplicate same-outfit runs. If several candidates come from the same source album and outfit, select at most one unless the poses and styling are clearly different.",
       "For every selected K-pop candidate, return exposure as exactly navel, both, or pose. If the visible image does not clearly justify one of those labels, do not select it.",
       "Reject heavy makeup, stage/performance/concert photos, red carpet glam, editorial beauty-event looks, awkward press-line photos, underage-era archives, and any Ningning images.",
     ],
     car: [
-      "Cars: prefer 2025/2026 MINI Cooper 2 Door/Hardtop official exterior photos, plus modern compact Mercedes and Audi sedans in clean exterior road, studio, official press, or motion photos.",
-      "Reject all BMW-branded cars. MINI is allowed only when it is a Cooper 2 Door/Hardtop, not Countryman/Aceman/Clubman/crossover. Reject SUVs, crossovers, generic hatchbacks, old/classic/vintage cars, show-floor/exhibition photos, traffic surveillance/documentation photos, and ugly used-car/dealer shots.",
+      "Cars: prefer 2025/2026 MINI Cooper 2 Door/Hardtop official exterior photos, Audi A3 exterior photos, plus modern compact Mercedes sedans in clean exterior road, studio, official press, or motion photos.",
+      "Reject all BMW-branded cars. Reject every Audi that is not an A3, including A4, A5, S3, RS3, Q-series, generic Audi sedans, and large Audi cars. MINI is allowed only when it is a Cooper 2 Door/Hardtop, not Countryman/Aceman/Clubman/crossover. Reject SUVs, crossovers, generic hatchbacks, old/classic/vintage cars, show-floor/exhibition photos, traffic surveillance/documentation photos, and ugly used-car/dealer shots.",
     ],
   };
 
