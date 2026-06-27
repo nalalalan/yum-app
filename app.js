@@ -706,35 +706,12 @@ addCameos(wonyoungItems, "Wonyoung", [
 ]);
 
 addExternalCameoItems(wonyoungItems, "Wonyoung", [
-  ["https://kpopping.com/documents/14/3/240304-WONYOUNG-INSTAGRAM-UPDATE-documents-2.jpeg", "https://kpopping.com/kpics/240304-WONYOUNG-INSTAGRAM-UPDATE", "Wonyoung cameo, black crop top and exposed belly stance.", "tall", "center 54%"],
-  ["https://kpopping.com/documents/24/5/240304-WONYOUNG-INSTAGRAM-UPDATE-documents-1.jpeg", "https://kpopping.com/kpics/240304-WONYOUNG-INSTAGRAM-UPDATE", "Wonyoung cameo, crop-top midriff pose with waist visible.", "tall", "center 54%"],
-  ["https://kpopping.com/documents/49/1/240304-WONYOUNG-INSTAGRAM-UPDATE-documents-7.jpeg", "https://kpopping.com/kpics/240304-WONYOUNG-INSTAGRAM-UPDATE", "Wonyoung cameo, crouched crop-top pose and visible waist.", "tall", "center 54%"],
-  ["https://kpopping.com/documents/87/1/240304-WONYOUNG-INSTAGRAM-UPDATE-documents-8.jpeg", "https://kpopping.com/kpics/240304-WONYOUNG-INSTAGRAM-UPDATE", "Wonyoung cameo, black crop top with exposed belly.", "tall", "center 54%"],
-  ["https://kpopping.com/documents/9b/0/240304-WONYOUNG-INSTAGRAM-UPDATE-documents-3.jpeg", "https://kpopping.com/kpics/240304-WONYOUNG-INSTAGRAM-UPDATE", "Wonyoung cameo, full-body crop-top midriff frame.", "tall", "center 55%"],
-  ["https://kpopping.com/documents/c0/3/240304-WONYOUNG-INSTAGRAM-UPDATE-documents-4.jpeg", "https://kpopping.com/kpics/240304-WONYOUNG-INSTAGRAM-UPDATE", "Wonyoung cameo, full-body side pose with exposed waist.", "tall", "center 55%"],
-  ["https://kpopping.com/documents/e1/2/240304-WONYOUNG-INSTAGRAM-UPDATE-documents-5.jpeg", "https://kpopping.com/kpics/240304-WONYOUNG-INSTAGRAM-UPDATE", "Wonyoung cameo, crouched crop-top pose with bare waist.", "tall", "center 55%"],
-  ["https://pub-dc9a9c6ac2a64ba48bce426ced0ac56a.r2.dev/kpics/2026/06/1782481985247-wnnpex-2.jpg", "https://kpopping.com/kpics/260626-wonyoung-instagram-update", "Wonyoung cameo, black crop top with visible midriff.", "tall", "center 52%"],
   ["https://pub-dc9a9c6ac2a64ba48bce426ced0ac56a.r2.dev/kpics/2026/06/1782481985247-i2k9er-3.jpg", "https://kpopping.com/kpics/260626-wonyoung-instagram-update", "Wonyoung cameo, black crop top and belly-visible pose.", "tall", "center 52%"],
   ["https://pub-dc9a9c6ac2a64ba48bce426ced0ac56a.r2.dev/kpics/2026/06/1782481985247-xhcrec-8.jpg", "https://kpopping.com/kpics/260626-wonyoung-instagram-update", "Wonyoung cameo, full-body crop-top midriff frame.", "tall", "center 52%"],
   ["https://pub-dc9a9c6ac2a64ba48bce426ced0ac56a.r2.dev/kpics/2026/06/1782481985247-4wjo0u-10.jpg", "https://kpopping.com/kpics/260626-wonyoung-instagram-update", "Wonyoung cameo, paired crop-top waist pose.", "tall", "center 52%"],
 ]);
 
-const karinaItems = [];
-addExternalCameoItems(karinaItems, "Karina", [
-  ["https://pub-dc9a9c6ac2a64ba48bce426ced0ac56a.r2.dev/kpics/2026/06/1782433249944-96b4x5-0.jpg", "https://kpopping.com/kpics/260403-karina-instagram-update", "Karina cameo, crop-top airport stance with visible waist.", "tall", "center 44%"],
-]);
-
-const yujinItems = [];
-addExternalCameoItems(yujinItems, "Yujin", [
-  ["https://pub-dc9a9c6ac2a64ba48bce426ced0ac56a.r2.dev/kpics/2026/02/1770895340941-on94ry-6.jpg", "https://kpopping.com/kpics/260212-an-yujin-instagram-update", "Yujin cameo, full-body crop-top pose with exposed waist.", "tall", "center 43%"],
-]);
-
-const kazuhaItems = [];
-addExternalCameoItems(kazuhaItems, "Kazuha", [
-  ["https://pub-dc9a9c6ac2a64ba48bce426ced0ac56a.r2.dev/kpics/2026/06/1781969287435-y2h81m-7.jpg", "https://kpopping.com/kpics/260620-kazuha-instagram-update", "Kazuha cameo, mirror crop-top stance with visible midriff.", "tall", "center 46%"],
-]);
-
-const cameoItems = interleaveGroups([wonyoungItems, karinaItems, yujinItems, kazuhaItems]);
+const cameoItems = wonyoungItems.slice();
 
 const blockedCameoFiles = new Set([
   "Newjeans Hanni 2023 01.jpg",
@@ -1374,7 +1351,7 @@ function isBlockedContentItem(item) {
 }
 
 const weakFoodScenePattern = /shared table|restaurant table|food table|table spread|table frame|full-table|dining room|family(?: meal| table| eating| drinking| style meal(?: service)?)?|families eating|people (?:eating|at tables?|with food)|food and drink (?:with )?people|dinn?er table|dining tables?|eating (?:at table|lunch|dinner)|meal with people|at the table|supper|\b(?:children|child|kids?|baby|toddler)\b|adult people|child ?care|preschool|cacfp|teamnutrition|usdagov|home(?:made| cooking)?|at home|old mother|office|library|national diet library|cafeteria|school lunch|community meal/i;
-const kpopHardRejectPattern = /ningning|microphone|fancam|concert|performance|music bank|inkigayo|mma|mama|golden disc|stage|festival|fan concert|red carpet|photocall|launch event|beauty event|fashion week|seoul fashion week|olens|face[-\s]?only|headshot|forehead|close[-\s]?(?:up|frame)|coat|jacket|blazer|cardigan|hoodie|sweater|long[-\s]?sleeve|long[-\s]?sleeved|turtleneck|overcoat|trench|puffer|parka|scarf|fully covered|covered shoulder/i;
+const kpopHardRejectPattern = /1782481985247-wnnpex-2|karina|kazuha|\byujin\b|an[-\s]?yujin|aespa|le\s*sserafim|lesserafim|ningning|microphone|fancam|concert|performance|music bank|inkigayo|mma|mama|golden disc|stage|festival|fan concert|red carpet|photocall|launch event|beauty event|fashion week|seoul fashion week|olens|face[-\s]?only|headshot|forehead|close[-\s]?(?:up|frame)|coat|jacket|blazer|cardigan|hoodie|sweater|long[-\s]?sleeve|long[-\s]?sleeved|turtleneck|overcoat|trench|puffer|parka|scarf|fully covered|covered shoulder/i;
 const kpopAdultEraPattern = /2024|2025|2026|24\d{4}|25\d{4}|26\d{4}|adult-era/i;
 const kpopPosePositivePattern = /confident|pose|lounge|beach|midriff|belly|navel|waist|crop[-\s]?top|body[-\s]?visible|full[-\s]?body|leg pose|hands[-\s]?on[-\s]?waist/i;
 const kpopBodyPosePattern = /midriff|belly|navel|waist|crop[-\s]?top|body[-\s]?visible|full[-\s]?body|leg pose|hands[-\s]?on[-\s]?waist/i;
@@ -1544,10 +1521,7 @@ const featuredHanniFiles = new Set([
 ]);
 
 const cameoPersonTargets = {
-  Wonyoung: 44,
-  Karina: 24,
-  Yujin: 20,
-  Kazuha: 16,
+  Wonyoung: 64,
 };
 const cameoPeople = Object.keys(cameoPersonTargets);
 const allowedCameoPeople = new Set(cameoPeople);
@@ -1631,6 +1605,7 @@ const onlineBatchSize = 36;
 const tileImageLoadTimeoutMs = 4200;
 const tilePreloadConcurrency = 6;
 const immediateFetchPriorityCount = 12;
+const minCarFamilyItemGap = 48;
 const categories = ["food", "kpop", "car"];
 const mixPattern = ["food", "kpop", "car"];
 const longScrollItemsPerCategory = 7200;
@@ -1642,9 +1617,6 @@ const dreamCarItems = uniqueBySource(prioritizeCarItems(
 
 const onlineSources = [
   { category: "kpop", label: "Wonyoung crop-top midriff archive", provider: "kpopping", person: "Wonyoung", query: "Wonyoung crop top exposed waist midriff belly", maxItems: 240 },
-  { category: "kpop", label: "Karina crop-top midriff archive", provider: "kpopping", person: "Karina", query: "Karina crop top exposed waist midriff belly", maxItems: 180 },
-  { category: "kpop", label: "Yujin crop-top midriff archive", provider: "kpopping", person: "Yujin", query: "An Yujin crop top exposed waist midriff belly", maxItems: 160 },
-  { category: "kpop", label: "Kazuha crop-top midriff archive", provider: "kpopping", person: "Kazuha", query: "Kazuha crop top exposed waist midriff belly", maxItems: 140 },
 ];
 
 function sourceMaxItemsForCategory(category) {
@@ -1655,7 +1627,7 @@ function sourceMaxItemsForCategory(category) {
 }
 
 function generatedSourceRefillCount(category) {
-  if (category === "kpop") return 3;
+  if (category === "kpop") return 1;
   if (category === "car") return 12;
   if (category === "food") return 0;
   return 12;
@@ -1670,9 +1642,6 @@ const generatedOnlineSourceSeeds = {
   food: [],
   kpop: [
     { label: "Wonyoung crop-top midriff refill", provider: "kpopping", person: "Wonyoung", query: "Wonyoung crop top exposed waist midriff belly", maxItems: 2400 },
-    { label: "Karina crop-top midriff refill", provider: "kpopping", person: "Karina", query: "Karina crop top exposed waist midriff belly", maxItems: 1800 },
-    { label: "Yujin crop-top midriff refill", provider: "kpopping", person: "Yujin", query: "An Yujin crop top exposed waist midriff belly", maxItems: 1600 },
-    { label: "Kazuha crop-top midriff refill", provider: "kpopping", person: "Kazuha", query: "Kazuha crop top exposed waist midriff belly", maxItems: 1400 },
   ],
   car: [
     { group: "car:mini-cooper-2-door", label: "MINI Cooper 2 Door hardtop", query: "2025 2026 MINI Cooper 2 Door hardtop exterior", requireAny: ["2025", "2026", "mini", "cooper"], kind: "car", maxItems: 120 },
@@ -2097,10 +2066,9 @@ function saveFeedStartKeys(items) {
     .slice(0, batchSize)
     .map(sourceKey)
     .filter(Boolean);
-  const startGroups = items
+  const startGroups = Array.from(new Set(items
     .slice(0, batchSize)
-    .map(visualGroupFor)
-    .filter(Boolean);
+    .flatMap((item) => [visualGroupFor(item), carFamilyFor(item)].filter(Boolean))));
   if (!startKeys.length) return;
 
   sessionFeedStart.startKeys = startKeys;
@@ -2792,7 +2760,11 @@ function createFeedState() {
     recentPeople: [],
     recentVisualGroups: [],
     carGroupCounts: {},
+    carFamilyCounts: {},
+    carFamilyLastSeenAt: {},
     recentCarGroups: [],
+    recentCarFamilies: [],
+    sequenceIndex: 0,
     foodFallbackCycle: 1,
     kpopFallbackCycle: 1,
     carFallbackCycle: 1,
@@ -2831,6 +2803,7 @@ function validQueuedItem(state, category, item) {
 }
 
 function recordDequeuedItem(state, category, item) {
+  state.sequenceIndex = (state.sequenceIndex || 0) + 1;
   const key = sourceKey(item);
   if (key) state.seenKeys.add(key);
   const visualGroup = visualGroupFor(item);
@@ -2854,14 +2827,28 @@ function recordDequeuedItem(state, category, item) {
     state.recentCarGroups.push(visualGroup);
     if (state.recentCarGroups.length > 12) state.recentCarGroups.shift();
   }
+  if (category === "car") {
+    const carFamily = carFamilyFor(item);
+    if (carFamily) {
+      state.carFamilyCounts[carFamily] = (state.carFamilyCounts[carFamily] || 0) + 1;
+      state.carFamilyLastSeenAt[carFamily] = state.sequenceIndex;
+      state.recentCarFamilies.push(carFamily);
+      if (state.recentCarFamilies.length > 16) state.recentCarFamilies.shift();
+    }
+  }
 }
 
 function startupSelectionPenalty(state, item, index, category) {
   if (!state || state.seenKeys.size >= batchSize) return 0;
   const key = sourceKey(item) || `${category}:${index}`;
   const visualGroup = visualGroupFor(item);
+  const carFamily = category === "car" ? carFamilyFor(item) : "";
   const spread = category === "car" ? 4200 : (category === "kpop" ? 2200 : 1400);
-  const repeatPenalty = previousStartKeySet.has(key) || (visualGroup && previousStartVisualGroupSet.has(visualGroup)) ? 24000 : 0;
+  const repeatPenalty = previousStartKeySet.has(key)
+    || (visualGroup && previousStartVisualGroupSet.has(visualGroup))
+    || (carFamily && previousStartVisualGroupSet.has(carFamily))
+    ? 24000
+    : 0;
   return repeatPenalty + (stableHash(`${sessionFeedStart.seed}:${sessionFeedStart.visits}:${category}:${key}`) % spread);
 }
 
@@ -2890,6 +2877,7 @@ function kpopQueuePenalty(state, item, index) {
 function carQueuePenalty(state, item, index) {
   const visualGroup = visualGroupFor(item);
   const text = curationText(item, { category: "car" });
+  const carFamily = carFamilyFor(item, text);
   if (carTasteRejected(item, text)) return Number.POSITIVE_INFINITY;
 
   let penalty = startupSelectionPenalty(state, item, index, "car") + (index * 0.01);
@@ -2900,6 +2888,18 @@ function carQueuePenalty(state, item, index) {
     penalty += recentWindow.filter((recentGroup) => recentGroup === visualGroup).length * 1850;
     penalty += (state.carGroupCounts[visualGroup] || 0) * 115;
     if (/mini-cooper-2-door/i.test(visualGroup) && !(state.carGroupCounts["car:mini-cooper-2-door"] || 0)) {
+      penalty -= 14000;
+    }
+  }
+  if (carFamily) {
+    const recentFamilyWindow = state.recentCarFamilies.slice(-12);
+    const lastFamily = state.recentCarFamilies[state.recentCarFamilies.length - 1];
+    const age = carFamilyAge(state, carFamily);
+    if (lastFamily === carFamily) penalty += 30000;
+    penalty += recentFamilyWindow.filter((recentFamily) => recentFamily === carFamily).length * 11000;
+    penalty += (state.carFamilyCounts[carFamily] || 0) * 420;
+    if (age < minCarFamilyItemGap) penalty += (minCarFamilyItemGap - age) * 2600;
+    if (/mini-cooper-2-door/i.test(carFamily) && !(state.carFamilyCounts["car-family:mini-cooper-2-door"] || 0)) {
       penalty -= 14000;
     }
   }
@@ -2917,8 +2917,8 @@ function dequeueVariedCar(state, category) {
   const hasBalancedChoice = () => {
     return queue.some((item) => {
       if (!validQueuedItem(state, category, item)) return false;
-      const group = visualGroupFor(item);
-      return group && !state.recentCarGroups.slice(-6).includes(group);
+      const family = carFamilyFor(item);
+      return family && carFamilyAge(state, family) >= minCarFamilyItemGap;
     });
   };
 
@@ -2926,16 +2926,22 @@ function dequeueVariedCar(state, category) {
 
   let bestIndex = -1;
   let bestPenalty = Number.POSITIVE_INFINITY;
+  let bestUnseenIndex = -1;
+  let bestUnseenPenalty = Number.POSITIVE_INFINITY;
   let bestFreshIndex = -1;
   let bestFreshPenalty = Number.POSITIVE_INFINITY;
-  const recentWindow = state.recentCarGroups.slice(-8);
 
   for (let index = 0; index < queue.length; index += 1) {
     const item = queue[index];
     if (!validQueuedItem(state, category, item)) continue;
     const penalty = carQueuePenalty(state, item, index);
-    const group = visualGroupFor(item);
-    const isFresh = group && !recentWindow.includes(group);
+    const family = carFamilyFor(item);
+    const isFresh = family && carFamilyAge(state, family) >= minCarFamilyItemGap;
+    const isUnseenFamily = isFresh && !(state.carFamilyCounts[family] || 0);
+    if (isUnseenFamily && penalty < bestUnseenPenalty) {
+      bestUnseenPenalty = penalty;
+      bestUnseenIndex = index;
+    }
     if (isFresh && penalty < bestFreshPenalty) {
       bestFreshPenalty = penalty;
       bestFreshIndex = index;
@@ -2946,14 +2952,9 @@ function dequeueVariedCar(state, category) {
     }
   }
 
-  if (bestFreshIndex >= 0) bestIndex = bestFreshIndex;
-  if (bestFreshIndex < 0 && bestIndex >= 0) {
-    const group = visualGroupFor(queue[bestIndex]);
-    const lastGroup = state.recentCarGroups[state.recentCarGroups.length - 1];
-    if (group && lastGroup === group) {
-      return null;
-    }
-  }
+  if (bestUnseenIndex >= 0) bestIndex = bestUnseenIndex;
+  else if (bestFreshIndex >= 0) bestIndex = bestFreshIndex;
+  if (bestFreshIndex < 0) return null;
 
   if (bestIndex >= 0) {
     const [item] = queue.splice(bestIndex, 1);
@@ -3090,6 +3091,7 @@ function dequeueUnique(state, category) {
 }
 
 function dequeueAnyUnique(state, category) {
+  if (category === "car") return dequeueVariedCar(state, category);
   const queue = state.queues[category] || [];
   for (let index = 0; index < queue.length; index += 1) {
     const item = queue[index];
@@ -3156,26 +3158,38 @@ function availableVisualGroups(state, category) {
   return groups;
 }
 
+function availableCarFamilies(state) {
+  const families = new Set();
+  ((state.queues && state.queues.car) || []).forEach((item) => {
+    if (validQueuedItem(state, "car", item)) {
+      const family = carFamilyFor(item);
+      if (family) families.add(family);
+    }
+  });
+  return families;
+}
+
 function hasKpopWindowBalancedChoice(state) {
   const lastPerson = state.recentPeople[state.recentPeople.length - 1] || "";
   const recentWindow = state.recentPeople.slice(-5);
   const recentGroups = state.recentVisualGroups.slice(-10);
+  const shouldRotatePeople = cameoPeople.length > 1;
   return (state.queues.kpop || []).some((item) => {
     if (!validQueuedItem(state, "kpop", item)) return false;
     const person = personFor(item);
     const visualGroup = visualGroupFor(item);
     if (visualGroup && recentGroups.includes(visualGroup)) return false;
+    if (!shouldRotatePeople) return true;
     if (person && person === lastPerson) return false;
     return !person || recentWindow.filter((recentPerson) => recentPerson === person).length < 2;
   });
 }
 
 function hasCarWindowBalancedChoice(state) {
-  const recentWindow = state.recentCarGroups.slice(-8);
   return (state.queues.car || []).some((item) => {
     if (!validQueuedItem(state, "car", item)) return false;
-    const group = visualGroupFor(item);
-    return group && !recentWindow.includes(group);
+    const family = carFamilyFor(item);
+    return family && carFamilyAge(state, family) >= minCarFamilyItemGap;
   });
 }
 
@@ -3586,7 +3600,7 @@ async function loadMoreOnlineItemsForCategory(state, category, targetCount = onl
   const maxAttempts = () => Math.min(24, Math.max(12, onlineSources.filter((source) => source.category === category && !source.exhausted).length));
   const hasEnoughQueuedVariety = () => {
     if (category === "kpop") return availableKpopPeople(state).size >= Math.min(3, cameoPeople.length);
-    if (category === "car") return availableVisualGroups(state, "car").size >= Math.min(5, carFallbackGroups.length);
+    if (category === "car") return availableCarFamilies(state).size >= 3;
     return true;
   };
   const needsMore = () => added < targetCount || !hasEnoughQueuedVariety();
@@ -3699,8 +3713,11 @@ function restoreDequeuedItems(state, items) {
     const category = categoryFor(item);
     const key = sourceKey(item);
     const visualGroup = visualGroupFor(item);
+    const carFamily = carFamilyFor(item);
     if (key) state.seenKeys.delete(key);
     if (category === "kpop" && visualGroup && state.seenKpopVisualGroups) state.seenKpopVisualGroups.delete(visualGroup);
+    if (category === "car" && visualGroup && state.carGroupCounts[visualGroup]) state.carGroupCounts[visualGroup] -= 1;
+    if (category === "car" && carFamily && state.carFamilyCounts[carFamily]) state.carFamilyCounts[carFamily] -= 1;
     if (!state.queues[category]) state.queues[category] = [];
     state.queues[category].unshift(item);
   });
@@ -3887,11 +3904,13 @@ function createTile(item, index, onHide, onQualityReject, loadedImage = null) {
   const category = categoryFor(item);
   const key = sourceKey(item);
   const visualGroup = visualGroupFor(item);
+  const carFamily = category === "car" ? carFamilyFor(item) : "";
   const loaded = loadedImage || item.loadedImage || null;
   tile.className = `tile tile--${item.shape || "standard"}`;
   tile.dataset.category = category;
   if (key) tile.dataset.sourceKey = key;
   if (visualGroup) tile.dataset.visualGroup = visualGroup;
+  if (carFamily) tile.dataset.carFamily = carFamily;
   if (item.person) tile.dataset.person = item.person;
   if (item.focus) {
     tile.style.setProperty("--focus", item.focus);
@@ -4030,6 +4049,7 @@ function appendTileElement(wall, item, index, onHide, onQualityReject, loadedIma
   const category = categoryFor(item);
   const person = personFor(item);
   const visualGroup = visualGroupFor(item);
+  const carFamily = category === "car" ? carFamilyFor(item) : "";
   const shouldSpacePerson = cameoPeople.length > 1;
   const globalRecentTiles = wall.__yumRecentTiles || [];
   const columnScores = columns.map((column) => column.scrollHeight || Number(column.dataset.heightScore) || 0);
@@ -4054,6 +4074,17 @@ function appendTileElement(wall, item, index, onHide, onQualityReject, loadedIma
       score += recentTiles.filter((tile) => tile.dataset.visualGroup === visualGroup).length * 820 * varietyWeight;
       score += globalRecentTiles.filter((tile) => tile.dataset.visualGroup === visualGroup).length * 180 * varietyWeight;
     }
+    if (carFamily) {
+      if (lastTile?.dataset.carFamily === carFamily) score += 9000 * varietyWeight;
+      score += recentTiles.filter((tile) => tile.dataset.carFamily === carFamily).length * 5200 * varietyWeight;
+      score += globalRecentTiles.filter((tile) => tile.dataset.carFamily === carFamily).length * 1800 * varietyWeight;
+      (wall.__yumPlacedBands || []).forEach((band) => {
+        const bandDistance = Math.abs((band.midScore || 0) - (columnScore + ((estimatedTileHeightScore(item, column, loadedImage) + 9) / 2)));
+        if (band.carFamily === carFamily && bandDistance < Math.max(900, window.innerHeight || 900)) {
+          score += (Math.max(900, window.innerHeight || 900) - bandDistance) * 14 * varietyWeight;
+        }
+      });
+    }
     return score < best.score ? { column, score } : best;
   }, { column: columns[0], score: Number.POSITIVE_INFINITY }).column;
 
@@ -4068,6 +4099,7 @@ function appendTileElement(wall, item, index, onHide, onQualityReject, loadedIma
   wall.__yumPlacedBands = (wall.__yumPlacedBands || []).concat({
     person,
     visualGroup,
+    carFamily,
     midScore: Number(tile.dataset.stackMidScore) || 0,
   }).slice(-180);
   return true;
@@ -4174,6 +4206,39 @@ function carGroupFor(item, text) {
   return "";
 }
 
+function carFamilyFor(item, text = "") {
+  const combined = [
+    item && item.carGroup,
+    item && item.visualGroup,
+    item && item.sourceId,
+    item && item.caption,
+    item && item.image,
+    item && item.url,
+    text,
+  ].map((value) => normalizeSourceText(value || "").toLowerCase()).join(" ");
+  const group = (item && item.carGroup) || carGroupFor(item, combined);
+  const familyText = `${group || ""} ${combined}`;
+
+  if (/mini-cooper-2-door|john cooper works|jcw/.test(familyText) || isMiniTwoDoorText(familyText)) {
+    return "car-family:mini-cooper-2-door";
+  }
+  if (/a0j42547|car:audi-a3|\baudi[-\s]?a3\b|\ba3[-\s]?(?:sedan|limousine)\b|\baudi\b.{0,48}\ba3\b|\ba3\b.{0,48}\baudi\b/.test(familyText)) {
+    return "car-family:audi-a3";
+  }
+  if (/mercedes|benz|\bcla\b|c[-\s]?class|\bw206\b/.test(familyText)) {
+    return "car-family:mercedes-benz";
+  }
+  if (group) return `car-family:${group.replace(/^car:/, "")}`;
+  return "";
+}
+
+function carFamilyAge(state, carFamily) {
+  if (!state || !carFamily) return Number.POSITIVE_INFINITY;
+  const lastSeen = Number(state.carFamilyLastSeenAt && state.carFamilyLastSeenAt[carFamily]);
+  if (!Number.isFinite(lastSeen) || lastSeen <= 0) return Number.POSITIVE_INFINITY;
+  return Math.max(0, (state.sequenceIndex || 0) - lastSeen);
+}
+
 function visualGroupFor(item) {
   if (!item) return "";
   const category = categoryFor(item);
@@ -4227,19 +4292,24 @@ function layoutWall(wall, renderedItems, onHide, onQualityReject) {
   const lastCategoryByColumn = Array.from({ length: count }, () => "");
   const lastPersonByColumn = Array.from({ length: count }, () => "");
   const lastVisualGroupByColumn = Array.from({ length: count }, () => "");
+  const lastCarFamilyByColumn = Array.from({ length: count }, () => "");
   const recentPeopleByColumn = Array.from({ length: count }, () => []);
   const recentPeople = [];
   const recentVisualGroupsByColumn = Array.from({ length: count }, () => []);
   const recentVisualGroups = [];
+  const recentCarFamiliesByColumn = Array.from({ length: count }, () => []);
+  const recentCarFamilies = [];
   const placedBands = [];
 
   function placementScore(item, columnIndex) {
     const category = categoryFor(item);
     const person = personFor(item);
     const visualGroup = visualGroupFor(item);
+    const carFamily = category === "car" ? carFamilyFor(item) : "";
     const shouldSpacePerson = cameoPeople.length > 1;
     const columnPeople = recentPeopleByColumn[columnIndex];
     const columnVisualGroups = recentVisualGroupsByColumn[columnIndex];
+    const columnCarFamilies = recentCarFamiliesByColumn[columnIndex];
     const shortestHeight = Math.min(...heights);
     const balanceGap = heights[columnIndex] - shortestHeight;
     const candidateMidScore = heights[columnIndex] + ((shapeScore(item) + 0.03) / 2);
@@ -4256,10 +4326,18 @@ function layoutWall(wall, renderedItems, onHide, onQualityReject) {
       score += columnVisualGroups.filter((recentGroup) => recentGroup === visualGroup).length * 17 * varietyWeight;
       score += recentVisualGroups.filter((recentGroup) => recentGroup === visualGroup).length * 8.5 * varietyWeight;
     }
+    if (carFamily) {
+      if (lastCarFamilyByColumn[columnIndex] === carFamily) score += 220 * varietyWeight;
+      score += columnCarFamilies.filter((recentFamily) => recentFamily === carFamily).length * 120 * varietyWeight;
+      score += recentCarFamilies.filter((recentFamily) => recentFamily === carFamily).length * 46 * varietyWeight;
+    }
     placedBands.forEach((band) => {
       const bandDistance = Math.abs(band.midScore - candidateMidScore);
       if (visualGroup && band.visualGroup === visualGroup && bandDistance < 6.4) {
         score += (6.4 - bandDistance) * 4.8 * varietyWeight;
+      }
+      if (carFamily && band.carFamily === carFamily && bandDistance < 4.2) {
+        score += (4.2 - bandDistance) * 94 * varietyWeight;
       }
     });
 
@@ -4270,6 +4348,7 @@ function layoutWall(wall, renderedItems, onHide, onQualityReject) {
     const category = categoryFor(item);
     const person = personFor(item);
     const visualGroup = visualGroupFor(item);
+    const carFamily = category === "car" ? carFamilyFor(item) : "";
     let target = 0;
     for (let i = 1; i < heights.length; i += 1) {
       const score = placementScore(item, i);
@@ -4290,6 +4369,13 @@ function layoutWall(wall, renderedItems, onHide, onQualityReject) {
       recentVisualGroups.push(visualGroup);
       if (recentVisualGroups.length > 18) recentVisualGroups.shift();
     }
+    if (carFamily) {
+      lastCarFamilyByColumn[target] = carFamily;
+      recentCarFamiliesByColumn[target].push(carFamily);
+      if (recentCarFamiliesByColumn[target].length > 6) recentCarFamiliesByColumn[target].shift();
+      recentCarFamilies.push(carFamily);
+      if (recentCarFamilies.length > 24) recentCarFamilies.shift();
+    }
     if (person) {
       lastPersonByColumn[target] = person;
       recentPeopleByColumn[target].push(person);
@@ -4297,7 +4383,7 @@ function layoutWall(wall, renderedItems, onHide, onQualityReject) {
       recentPeople.push(person);
       if (recentPeople.length > 12) recentPeople.shift();
     }
-    placedBands.push({ person, visualGroup, midScore: tileMidScore });
+    placedBands.push({ person, visualGroup, carFamily, midScore: tileMidScore });
     if (placedBands.length > 180) placedBands.shift();
     heights[target] += tileShapeScore;
     columns[target].dataset.heightScore = String(heights[target]);
